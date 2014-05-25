@@ -1,0 +1,55 @@
+/*
+KUTCHANNEL YELLOW #FFFF99
+KUTCHANNEL BLUE #OF5C8C
+*/
+
+
+.navbar-default {
+    background-color: #ffff99;
+    /* border-color: #fdfd96; */
+}
+
+body{
+	margin-top:60px;
+	margin-bottom:50px;
+}
+
+.fa {
+
+	color:#0f5c8c;
+
+}
+
+div#sponsor {
+	/* height:50px; */
+}
+
+img#shoutOut {
+	margin:3px auto 2px auto;
+}
+
+h3 {
+	font-family:"Times New Roman", Times, serif;
+	color:#0f5c8c;
+}
+
+.badge-content-views {
+	background-color:#0f5c8c;
+}
+
+
+@media (min-width: 768px) {
+
+	body {
+		margin-bottom:100px;
+	}
+
+	div#sponsor {
+		/* height:100px; */
+	}
+
+	img#shoutOut {
+		margin:5px auto 5px auto;
+	}
+	
+}
