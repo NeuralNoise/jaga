@@ -1,0 +1,52 @@
+/*
+KUTCHANNEL YELLOW #FBFF00 or #FFFF99
+KUTCHANNEL BLUE #OF5C8C
+*/
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-top:60px;
+  margin-bottom: 60px;
+}
+
+.navbar {
+  background-color:#FFFF99;
+}
+
+#footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 45px;
+	background-color:#FFFF99;
+	
+	padding-top:10px;
+	text-align:right;
+	
+}
+
+#kLogo {
+	margin-top:5px;
+	width:300px;
+}
+
+
+
+@media (max-width:767px) {
+
+	body {
+		/* padding-top: 30px; */
+	}
+	
+	#kLogo {
+		margin-left:5px;
+		margin-top:10px;
+		width:200px;
+	}
+	
+}

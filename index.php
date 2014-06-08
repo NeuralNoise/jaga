@@ -1,14 +1,15 @@
 <?php
 
-error_reporting(E_ALL);
+	ini_set('display_errors', '1');
 
-require('jaga/config.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/config.php');
 
-$user = new User();
-$userID = $user->userID;
-$username = $user->username;
+	$url = rtrim($_SERVER['REQUEST_URI'], '/') . '/';
+	$urlArray = explode('/', substr($url, 1, -1));
 
-echo $userID;
-echo $username;
+	$controller = new Controller();
+	$resource = $controller->getResource($urlArray);
+
+	print($resource);
 
 ?>
