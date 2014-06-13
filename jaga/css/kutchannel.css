@@ -10,7 +10,7 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  margin-top:60px;
+  margin-top:70px;
   margin-bottom: 60px;
 }
 
@@ -24,10 +24,8 @@ body {
 	width: 100%;
 	height: 45px;
 	background-color:#FFFF99;
-	
 	padding-top:10px;
 	text-align:right;
-	
 }
 
 #kLogo {
@@ -36,17 +34,24 @@ body {
 }
 
 
+.badge {
+	-webkit-border-radius:0px;
+	-moz-border-radius:0px;
+	border-radius:0px;
+}
+
+
+
+
+
 
 @media (max-width:767px) {
-
 	body {
 		/* padding-top: 30px; */
 	}
-	
 	#kLogo {
 		margin-left:5px;
 		margin-top:10px;
 		width:200px;
 	}
-	
 }
