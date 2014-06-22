@@ -4,10 +4,9 @@ class AuthenticationView {
 
 	public static function getAuthForm($type, $errorArray = array()) {
 	
-		$html = "\n\n";
-		$html .= "\t<div class=\"container\" style=\"margin-top:30px;\">\n";
-		$html .= "\t<!-- START AUTH CONTAINER -->\n\n";
-
+		$html = "\n\n\t<!-- START AUTH CONTAINER -->\n";
+		$html .= "\t<div class=\"container\" style=\"margin-top:30px;\">\n\n";
+		
 		if ($type == 'login') {
 	
 			$html .= "\t\t<!-- START jagaLogin -->\n";
@@ -19,7 +18,7 @@ class AuthenticationView {
 					$html .= "\t\t\t\t<!-- START PANEL-HEADING -->\n";
 					$html .= "\t\t\t\t<div class=\"panel-heading\">\n\n";
 						
-						$html .= "\t\t\t\t\t<div class=\"panel-title\">Login to The Kutchannel</div>\n";
+						$html .= "\t\t\t\t\t<div class=\"panel-title\">BETA USERS ONLY</div>\n";
 					
 					$html .= "\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t<!-- END PANEL-HEADING -->\n\n";
@@ -31,6 +30,7 @@ class AuthenticationView {
 						// if (!empty($errorArray)) {
 							// foreach ($errorArray AS $value) { $html .= "\t\t\t\t\t<div id=\"login-alert\" class=\"alert alert-danger col-sm-12\">$value</div>\n"; }
 						// }
+						
 						
 						
 						$html .= "\t\t\t\t\t<!-- START jagaLoginForm -->\n";
@@ -83,7 +83,7 @@ class AuthenticationView {
 					$html .= "\t\t\t\t<!-- START PANEL-HEADING -->\n";
 					$html .= "\t\t\t\t<div class=\"panel-heading\">\n\n";
 
-						$html .= "\t\t\t\t\t<div class=\"panel-title\">Register for The Kutchannel</div>\n";
+						$html .= "\t\t\t\t\t<div class=\"panel-title\">TESTING ONLY</div>\n";
 						// $html .= "\t\t\t\t\t<div style=\"float:right;font-size:85%;position:relative;top:-10px;\"><a href=\"/login/\">Login</a></div>\n";
 						
 					$html .= "\t\t\t\t</div>\n";
@@ -187,58 +187,331 @@ class CarouselView {
 
 class CategoryView {
 	
-
 	public function displayChannelCategories($channelID) {
-
-		$core = Core::getInstance();
-		$query = "
-			SELECT `contentCategoryKey`, COUNT(`contentCategoryKey`)
-			FROM `nisekocms_content`
-			WHERE siteID = :channelID
-			GROUP BY `contentCategoryKey`
-			ORDER BY COUNT(`contentCategoryKey`) DESC
-		";
-		
-		$statement = $core->database->prepare($query);
-		$statement->execute(array(':channelID' => $channelID));
-		
+		$categoryArray = Category::getChannelCategories($channelID);
 		$html = '';
-		while ($row = $statement->fetch()) {
-		
-			$contentCategoryKey = $row['contentCategoryKey'];
-		
-			$html .= "<div class=\"col-md-4\">";
-			
-				$html .= "<div class=\"panel panel-default\">\n";
-				
-					$html .= "<div class=\"panel-heading\">" . $contentCategoryKey . "</div>\n";
-					
-					// $html .= "<div class=\"panel-body\">\n";
-						// $html .= "<p>...</p>\n";
-					// $html .= "</div>\n";
+		$html .= "\t\t<div class=\"container\">\n";
+		$k = 0;
+		foreach ($categoryArray AS $contentCategoryKey) {
+			if ($k % 3 == 0) { $html .= "<div class=\"row\">"; }
+				$html .= "<div class=\"col-md-4\">";
+					$html .= "<div class=\"panel panel-default\">\n";
+						$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . strtoupper($contentCategoryKey) . "</h4></div>\n";
+							$html .= "<ul class=\"list-group\">\n";
+								$contentArray = Category::getCategoryContent($channelID, $contentCategoryKey);
+								$i = 0;
+								foreach ($contentArray AS $contentID) {
+									if ($i < 5) {
+										$content = new Content($contentID);
+										$contentURL = $content->contentURL;
+										$contentTitle = $content->contentTitleEnglish;
+										$contentSubmittedByUserID = $content->contentSubmittedByUserID;
+										$contentSubmissionDateTime = $content->contentSubmissionDateTime;
+										$contentViews = $content->contentViews;
+										$user = new User($contentSubmittedByUserID);
+										$username = $user->username;
+										$html .= "<a href=\"/k/" . $contentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
+											$html .= "<span class=\"jagaListGroup\">";
+												$html .= "<span class=\"jagaListGroupBadge\">" . $contentViews . "</span>";
+												$html .=  $contentTitle;
+											$html .= "</span>";
+										$html .= "</a>\n"; 
+									}
+									$i++;
+								}
+								$html .= "<a href=\"/k/" . $contentCategoryKey . "/\" class=\"list-group-item jagaListGroupItemMore\">";
+									$html .= "MORE <span class=\"glyphicon glyphicon-arrow-right\"></span>";
+								$html .= "</a>\n"; 
+							$html .= "</ul>\n";
+					$html .= "</div>\n";
+				$html .= "</div>";
+			if ($k % 3 == 2) { $html .= "</div>"; }
+			$k++;
+		}
+		if ($k % 3 != 0) { $html .= "</div> <!-- END ROW -->"; }
+		$html .= "\t\t</div>\n";
+		return $html;	
+	}
+	
+}
 
-					$html .= "<ul class=\"list-group\">\n";
-						$html .= "<li class=\"list-group-item\"><span class=\"badge\">14</span>Cras justo odio</li>\n";
-						$html .= "<li class=\"list-group-item\"><span class=\"badge\">14</span>Dapibus ac facilisis in</li>\n";
-						$html .= "<li class=\"list-group-item\"><span class=\"badge\">14</span>Morbi leo risus</li>\n";
-						$html .= "<li class=\"list-group-item\"><span class=\"badge\">14</span>Porta ac consectetur ac</li>\n";
-						$html .= "<li class=\"list-group-item\"><span class=\"badge\">14</span>Vestibulum at eros</li>\n";
-					$html .= "</ul>\n";
-					
-				$html .= "</div>\n";
-				
-				
-			$html .= "</div>";
+class ChannelView {
+
+	public static function getChannelForm($type, $channelID = 0, $inputArray = array(), $errorArray = array()) {
+	
+		if (empty($inputArray)) {
+		
+			if ($type == 'create') {
+			
+				$channelKey ='';
+				$channelTitleEnglish = '';
+				$channelTitleJapanese = '';
+				$channelKeywordsEnglish = '';
+				$channelKeywordsJapanese = '';
+				$channelDescriptionEnglish = '';
+				$channelDescriptionJapanese = '';
+				$themeKey = '';
+				$contentCategoryKeyArray = array('news', 'blog', 'forum');
+			
+			} elseif ($type == 'update') {
+
+				$channel = new Channel($channelID);
+				$channelKey = $channel->channelKey;
+				$channelTitleEnglish = $channel->channelTitleEnglish;
+				$channelTitleJapanese = $channel->channelTitleJapanese;
+				$channelKeywordsEnglish = $channel->channelKeywordsEnglish;
+				$channelKeywordsJapanese = $channel->channelKeywordsJapanese;
+				$channelDescriptionEnglish = $channel->channelDescriptionEnglish;
+				$channelDescriptionJapanese = $channel->channelDescriptionJapanese;
+				$themeKey = $channel->themeKey;
+				$contentCategoryKeyArray = Category::getChannelCategories($channelID);
+
+			}
+			
+		} else {
+		
+			$channelKey = $inputArray['channelKey'];
+			$channelTitleEnglish = $inputArray['channelTitleEnglish'];
+			$channelTitleJapanese = $inputArray['channelTitleJapanese'];
+			$channelKeywordsEnglish = $inputArray['channelKeywordsEnglish'];
+			$channelKeywordsJapanese = $inputArray['channelKeywordsJapanese'];
+			$channelDescriptionEnglish = $inputArray['channelDescriptionEnglish'];
+			$channelDescriptionJapanese = $inputArray['channelDescriptionJapanese'];
+			$themeKey = $inputArray['themeKey'];
+			
+			$contentCategoryKeyArray = array();
+			if (isset($inputArray['contentCategoryKey'])) { $contentCategoryKeyArray = $inputArray['contentCategoryKey']; }
+			
 		}
 		
-		return $html;
 		
 	
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		$html = "\n\n";
+		$html .= "\t<div class=\"container\">\n";
+		$html .= "\t<!-- START CHANNEL CONTAINER -->\n\n";
+
+			$html .= "\t\t<!-- START jagaChannel -->\n";
+			$html .= "\t\t<div id=\"jagaChannel\" class=\"\">\n\n";
+
+				$html .= "\t\t\t<!-- START PANEL -->\n";
+				$html .= "\t\t\t<div class=\"panel panel-default\" >\n\n";
+					
+					$html .= "\t\t\t\t<!-- START PANEL-HEADING -->\n";
+					$html .= "\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n\n";
+						
+						$html .= "\t\t\t\t\t<div class=\"panel-title\">CHANNEL " . strtoupper($type) . "</div>\n";
+					
+					$html .= "\t\t\t\t</div>\n";
+					$html .= "\t\t\t\t<!-- END PANEL-HEADING -->\n\n";
+					
+					$html .= "\t\t\t\t<!-- START PANEL-BODY -->\n";
+					$html .= "\t\t\t\t<div class=\"panel-body\">\n\n";
+						
+						$html .= "\t\t\t\t\t<!-- START jagaChannelForm -->\n";
+						$html .= "\t\t\t\t\t<form role=\"form\" id=\"jagaChannelForm\" name=\"jagaChannelForm\" class=\"form-horizontal\"  method=\"post\" action=\"/channels/" . $type . "/";
+							if ($type == 'update') { $html .= $channelKey . "/"; }
+						$html .= "\">\n\n";
+					
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelKey\" class=\"col-sm-2 control-label\">channelKey</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+								
+									if ($type == 'create') {
+										$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelKey\" name=\"channelKey\" class=\"form-control\" placeholder=\"channelKey\" value=\"" . strtoupper($channelKey) . "\">\n";
+									} elseif ($type == 'update') {
+										$html .= "<p class=\"form-control-static\">" . $channelKey . "</p>";
+										$html .= "<input type=\"hidden\" name=\"channelKey\" value=\"" . $channelKey . "\">\n";
+									}
+
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+							$html .= "<hr />";
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelTitleEnglish\" class=\"col-sm-2 control-label\">channelTitleEnglish</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelTitleEnglish\" name=\"channelTitleEnglish\" class=\"form-control\" placeholder=\"channelTitleEnglish\" value=\"" . $channelTitleEnglish . "\">\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelKeywordsEnglish\" class=\"col-sm-2 control-label\">channelKeywordsEnglish</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelKeywordsEnglish\" name=\"channelKeywordsEnglish\" class=\"form-control\" placeholder=\"channelKeywordsEnglish\" value=\"" . $channelKeywordsEnglish . "\">\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelDescriptionEnglish\" class=\"col-sm-2 control-label\">channelDescriptionEnglish</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelDescriptionEnglish\" name=\"channelDescriptionEnglish\" class=\"form-control\" placeholder=\"channelDescriptionEnglish\" value=\"" . $channelDescriptionEnglish . "\">\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+
+							$html .= "<hr />";
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelTitleJapanese\" class=\"col-sm-2 control-label\">channelTitleJapanese</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelTitleJapanese\" name=\"channelTitleJapanese\" class=\"form-control\" placeholder=\"channelTitleJapanese\" value=\"" . $channelTitleJapanese . "\">\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelKeywordsJapanese\" class=\"col-sm-2 control-label\">channelKeywordsJapanese</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelKeywordsJapanese\" name=\"channelKeywordsJapanese\" class=\"form-control\" placeholder=\"channelKeywordsJapanese\" value=\"" . $channelKeywordsJapanese . "\">\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelDescriptionJapanese\" class=\"col-sm-2 control-label\">channelDescriptionJapanese</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelDescriptionJapanese\" name=\"channelDescriptionJapanese\" class=\"form-control\" placeholder=\"channelDescriptionJapanese\" value=\"" . $channelDescriptionJapanese . "\">\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+							$html .= "<hr />";
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"themeKey\" class=\"col-sm-2 control-label\">themeKey</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-2\">\n";
+									$html .= ThemeView::getThemeDropdown($themeKey);
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+							$html .= "<hr />";
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"contentCategoryKey[]\" class=\"col-sm-2 control-label\">categories</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+									$categoryArray = Category::getAllCategories();
+									foreach ($categoryArray AS $contentCategoryKey => $postCount) {
+										$html .= "<label class=\"checkbox-inline\">\n";
+											$html .= "<input type=\"checkbox\" id=\"contentCategoryKey\" name=\"contentCategoryKey[]\" value=\"" . $contentCategoryKey . "\"";
+												if (in_array($contentCategoryKey, $contentCategoryKeyArray)) {
+													$html .= " checked";
+												}
+											$html .= "> " . $contentCategoryKey . " (" . $postCount . ")\n";
+										$html .= "</label>\n";
+									}
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+								
+							
+							$html .= "<hr />";
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								// $html .= "\t\t\t\t\t\t\t<label for=\"themeKey\" class=\"col-sm-2 control-label\">themeKey</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaChannelSubmit\" id=\"jagaChannelSubmit\" class=\"btn btn-default jagaFormButton col-xs-8 col-sm-6 col-md-4 pull-right\" value=\"" . $type . "\">\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+								
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+
+						$html .= "\t\t\t\t\t</form>\n";
+						$html .= "\t\t\t\t\t<!-- END jagaChannelForm -->\n\n";
+			
+					$html .= "\t\t\t\t</div>\n";
+					$html .= "\t\t\t\t<!-- END PANEL-BODY -->\n\n";
+			
+				$html .= "\t\t\t</div>\n";
+				$html .= "\t\t\t<!-- END PANEL -->\n\n";
+			
+			$html .= "\t\t</div>\n";
+			$html .= "\t\t<!-- END jagaChannel -->\n\n";
+
+		$html .= "\t</div>\n";
+		$html .= "\t<!-- END CHANNEL CONTAINER -->\n\n";
+			
+		return $html;
+	
+	}
+
+	public static function displayUserChannelList() {
+	
+		$channelArray = Channel::getUserOwnChannelArray($_SESSION['userID']);
+		$html = '';
+		
+		$html .= "\t<!-- START CHANNEL LIST -->\n";
+		$html .= "\t<div class=\"container\">\n\n";
+		
+			$html .= "<div class=\"panel panel-default\">\n";
+				
+				$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>YOUR CHANNELS</h4></div>\n";
+				
+				$html .= "<div class=\"table-responsive\">\n";
+					$html .= "<table class=\"table table-hover\">\n";
+						$html .= "<thead>\n";
+							$html .= "<tr>";
+								$html .= "<th>channelKey</th>\n";
+								$html .= "<th>channelTitleEnglish</th>\n";
+								$html .= "<th>themeKey</th>\n";
+								$html .= "<th>totalPosts</th>\n";
+								$html .= "<th>pagesServed</th>\n";
+							$html .= "</tr>";
+						$html .= "</thead>\n";
+						$html .= "<tbody>\n";
+						
+							foreach ($channelArray AS $channelKey => $totalPosts) {
+							
+								$channelID = Channel::getChannelID($channelKey);
+								
+								$channel = new Channel($channelID);
+								$channelEnabled = $channel->channelEnabled;
+								$channelTitleEnglish = $channel->channelTitleEnglish;
+								$channelTitleJapanese = $channel->channelTitleJapanese;
+								$channelKeywordsEnglish = $channel->channelKeywordsEnglish;
+								$channelKeywordsJapanese = $channel->channelKeywordsJapanese;
+								$channelDescriptionEnglish = $channel->channelDescriptionEnglish;
+								$channelDescriptionJapanese = $channel->channelDescriptionJapanese;
+								$themeKey = $channel->themeKey;
+								$pagesServed = $channel->pagesServed;
+								$siteManagerUserID = $channel->siteManagerUserID;
+								
+								$html .= "<tr class=\"jagaClickableRow\" data-url=\"/channels/update/" . $channelKey . "/\">";
+								
+									$html .= "<td>" . strtoupper($channelKey) . "</td>\n";
+									$html .= "<td>" . $channelTitleEnglish . "</td>\n";
+									$html .= "<td>" . $themeKey . "</td>\n";
+									$html .= "<td>" . $totalPosts . "</td>\n";
+									$html .= "<td>" . $pagesServed . "</td>\n";
+								$html .= "</tr>";
+								
+							}
+							
+						$html .= "</tbody>\n";
+					$html .= "</table>\n";
+				$html .= "</div>\n";
+				
+			$html .= "</div>\n";
+
+		$html .= "\t</div>\n";
+		$html .= "\t<!-- END CHANNEL LIST -->\n\n";
+		
+		return $html;	
+
 	}
 	
 }
 
 class ContentView {
+
+	
 
 }
 
@@ -247,155 +520,224 @@ class MenuView {
 	public function getNavBar() {
 	
 		$channel = new Channel($_SESSION['channelID']);
-	
-		$html = "
-			<!-- START NAVIGATION DIV -->
-			<div class=\"navbar-wrapper\">
-				<!-- START NAV -->
-				<nav class=\"navbar navbar-default navbar-fixed-top\" role=\"navigation\">
-					<!-- START CONTAINER -->
-					<div class=\"container\">
-						<!-- START NAVBAR-HEADER -->
-						<div class=\"navbar-header\">
-							<button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">
-								<span class=\"sr-only\">Toggle navigation</span>
-								<span class=\"icon-bar\"></span>
-								<span class=\"icon-bar\"></span>
-								<span class=\"icon-bar\"></span>
-							</button>
-							";
-							
-							// if ($_SESSION['channelID'] == 55) {
-								// $html .= "<a href=\"/\"><img id=\"kLogo\" src=\"/jaga/images/redpill-banner.png\"></a>";
-							// } elseif ($_SESSION['channelID'] == 28) {
-								// $html .= "<a href=\"/\"><img id=\"kLogo\" src=\"/jaga/images/agileeikaiwa-banner.png\"></a>";
-							// } else
-							
-							if ($_SESSION['channelID'] == 2006 || $_SESSION['channelID'] == 14) {
-								$html .= "<a href=\"/\"><img id=\"kLogo\" src=\"/jaga/images/banner.png\"></a>";
-							} else {
-								$html .= "<a class=\"navbar-brand\" href=\"/\">" . strtoupper($channel->getChannelTitle()) . "</a>";
-							}
-							
-							
-							$html .= "
-						</div>
-						<!-- END NAVBAR-HEADER -->
-
-						<!-- START NAVBAR-COLLAPSE -->
-						<div class=\"collapse navbar-collapse\">
-						
-							<ul class=\"nav navbar-nav navbar-right\">
-								
-								<li class=\"dropdown\"><a href=\"/\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">";
-
-								// $channel = new Channel($_SESSION['channelID']);
-								// $html .= strtoupper($channel->getChannelTitle());
-								
-								
-					$html .= "THIS CHANNEL
-								<b class=\"caret\"></b></a>
-									<ul class=\"dropdown-menu\">
-					";
-
-										
-					$channelContentCategoryArray = Channel::getChannelCategoryArray($_SESSION['channelID']);
-					
-					foreach ($channelContentCategoryArray AS $key => $value) {
-						if ($key != '') {
-							$html .= "<li><a href=\"/k/$key/\">" . strtoupper($key) . "<span class=\"badge pull-right\">$value</span></a></li>";
-						}
-					}
-
-										
-					$html .= "
-										<li><a href=\"/k/\">...more</a></li>
-									</ul>
-								</li>
-								
-								<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">YOUR CHANNELS <b class=\"caret\"></b></a>
-									<ul class=\"dropdown-menu\">
-								";
-								
-								if ($_SESSION['userID'] == 0) {
-									$html .= "<li><a href=\"/login/\">LOGIN</a></li>";
-									$html .= "<li><a href=\"/register/\">REGISTER</a></li>";
-								} else {
-								
-									
-								$userChannelArray = Channel::getUserChannelArray($_SESSION['channelID']);
-					
-								$i = 0;
-								foreach ($userChannelArray AS $key => $value) {
-									if ($i < 10) { 
-										if ($key != '') {
-											$html .= "<li><a href=\"http://$key.kutchannel.net/\">" . strtoupper($key);
-												// $html .= "<span class=\"badge pull-right\">$value</span>";
-											$html .= "</a></li>";
-										}
-									}
-									$i++;
-								}
-
-								
-									// $html .= "
-										// <li><a href=\"http://redpill.kutchannel.net/\">RED PILL</a></li>
-										// <li><a href=\"http://hakodate.kutchannel.net/\">HAKODATE</a></li>
-										// <li><a href=\"http://seattle.kutchannel.net/\">SEATTLE</a></li>
-										// <li><a href=\"http://eikaiwa.kutchannel.net/\">EIKAIWA</a></li>
-										// <li><a href=\"http://chishiki.kutchannel.net/\">CHISHIKI</a></li>
-										// <li><a href=\"http://the.kutchannel.net/\">...more</a></li>
-									// ";
-								}
-								
-										
-								
-								$html .= "
-									</ul>
-								</li>
-								
-								<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">OTHER CHANNELS <b class=\"caret\"></b></a>
-									<ul class=\"dropdown-menu\">
-										<li><a href=\"http://redpill.kutchannel.net/\">RED PILL</a></li>
-										<li><a href=\"http://hakodate.kutchannel.net/\">HAKODATE</a></li>
-										<li><a href=\"http://seattle.kutchannel.net/\">SEATTLE</a></li>
-										<li><a href=\"http://eikaiwa.kutchannel.net/\">EIKAIWA</a></li>
-										<li><a href=\"http://chishiki.kutchannel.net/\">CHISHIKI</a></li>
-										<li><a href=\"http://the.kutchannel.net/\">...more</a></li>
-									</ul>
-								</li>
-								<li><a href=\"http://the.kutchannel.net/\"><span class=\"glyphicon glyphicon-home\"></span><span class=\"visible-xs\">HOME</span></a></li>
-								";
+		$channelTitle = $channel->getChannelTitle();
 		
-								$user = new User($_SESSION['userID']);
-								$username = $user->username;
+		$user = new User($_SESSION['userID']);
+		$username = $user->username;
+		
+		$categoryArray = Channel::getChannelCategoryArray($_SESSION['channelID']);
+		$userOwnChannelArray = Channel::getUserOwnChannelArray($_SESSION['userID']);
+		$userSubscribedChannelArray = Channel::getUserSubscribedChannelArray($_SESSION['userID']);
+		
+		
+		$channelArray = Channel::getChannelArray();
+
+		$html = "\t<!-- START NAVIGATION DIV -->\n";
+		$html .= "\t<div class=\"navbar-wrapper\">\n\n";
+		
+			$html .= "\t\t<!-- START NAV -->\n";
+			$html .= "\t\t<nav class=\"navbar navbar-default navbar-fixed-top\" role=\"navigation\">\n\n";
+			
+				$html .= "\t\t\t<!-- START CONTAINER -->\n";
+				$html .= "\t\t\t<div class=\"container\">\n\n";
+
+					$html .= "\t\t\t\t<!-- START NAVBAR-HEADER -->\n";
+					$html .= "\t\t\t\t<div class=\"navbar-header\">\n\n";
+						
+						$html .= "\t\t\t\t\t<button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">\n";
+							$html .= "\t\t\t\t\t\t<span class=\"sr-only\">Toggle navigation</span>\n";
+							$html .= "\t\t\t\t\t\t<span class=\"icon-bar\"></span>\n";
+							$html .= "\t\t\t\t\t\t<span class=\"icon-bar\"></span>\n";
+							$html .= "\t\t\t\t\t\t<span class=\"icon-bar\"></span>\n";
+						$html .= "\t\t\t\t\t</button>\n\n";
+						
+						if ($_SESSION['channelID'] == 2006) {
+							$html .= "\t\t\t\t\t<a href=\"/\"><img id=\"kLogo\" src=\"/jaga/images/banner.png\"></a>\n\n";
+						} else {
+							$html .= "\t\t\t\t\t<a class=\"navbar-brand\" href=\"/\">" . strtoupper($channelTitle) . "</a>\n\n";
+						}
+						
+					$html .= "\t\t\t\t</div>\n";
+					$html .= "\t\t\t\t<!-- END NAVBAR-HEADER -->\n\n";
+
+					$html .= "\t\t\t\t<!-- START NAVBAR-COLLAPSE -->\n";
+					$html .= "\t\t\t\t<div class=\"collapse navbar-collapse\">\n\n";
+						
+						$html .= "\t\t\t\t\t<ul class=\"nav navbar-nav navbar-right\">\n";
 								
-								if ($_SESSION['userID'] == 0) {
-									$html .= "<li><a href=\"/login/\"><span class=\"glyphicon glyphicon-log-in\"></span><span class=\"visible-xs\">LOGIN</span></a></li>";
-								} else {
-									$html .= "
-									
-									<li><a href=\"/u/" .  $username . "/\"><span class=\"glyphicon glyphicon glyphicon-user\"></span><span class=\"visible-xs\">PROFILE</span></a></li>
-									
-									";
-									$html .= "<li><a href=\"/messages/\"><span class=\"glyphicon glyphicon-envelope\"></span><span class=\"visible-xs\">MESSAGES</span></a></li>";
-									$html .= "<li><a href=\"/settings/\"><span class=\"glyphicon glyphicon-cog\"></span><span class=\"visible-xs\">SETTINGS</span></a></li>";
-									$html .= "<li><a href=\"/logout/\"><span class=\"glyphicon glyphicon-log-out\"></span><span class=\"visible-xs\">LOGOUT</span></a></li>";
-								}
 								
-								$html .= "
 								
-							</ul>
+								
+								
 							
-						</div>
-						<!-- END NAVBAR-COLLAPSE -->
-					</div>
-					<!-- END CONTAINER -->
-				</nav>
-				<!-- END NAV -->
-			</div>
-			<!-- END NAVIGATION DIV -->
-		";
+								
+							$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/\"><span class=\"glyphicon glyphicon-home\"></span><span class=\"visible-xs\">HOME</span></a></li>\n";
+							
+							if ($_SESSION['userID'] != 0) {
+								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/newsfeed/\"><span class=\"glyphicon glyphicon-list-alt\"></span><span class=\"visible-xs\">NEWSFEED</span></a></li>\n";
+							}
+								
+							if ($_SESSION['channelID'] != 2006) {
+							
+								
+								$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"/\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">THIS CHANNEL <b class=\"caret\"></b></a>\n";
+									$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\">\n";
+										foreach ($categoryArray AS $key => $value) {
+											if ($key != '') {
+												$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/k/$key/\">" . strtoupper($key) . "<span class=\"jagaBadge\">$value</span></a></li>\n";
+											}
+										}
+										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/k/\">...more</a></li>\n";
+									$html .= "\t\t\t\t\t\t\t</ul>\n";
+								$html .= "\t\t\t\t\t\t</li>\n";
+							}
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+							$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">YOUR CHANNELS <b class=\"caret\"></b></a>\n";
+									
+								
+										if ($_SESSION['userID'] == 0) {
+										
+											$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\">\n";
+												$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/login/\">LOGIN</a></li>\n";
+												$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/register/\">REGISTER</a></li>\n";
+											$html .= "\t\t\t\t\t\t\t</ul>\n";
+											
+										} else {
+
+											$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu jagaDrop\">\n";
+											$i = 0;
+											foreach ($userOwnChannelArray AS $channelKey => $postCount) {
+												// if ($i < 15) {
+													$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://$channelKey.kutchannel.net/\">" . strtoupper($channelKey);
+														$html .= " <span class=\"jagaBadge\">$postCount</span>";
+													$html .= "</a></li>\n";
+												// }
+												$i++;
+											}
+											
+											$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/channels/\"><em>Manage Channels...</em></a></li>\n";
+				
+				
+											$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
+											
+											$i = 0;
+											foreach ($userSubscribedChannelArray AS $channelKey => $postCount) {
+												if (!isset($userOwnChannelArray[$channelKey])) {
+												// if ($i < 15) {
+													$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://$channelKey.kutchannel.net/\">" . strtoupper($channelKey);
+														$html .= " <span class=\"jagaBadge\">$postCount</span>";
+													$html .= "</a></li>\n";
+												// }
+												}
+												$i++;
+											}
+
+											$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/subscriptions/\"><em>Manage Subscriptions...</em></a></li>\n";
+											$html .= "\t\t\t\t\t\t\t</ul>\n";
+				
+										}
+								
+										
+								
+								
+							$html .= "\t\t\t\t\t\t</li>\n";
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+							$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">EXPLORE <b class=\"caret\"></b></a>\n";
+								$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu jagaDrop\">\n";
+
+									// print_r($userOwnChannelArray);
+									// print_r($userSubscribedChannelArray);
+									
+									$i = 0;
+									foreach ($channelArray AS $channelKey => $totalPosts) {
+
+										// print_r($channelKey);
+										
+										if (
+											!isset($userOwnChannelArray[$channelKey]) && 
+											!isset($userSubscribedChannelArray[$channelKey])
+										) {
+										
+											// if ($i < 15) {
+												if ($channelKey != '' && $channelKey != 'the') {
+													$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://$channelKey.kutchannel.net/\">";
+														$html .= strtoupper($channelKey);
+														$html .= "<span class=\"jagaBadge\">$totalPosts</span>";
+													$html .= "</a></li>\n";
+												}
+											// }
+										}
+										$i++;
+									}
+
+									$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
+									$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/\">See More Channels...</a></li>\n";
+										
+								$html .= "\t\t\t\t\t\t\t</ul>\n";
+								
+							$html .= "\t\t\t\t\t\t</li>\n";
+							
+
+							if ($_SESSION['userID'] == 0) {
+							
+								$html .= "\t\t\t\t\t\t<li><a href=\"/login/\"><span class=\"glyphicon glyphicon-log-in\"></span><span class=\"visible-xs\">LOGIN</span></a></li>\n";
+								
+							} else {
+							
+								$html .= "\t\t\t\t\t\t<li><a href=\"/u/" .  $username . "/\"><span class=\"glyphicon glyphicon glyphicon-user\"></span><span class=\"visible-xs\">PROFILE</span></a></li>\n";
+								
+								$html .= "\t\t\t\t\t\t<li><a href=\"/messages/\"><span class=\"glyphicon glyphicon-envelope\"></span><span class=\"visible-xs\">MESSAGES</span></a></li>\n";
+								
+								$html .= "\t\t\t\t\t\t<li><a href=\"/settings/\"><span class=\"glyphicon glyphicon-cog\"></span><span class=\"visible-xs\">SETTINGS</span></a></li>\n";
+								
+								$html .= "\t\t\t\t\t\t<li><a href=\"/logout/\"><span class=\"glyphicon glyphicon-log-out\"></span><span class=\"visible-xs\">LOGOUT</span></a></li>\n";
+								
+							}
+								
+						$html .= "\t\t\t\t\t</ul>\n";
+					
+					$html .= "\t\t\t\t</div>\n";
+					$html .= "\t\t\t\t<!-- END NAVBAR-COLLAPSE -->\n\n";
+					
+				$html .= "\t\t\t</div>\n";
+				$html .= "\t\t\t<!-- END CONTAINER -->\n\n";
+				
+			$html .= "\t\t</nav>\n";
+			$html .= "\t\t<!-- END NAV -->\n\n";
+			
+		$html .= "\t</div>\n";
+		$html .= "\t<!-- END NAVIGATION DIV -->\n\n";
 		
 		return $html;
 		
@@ -417,12 +759,12 @@ class PageView {
 	
 		$channelID = Session::getSession('channelID');
 		$channel = new Channel($channelID);
-		$this->pageTitle = $channel->channelTitle;
-		$this->pageKeywords = $channel->channelKeywords;
-		$this->pageDescription = $channel->channelDescription;
+		$this->pageTitle = $channel->channelTitleEnglish;
+		$this->pageKeywords = $channel->channelKeywordsEnglish;
+		$this->pageDescription = $channel->channelDescriptionEnglish;
 	}
 	
-	public function buildPage($urlArray, $errorArray = array()) {
+	public function buildPage($urlArray, $inputArray = array(), $errorArray = array()) {
 
 		$html = $this->getHeader();
 		
@@ -430,13 +772,13 @@ class PageView {
 			$html .= $navBar->getNavBar();
 		
 			if (!empty($errorArray)) {
-				$html .= "\t\t<!-- START ERROR ARRAY -->\n";
-				$html .= "\t\t<div class=\"container\">\n";
+				$html .= "\t<!-- START ERROR ARRAY -->\n";
+				$html .= "\t<div class=\"container\">\n";
 					foreach ($errorArray AS $value) {
-						$html .= "\t\t\t<div class=\"alert alert-danger col-sm-12 jagaErrorArray\">$value</div>\n";
+						$html .= "\t\t<div class=\"alert alert-danger col-sm-12 jagaErrorArray\">$value</div>\n";
 					}
-				$html .= "\t\t</div>\n";
-				$html .= "\t\t<!-- END ERROR ARRAY -->\n\n";
+				$html .= "\t</div>\n";
+				$html .= "\t<!-- END ERROR ARRAY -->\n\n";
 			}
 		
 			if ($urlArray[0] == '' && $_SESSION['channelID'] == 2006 && $_SESSION['userID'] == 0) {
@@ -445,7 +787,7 @@ class PageView {
 			}
 			
 
-			$html .= "\t\t<div class=\"container\">\n";
+			
 
 				if ($urlArray[0] == '') {
 					
@@ -473,44 +815,64 @@ class PageView {
 					$html .= "contact";
 				} elseif ($urlArray[0] == 'k') {
 					$html .= "K is for Kontent";
+				} elseif ($urlArray[0] == 'channels') {
+				
+					if ($urlArray[1] == 'create') {
 					
+						$html .= ChannelView::getChannelForm('create', 0, $inputArray, $errorArray);
+						
+					} elseif ($urlArray[1] == 'update') {
 					
+						$channelID = Channel::getChannelID($urlArray[2]);
+						$html .= ChannelView::getChannelForm('update', $channelID, $inputArray, $errorArray);
+						
+					} else {
 					
+						$html .= ChannelView::displayUserChannelList();
+						
+					}
+
 				} else {
-					$html .= "404: " . $urlArray[0];
+				
+					$html .= "\t<!-- START 404 TEXT -->\n";
+						$html .= "\t\t<div class=\"container\">404: " . $urlArray[0] . "</div>\n";
+					$html .= "\t<!-- END 404 TEXT -->\n\n";
+					
 				}
 		
-			$html .= "\t\t</div>\n";
+			
+			
+			
 			
 			if ($_SESSION['userID'] == 2) {
 			
-				$html .= "\t\t<div class=\"container\">\n";
+				$html .= "\t<div class=\"container\">\n";
 
-					$html .= "\t\t\t<div class=\"row\">\n";
+					$html .= "\t\t<div class=\"row\">\n";
 					
-						$html .= "\t\t\t\t<div class=\"col-md-3 bg-warning\">";
+						$html .= "\t\t\t<div class=\"col-md-3 bg-warning\">";
 							$html .= '<h3>Session::sessionArray</h3>';
 							$html .= '<pre>' . print_r(Session::sessionDump(), true) . '</pre>';
 						$html .= "</div>\n";
 						
-						$html .= "\t\t\t\t<div class=\"col-md-3 bg-warning\">";
+						$html .= "\t\t\t<div class=\"col-md-3 bg-warning\">";
 							$html .= '<h3>$_COOKIE</h3>';
 							$html .= '<pre>' . print_r($_COOKIE, true) . '</pre>';
 						$html .= "</div>\n";
 						
-						$html .= "\t\t\t\t<div class=\"col-md-3 bg-warning\">";
+						$html .= "\t\t\t<div class=\"col-md-3 bg-warning\">";
 							$html .= '<h3>$_POST</h3>';
 							$html .= '<pre>' . print_r($_POST, true) . '</pre>';
 						$html .= "</div>\n";
 						
-						$html .= "\t\t\t\t<div class=\"col-md-3 bg-warning\">";
+						$html .= "\t\t\t<div class=\"col-md-3 bg-warning\">";
 							$html .= '<h3>$urlArray</h3>';
 							$html .= '<pre>' . print_r($urlArray, true) . '</pre>';
 						$html .= "</div>\n";
 						
-					$html .= "\t\t\t</div>\n";
+					$html .= "\t\t</div>\n";
 					
-					$html .= "\t\t\t<div class=\"row\">\n";
+					$html .= "\t\t<div class=\"row\">\n";
 					
 						if (isset($_SESSION)) { 
 							$html .= "\t\t\t\t<div class=\"col-md-12 bg-warning\">";
@@ -519,9 +881,9 @@ class PageView {
 							$html .= "</div>\n";
 						}
 
-					$html .= "\t\t\t</div>\n";					
+					$html .= "\t\t</div>\n";					
 					
-				$html .= "\t\t</div>\n";
+				$html .= "\t</div>\n";
 			
 			}
 		
@@ -539,23 +901,35 @@ class PageView {
 			$html .= "\t<head>\n\n";
 			
 				$html .= "\t\t<title>" . $this->pageTitle . "</title>\n\n";
-
-				$html .= "\t\t<meta charset=\"utf-8\">\n\n";
 				
-				$html .= "\t\t<meta name=\"robots\" content=\"INDEX, FOLLOW\">\n";
-				$html .= "\t\t<meta name=\"description\" content=\"" . $this->pageDescription . "\">\n";
+				$html .= "\t\t<meta charset=\"utf-8\">\n";
+				$html .= "\t\t<meta name=\"robots\" content=\"NOINDEX, NOFOLLOW\">\n\n";
+				
 				$html .= "\t\t<meta name=\"keywords\" content=\"" . $this->pageKeywords . "\">\n";
-				$html .= "\t\t<meta name=\"author\" content=\"Christopher Webb\">\n";
-				$html .= "\t\t<meta name=\"generator\" content=\"The Kutchannel\">\n";
+				$html .= "\t\t<meta name=\"description\" content=\"" . $this->pageDescription . "\">\n\n";
+				
 				$html .= "\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\">\n";
 				$html .= "\t\t<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">\n";
 				$html .= "\t\t<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\">\n\n";
 
+				$html .= "\t\t<meta name=\"author\" content=\"Chishiki\">\n";
+				$html .= "\t\t<meta name=\"generator\" content=\"The Kutchannel\">\n\n";
+				
 				$html .= "\t\t<link rel=\"icon\" type=\"image/x-icon\" href=\"/jaga/images/favicon.ico\"/>\n\n";
 
 				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/jaga/bootstrap/3.1.1/css/bootstrap.min.css\">\n";
 				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/jaga/css/kutchannel.css\" />\n";
 				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/channel.css\" />\n\n";
+
+				// $html .= "\t\t<script type=\"text/javascript\">";
+					// $html .= "
+					// $(document).ready(function () {
+						// if ($(\"[rel=tooltip]\").length) {
+						// $(\"[rel=tooltip]\").tooltip();
+						// }
+					// });
+					// \n";
+				// $html .= "\t\t</script>\n\n";
 
 			$html .= "\t</head>\n\n";
 
@@ -587,7 +961,26 @@ class PageView {
 				$html .= "\t\t</div>\n\n";
 				
 				$html .= "\t\t<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js\"></script>\n";
-				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/bootstrap/3.1.1/js/bootstrap.min.js\"></script>\n\n";
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/bootstrap/3.1.1/js/bootstrap.min.js\"></script>\n";
+				
+				$html .= "
+				<script>
+				jQuery(document).ready(function($) {
+					  $(\".jagaClickableRow\").click(function() {
+							window.document.location = $(this).data('url');
+					  });
+				});
+				</script>
+				";
+			
+				// $html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/tooltip.js\"></script>\n\n";
+				
+				// $html .= "\t\t<script type=\"text/javascript\">\n";
+					// $html .= "\t\t\t$(function () {\n";
+						// $html .= "\t\t\t\t$(\"[rel='tooltip']\").tooltip();\n";
+					// $html .= "\t\t\t});\n";
+				// $html .= "\t\t</script>\n\n";
+				
 			$html .= "\t</body>\n\n";
 		$html .= "</html>";
 		
@@ -599,16 +992,20 @@ class PageView {
 
 class ThemeView {
 
+	public $themeKey;
 	public $navbarBackgroundColor;
 	public $navbarBackgroundColorActive;
 	public $navbarBorderColor;
 	public $navbarTextColor;
 	public $navbarTextColorHover;
 	public $navbarTextColorActive;
+	public $contentPanelHeadingTextColor;
+	public $contentPanelHeadingBackgroundColor;
 	
 	public function __construct() {
 	
-		$channelKey = $_SESSION['channelID'];
+
+		$themeKey = Channel::getThemeKey($_SESSION['channelID']);
 
 		$core = Core::getInstance();
 		$query = "
@@ -618,38 +1015,66 @@ class ThemeView {
 				navbarBorderColor, 
 				navbarTextColor, 
 				navbarTextColorHover, 
-				navbarTextColorActive
-			FROM jaga_channel
-			WHERE siteID = :channelKey
+				navbarTextColorActive, 
+				contentPanelHeadingTextColor, 
+				contentPanelHeadingBackgroundColor
+			FROM jaga_theme
+			WHERE themeKey = :themeKey
 			LIMIT 1
 		";
 		$statement = $core->database->prepare($query);
-		$statement->execute(array(':channelKey' => $channelKey));
+		$statement->execute(array(':themeKey' => $themeKey));
 		$row = $statement->fetch();
 
+		$this->themeKey = $themeKey;
 		$this->navbarBackgroundColor = $row['navbarBackgroundColor'];
 		$this->navbarBackgroundColorActive = $row['navbarBackgroundColorActive'];
 		$this->navbarBorderColor = $row['navbarBorderColor'];
 		$this->navbarTextColor = $row['navbarTextColor'];
 		$this->navbarTextColorHover = $row['navbarTextColorHover'];
 		$this->navbarTextColorActive = $row['navbarTextColorActive'];
+		$this->contentPanelHeadingTextColor = $row['contentPanelHeadingTextColor'];
+		$this->contentPanelHeadingBackgroundColor = $row['contentPanelHeadingBackgroundColor'];
 		
 	}
 	
 	public function getTheme() {
 	
+		$themeKey = $this->themeKey;
+		
 		$navbarBackgroundColor = $this->navbarBackgroundColor;
 		$navbarBackgroundColorActive = $this->navbarBackgroundColorActive;
 		$navbarBorderColor = $this->navbarBorderColor;
 		$navbarTextColor = $this->navbarTextColor;
 		$navbarTextColorHover = $this->navbarTextColorHover;
 		$navbarTextColorActive = $this->navbarTextColorActive; // #$navbarTextColorActive : active color
-
-		$css = "#footer {
+		
+		$contentPanelHeadingTextColor = $this->contentPanelHeadingTextColor;
+		$contentPanelHeadingBackgroundColor = $this->contentPanelHeadingBackgroundColor;
+		
+		$css = "/* WELCOME TO THE KUTCHANNEL */\n/* The " . strtoupper(Channel::getChannelKey($_SESSION['channelID'])) . " channel is using the " . strtoupper($themeKey) . " theme. */\n\n";
+		
+		$css .= "#footer {
 			background-color:#$navbarBackgroundColor;
 			a { color:#$navbarTextColor !important; }
 		}\n\n";
+		
+		$css .= "div.jagaContentPanelHeading {
+			color:#$contentPanelHeadingTextColor !important;
+			background-color:#$contentPanelHeadingBackgroundColor !important;
+		}\n\n";
 
+		// $css .= "a.jagaListGroupItemMore {
+			// color:#$contentPanelHeadingTextColor;
+			// background-color:#$contentPanelHeadingBackgroundColor;
+		// }\n\n";		
+		
+
+		$css .= ".jagaFormButton {
+			color:#$navbarTextColor;
+			background-color:#$navbarBackgroundColor;
+		}\n\n";
+		
 		$css .= "
 		
 			.navbar-default {
@@ -727,7 +1152,27 @@ class ThemeView {
 	
 	}
 
+	/* BEGIN STATIC */
+	
+	public static function getThemeDropdown($thisThemeKey) {
+		
+		$core = Core::getInstance();
+		$query = "SELECT themeKey FROM jaga_theme ORDER BY themeKey";
+		$statement = $core->database->prepare($query);
+		$statement->execute();
+		
+		$html = "<select name=\"themeKey\" class=\"form-control\">\n";
+			while ($row = $statement->fetch()) {
+				$themeKey = $row['themeKey'];
+				$html .= "<option value=\"$themeKey\"";
+					if ($themeKey == $thisThemeKey) { $html .= " selected"; }
+				$html .= ">$themeKey</option>\n";
+			}
+		$html .= "</select>\n";
 
+		return $html;
+
+	}
 }
 
 ?>

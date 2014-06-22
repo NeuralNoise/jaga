@@ -12,14 +12,21 @@ class Authentication {
 		$errorArray = array();
 	
 		$core = Core::getInstance();
-		$query = "SELECT id, username, email, password FROM j00mla_ver4_users WHERE username = :username OR email = :username LIMIT 1";
+		$query = "SELECT id, username, email, password FROM jaga_user WHERE username = :username OR email = :username LIMIT 1";
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':username' => $username));
 		
 
 		if (!$row = $statement->fetch()) { // account does not exist
+		
 			$errorArray[] = 'That account does not exist. Please try again.';
+			
 		} else { // account exists => check password
+		
+			// PRE-DEPLOYMENT ONLY
+			if ($row['id'] != 2 && $row['id'] != 3 && $row['id'] != 64) { $errorArray[] = 'You are not a beta user.'; }
+			
+			
 			if ($row['password'] != $encryptedPassword) { $errorArray[] = 'Your password is incorrect. Please try again.'; }
 		}
 
@@ -56,150 +63,7 @@ class Authentication {
 	public static function isLoggedIn() {
 	
 	}
-	
-	/*
-	public static function getAuthForm($type, $errorArray = array()) {
-	
-		$html = "\n\n";
-		$html .= "\t<div class=\"container\">\n";
-		$html .= "\t<!-- START AUTH CONTAINER -->\n\n";
 
-		if ($type == 'login') {
-	
-			$html .= "\t\t<!-- START jagaLogin -->\n";
-			$html .= "\t\t<div id=\"jagaLogin\" class=\"mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2\">\n\n";
-
-				$html .= "\t\t\t<!-- START PANEL -->\n";
-				$html .= "\t\t\t<div class=\"panel panel-default\" >\n\n";
-					
-					$html .= "\t\t\t\t<!-- START PANEL-HEADING -->\n";
-					$html .= "\t\t\t\t<div class=\"panel-heading\">\n\n";
-						
-						$html .= "\t\t\t\t\t<div class=\"panel-title\">Login to The Kutchannel</div>\n";
-					
-					$html .= "\t\t\t\t</div>\n";
-					$html .= "\t\t\t\t<!-- END PANEL-HEADING -->\n\n";
-					
-					$html .= "\t\t\t\t<!-- START PANEL-BODY -->\n";
-					$html .= "\t\t\t\t<div style=\"padding-top:30px\" class=\"panel-body\">\n\n";
-					
-						
-						// if (!empty($errorArray)) {
-							// foreach ($errorArray AS $value) { $html .= "\t\t\t\t\t<div id=\"login-alert\" class=\"alert alert-danger col-sm-12\">$value</div>\n"; }
-						// }
-						
-						
-						$html .= "\t\t\t\t\t<!-- START jagaLoginForm -->\n";
-						$html .= "\t\t\t\t\t<form role=\"form\" id=\"jagaLoginForm\" name=\"login\" class=\"form-horizontal\" method=\"post\" action=\"/login/\">\n\n";
-					
-							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom:25px;\" class=\"input-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-user\"></i></span>\n";
-								$html .= "\t\t\t\t\t\t\t<input id=\"login-username\" type=\"text\" class=\"form-control\" name=\"username\" value=\"\" placeholder=\"username or email\">\n";
-							$html .= "\t\t\t\t\t\t</div>\n\n";
-							
-							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom: 25px\" class=\"input-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-lock\"></i></span>\n";
-								$html .= "\t\t\t\t\t\t\t<input id=\"login-password\" type=\"password\" class=\"form-control\" name=\"password\" placeholder=\"password\">\n";
-							$html .= "\t\t\t\t\t\t</div>\n\n";
-							
-							$html .= "\t\t\t\t\t\t<div style=\"margin-top:10px\" class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12 controls\">\n";
-									$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaLoginSubmit\" id=\"jagaLoginSubmit\" class=\"btn btn-default pull-right\" value=\"Login\">\n";
-								$html .= "\t\t\t\t\t\t\t</div>\n";
-							$html .= "\t\t\t\t\t\t</div>\n\n";
-			
-							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-md-12 control\">\n";
-									$html .= "\t\t\t\t\t\t\t\t<div style=\"border-top: 1px solid#888; padding-top:15px; font-size:85%\" >Don\'t have a Kutchannel account? <a href=\"/register/\">Register</a></div>\n";
-								$html .= "\t\t\t\t\t\t\t</div>\n";
-							$html .= "\t\t\t\t\t\t</div>\n\n";
-			
-						$html .= "\t\t\t\t\t</form>\n";
-						$html .= "\t\t\t\t\t<!-- END jagaLoginForm -->\n\n";
-			
-					$html .= "\t\t\t\t</div>\n";
-					$html .= "\t\t\t\t<!-- END PANEL-BODY -->\n\n";
-			
-				$html .= "\t\t\t</div>\n";
-				$html .= "\t\t\t<!-- END PANEL -->\n\n";
-			
-			$html .= "\t\t</div>\n";
-			$html .= "\t\t<!-- END jagaLogin -->\n\n";
-	
-		}
-		
-		if ($type == 'register') {
-		
-			$html .= "\t\t<!-- START jagaRegister -->\n";
-			$html .= "\t\t<div id=\"jagaRegister\" class=\"mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2\">\n\n";
-			
-				$html .= "\t\t\t<!-- START PANEL -->\n";
-				$html .= "\t\t\t<div class=\"panel panel-default\" >\n\n";
-					
-					$html .= "\t\t\t\t<!-- START PANEL-HEADING -->\n";
-					$html .= "\t\t\t\t<div class=\"panel-heading\">\n\n";
-
-						$html .= "\t\t\t\t\t<div class=\"panel-title\">Register for The Kutchannel</div>\n";
-						// $html .= "\t\t\t\t\t<div style=\"float:right;font-size:85%;position:relative;top:-10px;\"><a href=\"/login/\">Login</a></div>\n";
-						
-					$html .= "\t\t\t\t</div>\n";
-					$html .= "\t\t\t\t<!-- END PANEL-HEADING -->\n\n";
-					
-					$html .= "\t\t\t\t<!-- START PANEL-BODY -->\n";
-					$html .= "\t\t\t\t<div class=\"panel-body\">\n\n";
-					
-					
-						$html .= "\t\t\t\t\t<!-- START jagaRegisterForm -->\n";
-						$html .= "\t\t\t\t\t<form name=\"jagaRegisterForm\" id=\"signupform\" class=\"form-horizontal\" role=\"form\" method=\"post\" action=\"/register/\">\n\n";
-						
-							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom:25px;\" class=\"input-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-user\"></i></span>\n";
-								$html .= "\t\t\t\t\t\t\t<input id=\"register-username\" type=\"text\" class=\"form-control\" name=\"username\" value=\"\" placeholder=\"desired username\">\n";
-							$html .= "\t\t\t\t\t\t</div>\n\n";
-							
-							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom:25px;\" class=\"input-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-envelope\"></i></span>\n";
-								$html .= "\t\t\t\t\t\t\t<input id=\"register-email\" type=\"email\" class=\"form-control\" name=\"userEmail\" value=\"\" placeholder=\"email\">\n";
-							$html .= "\t\t\t\t\t\t</div>\n\n";
-							
-							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom: 25px\" class=\"input-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-lock\"></i></span>\n";
-								$html .= "\t\t\t\t\t\t\t<input id=\"register-password\" type=\"password\" class=\"form-control\" name=\"password\" placeholder=\"password\">\n";
-							$html .= "\t\t\t\t\t\t</div>\n\n";
-							
-							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom: 25px\" class=\"input-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-lock\"></i></span>\n";
-								$html .= "\t\t\t\t\t\t\t<input id=\"register-confirm-password\" type=\"password\" class=\"form-control\" name=\"confirmPassword\" placeholder=\"confirm password\">\n";
-							$html .= "\t\t\t\t\t\t</div>\n\n";
-							
-							$html .= "\t\t\t\t\t\t<div style=\"margin-top:10px\" class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12 controls\">\n";
-									$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaRegisterSubmit\" id=\"jagaRegisterSubmit\" class=\"btn btn-default pull-right\" value=\"Register\">\n";
-								$html .= "\t\t\t\t\t\t\t</div>\n";
-							$html .= "\t\t\t\t\t\t</div>\n\n";
-
-						$html .= "\t\t\t\t\t</form>\n";
-						$html .= "\t\t\t\t\t<!-- END jagaRegisterForm -->\n\n";
-					
-					$html .= "\t\t\t\t</div>\n";
-					$html .= "\t\t\t\t<!-- END PANEL-BODY -->\n\n";
-					
-				$html .= "\t\t\t\t</div>\n";
-				$html .= "\t\t\t\t<!-- END PANEL -->\n\n";
-			
-			$html .= "\t\t</div>\n";
-			$html .= "\t\t<!-- END jagaRegister -->\n\n";
-		}
-			
-		$html .= "\t</div>\n";
-		$html .= "\t<!-- END AUTH CONTAINER -->\n\n";
-			
-		return $html;
-	
-	}
-	
-	*/
-	
 }
 
 class Calendar {
@@ -208,57 +72,148 @@ class Calendar {
 
 class Category {
 
+	public function getChannelCategories($channelID) {
+	
+		$core = Core::getInstance();
+		
+		$query = "
+			SELECT jaga_ChannelCategory.contentCategoryKey, COUNT(jaga_content.entryID) as postCount
+			FROM jaga_ChannelCategory LEFT JOIN  jaga_content
+			ON jaga_ChannelCategory.contentCategoryKey = jaga_content.contentCategoryKey
+			WHERE jaga_ChannelCategory.channelID = :channelID
+			GROUP BY jaga_ChannelCategory.contentCategoryKey
+			ORDER BY postCount DESC
+		";
+		
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':channelID' => $channelID));
+		
+		$channelCategoryArray = array();
+		while ($row = $statement->fetch()) { $channelCategoryArray[] = $row['contentCategoryKey']; }
+		
+		return $channelCategoryArray;
+		
+	}
+
+	public function getCategoryContent($channelID, $contentCategoryKey) {
+	
+		$core = Core::getInstance();
+		
+		$query = "
+			SELECT `entryID`, `entryViews`
+			FROM `jaga_content`
+			WHERE channelID = :channelID
+			AND contentCategoryKey = :contentCategoryKey
+			ORDER BY entrySubmissionDateTime DESC
+		";
+		
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':channelID' => $channelID, ':contentCategoryKey' => $contentCategoryKey));
+		
+		$categoryContentArray = array();
+		while ($row = $statement->fetch()) { $categoryContentArray[] = $row['entryID']; }
+		return $categoryContentArray;
+		
+	}
+
+	public function getAllCategories() {
+	
+
+	
+		$core = Core::getInstance();
+		
+		$query = "
+			SELECT jaga_category.contentCategoryKey as contentCategoryKey, COUNT(jaga_content.entryID) as postCount
+			FROM jaga_category LEFT JOIN jaga_content
+			ON jaga_category.contentCategoryKey = jaga_content.contentCategoryKey
+			GROUP BY jaga_category.contentCategoryKey
+			ORDER BY jaga_category.contentCategoryKey ASC
+		";
+		
+		$statement = $core->database->prepare($query);
+		$statement->execute();
+		
+		$categoryArray = array();
+		while ($row = $statement->fetch()) { $categoryArray[$row['contentCategoryKey']] = $row['postCount']; }
+		return $categoryArray;
+		
+	}
+	
 }
 
-class Channel {
+class Channel extends ORM {
 
 	public $channelID;
 	public $channelKey;
-	public $channelTitle;
-	public $channelKeywords;
-	public $channelDescription;
+	public $channelCreationDateTime;
+	public $channelEnabled;
+	public $channelTitleEnglish;
+	public $channelTitleJapanese;
+	public $channelKeywordsEnglish;
+	public $channelKeywordsJapanese;
+	public $channelDescriptionEnglish;
+	public $channelDescriptionJapanese;
+	public $themeKey;
+	public $pagesServed;
+	public $siteManagerUserID;
 	
 	public function __construct($channelID) {
 		
 		if ($channelID != 0) {
 		
 			$query = "
-				SELECT siteID, channelKey, siteTitleEnglish, siteKeywordsEnglish, siteDescriptionEnglish 
-				FROM jaga_channel WHERE siteID = '$channelID' LIMIT 1
+				SELECT channelID, channelKey, channelCreationDateTime, channelEnabled, channelTitleEnglish, channelTitleJapanese, channelKeywordsEnglish, channelKeywordsJapanese, channelDescriptionEnglish, channelDescriptionJapanese, themeKey, pagesServed, siteManagerUserID
+				FROM jaga_Channel WHERE channelID = '$channelID' LIMIT 1
 			";
 			$core = Core::getInstance();
 			$statement = $core->database->query($query);
 			
 			$row = $statement->fetch();
 		
-			$this->channelID = $row['siteID'];
+			$this->channelID = $row['channelID'];
 			$this->channelKey = $row['channelKey'];
-			$this->channelTitle = $row['siteTitleEnglish'];
-			$this->channelKeywords = $row['siteKeywordsEnglish'];
-			$this->channelDescription = $row['siteDescriptionEnglish'];
-		
+			$this->channelCreationDateTime = $row['channelCreationDateTime'];
+			$this->channelEnabled = $row['channelEnabled'];
+			$this->channelTitleEnglish = $row['channelTitleEnglish'];
+			$this->channelTitleJapanese = $row['channelTitleJapanese'];
+			$this->channelKeywordsEnglish = $row['channelKeywordsEnglish'];
+			$this->channelKeywordsJapanese = $row['channelKeywordsJapanese'];
+			$this->channelDescriptionEnglish = $row['channelDescriptionEnglish'];
+			$this->channelDescriptionJapanese = $row['channelDescriptionJapanese'];
+			$this->themeKey = $row['themeKey'];
+			$this->pagesServed = $row['pagesServed'];
+			$this->siteManagerUserID = $row['siteManagerUserID'];
+	
 		} else {
 		
 			$this->channelID = 0;
-			$this->channelKey = 'kutchannel';
-			$this->channelTitle = 'The Kutchannel';
-			$this->channelKeywords = 'The Kutchannel';
-			$this->channelDescription = 'The Kutchannel';
+			$this->channelKey = '';
+			$this->channelCreationDateTime = date('Y-m-d H:i:s');
+			$this->channelEnabled = 1;
+			$this->channelTitleEnglish = '';
+			$this->channelTitleJapanese = '';
+			$this->channelKeywordsEnglish = '';
+			$this->channelKeywordsJapanese = '';
+			$this->channelDescriptionEnglish = '';
+			$this->channelDescriptionJapanese = '';
+			$this->themeKey = 'kutchannel';
+			$this->pagesServed = 0;
+			$this->siteManagerUserID = $_SESSION['userID'];
 		
 		}
 		
 	}
 	
 	public function getChannelTitle() {
-		return $this->channelTitle;
+		return $this->channelTitleEnglish;
 	}
 	
 	public function getChannelKeywords() {
-		return $this->channelKeywords;
+		return $this->channelKeywordsEnglish;
 	}
 	
 	public function getChannelDescription() {
-		return $this->channelDescription;
+		return $this->channelDescriptionEnglish;
 	}
 	
 	public function getChannelCategoryArray($channelID) {
@@ -267,11 +222,12 @@ class Channel {
 		
 		$core = Core::getInstance();
 		$query = "
-			SELECT `contentCategoryKey`, COUNT(`contentCategoryKey`) AS `count`
-			FROM `nisekocms_content`
-			WHERE siteID = :channelID
-			GROUP BY `contentCategoryKey`
-			ORDER BY COUNT(`contentCategoryKey`) DESC
+			SELECT jaga_ChannelCategory.contentCategoryKey, COUNT(jaga_content.entryID) AS postCount
+			FROM jaga_ChannelCategory LEFT JOIN jaga_content
+			ON jaga_ChannelCategory.contentCategoryKey = jaga_content.contentCategoryKey
+			WHERE channelID = :channelID
+			GROUP BY jaga_ChannelCategory.contentCategoryKey
+			ORDER BY COUNT(jaga_content.entryID) DESC
 		";
 		
 		$statement = $core->database->prepare($query);
@@ -281,23 +237,25 @@ class Channel {
 		while ($row = $statement->fetch()) {
 		
 			$contentCategoryKey = $row['contentCategoryKey'];
-			$contentCategoryPostCount = $row['count'];
+			$contentCategoryPostCount = $row['postCount'];
 			$channelCategoryArray[$contentCategoryKey] = $contentCategoryPostCount;
 		}
 		
 		return $channelCategoryArray;
 	}
 	
-	public function getUserChannelArray($userID) {
+	public function getChannelArray() {
 		
 		// returns $array[contentCategoryKey][contentCategoryPostCount]
 		
 		$core = Core::getInstance();
 		$query = "
-			SELECT channelKey
-			FROM `jaga_channel`
-			WHERE channelEnabled = 1
-			ORDER BY channelKey ASC
+			SELECT jaga_Channel.channelKey AS channelKey, COUNT(jaga_content.entryID) AS postCount
+			FROM jaga_Channel LEFT JOIN jaga_content
+			ON jaga_Channel.channelID = jaga_content.siteID
+			WHERE jaga_Channel.channelEnabled = 1
+			GROUP BY jaga_Channel.channelKey
+			ORDER BY COUNT(jaga_content.entryID) DESC
 		";
 		
 		$statement = $core->database->prepare($query);
@@ -305,17 +263,65 @@ class Channel {
 		// $statement->execute(array(':channelID' => $channelID));
 		$statement->execute();
 		
-		$channelCategoryArray = array();
+		$channelArray = array();
 		while ($row = $statement->fetch()) {
-		
 			$channelKey = $row['channelKey'];
-			$channelKey = $row['channelKey'];
-			$channelCategoryArray[$channelKey] = $channelKey;
+			$postCount = $row['postCount'];
+			$channelArray[$channelKey] = $postCount;
 		}
 		
-		return $channelCategoryArray;
+		return $channelArray;
 	}
 	
+	public function getUserOwnChannelArray($userID) {
+		
+		$core = Core::getInstance();
+		$query = "
+			SELECT jaga_Channel.channelKey as channelKey, COUNT(jaga_content.entryID) as postCount 
+			FROM jaga_Channel LEFT JOIN jaga_content 
+			ON jaga_Channel.channelID = jaga_content.siteID 
+			WHERE jaga_Channel.siteManagerUserID = :userID 
+			GROUP BY channelKey 
+			ORDER BY postCount DESC
+		";
+		
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':userID' => $userID));
+		
+		$userOwnChannelArray = array();
+		while ($row = $statement->fetch()) {
+			$userOwnChannelArray[$row['channelKey']] = $row['postCount'];
+		}
+		return $userOwnChannelArray;
+		
+	}
+	
+	public function getUserSubscribedChannelArray($userID) {
+		
+		$core = Core::getInstance();
+		$query = "
+			SELECT jaga_subscription.channelID as channelID, COUNT(jaga_content.entryID) as postCount 
+			FROM jaga_subscription, jaga_content 
+			WHERE jaga_subscription.channelID = jaga_content.siteID 
+			AND jaga_subscription.userID = :userID
+			GROUP BY channelID 
+			ORDER BY postCount DESC
+		";
+		
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':userID' => $userID));
+		
+		$userSubscribedChannelArray = array();
+		while ($row = $statement->fetch()) {
+			$channelKey = self::getChannelKey($row['channelID']);
+			$userSubscribedChannelArray[$channelKey] = $row['postCount'];
+		}
+		
+		return $userSubscribedChannelArray;
+		
+	}
+	
+	/* START STATIC */
 	
 	static function getSelectedChannelID() {
 	
@@ -325,18 +331,70 @@ class Channel {
 		$tmp = explode('.', $domain);
 		$subdomain = current($tmp);
 		
-		$query = "SELECT siteID FROM jaga_channel WHERE channelKey = '$subdomain' LIMIT 1";
+		$query = "SELECT channelID FROM jaga_Channel WHERE channelKey = '$subdomain' LIMIT 1";
 		$core = Core::getInstance();
 		$statement = $core->database->query($query);
 		
-		if ($row = $statement->fetch()) {
-			$channelID = $row['siteID'];
-		}
+		if ($row = $statement->fetch()) { $channelID = $row['channelID']; }
 		
 		return $channelID;
 		
 	}
 
+	static function getChannelID($channelKey) {
+	
+		$channelID = 0;
+		$query = "SELECT channelID FROM jaga_Channel WHERE channelKey = '$channelKey' LIMIT 1";
+		$core = Core::getInstance();
+		$statement = $core->database->query($query);
+		
+		if ($row = $statement->fetch()) { $channelID = $row['channelID']; }
+		
+		return $channelID;
+		
+	}
+	
+	static function getChannelKey($channelID) {
+	
+		$channelKey = '';
+		$query = "SELECT channelKey FROM jaga_Channel WHERE channelID = '$channelID' LIMIT 1";
+		$core = Core::getInstance();
+		$statement = $core->database->query($query);
+		
+		if ($row = $statement->fetch()) { $channelKey = $row['channelKey']; }
+		
+		return $channelKey;
+		
+	}
+
+	static function getThemeKey($channelID) {
+	
+		$themeKey = '';
+		
+		$query = "SELECT themeKey FROM jaga_Channel WHERE channelID = '$channelID' LIMIT 1";
+		$core = Core::getInstance();
+		$statement = $core->database->query($query);
+		
+		if ($row = $statement->fetch()) { $themeKey = $row['themeKey']; }
+		
+		return $themeKey;
+		
+	}
+	
+	/* ==> EXTEND ORM */
+	
+}
+
+class ChannelCategory extends ORM {
+
+	public $channelID;
+	public $contentCategoryKey;
+	
+	public function __construct() {
+		$this->channelID = 0;
+		$this->contentCategoryKey = '';
+	}
+	
 }
 
 class Comment {
@@ -344,12 +402,81 @@ class Comment {
 }
 
 class Content {
-
+	
+	
+	
 	public $contentID;
+	public $channelID;
 	public $contentCategoryKey;
+	public $entrySeoURL;
+	public $contentSubmittedByUserID;
+	public $contentSubmissionDateTime;
 	public $contentURL;
 	public $contentTitleEnglish;
+	public $contentTitleJapanese;
 	public $contentEnglish;
+	public $contentJapanese;
+	public $contentViews;
+
+	/*
+		CREATE TABLE IF NOT EXISTS `jaga_content` (
+		  `entryID` int(8) NOT NULL AUTO_INCREMENT,
+		  `channelID` int(8) NOT NULL,
+		  `entrychannelID` int(8) NOT NULL,
+		  `entryUrl` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+		  `entrySeoURL` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+		  `contentCategoryKey` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+		  `entryCategoryID` int(8) NOT NULL,
+		  `entrySubmittedByUserID` int(8) NOT NULL,
+		  `entrySubmissionDateTime` datetime NOT NULL,
+		  `entryPublishStartDate` date NOT NULL,
+		  `entryPublishEndDate` date NOT NULL,
+		  `entryLastModified` datetime NOT NULL,
+		  `entryTitleEnglish` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+		  `entryTitleJapanese` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+		  `entryContentEnglish` text COLLATE utf8_unicode_ci NOT NULL,
+		  `entryContentJapanese` text COLLATE utf8_unicode_ci NOT NULL,
+		  `entrySortOrder` int(8) NOT NULL,
+		  `pageID` int(8) NOT NULL,
+		  `entryPublished` int(1) NOT NULL,
+		  `entryViews` int(12) NOT NULL,
+		  `useLeftColumn` int(1) NOT NULL,
+		  `useRightColumn` int(1) NOT NULL,
+		  `entryKeywordMeta` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+		  `entryDescriptionMeta` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+		  `oldJoomlaID` int(11) NOT NULL,
+		  `isEvent` int(1) NOT NULL,
+		  `eventDate` date NOT NULL,
+		  `eventStartTime` time NOT NULL,
+		  `eventEndTime` time NOT NULL,
+		  `contentCoordinates` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+		  PRIMARY KEY (`entryID`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9999900 ;
+	*/
+	
+	public function __construct($contentID) {
+	
+		$core = Core::getInstance();
+		$query = "SELECT * FROM jaga_content WHERE entryID = :contentID LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':contentID' => $contentID));
+		
+		while ($row = $statement->fetch()) {
+	
+			$this->contentID = $row['entryID'];
+			$this->channelID = $row['channelID'];
+			$this->contentCategoryKey = $row['contentCategoryKey'];
+			$this->contentURL = $row['entrySeoURL'];
+			$this->contentSubmittedByUserID = $row['entrySubmittedByUserID'];
+			$this->contentSubmissionDateTime = $row['entrySubmissionDateTime'];
+			$this->contentTitleEnglish = $row['entryTitleEnglish'];
+			$this->contentTitleJapanese = $row['entryTitleJapanese'];
+			$this->contentEnglish = $row['entryContentEnglish'];
+			$this->contentJapanese = $row['entryContentJapanese'];
+			$this->contentViews = $row['entryViews'];
+			
+		}
+	}
 	
 	public function getContent($contentID) {
 	
@@ -359,7 +486,6 @@ class Content {
 	
 	}
 	
-
 	function getContentList($contentCategoryKey = 'forum', $limitClausePage = 1) {
 
 			$limitClausePageAdjusted = $limitClausePage - 1;
@@ -367,16 +493,16 @@ class Content {
 			$firstRecord = $limitClausePageAdjusted * $entriesPerPage;
 			$limitClause = "LIMIT $firstRecord, $entriesPerPage";
 			$currentDate = date('Y-m-d');
-			$siteID = 14;
+			$channelID = 14;
 
 
 			$query = "
-				SELECT * FROM nisekocms_content 
+				SELECT * FROM jaga_content 
 				WHERE contentCategoryKey = '$contentCategoryKey'
 					AND entryPublished = 1 
 					AND entryPublishStartDate <= '$currentDate' 
 					AND (entryPublishEndDate >= '$currentDate' OR entryPublishEndDate = '0000-00-00')
-					AND siteID = '$siteID'
+					AND channelID = '$channelID'
 				ORDER BY entryLastModified DESC
 				$limitClause
 			";
@@ -390,7 +516,6 @@ class Content {
 		
 	}
 
-	
 	function displayContentForm(
 		$type = 'create', 
 		$contentCategoryKey = '', 
@@ -476,7 +601,7 @@ class Mail {
 	/*
 		CREATE TABLE IF NOT EXISTS `nisekocms_mail` (
 		  `mailID` int(8) NOT NULL AUTO_INCREMENT,
-		  `siteID` int(8) NOT NULL,
+		  `channelID` int(8) NOT NULL,
 		  `mailSentByUserID` int(8) NOT NULL,
 		  `mailSentDateTime` datetime NOT NULL,
 		  `mailToAddress` varchar(255) NOT NULL,
@@ -518,7 +643,7 @@ class Mail {
 		$mailMessage = mysql_real_escape_string($mailMessage);
 		
 		$querySaveMessage = "INSERT INTO nisekocms_mail (
-			siteID,
+			channelID,
 			mailSentByUserID,
 			mailSentDateTime,
 			mailToAddress,
@@ -526,7 +651,7 @@ class Mail {
 			mailSubject,
 			mailMessage
 		) VALUES (
-			'$siteID',
+			'$channelID',
 			'$mailSentByUserID',
 			'$mailSentDateTime',
 			'$mailToAddress',
@@ -579,6 +704,10 @@ class Sitemap {
 	}
 }
 
+class Theme {
+
+}
+
 class User {
 
 	public $userID;
@@ -589,7 +718,7 @@ class User {
 	
 		$this->userID = $userID;
 		
-		$query = "SELECT userName, email FROM j00mla_ver4_users WHERE id = '$userID' LIMIT 1";
+		$query = "SELECT userName, email FROM jaga_user WHERE id = '$userID' LIMIT 1";
 		$core = Core::getInstance();
 		$statement = $core->database->query($query);
 		$row = $statement->fetch();
@@ -602,7 +731,7 @@ class User {
 	public static function getUserIDwithUserNameOrEmail($username) {
 	
 		$core = Core::getInstance();
-		$query = "SELECT id FROM j00mla_ver4_users WHERE username = :username OR email = :username LIMIT 1";
+		$query = "SELECT id FROM jaga_user WHERE username = :username OR email = :username LIMIT 1";
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':username' => $username));
 		$row = $statement->fetch();

@@ -1,21 +1,92 @@
-/*
-KUTCHANNEL YELLOW #FBFF00 or #FFFF99
-KUTCHANNEL BLUE #OF5C8C
-*/
-
 html {
   position: relative;
   min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
   margin-top:70px;
   margin-bottom: 60px;
 }
 
+h1,h2,h3,h4,h5,h6,h7 {
+	margin:0px;
+	font-family: "Times New Roman", Times, serif;
+	font-weight:bold;
+}
+
+.jagaBadge {
+	position:absolute;
+	right:10px;
+	background-color: #666;
+	padding-left:2px;
+	padding-right:2px;
+    text-align: right;
+	color:#fff;
+}
+
+.checkbox-inline {margin-top:0;margin-left:0px;margin-right:10px;}
+.checkbox-inline+.checkbox-inline {margin-top:0;margin-left:0px;margin-right:10px;}
+
+.jagaFormButton {
+
+}
+
+div.jagaContentPanelHeading {
+
+}
+
+a.jagaListGroupItem {
+
+}
+
+a.jagaListGroupItemMore {
+	text-align:right;
+	font-weight:bold;
+	font-family: "Times New Roman", Times, serif;
+}
+
+span.jagaListGroup {
+
+}
+
+span.jagaListGroupBadge {
+	float:right;
+	display:block;
+	background-color: #666;
+	margin:0px 0px 2px 2px;
+	padding-left:2px;
+	padding-right:2px;
+    text-align: right;
+	color:#fff;
+}
+
+
+
+
+
+
+
+
+
+/* NAVBAR ACTION */
+
 .navbar {
   background-color:#FFFF99;
+}
+
+.navbar-brand {
+	font-family: "Times New Roman", Times, serif;
+	font-weight:bold;
+	font-size:150%;
+}
+
+#kLogo {
+	margin-top:5px;
+	width:300px;
+}
+
+.jagaDrop {
+	width:200px;
 }
 
 #footer {
@@ -28,21 +99,6 @@ body {
 	text-align:right;
 }
 
-#kLogo {
-	margin-top:5px;
-	width:300px;
-}
-
-
-.badge {
-	-webkit-border-radius:0px;
-	-moz-border-radius:0px;
-	border-radius:0px;
-}
-
-
-
-
 
 
 @media (max-width:767px) {
@@ -52,6 +108,83 @@ body {
 	#kLogo {
 		margin-left:5px;
 		margin-top:10px;
-		width:200px;
+		width:250px;
+	}
+	.jagaDrop {
+		width:300px;
 	}
 }
+
+
+
+/*
+                                :.. :IVVYYYXRI,
+                                tXXWMMXVWWRBBMB:
+                                +VRBMMRVi,. ,iBM+
+                       ,::;;;;;VWBBRMMXi;:,..,YMV
+                   :+i+;:,,,,:;RWRRWMMRMMWiMV+iMMi
+                   i::,,,:iIit++iWYRMWWMBViIMMYMVi, .
+                   :Y+,;IY;,    ,:XBMXR;;VI:,ttMBi+.:.
+                    ,YV;,,:+i:.  +RBMMMVIWB;+WMMBVI:.
+                      ;VI;,..;titIiRMMMBWtiYIMMMM+Vi
+                        iXY+::,::,YBYIYRRBBIYMMMMMR,
+                         .+YVi+;++.;WWXBYt:iRiiiIi+i:
+                            ,tVi+V;t:i+i::iV:;;Y:,.:I,
+                              .:XRYiIi;::;::::t:,,,,;I
+                                :WVItIIItiIIIIi:,;:::I+
+                                +XIIttXYi;;+YttIIY:::+I.
+                               ,VIIIXBMRtVt+iXIItR+::;Y:
+                               WVYYVYWBRRBMMt;;YYBX;::t+
+                               IRYYIYVXVYYYXWRi+IVWY::;I
+                               .BBXIIIIVYYVVYXBI++iYt;:Y,
+                                iBWWIIIVIYYWYYXMWiii++iii
+                                iMVIWIIYVXVVXIYV.RWYYt+tV.
+                                YBXIXIIIIYYIXIB:  +XBXYtt.
+                              .IWVYYXIIIIIIIYIW.    .tVI.
+                              YXVYYVYIIIIIIIYIV,
+                             iRYYYIYIIIIIIIIItY,
+                             WMWVYYYIIIIIIIIIIYi
+                            iRVMMBWVVYYIIIIItItY,
+                          .,BViiYXRBRVYYIttIIItVi
+                          .+BXIiYVi+tVVXXYIIYXWY;.
+                         ,,RXY++iYXXYtiiVXXV+:,+t:
+                         .IBVYi+;;IYX;:it+;;::;iV.
+                          YBVYt+;;iXVYIYii++:;;Yt
+                          YBVYtt+;iIBWVIt++;;++Vi
+                          IBXYtti+iXBVVIi++;;++X.
+                          :BXVIti+iMWXYti+;:;+I+
+                           RWVItt+VMWVIt+;;;+iX.
+                           YBXYItiMBXYIt+;;+iVi
+                           ,MWVItIMRVIti+;++IV.
+                           .RRXItWBWYtti+++tX,
+                            tBWVYBBVItti+itV+
+                            ,RWXWMRYItiiiiVi
+                             WRXRMXItiiiiVt
+                             iBXRBVItiitYI.
+                             .MWWBYIttIYV.
+                              XRWBYIiIYVi
+                              tRXMIiiVYX;
+                              tRXBBVWYiYt
+                              YXVRRWItIIY+
+                              XXVXRWXVVYIY:
+                              WVVXBRWWXVYY;
+                              RVVVBRWRWXVVi
+                              RXVVWBWBRXVV+
+                              XXVVXBRBRXVX;
+                              tXVIiRBBBWVX;
+                              ;XVtiYRBBWVX;
+                              .XVt+ItRBXVX:
+                               iWI+II;BXVW:
+                               .RI+iI;RVVW;
+                                tXiiIXWVVW+
+                                +RIiIBVYXW,
+                                 WXtIXVXW,
+                                tBWVYRWW:
+                              .iMMXYIRY.
+                              iRMMXVIW:
+                              +WXXRXVX:
+                                 tBYVVi
+                                :RYtiVV,
+                                :RXRRRWi
+                                  ..:::.
+*/

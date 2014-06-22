@@ -1,8 +1,8 @@
-AuthType Basic
-AuthName "Restricted Files"
-AuthBasicProvider file
-AuthUserFile /var/www/nisekocms/kutchannel.net/passwords
-Require user chris
+# AuthType Basic
+# AuthName "Restricted Files"
+# AuthBasicProvider file
+# AuthUserFile /var/www/nisekocms/kutchannel.net/passwords
+# Require user chris
 
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
