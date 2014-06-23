@@ -72,28 +72,6 @@ class Calendar {
 
 class Category {
 
-	public function getChannelCategories($channelID) {
-	
-		$core = Core::getInstance();
-		
-		$query = "
-			SELECT jaga_ChannelCategory.contentCategoryKey, COUNT(jaga_content.entryID) as postCount
-			FROM jaga_ChannelCategory LEFT JOIN  jaga_content
-			ON jaga_ChannelCategory.contentCategoryKey = jaga_content.contentCategoryKey
-			WHERE jaga_ChannelCategory.channelID = :channelID
-			GROUP BY jaga_ChannelCategory.contentCategoryKey
-			ORDER BY postCount DESC
-		";
-		
-		$statement = $core->database->prepare($query);
-		$statement->execute(array(':channelID' => $channelID));
-		
-		$channelCategoryArray = array();
-		while ($row = $statement->fetch()) { $channelCategoryArray[] = $row['contentCategoryKey']; }
-		
-		return $channelCategoryArray;
-		
-	}
 
 	public function getCategoryContent($channelID, $contentCategoryKey) {
 	
@@ -102,7 +80,7 @@ class Category {
 		$query = "
 			SELECT `entryID`, `entryViews`
 			FROM `jaga_content`
-			WHERE channelID = :channelID
+			WHERE siteID = :channelID
 			AND contentCategoryKey = :contentCategoryKey
 			ORDER BY entrySubmissionDateTime DESC
 		";
@@ -214,34 +192,6 @@ class Channel extends ORM {
 	
 	public function getChannelDescription() {
 		return $this->channelDescriptionEnglish;
-	}
-	
-	public function getChannelCategoryArray($channelID) {
-		
-		// returns $array[contentCategoryKey][contentCategoryPostCount]
-		
-		$core = Core::getInstance();
-		$query = "
-			SELECT jaga_ChannelCategory.contentCategoryKey, COUNT(jaga_content.entryID) AS postCount
-			FROM jaga_ChannelCategory LEFT JOIN jaga_content
-			ON jaga_ChannelCategory.contentCategoryKey = jaga_content.contentCategoryKey
-			WHERE channelID = :channelID
-			GROUP BY jaga_ChannelCategory.contentCategoryKey
-			ORDER BY COUNT(jaga_content.entryID) DESC
-		";
-		
-		$statement = $core->database->prepare($query);
-		$statement->execute(array(':channelID' => $channelID));
-		
-		$channelCategoryArray = array();
-		while ($row = $statement->fetch()) {
-		
-			$contentCategoryKey = $row['contentCategoryKey'];
-			$contentCategoryPostCount = $row['postCount'];
-			$channelCategoryArray[$contentCategoryKey] = $contentCategoryPostCount;
-		}
-		
-		return $channelCategoryArray;
 	}
 	
 	public function getChannelArray() {
@@ -395,6 +345,35 @@ class ChannelCategory extends ORM {
 		$this->contentCategoryKey = '';
 	}
 	
+	public function getChannelCategoryArray($channelID) {
+		
+		// returns $array[contentCategoryKey][contentCategoryPostCount]
+		
+		$core = Core::getInstance();
+		$query = "
+			SELECT jaga_ChannelCategory.contentCategoryKey AS contentCategoryKey, COUNT( jaga_content.entryID ) AS postCount
+			FROM jaga_ChannelCategory
+			LEFT JOIN jaga_content ON jaga_ChannelCategory.channelID = jaga_content.siteID
+			AND jaga_ChannelCategory.contentCategoryKey = jaga_content.contentCategoryKey
+			WHERE jaga_ChannelCategory.channelID = :channelID
+			GROUP BY contentCategoryKey
+			ORDER BY postCount DESC 
+		";
+		
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':channelID' => $channelID));
+		
+		$channelCategoryArray = array();
+		while ($row = $statement->fetch()) {
+		
+			$contentCategoryKey = $row['contentCategoryKey'];
+			$contentCategoryPostCount = $row['postCount'];
+			$channelCategoryArray[$contentCategoryKey] = $contentCategoryPostCount;
+		}
+		
+		return $channelCategoryArray;
+	}
+	
 }
 
 class Comment {
@@ -464,7 +443,7 @@ class Content {
 		while ($row = $statement->fetch()) {
 	
 			$this->contentID = $row['entryID'];
-			$this->channelID = $row['channelID'];
+			$this->channelID = $row['siteID'];
 			$this->contentCategoryKey = $row['contentCategoryKey'];
 			$this->contentURL = $row['entrySeoURL'];
 			$this->contentSubmittedByUserID = $row['entrySubmittedByUserID'];
@@ -486,7 +465,7 @@ class Content {
 	
 	}
 	
-	function getContentList($contentCategoryKey = 'forum', $limitClausePage = 1) {
+	public function getContentList($contentCategoryKey = 'forum', $limitClausePage = 1) {
 
 			$limitClausePageAdjusted = $limitClausePage - 1;
 			$entriesPerPage = 25;
@@ -516,28 +495,6 @@ class Content {
 		
 	}
 
-	function displayContentForm(
-		$type = 'create', 
-		$contentCategoryKey = '', 
-		$entryID = 0, 
-		$entryTitleEnglish = '', 
-		$entryTitleJapanese = '',
-		$entryPublished = 1, 
-		$entryContentEnglish = '',
-		$entryContentJapanese = '',
-		$entryPublishStartDate = '',
-		$entryPublishEndDate = '',
-		$isEvent = 0,
-		$eventDate = '',
-		$eventStartTime = '',
-		$eventEndTime = ''
-	) {
-
-	}
-
-	function displayContentView($entryID) {
-	
-	}
 
 }
 
@@ -728,7 +685,7 @@ class User {
 
 	}
 	
-	public static function getUserIDwithUserNameOrEmail($username) {
+	public function getUserIDwithUserNameOrEmail($username) {
 	
 		$core = Core::getInstance();
 		$query = "SELECT id FROM jaga_user WHERE username = :username OR email = :username LIMIT 1";
@@ -736,6 +693,16 @@ class User {
 		$statement->execute(array(':username' => $username));
 		$row = $statement->fetch();
 		return $row['id'];
+	
+	}
+	
+	public function usernameExists($username) {
+	
+		$core = Core::getInstance();
+		$query = "SELECT id FROM jaga_user WHERE username = :username LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':username' => $username));
+		if ($row = $statement->fetch()) { return true; } else { return false; }
 	
 	}
 	

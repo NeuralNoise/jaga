@@ -7,6 +7,6 @@ require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view.php');
 Config::write('db.host', 'localhost');
 Config::write('db.basename', 'kutchannelDB');
 Config::write('db.user', 'kutchannel');
-Config::write('db.password', 'KBEesuVryH');
+Config::write('db.password', 'KJGyJxPVwB');
 
 ?>

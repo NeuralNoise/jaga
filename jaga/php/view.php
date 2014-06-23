@@ -188,17 +188,18 @@ class CarouselView {
 class CategoryView {
 	
 	public function displayChannelCategories($channelID) {
-		$categoryArray = Category::getChannelCategories($channelID);
+		$categoryArray = ChannelCategory::getChannelCategoryArray($channelID);
 		$html = '';
 		$html .= "\t\t<div class=\"container\">\n";
 		$k = 0;
-		foreach ($categoryArray AS $contentCategoryKey) {
+		foreach ($categoryArray AS $contentCategoryKey => $postCount) {
 			if ($k % 3 == 0) { $html .= "<div class=\"row\">"; }
 				$html .= "<div class=\"col-md-4\">";
 					$html .= "<div class=\"panel panel-default\">\n";
 						$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . strtoupper($contentCategoryKey) . "</h4></div>\n";
 							$html .= "<ul class=\"list-group\">\n";
 								$contentArray = Category::getCategoryContent($channelID, $contentCategoryKey);
+								// print_r($contentArray);
 								$i = 0;
 								foreach ($contentArray AS $contentID) {
 									if ($i < 5) {
@@ -264,7 +265,7 @@ class ChannelView {
 				$channelDescriptionEnglish = $channel->channelDescriptionEnglish;
 				$channelDescriptionJapanese = $channel->channelDescriptionJapanese;
 				$themeKey = $channel->themeKey;
-				$contentCategoryKeyArray = Category::getChannelCategories($channelID);
+				$contentCategoryKeyArray = array_keys(ChannelCategory::getChannelCategoryArray($channelID));
 
 			}
 			
@@ -320,7 +321,7 @@ class ChannelView {
 					$html .= "\t\t\t\t<div class=\"panel-body\">\n\n";
 						
 						$html .= "\t\t\t\t\t<!-- START jagaChannelForm -->\n";
-						$html .= "\t\t\t\t\t<form role=\"form\" id=\"jagaChannelForm\" name=\"jagaChannelForm\" class=\"form-horizontal\"  method=\"post\" action=\"/channels/" . $type . "/";
+						$html .= "\t\t\t\t\t<form role=\"form\" id=\"jagaChannelForm\" name=\"jagaChannelForm\" class=\"form-horizontal\"  method=\"post\" action=\"/manage-channels/" . $type . "/";
 							if ($type == 'update') { $html .= $channelKey . "/"; }
 						$html .= "\">\n\n";
 					
@@ -483,7 +484,7 @@ class ChannelView {
 								$pagesServed = $channel->pagesServed;
 								$siteManagerUserID = $channel->siteManagerUserID;
 								
-								$html .= "<tr class=\"jagaClickableRow\" data-url=\"/channels/update/" . $channelKey . "/\">";
+								$html .= "<tr class=\"jagaClickableRow\" data-url=\"/manage-channels/update/" . $channelKey . "/\">";
 								
 									$html .= "<td>" . strtoupper($channelKey) . "</td>\n";
 									$html .= "<td>" . $channelTitleEnglish . "</td>\n";
@@ -511,7 +512,39 @@ class ChannelView {
 
 class ContentView {
 
+	function displayContentForm(
+		$type = 'create', 
+		$contentCategoryKey = '', 
+		$entryID = 0, 
+		$entryTitleEnglish = '', 
+		$entryTitleJapanese = '',
+		$entryPublished = 1, 
+		$entryContentEnglish = '',
+		$entryContentJapanese = '',
+		$entryPublishStartDate = '',
+		$entryPublishEndDate = '',
+		$isEvent = 0,
+		$eventDate = '',
+		$eventStartTime = '',
+		$eventEndTime = ''
+	) {
+
+	}
+
+	function displayContentView($entryID) {
 	
+		$core = Core::getInstance();
+		$query = "SELECT entryContentEnglish AS content FROM jaga_content WHERE entryID = :entryID LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':entryID' => $entryID));
+		if ($row = $statement->fetch()) {
+			return $row['content'];
+		} else {
+			die ("ContentView::displayContentView(\$entryID) cannot find your content.");
+		}
+	
+	}
+
 
 }
 
@@ -525,7 +558,7 @@ class MenuView {
 		$user = new User($_SESSION['userID']);
 		$username = $user->username;
 		
-		$categoryArray = Channel::getChannelCategoryArray($_SESSION['channelID']);
+		$categoryArray = ChannelCategory::getChannelCategoryArray($_SESSION['channelID']);
 		$userOwnChannelArray = Channel::getUserOwnChannelArray($_SESSION['userID']);
 		$userSubscribedChannelArray = Channel::getUserSubscribedChannelArray($_SESSION['userID']);
 		
@@ -582,14 +615,18 @@ class MenuView {
 								
 								$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"/\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">THIS CHANNEL <b class=\"caret\"></b></a>\n";
 									$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\">\n";
+										
+										$h = 0;
 										foreach ($categoryArray AS $key => $value) {
-											if ($key != '') {
+											if ($key != '' && $h < 14) {
 												$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/k/$key/\">" . strtoupper($key) . "<span class=\"jagaBadge\">$value</span></a></li>\n";
 											}
+											$h++;
 										}
 										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/k/\">...more</a></li>\n";
 									$html .= "\t\t\t\t\t\t\t</ul>\n";
 								$html .= "\t\t\t\t\t\t</li>\n";
+								
 							}
 								
 								
@@ -619,32 +656,37 @@ class MenuView {
 											$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu jagaDrop\">\n";
 											$i = 0;
 											foreach ($userOwnChannelArray AS $channelKey => $postCount) {
-												// if ($i < 15) {
+												if ($i < 3) {
 													$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://$channelKey.kutchannel.net/\">" . strtoupper($channelKey);
 														$html .= " <span class=\"jagaBadge\">$postCount</span>";
 													$html .= "</a></li>\n";
-												// }
+												}
+												if ($i == 3) {
+													$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/channels/\"><em>See ALL Channels...</em></a></li>\n";
+												}
 												$i++;
+												
 											}
 											
-											$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/channels/\"><em>Manage Channels...</em></a></li>\n";
+											$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/manage-channels/\"><em>Manage Channels...</em></a></li>\n";
 				
 				
 											$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
 											
-											$i = 0;
+											$j = 0;
 											foreach ($userSubscribedChannelArray AS $channelKey => $postCount) {
-												if (!isset($userOwnChannelArray[$channelKey])) {
-												// if ($i < 15) {
+												if (!isset($userOwnChannelArray[$channelKey]) && $j < 3) {
 													$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://$channelKey.kutchannel.net/\">" . strtoupper($channelKey);
 														$html .= " <span class=\"jagaBadge\">$postCount</span>";
 													$html .= "</a></li>\n";
-												// }
 												}
-												$i++;
+												if ($j == 3) {
+													$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/subscriptions/\"><em>See ALL subscriptions...</em></a></li>\n";
+												}
+												$j++;
 											}
 
-											$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/subscriptions/\"><em>Manage Subscriptions...</em></a></li>\n";
+											$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/manage-subscriptions/\"><em>Manage Subscriptions...</em></a></li>\n";
 											$html .= "\t\t\t\t\t\t\t</ul>\n";
 				
 										}
@@ -679,26 +721,24 @@ class MenuView {
 									// print_r($userOwnChannelArray);
 									// print_r($userSubscribedChannelArray);
 									
-									$i = 0;
+									$k = 0;
 									foreach ($channelArray AS $channelKey => $totalPosts) {
 
-										// print_r($channelKey);
-										
 										if (
-											!isset($userOwnChannelArray[$channelKey]) && 
-											!isset($userSubscribedChannelArray[$channelKey])
+											!isset($userOwnChannelArray[$channelKey])
+											&& !isset($userSubscribedChannelArray[$channelKey])
+											&& $channelKey != ''
+											&& $channelKey != 'the'
 										) {
-										
-											// if ($i < 15) {
-												if ($channelKey != '' && $channelKey != 'the') {
-													$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://$channelKey.kutchannel.net/\">";
-														$html .= strtoupper($channelKey);
-														$html .= "<span class=\"jagaBadge\">$totalPosts</span>";
-													$html .= "</a></li>\n";
-												}
-											// }
+											if ($k < 14) {
+												$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://$channelKey.kutchannel.net/\">";
+													$html .= strtoupper($channelKey);
+													$html .= "<span class=\"jagaBadge\">$totalPosts</span>";
+												$html .= "</a></li>\n";
+											}
+											$k++;
 										}
-										$i++;
+										
 									}
 
 									$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
@@ -789,56 +829,73 @@ class PageView {
 
 			
 
-				if ($urlArray[0] == '') {
-					
-					$categoryView = new CategoryView();
-					$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
-					
-					
-				} elseif ($urlArray[0] == 'register') {
-					$html .= AuthenticationView::getAuthForm('register', $errorArray);
-				} elseif ($urlArray[0] == 'login') {
-					$html .= AuthenticationView::getAuthForm('login', $errorArray);
-				} elseif ($urlArray[0] == 'logout') {
-					$html .= "logout";
-				} elseif ($urlArray[0] == 'about') {
-					$html .= "about";
-				} elseif ($urlArray[0] == 'tos') {
-					$html .= "tos";
-				} elseif ($urlArray[0] == 'privacy') {
-					$html .= "privacy";
-				} elseif ($urlArray[0] == 'sponsor') {
-					$html .= "sponsor";
-				} elseif ($urlArray[0] == 'sitemap') {
-					$html .= "sitemap";
-				} elseif ($urlArray[0] == 'contact') {
-					$html .= "contact";
-				} elseif ($urlArray[0] == 'k') {
-					$html .= "K is for Kontent";
-				} elseif ($urlArray[0] == 'channels') {
+			if ($urlArray[0] == '') {
+			
+				$categoryView = new CategoryView();
+				$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
 				
-					if ($urlArray[1] == 'create') {
-					
-						$html .= ChannelView::getChannelForm('create', 0, $inputArray, $errorArray);
-						
-					} elseif ($urlArray[1] == 'update') {
-					
-						$channelID = Channel::getChannelID($urlArray[2]);
-						$html .= ChannelView::getChannelForm('update', $channelID, $inputArray, $errorArray);
-						
-					} else {
-					
-						$html .= ChannelView::displayUserChannelList();
-						
-					}
-
+			} elseif ($urlArray[0] == 'register') {
+			
+				$html .= AuthenticationView::getAuthForm('register', $errorArray);
+				
+			} elseif ($urlArray[0] == 'login') {
+			
+				$html .= AuthenticationView::getAuthForm('login', $errorArray);
+				
+			} elseif ($urlArray[0] == 'about') {
+			
+				$html .= "about";
+				
+			} elseif ($urlArray[0] == 'tos') {
+			
+				$html .= "tos";
+				
+			} elseif ($urlArray[0] == 'privacy') {
+			
+				$html .= "privacy";
+				
+			} elseif ($urlArray[0] == 'sponsor') {
+			
+				$html .= "sponsor";
+				
+			} elseif ($urlArray[0] == 'sitemap') {
+			
+				$html .= "sitemap";
+				
+			} elseif ($urlArray[0] == 'contact') {
+			
+				$html .= "contact";
+				
+			} elseif ($urlArray[0] == 'k') {
+			
+				$html .= "K is for Kontent (user posts: /k/&lt;category&gt;/&lt;post&gt;/)";
+				
+			} elseif ($urlArray[0] == 'u') {
+			
+				$username = $urlArray[1];
+				if (!User::usernameExists($username)) { die ('That username does not exist.'); }
+				$html .= "I fight for the Users (user profiles: /u/" . $username . "/)";
+				
+			} elseif ($urlArray[0] == 'manage-channels') {
+			
+				if ($urlArray[1] == 'create') {
+					$html .= ChannelView::getChannelForm('create', 0, $inputArray, $errorArray);
+				} elseif ($urlArray[1] == 'update') {
+					$channelID = Channel::getChannelID($urlArray[2]);
+					$html .= ChannelView::getChannelForm('update', $channelID, $inputArray, $errorArray);
 				} else {
-				
-					$html .= "\t<!-- START 404 TEXT -->\n";
-						$html .= "\t\t<div class=\"container\">404: " . $urlArray[0] . "</div>\n";
-					$html .= "\t<!-- END 404 TEXT -->\n\n";
-					
+					$html .= ChannelView::displayUserChannelList();
 				}
+				
+			} elseif ($urlArray[0] == 'subscriptions') {
+			
+
+				
+			} else {
+				$html .= "\n\n\t<!-- START 404 TEXT -->\n";
+					$html .= "\t\t<div class=\"container\">404: " . $urlArray[0] . "</div>\n";
+				$html .= "\t<!-- END 404 TEXT -->\n\n";
+			}
 		
 			
 			
@@ -987,6 +1044,10 @@ class PageView {
 		return $html;
 		
 	}
+
+}
+
+class SubscriptionView {
 
 }
 
