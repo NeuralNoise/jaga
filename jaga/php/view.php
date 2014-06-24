@@ -558,12 +558,12 @@ class MenuView {
 		$user = new User($_SESSION['userID']);
 		$username = $user->username;
 		
-		$categoryArray = ChannelCategory::getChannelCategoryArray($_SESSION['channelID']);
-		$userOwnChannelArray = Channel::getUserOwnChannelArray($_SESSION['userID']);
-		$userSubscribedChannelArray = Channel::getUserSubscribedChannelArray($_SESSION['userID']);
+		// $categoryArray = ChannelCategory::getChannelCategoryArray($_SESSION['channelID']);
+		// $userOwnChannelArray = Channel::getUserOwnChannelArray($_SESSION['userID']);
+		// $userSubscribedChannelArray = Channel::getUserSubscribedChannelArray($_SESSION['userID']);
 		
 		
-		$channelArray = Channel::getChannelArray();
+		// $channelArray = Channel::getChannelArray();
 
 		$html = "\t<!-- START NAVIGATION DIV -->\n";
 		$html .= "\t<div class=\"navbar-wrapper\">\n\n";
@@ -597,163 +597,66 @@ class MenuView {
 					$html .= "\t\t\t\t<div class=\"collapse navbar-collapse\">\n\n";
 						
 						$html .= "\t\t\t\t\t<ul class=\"nav navbar-nav navbar-right\">\n";
-								
-								
-								
-								
-								
-							
-								
+
 							$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/\"><span class=\"glyphicon glyphicon-home\"></span><span class=\"visible-xs\">HOME</span></a></li>\n";
 							
 							if ($_SESSION['userID'] != 0) {
 								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/newsfeed/\"><span class=\"glyphicon glyphicon-list-alt\"></span><span class=\"visible-xs\">NEWSFEED</span></a></li>\n";
 							}
-								
-							if ($_SESSION['channelID'] != 2006) {
 							
-								
+							
+							
+							// START "THIS CHANNEL" DROPDOWN //
+							if ($_SESSION['channelID'] != 2006) { // the.kutchannel.net categories are aggregate
 								$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"/\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">THIS CHANNEL <b class=\"caret\"></b></a>\n";
 									$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\">\n";
-										
-										$h = 0;
-										foreach ($categoryArray AS $key => $value) {
-											if ($key != '' && $h < 14) {
-												$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/k/$key/\">" . strtoupper($key) . "<span class=\"jagaBadge\">$value</span></a></li>\n";
-											}
-											$h++;
-										}
-										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/k/\">...more</a></li>\n";
+										$html .= self::getNavBarCategoryListItems();
+										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/k/\"><em>ALL CATEGORIES...</em></a></li>\n";
 									$html .= "\t\t\t\t\t\t\t</ul>\n";
 								$html .= "\t\t\t\t\t\t</li>\n";
-								
 							}
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
+							// END "THIS CHANNEL" DROPDOWN //
+							
+							
+							
+							// START "YOUR CHANNELS" DROPDOWN //
 							$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">YOUR CHANNELS <b class=\"caret\"></b></a>\n";
-									
-								
-										if ($_SESSION['userID'] == 0) {
-										
-											$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\">\n";
-												$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/login/\">LOGIN</a></li>\n";
-												$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/register/\">REGISTER</a></li>\n";
-											$html .= "\t\t\t\t\t\t\t</ul>\n";
-											
-										} else {
-
-											$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu jagaDrop\">\n";
-											$i = 0;
-											foreach ($userOwnChannelArray AS $channelKey => $postCount) {
-												if ($i < 3) {
-													$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://$channelKey.kutchannel.net/\">" . strtoupper($channelKey);
-														$html .= " <span class=\"jagaBadge\">$postCount</span>";
-													$html .= "</a></li>\n";
-												}
-												if ($i == 3) {
-													$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/channels/\"><em>See ALL Channels...</em></a></li>\n";
-												}
-												$i++;
-												
-											}
-											
-											$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/manage-channels/\"><em>Manage Channels...</em></a></li>\n";
-				
-				
-											$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
-											
-											$j = 0;
-											foreach ($userSubscribedChannelArray AS $channelKey => $postCount) {
-												if (!isset($userOwnChannelArray[$channelKey]) && $j < 3) {
-													$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://$channelKey.kutchannel.net/\">" . strtoupper($channelKey);
-														$html .= " <span class=\"jagaBadge\">$postCount</span>";
-													$html .= "</a></li>\n";
-												}
-												if ($j == 3) {
-													$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/subscriptions/\"><em>See ALL subscriptions...</em></a></li>\n";
-												}
-												$j++;
-											}
-
-											$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/manage-subscriptions/\"><em>Manage Subscriptions...</em></a></li>\n";
-											$html .= "\t\t\t\t\t\t\t</ul>\n";
-				
-										}
-								
-										
-								
-								
+								if ($_SESSION['userID'] == 0) {
+									$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\">\n";
+										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/login/\">LOGIN</a></li>\n";
+										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/register/\">REGISTER</a></li>\n";
+									$html .= "\t\t\t\t\t\t\t</ul>\n";	
+								} else {
+									$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu jagaDrop\">\n";
+										$html .= self::getNavBarOwnChannelListItems();
+										$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
+										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/channels/\"><em>YOUR CHANNELS...</em></a></li>\n";
+										$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
+										$html .= self::getNavBarSubscriptionListItems();
+										$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
+										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/subscriptions/\"><em>YOUR SUBSCRIPTIONS...</em></a></li>\n";
+									$html .= "\t\t\t\t\t\t\t</ul>\n";
+								}
 							$html .= "\t\t\t\t\t\t</li>\n";
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
+							// END "YOUR CHANNELS" DROPDOWN //
+							
+							
+							
+							// START "EXPLORE" DROPDOWN //
 							$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">EXPLORE <b class=\"caret\"></b></a>\n";
 								$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu jagaDrop\">\n";
-
-									// print_r($userOwnChannelArray);
-									// print_r($userSubscribedChannelArray);
-									
-									$k = 0;
-									foreach ($channelArray AS $channelKey => $totalPosts) {
-
-										if (
-											!isset($userOwnChannelArray[$channelKey])
-											&& !isset($userSubscribedChannelArray[$channelKey])
-											&& $channelKey != ''
-											&& $channelKey != 'the'
-										) {
-											if ($k < 14) {
-												$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://$channelKey.kutchannel.net/\">";
-													$html .= strtoupper($channelKey);
-													$html .= "<span class=\"jagaBadge\">$totalPosts</span>";
-												$html .= "</a></li>\n";
-											}
-											$k++;
-										}
-										
-									}
-
+									$html .= self::getNavBarExploreListItems();
 									$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
-									$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/\">See More Channels...</a></li>\n";
-										
+									$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/\">ALL CHANNELS...</a></li>\n";
 								$html .= "\t\t\t\t\t\t\t</ul>\n";
-								
 							$html .= "\t\t\t\t\t\t</li>\n";
+							// END "EXPLORE" DROPDOWN //
 							
-
-							if ($_SESSION['userID'] == 0) {
-							
-								$html .= "\t\t\t\t\t\t<li><a href=\"/login/\"><span class=\"glyphicon glyphicon-log-in\"></span><span class=\"visible-xs\">LOGIN</span></a></li>\n";
+							if ($_SESSION['userID'] == 0) { // IF NOT LOGGED IN
 								
-							} else {
+								$html .= "\t\t\t\t\t\t<li><a href=\"/login/\"><span class=\"glyphicon glyphicon-log-in\"></span><span class=\"visible-xs\">LOGIN</span></a></li>\n";
+				
+							} else { // IF LOGGED IN
 							
 								$html .= "\t\t\t\t\t\t<li><a href=\"/u/" .  $username . "/\"><span class=\"glyphicon glyphicon glyphicon-user\"></span><span class=\"visible-xs\">PROFILE</span></a></li>\n";
 								
@@ -779,6 +682,93 @@ class MenuView {
 		$html .= "\t</div>\n";
 		$html .= "\t<!-- END NAVIGATION DIV -->\n\n";
 		
+		return $html;
+		
+	}
+	
+	private function getNavBarCategoryListItems() {
+		
+		$categoryArray = ChannelCategory::getChannelCategoryArray($_SESSION['channelID']);
+		$html = '';
+		$h = 0;
+		foreach ($categoryArray AS $key => $value) {
+			if ($key != '' && $h < 14) {
+				$html .= "\t\t\t\t\t\t\t\t<li";
+					if ($h >= 5) { $html .= " class=\"hidden-xs\""; }
+				$html .= "><a href=\"/k/$key/\">" . strtoupper($key) . "<span class=\"jagaBadge\">$value</span></a></li>\n";
+			}
+			$h++;
+		}
+		
+		return $html;
+		
+	}
+	
+	private function getNavBarOwnChannelListItems() {
+
+		$userOwnChannelArray = Channel::getUserOwnChannelArray($_SESSION['userID']);
+		$html = '';
+		$i = 0;
+		foreach ($userOwnChannelArray AS $channelKey => $postCount) {
+			if ($i < 7) {
+				$html .= "\t\t\t\t\t\t\t\t<li";
+					if ($i >= 3) { $html .= " class=\"hidden-xs\""; }
+				$html .= "><a href=\"http://$channelKey.kutchannel.net/\">" . strtoupper($channelKey);
+					$html .= " <span class=\"jagaBadge\">$postCount</span>";
+				$html .= "</a></li>\n";
+				$i++;
+			}
+		}
+		return $html;
+
+		
+	}
+	
+	private function getNavBarSubscriptionListItems() {
+		
+		$userOwnChannelArray = Channel::getUserOwnChannelArray($_SESSION['userID']);
+		$userSubscribedChannelArray = Channel::getUserSubscribedChannelArray($_SESSION['userID']);
+		$html = '';
+		$j = 0;
+		foreach ($userSubscribedChannelArray AS $channelKey => $postCount) {
+			if (!isset($userOwnChannelArray[$channelKey]) && $j < 7) {
+				$html .= "\t\t\t\t\t\t\t\t<li";
+					if ($j >= 3) { $html .= " class=\"hidden-xs\""; }
+				$html .= "><a href=\"http://$channelKey.kutchannel.net/\">" . strtoupper($channelKey);
+					$html .= " <span class=\"jagaBadge\">$postCount</span>";
+				$html .= "</a></li>\n";
+				$j++;
+			}
+		}
+		return $html;
+		
+	}
+
+	private function getNavBarExploreListItems() {
+		
+		$userOwnChannelArray = Channel::getUserOwnChannelArray($_SESSION['userID']);
+		$userSubscribedChannelArray = Channel::getUserSubscribedChannelArray($_SESSION['userID']);
+		$channelArray = Channel::getChannelArray();
+		$html = '';
+		$k = 0;
+		foreach ($channelArray AS $channelKey => $totalPosts) {
+			if (
+				!isset($userOwnChannelArray[$channelKey])
+				&& !isset($userSubscribedChannelArray[$channelKey])
+				&& $channelKey != ''
+				&& $channelKey != 'the'
+			) {
+				if ($k < 14) {
+					$html .= "\t\t\t\t\t\t\t\t<li";
+						if ($k >= 3) { $html .= " class=\"hidden-xs\""; }
+					$html .= "><a href=\"http://$channelKey.kutchannel.net/\">";
+						$html .= strtoupper($channelKey);
+						$html .= "<span class=\"jagaBadge\">$totalPosts</span>";
+					$html .= "</a></li>\n";
+				}
+				$k++;
+			}
+		}
 		return $html;
 		
 	}

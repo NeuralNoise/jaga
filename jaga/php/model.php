@@ -271,9 +271,7 @@ class Channel extends ORM {
 		
 	}
 	
-	/* START STATIC */
-	
-	static function getSelectedChannelID() {
+	public function getSelectedChannelID() {
 	
 		$channelID = 0;
 		
@@ -291,7 +289,7 @@ class Channel extends ORM {
 		
 	}
 
-	static function getChannelID($channelKey) {
+	public function getChannelID($channelKey) {
 	
 		$channelID = 0;
 		$query = "SELECT channelID FROM jaga_Channel WHERE channelKey = '$channelKey' LIMIT 1";
@@ -304,7 +302,7 @@ class Channel extends ORM {
 		
 	}
 	
-	static function getChannelKey($channelID) {
+	public function getChannelKey($channelID) {
 	
 		$channelKey = '';
 		$query = "SELECT channelKey FROM jaga_Channel WHERE channelID = '$channelID' LIMIT 1";
@@ -317,7 +315,7 @@ class Channel extends ORM {
 		
 	}
 
-	static function getThemeKey($channelID) {
+	public function getThemeKey($channelID) {
 	
 		$themeKey = '';
 		
@@ -330,8 +328,6 @@ class Channel extends ORM {
 		return $themeKey;
 		
 	}
-	
-	/* ==> EXTEND ORM */
 	
 }
 
