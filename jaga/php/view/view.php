@@ -709,7 +709,7 @@ class ContentView {
 	
 	*/
 	
-	public static function getContentForm($type, $contentID = 0, $contentCategoryKey = 0, $inputArray = array(), $errorArray = array()) {
+	public static function getContentForm($type, $contentID = 0, $contentCategoryKey = '', $inputArray = array(), $errorArray = array()) {
 	
 		if (empty($inputArray)) {
 		
@@ -733,13 +733,13 @@ class ContentView {
 				$eventStartTime = date('Y-m-d H:i:s');
 				$eventEndTime = date('Y-m-d H:i:s');
 				$contentCoordinates = '42.827200,140.806996';
-				
-			
+
 			} elseif ($type == 'update') {
 
 				$content = new Content($contentID);
 				$channelID = $_SESSION['channelID'];
 				$contentURL = $content->contentURL;
+				$contentCategoryKey = $content->contentCategoryKey;
 				$contentSubmittedByUserID = $content->contentSubmittedByUserID;
 				$contentSubmissionDateTime = $content->contentSubmissionDateTime;
 				$contentPublishStartDate = $content->contentPublishStartDate;
@@ -763,6 +763,7 @@ class ContentView {
 		
 			$channelID = $inputArray['channelID'];
 			$contentURL = $inputArray['contentURL'];
+			$contentCategoryKey = $inputArray['contentCategoryKey'];
 			$contentSubmittedByUserID = $inputArray['contentSubmittedByUserID'];
 			$contentSubmissionDateTime = $inputArray['contentSubmissionDateTime'];
 			$contentPublishStartDate = $inputArray['contentPublishStartDate'];
@@ -826,42 +827,46 @@ class ContentView {
 							
 							
 							
-							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"contentTitleEnglish\" class=\"col-sm-2 control-label\">contentTitleEnglish</label>\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
-									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentTitleEnglish\" name=\"contentTitleEnglish\" class=\"form-control\" placeholder=\"contentTitleEnglish\" value=\"" . $contentTitleEnglish . "\">\n";
-								$html .= "\t\t\t\t\t\t\t</div>\n";
-							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
+							$html .= "<hr />";
 							
+								// START ENGLISH
+								
+								$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+									$html .= "\t\t\t\t\t\t\t<label for=\"contentTitleEnglish\" class=\"col-sm-2 control-label\">contentTitleEnglish</label>\n";
+									$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+										$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentTitleEnglish\" name=\"contentTitleEnglish\" class=\"form-control\" placeholder=\"contentTitleEnglish\" value=\"" . $contentTitleEnglish . "\">\n";
+									$html .= "\t\t\t\t\t\t\t</div>\n";
+								$html .= "\t\t\t\t\t\t</div>\n\n";
+								
+								$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+									$html .= "\t\t\t\t\t\t\t<label for=\"contentEnglish\" class=\"col-sm-2 control-label\">contentEnglish</label>\n";
+									$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+										$html .= "\t\t\t\t\t\t\t\t<textarea rows=\"7\" id=\"contentEnglish\" name=\"contentEnglish\" class=\"form-control\" placeholder=\"contentEnglish\">" . $contentEnglish . "</textarea>\n";
+									$html .= "\t\t\t\t\t\t\t</div>\n";
+								$html .= "\t\t\t\t\t\t</div>\n\n";
+								
+								// END ENGLISH
 							
-							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"contentEnglish\" class=\"col-sm-2 control-label\">contentEnglish</label>\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
-									$html .= "\t\t\t\t\t\t\t\t<textarea id=\"contentEnglish\" name=\"contentEnglish\" class=\"form-control\" placeholder=\"contentEnglish\">" . $contentEnglish . "</textarea>\n";
-								$html .= "\t\t\t\t\t\t\t</div>\n";
-							$html .= "\t\t\t\t\t\t</div>\n\n";
+							$html .= "<hr />";
 							
-							
-							
-							
-							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"contentTitleEnglish\" class=\"col-sm-2 control-label\">contentTitleEnglish</label>\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
-									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentTitleEnglish\" name=\"contentTitleEnglish\" class=\"form-control\" placeholder=\"contentTitleEnglish\" value=\"" . $contentTitleEnglish . "\">\n";
-								$html .= "\t\t\t\t\t\t\t</div>\n";
-							$html .= "\t\t\t\t\t\t</div>\n\n";
-							
-							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"contentJapanese\" class=\"col-sm-2 control-label\">contentJapanese</label>\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
-									$html .= "\t\t\t\t\t\t\t\t<textarea id=\"contentJapanese\" name=\"contentJapanese\" class=\"form-control\" placeholder=\"contentJapanese\">" . $contentJapanese . "</textarea>\n";
-								$html .= "\t\t\t\t\t\t\t</div>\n";
-							$html .= "\t\t\t\t\t\t</div>\n\n";
-							
-							
-							
-							
+								// START JAPANESE
+								
+								$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+									$html .= "\t\t\t\t\t\t\t<label for=\"contentTitleJapanese\" class=\"col-sm-2 control-label\">contentTitleJapanese</label>\n";
+									$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+										$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentTitleJapanese\" name=\"contentTitleJapanese\" class=\"form-control\" placeholder=\"contentTitleJapanese\" value=\"" . $contentTitleJapanese . "\">\n";
+									$html .= "\t\t\t\t\t\t\t</div>\n";
+								$html .= "\t\t\t\t\t\t</div>\n\n";
+								
+								$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+									$html .= "\t\t\t\t\t\t\t<label for=\"contentJapanese\" class=\"col-sm-2 control-label\">contentJapanese</label>\n";
+									$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+										$html .= "\t\t\t\t\t\t\t\t<textarea rows=\"7\" id=\"contentJapanese\" name=\"contentJapanese\" class=\"form-control\" placeholder=\"contentJapanese\">" . $contentJapanese . "</textarea>\n";
+									$html .= "\t\t\t\t\t\t\t</div>\n";
+								$html .= "\t\t\t\t\t\t</div>\n\n";
+
+								// END JAPANESE
 							
 							$html .= "<hr />";
 							

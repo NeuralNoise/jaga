@@ -379,7 +379,7 @@ class ChannelCategory extends ORM {
 	
 }
 
-class Comment {
+class Comment extends ORM {
 
 	public function getComments($contentID) {
 		
