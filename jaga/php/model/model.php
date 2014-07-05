@@ -75,16 +75,23 @@ class Category {
 
 	public function getCategoryContent($channelID, $contentCategoryKey) {
 	
-		$core = Core::getInstance();
+		$currentDate = date('Y-m-d');
 		
 		$query = "
 			SELECT `entryID`, `entryViews`
 			FROM `jaga_content`
 			WHERE siteID = :channelID
+			AND entryPublished =1
+			AND entryPublishStartDate <=  '$currentDate'
+			AND (
+				entryPublishEndDate >=  '$currentDate'
+				OR entryPublishEndDate =  '0000-00-00'
+			)
 			AND contentCategoryKey = :contentCategoryKey
-			ORDER BY entrySubmissionDateTime DESC
+			ORDER BY entryLastModified DESC
 		";
 		
+		$core = Core::getInstance();
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':channelID' => $channelID, ':contentCategoryKey' => $contentCategoryKey));
 		
@@ -374,60 +381,49 @@ class ChannelCategory extends ORM {
 
 class Comment {
 
+	public function getComments($contentID) {
+		
+		$channelID = $_SESSION['channelID'];
+	
+		$core = Core::getInstance();
+		$query = "
+			SELECT userID, commentDateTime, commentContent
+			FROM jaga_comment 
+			WHERE contentID = :contentID
+			AND siteID = :channelID
+		";
+
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':contentID' => $contentID, ':channelID' => $channelID));
+		$comments = $statement->fetchAll();
+		
+		return $comments;
+	}
+	
 }
 
-class Content {
-	
-	
-	
+class Content extends ORM {
+
 	public $contentID;
 	public $channelID;
+	public $contentURL;
 	public $contentCategoryKey;
-	public $entrySeoURL;
 	public $contentSubmittedByUserID;
 	public $contentSubmissionDateTime;
-	public $contentURL;
+	public $contentPublishStartDate;
+	public $contentPublishEndDate;
+	public $contentLastModified;
 	public $contentTitleEnglish;
 	public $contentTitleJapanese;
 	public $contentEnglish;
 	public $contentJapanese;
+	public $contentPublished;
 	public $contentViews;
-
-	/*
-		CREATE TABLE IF NOT EXISTS `jaga_content` (
-		  `entryID` int(8) NOT NULL AUTO_INCREMENT,
-		  `channelID` int(8) NOT NULL,
-		  `entrychannelID` int(8) NOT NULL,
-		  `entryUrl` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-		  `entrySeoURL` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-		  `contentCategoryKey` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-		  `entryCategoryID` int(8) NOT NULL,
-		  `entrySubmittedByUserID` int(8) NOT NULL,
-		  `entrySubmissionDateTime` datetime NOT NULL,
-		  `entryPublishStartDate` date NOT NULL,
-		  `entryPublishEndDate` date NOT NULL,
-		  `entryLastModified` datetime NOT NULL,
-		  `entryTitleEnglish` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-		  `entryTitleJapanese` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-		  `entryContentEnglish` text COLLATE utf8_unicode_ci NOT NULL,
-		  `entryContentJapanese` text COLLATE utf8_unicode_ci NOT NULL,
-		  `entrySortOrder` int(8) NOT NULL,
-		  `pageID` int(8) NOT NULL,
-		  `entryPublished` int(1) NOT NULL,
-		  `entryViews` int(12) NOT NULL,
-		  `useLeftColumn` int(1) NOT NULL,
-		  `useRightColumn` int(1) NOT NULL,
-		  `entryKeywordMeta` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-		  `entryDescriptionMeta` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-		  `oldJoomlaID` int(11) NOT NULL,
-		  `isEvent` int(1) NOT NULL,
-		  `eventDate` date NOT NULL,
-		  `eventStartTime` time NOT NULL,
-		  `eventEndTime` time NOT NULL,
-		  `contentCoordinates` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-		  PRIMARY KEY (`entryID`)
-		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9999900 ;
-	*/
+	public $isEvent;
+	public $eventDate;
+	public $eventStartTime;
+	public $eventEndTime;
+	public $contentCoordinates;
 	
 	public function __construct($contentID) {
 	
@@ -440,54 +436,107 @@ class Content {
 	
 			$this->contentID = $row['entryID'];
 			$this->channelID = $row['siteID'];
-			$this->contentCategoryKey = $row['contentCategoryKey'];
 			$this->contentURL = $row['entrySeoURL'];
+			$this->contentCategoryKey = $row['contentCategoryKey'];
 			$this->contentSubmittedByUserID = $row['entrySubmittedByUserID'];
 			$this->contentSubmissionDateTime = $row['entrySubmissionDateTime'];
+			$this->contentPublishStartDate = $row['entryPublishStartDate'];
+			$this->contentPublishEndDate = $row['entryPublishEndDate'];
+			$this->contentLastModified = $row['entryLastModified'];
 			$this->contentTitleEnglish = $row['entryTitleEnglish'];
 			$this->contentTitleJapanese = $row['entryTitleJapanese'];
 			$this->contentEnglish = $row['entryContentEnglish'];
 			$this->contentJapanese = $row['entryContentJapanese'];
+			$this->contentPublished = $row['entryPublished'];
 			$this->contentViews = $row['entryViews'];
+			$this->isEvent = $row['isEvent'];
+			$this->eventDate = $row['eventDate'];
+			$this->eventStartTime = $row['eventStartTime'];
+			$this->eventEndTime = $row['eventEndTime'];
+			$this->contentCoordinates = $row['contentCoordinates'];
 			
 		}
+		
+	/*
+		CREATE TABLE IF NOT EXISTS `jaga_content` (
+		  `entryID` int(8) NOT NULL AUTO_INCREMENT,
+		  `siteID` int(8) NOT NULL,
+		  `entrySeoURL` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+		  `contentCategoryKey` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+		  `entrySubmittedByUserID` int(8) NOT NULL,
+		  `entrySubmissionDateTime` datetime NOT NULL,
+		  `entryPublishStartDate` date NOT NULL,
+		  `entryPublishEndDate` date NOT NULL,
+		  `entryLastModified` datetime NOT NULL,
+		  `entryTitleEnglish` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+		  `entryTitleJapanese` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+		  `entryContentEnglish` text COLLATE utf8_unicode_ci NOT NULL,
+		  `entryContentJapanese` text COLLATE utf8_unicode_ci NOT NULL,
+		  `entryPublished` int(1) NOT NULL,
+		  `entryViews` int(12) NOT NULL,
+		  `isEvent` int(1) NOT NULL,
+		  `eventDate` date NOT NULL,
+		  `eventStartTime` time NOT NULL,
+		  `eventEndTime` time NOT NULL,
+		  `contentCoordinates` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+		  PRIMARY KEY (`entryID`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9999900 ;	
+	*/		
+		
 	}
 	
 	public function getContent($contentID) {
 	
 	}
 	
+	public function getContentID($contentURL) {
+		
+		$core = Core::getInstance();
+		$query = "SELECT entryID FROM jaga_content WHERE entrySeoURL = :contentURL LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':contentURL' => $contentURL));
+		if ($row = $statement->fetch()) {
+			return $row['entryID'];
+		} else {
+			die($contentURL);
+		}
+		
+	}
+	
 	public function getContentArray($contentCategoryKey) {
 	
 	}
 	
-	public function getContentList($contentCategoryKey = 'forum', $limitClausePage = 1) {
+	public function getContentListArray($channelID, $contentCategoryKey, $limitClausePage) {
 
 			$limitClausePageAdjusted = $limitClausePage - 1;
 			$entriesPerPage = 25;
 			$firstRecord = $limitClausePageAdjusted * $entriesPerPage;
 			$limitClause = "LIMIT $firstRecord, $entriesPerPage";
 			$currentDate = date('Y-m-d');
-			$channelID = 14;
-
 
 			$query = "
 				SELECT * FROM jaga_content 
-				WHERE contentCategoryKey = '$contentCategoryKey'
+				WHERE contentCategoryKey = :contentCategoryKey
 					AND entryPublished = 1 
 					AND entryPublishStartDate <= '$currentDate' 
 					AND (entryPublishEndDate >= '$currentDate' OR entryPublishEndDate = '0000-00-00')
-					AND channelID = '$channelID'
+					AND siteID = :channelID
 				ORDER BY entryLastModified DESC
 				$limitClause
 			";
 
-			$core = Core::getInstance();
-			$statement = $core->database->query($query);
-			$row = $statement->fetchAll();
+			// print_r($query);
 			
-			echo $query . '<hr />';
-			print_r($row);
+			$core = Core::getInstance();
+			$statement = $core->database->prepare($query);
+			$statement->execute(array(':channelID' => $channelID, ':contentCategoryKey' => $contentCategoryKey));
+			
+			$contentListArray = array();
+			while ($row = $statement->fetch()) { $contentListArray[$row['entryID']] = $row['entrySeoURL']; }
+			return $contentListArray;
+			
+
 		
 	}
 

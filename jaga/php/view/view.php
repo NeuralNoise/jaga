@@ -234,6 +234,45 @@ class CategoryView {
 		return $html;	
 	}
 	
+	public function displayChannelCategoryList($channelID) {
+		
+		$categoryArray = ChannelCategory::getChannelCategoryArray($channelID);
+
+		$html = "\n\n\t<!-- START CATEGORY LIST -->\n";
+		$html .= "\t<div class=\"container\">\n";
+			
+			$html .= "\t\t<!-- START PANEL -->\n";
+			$html .= "\t\t<div class=\"panel panel-default\">\n\n";
+				$html .= "\t\t\t<div class=\"panel-heading jagaContentPanelHeading\"><h4>THIS CHANNEL'S CATEGORIES</h4></div>\n";
+				$html .= "\t\t\t<div class=\"table-responsive\">\n";
+					$html .= "\t\t\t\t<table class=\"table table-hover\">\n";
+						$html .= "<thead>\n";
+							$html .= "<tr>";
+								$html .= "<th>contentCategoryKey</th>\n";
+								$html .= "<th>postCount</th>\n";
+							$html .= "</tr>";
+						$html .= "</thead>\n";
+						$html .= "<tbody>\n";
+						
+							foreach ($categoryArray AS $contentCategoryKey => $postCount) {
+								$html .= "\t\t\t\t<tr class=\"jagaClickableRow\" data-url=\"/k/" . $contentCategoryKey . "/\">\n";
+									$html .= "\t\t\t\t\t<td>" . $contentCategoryKey . "</td>\n";
+									$html .= "\t\t\t\t\t<td>" . $postCount . "</td>\n";
+								$html .= "\t\t\t\t</tr>\n";
+							}
+							
+						$html .= "</tbody>\n";
+					$html .= "\t\t\t\t</table>\n";
+				$html .= "\t\t</div>\n\n";
+			$html .= "\t\t</div>\n";
+			$html .= "\t\t<!-- END PANEL -->\n\n";
+		$html .= "\t</div>\n";
+		$html .= "\t<!-- END CATEGROY LIST -->\n\n";
+
+		return $html;
+		
+	}
+	
 }
 
 class ChannelView {
@@ -446,6 +485,7 @@ class ChannelView {
 	public static function displayUserChannelList() {
 	
 		$channelArray = Channel::getUserOwnChannelArray($_SESSION['userID']);
+
 		$html = '';
 		
 		$html .= "\t<!-- START CHANNEL LIST -->\n";
@@ -467,7 +507,7 @@ class ChannelView {
 							$html .= "</tr>";
 						$html .= "</thead>\n";
 						$html .= "<tbody>\n";
-						
+
 							foreach ($channelArray AS $channelKey => $totalPosts) {
 							
 								$channelID = Channel::getChannelID($channelKey);
@@ -510,6 +550,33 @@ class ChannelView {
 	
 }
 
+class CommentView {
+	
+	function displayContentCommentsView($contentID) {
+	
+		$comments = Comment::getComments($contentID);
+	
+		$html = '';
+		foreach ($comments AS $comment) {
+			$html .= "\n\t<!-- START COMMENT -->\n";
+			$html .= "\t<div class=\"container\">\n\n";
+				$html .= "\t\t<div class=\"panel panel-info\">\n";
+					$html .= "\t\t\t<div class=\"panel-heading jagaCommentPanelHeading\">";
+						$html .= "<h5 style=\"text-align:right;\">" . $comment['userID'] . " - " . $comment['commentDateTime'] .= "</h5>";
+					$html .= "</div>\n";
+					$html .= "\t\t\t<div class=\"panel-body\">\n";
+						$html .= $comment['commentContent'];
+					$html .= "\n\t\t\t</div>\n";
+				$html .= "\t\t</div>\n";
+			$html .= "\n\t</div>\n";
+			$html .= "\t<!-- END COMMENT -->\n\n";
+		}
+		return $html;
+	
+	}
+
+}
+
 class ContentView {
 
 	function displayContentForm(
@@ -531,20 +598,299 @@ class ContentView {
 
 	}
 
-	function displayContentView($entryID) {
+	public function displayContentView($contentID) {
 	
 		$core = Core::getInstance();
-		$query = "SELECT entryContentEnglish AS content FROM jaga_content WHERE entryID = :entryID LIMIT 1";
+		$query = "
+			SELECT entryContentEnglish AS content, entryTitleEnglish AS title
+			FROM jaga_content 
+			WHERE entryID = :contentID 
+			LIMIT 1
+		";
+		
 		$statement = $core->database->prepare($query);
-		$statement->execute(array(':entryID' => $entryID));
+		$statement->execute(array(':contentID' => $contentID));
 		if ($row = $statement->fetch()) {
-			return $row['content'];
+		
+			$html = "\n\t<!-- START CONTENT -->\n";
+			$html .= "\t<div class=\"container\">\n\n";
+				$html .= "\t<div class=\"panel panel-default\">\n";
+					$html .= "\t\t<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . $row['title'] . "</h4></div>\n";
+					$html .= "\t\t<div class=\"panel-body\">\n\n";
+						$html .= $row['content'];
+					$html .= "\n\t\t</div>\n";
+				$html .= "\t</div>\n";
+			$html .= "\t</div>\n";
+			$html .= "\t<!-- END CONTENT -->\n\n";
+		
+			return $html;
+
 		} else {
-			die ("ContentView::displayContentView(\$entryID) cannot find your content.");
+		
+			die ("ContentView::displayContentView(\$contentURL) cannot find your content.");
+			
 		}
 	
 	}
 
+	public function displayChannelContentList($channelID, $contentCategoryKey) {
+
+		$contentArray = Content::getContentListArray($channelID, $contentCategoryKey, 1);
+
+		$html = "\t<!-- START CHANNEL LIST -->\n";
+		$html .= "\t<div class=\"container\">\n\n";
+		
+			$html .= "<div class=\"panel panel-default\">\n";
+		
+		
+				$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . strtoupper($contentCategoryKey) . "</h4></div>\n";
+				$html .= "<ul class=\"list-group\">\n";
+
+				
+					foreach ($contentArray as $contentID => $contentURL) {
+					
+						$content = new Content($contentID);
+						$contentTitle = $content->contentTitleEnglish;
+						$contentViews = $content->contentViews;
+
+						$html .= "<a href=\"/k/" . $contentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
+							$html .= "<span class=\"jagaListGroup\">";
+								$html .= "<span class=\"jagaListGroupBadge\">" . $contentViews . "</span>";
+								$html .=  $contentTitle;
+							$html .= "</span>";
+						$html .= "</a>\n";
+						
+					}
+					
+					
+					
+					
+
+					$html .= "<a href=\"/k/" . $contentCategoryKey . "/\" class=\"list-group-item jagaListGroupItemMore\">";
+						$html .= "MORE <span class=\"glyphicon glyphicon-arrow-right\"></span>";
+					$html .= "</a>\n";
+					
+				$html .= "</ul>\n";
+				
+			$html .= "</div>\n";
+			
+		$html .= "</div>\n";
+
+		return $html;	
+
+	
+	}
+	
+	/*
+	
+		CREATE TABLE IF NOT EXISTS `jaga_content` (
+		  `entryID` int(8) NOT NULL AUTO_INCREMENT,
+		  `siteID` int(8) NOT NULL,
+		  `entrySeoURL` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+		  `contentCategoryKey` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+		  `entrySubmittedByUserID` int(8) NOT NULL,
+		  `entrySubmissionDateTime` datetime NOT NULL,
+		  `entryPublishStartDate` date NOT NULL,
+		  `entryPublishEndDate` date NOT NULL,
+		  `entryLastModified` datetime NOT NULL,
+		  `entryTitleEnglish` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+		  `entryTitleJapanese` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+		  `entryContentEnglish` text COLLATE utf8_unicode_ci NOT NULL,
+		  `entryContentJapanese` text COLLATE utf8_unicode_ci NOT NULL,
+		  `entryPublished` int(1) NOT NULL,
+		  `entryViews` int(12) NOT NULL,
+		  `isEvent` int(1) NOT NULL,
+		  `eventDate` date NOT NULL,
+		  `eventStartTime` time NOT NULL,
+		  `eventEndTime` time NOT NULL,
+		  `contentCoordinates` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+		  PRIMARY KEY (`entryID`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9999900 ;	
+	
+	*/
+	
+	public static function getContentForm($type, $contentID = 0, $contentCategoryKey = 0, $inputArray = array(), $errorArray = array()) {
+	
+		if (empty($inputArray)) {
+		
+			if ($type == 'create') {
+
+				$channelID = $_SESSION['channelID'];
+				$contentURL = '';
+				$contentSubmittedByUserID = $_SESSION['userID'];
+				$contentSubmissionDateTime = date('Y-m-d H:i:s');
+				$contentPublishStartDate = date('Y-m-d H:i:s');
+				$contentPublishEndDate = '0000-00-00 00:00:00';
+				$contentLastModified = '0000-00-00 00:00:00';
+				$contentTitleEnglish = '';
+				$contentTitleJapanese = '';
+				$contentEnglish = '';
+				$contentJapanese = '';
+				$contentPublished = 1;
+				$contentViews = 0;
+				$isEvent = 0;
+				$eventDate = '';
+				$eventStartTime = date('Y-m-d H:i:s');
+				$eventEndTime = date('Y-m-d H:i:s');
+				$contentCoordinates = '42.827200,140.806996';
+				
+			
+			} elseif ($type == 'update') {
+
+				$content = new Content($contentID);
+				$channelID = $_SESSION['channelID'];
+				$contentURL = $content->contentURL;
+				$contentSubmittedByUserID = $content->contentSubmittedByUserID;
+				$contentSubmissionDateTime = $content->contentSubmissionDateTime;
+				$contentPublishStartDate = $content->contentPublishStartDate;
+				$contentPublishEndDate = $content->contentPublishEndDate;
+				$contentLastModified = $content->contentLastModified;
+				$contentTitleEnglish = $content->contentTitleEnglish;
+				$contentTitleJapanese = $content->contentTitleJapanese;
+				$contentEnglish = $content->contentEnglish;
+				$contentJapanese = $content->contentJapanese;
+				$contentPublished = $content->contentPublished;
+				$contentViews = $content->contentViews;
+				$isEvent = $content->isEvent;
+				$eventDate = $content->eventDate;
+				$eventStartTime = $content->eventStartTime;
+				$eventEndTime = $content->eventEndTime;
+				$contentCoordinates = $content->contentCoordinates;
+
+			}
+			
+		} else {
+		
+			$channelID = $inputArray['channelID'];
+			$contentURL = $inputArray['contentURL'];
+			$contentSubmittedByUserID = $inputArray['contentSubmittedByUserID'];
+			$contentSubmissionDateTime = $inputArray['contentSubmissionDateTime'];
+			$contentPublishStartDate = $inputArray['contentPublishStartDate'];
+			$contentPublishEndDate = $inputArray['contentPublishEndDate'];
+			$contentLastModified = $inputArray['contentLastModified'];
+			$contentTitleEnglish = $inputArray['contentTitleEnglish'];
+			$contentTitleJapanese = $inputArray['contentTitleJapanese'];
+			$contentEnglish = $inputArray['contentEnglish'];
+			$contentJapanese = $inputArray['contentJapanese'];
+			$contentPublished = $inputArray['contentPublished'];
+			$contentViews = $inputArray['contentViews'];
+			$isEvent = $inputArray['isEvent'];
+			$eventDate = $inputArray['eventDate'];
+			$eventStartTime = $inputArray['eventStartTime'];
+			$eventEndTime = $inputArray['eventEndTime'];
+			$contentCoordinates = $inputArray['contentCoordinates'];
+
+		}
+		
+
+		if ($type == 'create') { $formURL = "/k/create/"; } elseif ($type == 'update') { $formURL = "/k/update/" . $contentID . "/"; }
+		
+		$html = "\n\t<!-- START CONTENT CONTAINER -->\n";
+		$html .= "\t<div class=\"container\">\n\n";
+		
+			$html .= "\t\t<!-- START jagaContent -->\n";
+			$html .= "\t\t<div id=\"jagaContent\" class=\"\">\n\n";
+
+				$html .= "\t\t\t<!-- START PANEL -->\n";
+				$html .= "\t\t\t<div class=\"panel panel-default\" >\n\n";
+					
+					$html .= "\t\t\t\t<!-- START PANEL-HEADING -->\n";
+					$html .= "\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n\n";
+						
+						$html .= "\t\t\t\t\t<div class=\"panel-title\">" . strtoupper($type) . " CONTENT</div>\n";
+					
+					$html .= "\t\t\t\t</div>\n";
+					$html .= "\t\t\t\t<!-- END PANEL-HEADING -->\n\n";
+					
+					$html .= "\t\t\t\t<!-- START PANEL-BODY -->\n";
+					$html .= "\t\t\t\t<div class=\"panel-body\">\n\n";
+						
+						$html .= "\t\t\t\t\t<!-- START jagaContentForm -->\n";
+						
+						$html .= "\t\t\t\t\t<form role=\"form\" id=\"jagaContentForm\" name=\"jagaContentForm\" class=\"form-horizontal\"  method=\"post\" action=\"" . $formURL . "\">\n\n";
+					
+							if ($type == 'update') { $html .= "<input type=\"hidden\" name=\"contentID\" value=\"" . $contentID . "\">\n"; }
+
+							
+							
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"contentCategoryKey\" class=\"col-sm-2 control-label\">contentCategoryKey</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentCategoryKey\" name=\"contentCategoryKey\" class=\"form-control\" placeholder=\"contentCategoryKey\" value=\"" . $contentCategoryKey . "\">\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+							
+							
+							
+							
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"contentTitleEnglish\" class=\"col-sm-2 control-label\">contentTitleEnglish</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentTitleEnglish\" name=\"contentTitleEnglish\" class=\"form-control\" placeholder=\"contentTitleEnglish\" value=\"" . $contentTitleEnglish . "\">\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+							
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"contentEnglish\" class=\"col-sm-2 control-label\">contentEnglish</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<textarea id=\"contentEnglish\" name=\"contentEnglish\" class=\"form-control\" placeholder=\"contentEnglish\">" . $contentEnglish . "</textarea>\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+							
+							
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"contentTitleEnglish\" class=\"col-sm-2 control-label\">contentTitleEnglish</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentTitleEnglish\" name=\"contentTitleEnglish\" class=\"form-control\" placeholder=\"contentTitleEnglish\" value=\"" . $contentTitleEnglish . "\">\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"contentJapanese\" class=\"col-sm-2 control-label\">contentJapanese</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<textarea id=\"contentJapanese\" name=\"contentJapanese\" class=\"form-control\" placeholder=\"contentJapanese\">" . $contentJapanese . "</textarea>\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+							
+							
+							
+							
+							$html .= "<hr />";
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaContentSubmit\" id=\"jagaContentSubmit\" class=\"btn btn-default jagaFormButton col-xs-8 col-sm-6 col-md-4 pull-right\" value=\"" . $type . "\">\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+								
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+
+						$html .= "\t\t\t\t\t</form>\n";
+						$html .= "\t\t\t\t\t<!-- END jagaContentForm -->\n\n";
+			
+					$html .= "\t\t\t\t</div>\n";
+					$html .= "\t\t\t\t<!-- END PANEL-BODY -->\n\n";
+			
+				$html .= "\t\t\t</div>\n";
+				$html .= "\t\t\t<!-- END PANEL -->\n\n";
+			
+			$html .= "\t\t</div>\n";
+			$html .= "\t\t<!-- END jagaContent -->\n\n";
+
+		$html .= "\t</div>\n";
+		$html .= "\t<!-- END CONTENT CONTAINER -->\n\n";
+			
+		return $html;
+
+	}
 
 }
 
@@ -858,7 +1204,67 @@ class PageView {
 				
 			} elseif ($urlArray[0] == 'k') {
 			
-				$html .= "K is for Kontent (user posts: /k/&lt;category&gt;/&lt;post&gt;/)";
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+				if ($urlArray[1] == '') { // /k/
+				
+					$html .= CategoryView::displayChannelCategoryList($_SESSION['channelID']);
+				
+				} elseif ($urlArray[1] == 'update') { // /k/update/<contentID>/
+						
+					$html .= ContentView::getContentForm('update', $urlArray[2], '', $inputArray, $errorArray);
+						
+				} else {
+				
+					if ($urlArray[2] == '') { // /k/<contentCategoryKey>/
+						
+						$html .= ContentView::displayChannelContentList($_SESSION['channelID'],$urlArray[1]);
+
+					} elseif ($urlArray[2] == 'create') { // /k/<contentCategoryKey>/create/
+					
+						$html .= ContentView::getContentForm('create', 0, $urlArray[1],$inputArray, $errorArray);
+						
+					} else { // /k/<contentCategoryKey>/<contentURL>/
+					
+						$contentID = Content::getContentID($urlArray[2]);
+						$html .= ContentView::displayContentView($contentID);
+						$html .= CommentView::displayContentCommentsView($contentID);
+						
+					}
+					
+				}
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				
 			} elseif ($urlArray[0] == 'u') {
 			

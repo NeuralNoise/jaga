@@ -110,7 +110,7 @@ class Controller {
 			header("Content-type: text/css");
 			return $css;
 			
-		} elseif ($urlArray[0] == 'channels') {
+		} elseif ($urlArray[0] == 'manage-channels') {
 
 			// LOGGED IN USERS ONLY
 			if ($_SESSION['userID'] == 0) { die('you are not logged in'); }
@@ -191,7 +191,7 @@ class Controller {
 						
 							// START ChannelCategory //
 							
-							$oldCategoryArray = array_keys(Channel::getChannelCategoryArray($channelID));
+							$oldCategoryArray = array_keys(ChannelCategory::getChannelCategoryArray($channelID));
 							$newCategoryArray = $inputArray['contentCategoryKey'];
 							
 							// if the old ain't in the new, delete it
@@ -217,7 +217,7 @@ class Controller {
 							// END ChannelCategory //
 
 						// die ();
-						header("Location: /channels/");
+						header("Location: /manage-channels/");
 						
 					}
 
@@ -268,8 +268,7 @@ class Core {
         }
         return self::$instance;
     }
-
-    // globals here
+	
 }
 
 class ORM {
