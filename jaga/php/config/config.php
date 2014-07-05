@@ -1,18 +1,29 @@
 <?php
 
-require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/controller/Config.php');
-require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/controller/Controller.php');
-require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/controller/Core.php');
-require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/controller/ORM.php');
-require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/controller/Session.php');
+	// CONTROLLER
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/controller/Config.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/controller/Controller.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/controller/Core.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/controller/ORM.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/controller/Session.php');
 
-require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/model.php');
+	
+	// MODEL
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/model.php');
 
-require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/view.php');
+	// VIEW
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/view.php');
 
-Config::write('db.host', 'localhost');
-Config::write('db.basename', 'kutchannelDB');
-Config::write('db.user', 'kutchannel');
-Config::write('db.password', 'KiyEthPK6M');
+
+	
+	// DB: apply gitignore to taterbase.php
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/config/taterbase.php');
+
+	/* taterbase.php requires following 4 lines: */
+
+	// Config::write('db.host', 'localhost');
+	// Config::write('db.basename', 'dbname');
+	// Config::write('db.user', 'dbuser');
+	// Config::write('db.password', 'XXXXXXXX');
 
 ?>
