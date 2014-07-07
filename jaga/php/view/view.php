@@ -1181,6 +1181,16 @@ class PageView {
 			
 			
 				if ($urlArray[1] == '') { // /k/
+					
+					$channel = new Channel($_SESSION['channelID']);
+					$channelKey = $channel->channelKey;
+					$channelTitle = $channel->channelTitleEnglish;
+					
+					$html .= "<div class=\"container\"><ol class=\"breadcrumb\">";
+						$html .= "<li><a href=\"http://the.kutchannel.net/\">The Kutchannel</a></li>";
+						$html .= "<li><a href=\"http://" . $channelKey . ".kutchannel.net/\">" . $channelTitle . "</a></li>";
+						// $html .= "<li class=\"active\">Data</li>";
+					$html .= "</ol></div>";
 				
 					$html .= CategoryView::displayChannelCategoryList($_SESSION['channelID']);
 				
@@ -1190,25 +1200,42 @@ class PageView {
 						
 				} elseif ($urlArray[1] == 'create') { // /k/create/<contentCategoryKey>/
 					
-					
-					// print_r($inputArray);
 					if (isset($inputArray['contentCategoryKey'])) {
 						$contentCategoryKey = $inputArray['contentCategoryKey'];
 					} else {
 						$contentCategoryKey = $urlArray[2];
 					}
-					
-					
-					
+
 					$html .= ContentView::getContentForm('create', 0, $contentCategoryKey, $inputArray, $errorArray);
 				
 				} else {
 				
 					if ($urlArray[2] == '') { // /k/<contentCategoryKey>/
 						
+						$channel = new Channel($_SESSION['channelID']);
+						$channelKey = $channel->channelKey;
+						$channelTitle = $channel->channelTitleEnglish;
+						
+						$html .= "<div class=\"container\"><ol class=\"breadcrumb\">";
+							$html .= "<li><a href=\"http://the.kutchannel.net/\">The Kutchannel</a></li>";
+							$html .= "<li><a href=\"http://" . $channelKey . ".kutchannel.net/\">" . $channelTitle . "</a></li>";
+							$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "\">" . $urlArray[1] . "</a></li>";
+						$html .= "</ol></div>";
+					
 						$html .= ContentView::displayChannelContentList($_SESSION['channelID'],$urlArray[1]);
 
 					} else { // /k/<contentCategoryKey>/<contentURL>/
+					
+						$channel = new Channel($_SESSION['channelID']);
+						$channelKey = $channel->channelKey;
+						$channelTitle = $channel->channelTitleEnglish;
+						
+						$html .= "<div class=\"container\"><ol class=\"breadcrumb\">";
+							$html .= "<li><a href=\"http://the.kutchannel.net/\">The Kutchannel</a></li>";
+							$html .= "<li><a href=\"http://" . $channelKey . ".kutchannel.net/\">" . $channelTitle . "</a></li>";
+							$html .= "<li><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "\">" . $urlArray[1] . "</a></li>";
+							$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "/" . $urlArray[2] . "\">" . $urlArray[2] . "</a></li>";
+						$html .= "</ol></div>";
 					
 						$contentID = Content::getContentID($urlArray[2]);
 						$html .= ContentView::displayContentView($contentID);
@@ -1269,7 +1296,7 @@ class PageView {
 			
 			
 			
-			// if ($_SESSION['userID'] == 2) {
+			if ($_SESSION['userID'] == 2) {
 			
 				$html .= "\t<div class=\"container\">\n";
 
@@ -1310,7 +1337,7 @@ class PageView {
 					
 				$html .= "\t</div>\n";
 			
-			// }
+			}
 		
 		$html .= $this->getFooter();
 		
