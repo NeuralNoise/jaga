@@ -69,7 +69,14 @@ class Controller {
 					$authSession->createAuthSession();
 					
 					// terminate script; forward header
-					header("Location: /");
+					if (isset($_SESSION['loginForwardURL'])) {
+						$forwardURL = $_SESSION['loginForwardURL'];
+						Session::unsetSession('loginForwardURL');
+						header("Location: $forwardURL");
+					} else {
+						$forwardURL = '/';
+					}
+					header("Location: $forwardURL");
 					
 				}
 				
@@ -253,8 +260,16 @@ class Controller {
 			
 		} elseif ($urlArray[0] == 'k' && ($urlArray[1] == 'update' || $urlArray[1] == 'create')) {
 		
+			// INITIALIZE $inputArray and $errorArray
+			$inputArray = array();
+			$errorArray = array();
+			
+			
 			// LOGGED IN USERS ONLY
-			if ($_SESSION['userID'] == 0) { die('you are not logged in'); }
+			if ($_SESSION['userID'] == 0) {
+				Session::setSession('loginForwardURL', $_SERVER['REQUEST_URI']);
+				header("Location: /login/");
+			}
 		
 			// CONTENT OWNER ONLY FOR UPDATE
 			if ($urlArray[1] == 'update') {
@@ -267,10 +282,6 @@ class Controller {
 					if ($_SESSION['userID'] != $contentSubmittedByUserID) { die ('You can only edit your own content.'); }
 				}
 			}
-			
-			// INITIALIZE $inputArray and $errorArray
-			$inputArray = array();
-			$errorArray = array();
 			
 			// IF USER INPUT EXISTS
 			if (!empty($_POST)) {

@@ -1269,7 +1269,7 @@ class PageView {
 			
 			
 			
-			if ($_SESSION['userID'] == 2) {
+			// if ($_SESSION['userID'] == 2) {
 			
 				$html .= "\t<div class=\"container\">\n";
 
@@ -1310,7 +1310,7 @@ class PageView {
 					
 				$html .= "\t</div>\n";
 			
-			}
+			// }
 		
 		$html .= $this->getFooter();
 		
