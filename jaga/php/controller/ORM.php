@@ -4,6 +4,8 @@ class ORM {
 
 	public function insert($object) {
 	
+		// print_r($object);
+	
 		$objectName = get_class($object);
 		$objectVariableArray = get_object_vars($object);
 		$objectPropertyArray = array_keys($objectVariableArray);
@@ -14,9 +16,14 @@ class ORM {
 		// create insert query
 		$query = "INSERT INTO $tableName (" . implode(', ', $objectPropertyArray) . ") VALUES (:" . implode(', :', $objectPropertyArray) . ")";
 		
+		// print_r($query);
+		
 		// build prepared statement
 		$core = Core::getInstance();
 		$statement = $core->database->prepare($query);
+		
+		// print_r($statement);
+		
 		foreach ($objectVariableArray AS $property => $value) {
 			$attribute = ':' . $property;
 			$statement->bindValue($attribute, $value);
@@ -33,9 +40,8 @@ class ORM {
 	
 	public function update($object, $conditions) {
 		
-		print_r($object);
-		
 		$objectName = get_class($object);
+		// print_r($object);
 		$objectVariableArray = get_object_vars($object);
 		$tablePrefix = self::getTablePrefix();
 		$tableName = $tablePrefix . $objectName;
@@ -52,7 +58,7 @@ class ORM {
 		// create insert query
 		$query = "UPDATE $tableName SET $shaggyString WHERE $scoobyString LIMIT 1";
 		
-		print_r($query);
+		// print_r($query);
 		// build prepared statement
 		
 		$core = Core::getInstance();
@@ -69,7 +75,7 @@ class ORM {
 		}
 		
 		// execute
-		if (!$statement->execute()){ die("ORM::insert(\$object) => There was a problem saving your new $objectName."); }
+		if (!$statement->execute()){ die("ORM::update(\$object) => There was a problem saving your new $objectName."); }
 		
 	}
 	

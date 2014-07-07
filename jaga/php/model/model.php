@@ -78,17 +78,17 @@ class Category {
 		$currentDate = date('Y-m-d');
 		
 		$query = "
-			SELECT `entryID`, `entryViews`
-			FROM `jaga_content`
-			WHERE siteID = :channelID
-			AND entryPublished =1
-			AND entryPublishStartDate <=  '$currentDate'
+			SELECT `contentID`, `contentViews`
+			FROM `jaga_Content`
+			WHERE channelID = :channelID
+			AND contentPublished =1
+			AND contentPublishStartDate <=  '$currentDate'
 			AND (
-				entryPublishEndDate >=  '$currentDate'
-				OR entryPublishEndDate =  '0000-00-00'
+				contentPublishEndDate >=  '$currentDate'
+				OR contentPublishEndDate =  '0000-00-00'
 			)
 			AND contentCategoryKey = :contentCategoryKey
-			ORDER BY entryLastModified DESC
+			ORDER BY contentLastModified DESC
 		";
 		
 		$core = Core::getInstance();
@@ -96,7 +96,7 @@ class Category {
 		$statement->execute(array(':channelID' => $channelID, ':contentCategoryKey' => $contentCategoryKey));
 		
 		$categoryContentArray = array();
-		while ($row = $statement->fetch()) { $categoryContentArray[] = $row['entryID']; }
+		while ($row = $statement->fetch()) { $categoryContentArray[] = $row['contentID']; }
 		return $categoryContentArray;
 		
 	}
@@ -108,9 +108,9 @@ class Category {
 		$core = Core::getInstance();
 		
 		$query = "
-			SELECT jaga_category.contentCategoryKey as contentCategoryKey, COUNT(jaga_content.entryID) as postCount
-			FROM jaga_category LEFT JOIN jaga_content
-			ON jaga_category.contentCategoryKey = jaga_content.contentCategoryKey
+			SELECT jaga_category.contentCategoryKey as contentCategoryKey, COUNT(jaga_Content.contentID) as postCount
+			FROM jaga_category LEFT JOIN jaga_Content
+			ON jaga_category.contentCategoryKey = jaga_Content.contentCategoryKey
 			GROUP BY jaga_category.contentCategoryKey
 			ORDER BY jaga_category.contentCategoryKey ASC
 		";
@@ -207,12 +207,12 @@ class Channel extends ORM {
 		
 		$core = Core::getInstance();
 		$query = "
-			SELECT jaga_Channel.channelKey AS channelKey, COUNT(jaga_content.entryID) AS postCount
-			FROM jaga_Channel LEFT JOIN jaga_content
-			ON jaga_Channel.channelID = jaga_content.siteID
+			SELECT jaga_Channel.channelKey AS channelKey, COUNT(jaga_Content.contentID) AS postCount
+			FROM jaga_Channel LEFT JOIN jaga_Content
+			ON jaga_Channel.channelID = jaga_Content.channelID
 			WHERE jaga_Channel.channelEnabled = 1
 			GROUP BY jaga_Channel.channelKey
-			ORDER BY COUNT(jaga_content.entryID) DESC
+			ORDER BY COUNT(jaga_Content.contentID) DESC
 		";
 		
 		$statement = $core->database->prepare($query);
@@ -234,9 +234,9 @@ class Channel extends ORM {
 		
 		$core = Core::getInstance();
 		$query = "
-			SELECT jaga_Channel.channelKey as channelKey, COUNT(jaga_content.entryID) as postCount 
-			FROM jaga_Channel LEFT JOIN jaga_content 
-			ON jaga_Channel.channelID = jaga_content.siteID 
+			SELECT jaga_Channel.channelKey as channelKey, COUNT(jaga_Content.contentID) as postCount 
+			FROM jaga_Channel LEFT JOIN jaga_Content 
+			ON jaga_Channel.channelID = jaga_Content.channelID 
 			WHERE jaga_Channel.siteManagerUserID = :userID 
 			GROUP BY channelKey 
 			ORDER BY postCount DESC
@@ -257,9 +257,9 @@ class Channel extends ORM {
 		
 		$core = Core::getInstance();
 		$query = "
-			SELECT jaga_subscription.channelID as channelID, COUNT(jaga_content.entryID) as postCount 
-			FROM jaga_subscription, jaga_content 
-			WHERE jaga_subscription.channelID = jaga_content.siteID 
+			SELECT jaga_subscription.channelID as channelID, COUNT(jaga_Content.contentID) as postCount 
+			FROM jaga_subscription, jaga_Content 
+			WHERE jaga_subscription.channelID = jaga_Content.channelID 
 			AND jaga_subscription.userID = :userID
 			GROUP BY channelID 
 			ORDER BY postCount DESC
@@ -354,10 +354,10 @@ class ChannelCategory extends ORM {
 		
 		$core = Core::getInstance();
 		$query = "
-			SELECT jaga_ChannelCategory.contentCategoryKey AS contentCategoryKey, COUNT( jaga_content.entryID ) AS postCount
+			SELECT jaga_ChannelCategory.contentCategoryKey AS contentCategoryKey, COUNT( jaga_Content.contentID ) AS postCount
 			FROM jaga_ChannelCategory
-			LEFT JOIN jaga_content ON jaga_ChannelCategory.channelID = jaga_content.siteID
-			AND jaga_ChannelCategory.contentCategoryKey = jaga_content.contentCategoryKey
+			LEFT JOIN jaga_Content ON jaga_ChannelCategory.channelID = jaga_Content.channelID
+			AND jaga_ChannelCategory.contentCategoryKey = jaga_Content.contentCategoryKey
 			WHERE jaga_ChannelCategory.channelID = :channelID
 			GROUP BY contentCategoryKey
 			ORDER BY postCount DESC 
@@ -417,71 +417,54 @@ class Content extends ORM {
 	public $contentTitleJapanese;
 	public $contentEnglish;
 	public $contentJapanese;
+	public $contentLinkURL;
 	public $contentPublished;
 	public $contentViews;
-	public $isEvent;
-	public $eventDate;
-	public $eventStartTime;
-	public $eventEndTime;
-	public $contentCoordinates;
+	public $contentIsEvent;
+	public $contentEventDate;
+	public $contentEventStartTime;
+	public $contentEventEndTime;
+	public $contentLatitude;
+	public $contentLongitude;
 	
 	public function __construct($contentID) {
 	
-		$core = Core::getInstance();
-		$query = "SELECT * FROM jaga_content WHERE entryID = :contentID LIMIT 1";
-		$statement = $core->database->prepare($query);
-		$statement->execute(array(':contentID' => $contentID));
 		
-		while ($row = $statement->fetch()) {
-	
-			$this->contentID = $row['entryID'];
-			$this->channelID = $row['siteID'];
-			$this->contentURL = $row['entrySeoURL'];
-			$this->contentCategoryKey = $row['contentCategoryKey'];
-			$this->contentSubmittedByUserID = $row['entrySubmittedByUserID'];
-			$this->contentSubmissionDateTime = $row['entrySubmissionDateTime'];
-			$this->contentPublishStartDate = $row['entryPublishStartDate'];
-			$this->contentPublishEndDate = $row['entryPublishEndDate'];
-			$this->contentLastModified = $row['entryLastModified'];
-			$this->contentTitleEnglish = $row['entryTitleEnglish'];
-			$this->contentTitleJapanese = $row['entryTitleJapanese'];
-			$this->contentEnglish = $row['entryContentEnglish'];
-			$this->contentJapanese = $row['entryContentJapanese'];
-			$this->contentPublished = $row['entryPublished'];
-			$this->contentViews = $row['entryViews'];
-			$this->isEvent = $row['isEvent'];
-			$this->eventDate = $row['eventDate'];
-			$this->eventStartTime = $row['eventStartTime'];
-			$this->eventEndTime = $row['eventEndTime'];
-			$this->contentCoordinates = $row['contentCoordinates'];
+		if ($contentID != 0) {
+		
+			$core = Core::getInstance();
+			$query = "SELECT * FROM jaga_Content WHERE contentID = :contentID LIMIT 1";
+			$statement = $core->database->prepare($query);
+			$statement->execute(array(':contentID' => $contentID));
+			if (!$row = $statement->fetch()) { die('Content does not exist.'); }
+			foreach ($row AS $key => $value) { if (!is_int($key)) { $this->$key = $value; } }
 			
+		} else {
+
+			$this->contentID = 0;
+			$this->channelID = $_SESSION['channelID'];
+			$this->contentURL = '';
+			$this->contentCategoryKey = '';
+			$this->contentSubmittedByUserID = $_SESSION['userID'];
+			$this->contentSubmissionDateTime = date('Y-m-d H:i:s');
+			$this->contentPublishStartDate = date('Y-m-d');
+			$this->contentPublishEndDate = '0000-00-00';
+			$this->contentLastModified = date('Y-m-d H:i:s');
+			$this->contentTitleEnglish = '';
+			$this->contentTitleJapanese = '';
+			$this->contentEnglish = '';
+			$this->contentJapanese = '';
+			$this->contentLinkURL = '';
+			$this->contentPublished = 1;
+			$this->contentViews = 0;
+			$this->contentIsEvent = 0;
+			$this->contentEventDate = date('Y-m-d');
+			$this->contentEventStartTime = date('H:00:00');
+			$this->contentEventEndTime = date('H:30:00');
+			$this->contentLatitude = '42.827200';
+			$this->contentLongitude = '140.806995';
+
 		}
-		
-	/*
-		CREATE TABLE IF NOT EXISTS `jaga_content` (
-		  `entryID` int(8) NOT NULL AUTO_INCREMENT,
-		  `siteID` int(8) NOT NULL,
-		  `entrySeoURL` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-		  `contentCategoryKey` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-		  `entrySubmittedByUserID` int(8) NOT NULL,
-		  `entrySubmissionDateTime` datetime NOT NULL,
-		  `entryPublishStartDate` date NOT NULL,
-		  `entryPublishEndDate` date NOT NULL,
-		  `entryLastModified` datetime NOT NULL,
-		  `entryTitleEnglish` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-		  `entryTitleJapanese` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-		  `entryContentEnglish` text COLLATE utf8_unicode_ci NOT NULL,
-		  `entryContentJapanese` text COLLATE utf8_unicode_ci NOT NULL,
-		  `entryPublished` int(1) NOT NULL,
-		  `entryViews` int(12) NOT NULL,
-		  `isEvent` int(1) NOT NULL,
-		  `eventDate` date NOT NULL,
-		  `eventStartTime` time NOT NULL,
-		  `eventEndTime` time NOT NULL,
-		  `contentCoordinates` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-		  PRIMARY KEY (`entryID`)
-		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9999900 ;	
-	*/		
 		
 	}
 	
@@ -492,11 +475,11 @@ class Content extends ORM {
 	public function getContentID($contentURL) {
 		
 		$core = Core::getInstance();
-		$query = "SELECT entryID FROM jaga_content WHERE entrySeoURL = :contentURL LIMIT 1";
+		$query = "SELECT contentID FROM jaga_Content WHERE contentURL = :contentURL LIMIT 1";
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':contentURL' => $contentURL));
 		if ($row = $statement->fetch()) {
-			return $row['entryID'];
+			return $row['contentID'];
 		} else {
 			die($contentURL);
 		}
@@ -516,13 +499,13 @@ class Content extends ORM {
 			$currentDate = date('Y-m-d');
 
 			$query = "
-				SELECT * FROM jaga_content 
+				SELECT * FROM jaga_Content 
 				WHERE contentCategoryKey = :contentCategoryKey
-					AND entryPublished = 1 
-					AND entryPublishStartDate <= '$currentDate' 
-					AND (entryPublishEndDate >= '$currentDate' OR entryPublishEndDate = '0000-00-00')
-					AND siteID = :channelID
-				ORDER BY entryLastModified DESC
+					AND contentPublished = 1 
+					AND contentPublishStartDate <= '$currentDate' 
+					AND (contentPublishEndDate >= '$currentDate' OR contentPublishEndDate = '0000-00-00')
+					AND channelID = :channelID
+				ORDER BY contentLastModified DESC
 				$limitClause
 			";
 
@@ -533,13 +516,12 @@ class Content extends ORM {
 			$statement->execute(array(':channelID' => $channelID, ':contentCategoryKey' => $contentCategoryKey));
 			
 			$contentListArray = array();
-			while ($row = $statement->fetch()) { $contentListArray[$row['entryID']] = $row['entrySeoURL']; }
+			while ($row = $statement->fetch()) { $contentListArray[$row['contentID']] = $row['contentURL']; }
 			return $contentListArray;
 			
 
 		
 	}
-
 
 }
 

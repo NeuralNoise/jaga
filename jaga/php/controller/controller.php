@@ -223,6 +223,177 @@ class Controller {
 			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
 			return $html;
 
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		} elseif ($urlArray[0] == 'k' && ($urlArray[1] == 'update' || $urlArray[1] == 'create')) {
+		
+			// LOGGED IN USERS ONLY
+			if ($_SESSION['userID'] == 0) { die('you are not logged in'); }
+		
+			// CONTENT OWNER ONLY FOR UPDATE
+			if ($urlArray[1] == 'update') {
+				if ($urlArray[2] == '' || $urlArray[2] == 0) {
+					die ('Content must be selected.');
+				} else {
+					$contentID = $urlArray[2];
+					$content = new Content($contentID);
+					$contentSubmittedByUserID = $content->contentSubmittedByUserID;
+					if ($_SESSION['userID'] != $contentSubmittedByUserID) { die ('You can only edit your own content.'); }
+				}
+			}
+			
+			// INITIALIZE $inputArray and $errorArray
+			$inputArray = array();
+			$errorArray = array();
+			
+			// IF USER INPUT EXISTS
+			if (!empty($_POST)) {
+			
+				$inputArray = $_POST;
+
+				// VALIDATION
+				if ($inputArray['contentTitleEnglish'] == '') { $errorArray[] = 'Every post needs a title.'; }
+				if ($inputArray['contentEnglish'] == '') { $errorArray[] = 'Your post is empty.'; }
+				
+				
+				if ($inputArray['contentCategoryKey'] == '') { $errorArray[] = 'A category must be selected.'; }
+				// is this category enabled for this channel? check it
+				
+				
+				if (empty($errorArray)) {
+					
+					if ($urlArray[1] == 'create') {
+
+						$content = new Content(0);
+						
+						// filter out auto_increment key
+						unset($content->contentID);
+						
+						// set object property values
+						foreach ($inputArray AS $property => $value) { if (isset($content->$property)) { $content->$property = $value; } }
+						
+						$contentID = Content::insert($content);
+
+						$postSubmitURL = "/k/" . $inputArray['contentCategoryKey'] . "/";
+						header("Location: $postSubmitURL");
+						
+					} elseif ($urlArray[1] == 'update' && isset($urlArray[2])) {
+					
+						$contentID = $urlArray[2];
+					
+						// build object
+						$content = new Content($contentID);
+						foreach ($inputArray AS $property => $value) {
+							if (isset($content->$property)) {
+								$content->$property = $value;
+							}
+						}
+						
+						// build conditions
+						$conditions = array();
+						$conditions['contentID'] = $contentID;
+						
+						// unset attributes that you don't want to update
+						unset($content->contentID);
+						
+						// update object
+						// print_r($content);
+						Content::update($content, $conditions);
+
+						$postSubmitURL = "/k/" . $inputArray['contentCategoryKey'] . "/";
+						header("Location: $postSubmitURL");
+						
+					}
+
+				}
+				
+			}
+		
+			$page = new PageView();
+			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
+			return $html;
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		} else {
 		
 			$page = new PageView();

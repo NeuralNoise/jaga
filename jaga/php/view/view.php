@@ -196,7 +196,12 @@ class CategoryView {
 			if ($k % 3 == 0) { $html .= "<div class=\"row\">"; }
 				$html .= "<div class=\"col-md-4\">";
 					$html .= "<div class=\"panel panel-default\">\n";
-						$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . strtoupper($contentCategoryKey) . "</h4></div>\n";
+						$html .= "<div class=\"panel-heading jagaContentPanelHeading\">
+							<a href=\"/k/create/" . $contentCategoryKey . "/\"><span style=\"float:right;\" class=\"glyphicon glyphicon-plus\"></span></a>
+							<h4>" . strtoupper($contentCategoryKey) . "</h4>
+							
+							
+						</div>\n";
 							$html .= "<ul class=\"list-group\">\n";
 								$contentArray = Category::getCategoryContent($channelID, $contentCategoryKey);
 								// print_r($contentArray);
@@ -271,6 +276,22 @@ class CategoryView {
 
 		return $html;
 		
+	}
+	
+	public function categoryDropdown($selectedContentCategoryKey) {
+	
+		$categoryArray = array_keys(ChannelCategory::getChannelCategoryArray($_SESSION['channelID']));
+		
+		$html = "\n\t<select id=\"contentCategoryKey\" name=\"contentCategoryKey\" class=\"form-control\">\n";
+			foreach ($categoryArray AS $contentCategoryKey) {
+				$html .= "\t\t<option value=\"" . $contentCategoryKey . "\"";
+					if ($contentCategoryKey == $selectedContentCategoryKey) { $html .= " selected"; }
+				$html .= ">" . strtoupper($contentCategoryKey) . "</option>\n";
+			}
+		$html .= "\t</select>\n\n";
+
+		return $html;
+	
 	}
 	
 }
@@ -579,32 +600,13 @@ class CommentView {
 
 class ContentView {
 
-	function displayContentForm(
-		$type = 'create', 
-		$contentCategoryKey = '', 
-		$entryID = 0, 
-		$entryTitleEnglish = '', 
-		$entryTitleJapanese = '',
-		$entryPublished = 1, 
-		$entryContentEnglish = '',
-		$entryContentJapanese = '',
-		$entryPublishStartDate = '',
-		$entryPublishEndDate = '',
-		$isEvent = 0,
-		$eventDate = '',
-		$eventStartTime = '',
-		$eventEndTime = ''
-	) {
-
-	}
-
 	public function displayContentView($contentID) {
 	
 		$core = Core::getInstance();
 		$query = "
-			SELECT entryContentEnglish AS content, entryTitleEnglish AS title
-			FROM jaga_content 
-			WHERE entryID = :contentID 
+			SELECT contentEnglish AS content, contentTitleEnglish AS title
+			FROM jaga_Content 
+			WHERE contentID = :contentID 
 			LIMIT 1
 		";
 		
@@ -681,106 +683,58 @@ class ContentView {
 	
 	}
 	
-	/*
-	
-		CREATE TABLE IF NOT EXISTS `jaga_content` (
-		  `entryID` int(8) NOT NULL AUTO_INCREMENT,
-		  `siteID` int(8) NOT NULL,
-		  `entrySeoURL` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-		  `contentCategoryKey` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-		  `entrySubmittedByUserID` int(8) NOT NULL,
-		  `entrySubmissionDateTime` datetime NOT NULL,
-		  `entryPublishStartDate` date NOT NULL,
-		  `entryPublishEndDate` date NOT NULL,
-		  `entryLastModified` datetime NOT NULL,
-		  `entryTitleEnglish` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-		  `entryTitleJapanese` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-		  `entryContentEnglish` text COLLATE utf8_unicode_ci NOT NULL,
-		  `entryContentJapanese` text COLLATE utf8_unicode_ci NOT NULL,
-		  `entryPublished` int(1) NOT NULL,
-		  `entryViews` int(12) NOT NULL,
-		  `isEvent` int(1) NOT NULL,
-		  `eventDate` date NOT NULL,
-		  `eventStartTime` time NOT NULL,
-		  `eventEndTime` time NOT NULL,
-		  `contentCoordinates` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-		  PRIMARY KEY (`entryID`)
-		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9999900 ;	
-	
-	*/
-	
 	public static function getContentForm($type, $contentID = 0, $contentCategoryKey = '', $inputArray = array(), $errorArray = array()) {
 	
+		// print_r($contentCategoryKey);
+	
 		if (empty($inputArray)) {
-		
-			if ($type == 'create') {
 
-				$channelID = $_SESSION['channelID'];
-				$contentURL = '';
-				$contentSubmittedByUserID = $_SESSION['userID'];
-				$contentSubmissionDateTime = date('Y-m-d H:i:s');
-				$contentPublishStartDate = date('Y-m-d H:i:s');
-				$contentPublishEndDate = '0000-00-00 00:00:00';
-				$contentLastModified = '0000-00-00 00:00:00';
-				$contentTitleEnglish = '';
-				$contentTitleJapanese = '';
-				$contentEnglish = '';
-				$contentJapanese = '';
-				$contentPublished = 1;
-				$contentViews = 0;
-				$isEvent = 0;
-				$eventDate = '';
-				$eventStartTime = date('Y-m-d H:i:s');
-				$eventEndTime = date('Y-m-d H:i:s');
-				$contentCoordinates = '42.827200,140.806996';
-
-			} elseif ($type == 'update') {
-
-				$content = new Content($contentID);
-				$channelID = $_SESSION['channelID'];
-				$contentURL = $content->contentURL;
-				$contentCategoryKey = $content->contentCategoryKey;
-				$contentSubmittedByUserID = $content->contentSubmittedByUserID;
-				$contentSubmissionDateTime = $content->contentSubmissionDateTime;
-				$contentPublishStartDate = $content->contentPublishStartDate;
-				$contentPublishEndDate = $content->contentPublishEndDate;
-				$contentLastModified = $content->contentLastModified;
-				$contentTitleEnglish = $content->contentTitleEnglish;
-				$contentTitleJapanese = $content->contentTitleJapanese;
-				$contentEnglish = $content->contentEnglish;
-				$contentJapanese = $content->contentJapanese;
-				$contentPublished = $content->contentPublished;
-				$contentViews = $content->contentViews;
-				$isEvent = $content->isEvent;
-				$eventDate = $content->eventDate;
-				$eventStartTime = $content->eventStartTime;
-				$eventEndTime = $content->eventEndTime;
-				$contentCoordinates = $content->contentCoordinates;
-
-			}
+			$content = new Content($contentID);
 			
+			$channelID = $_SESSION['channelID'];
+			$contentURL = $content->contentURL;
+			if ($contentID != 0) { $contentCategoryKey = $content->contentCategoryKey; }
+			$contentSubmittedByUserID = $content->contentSubmittedByUserID;
+			$contentSubmissionDateTime = $content->contentSubmissionDateTime;
+			$contentPublishStartDate = $content->contentPublishStartDate;
+			$contentPublishEndDate = $content->contentPublishEndDate;
+			$contentLastModified = $content->contentLastModified;
+			$contentTitleEnglish = $content->contentTitleEnglish;
+			$contentTitleJapanese = $content->contentTitleJapanese;
+			$contentEnglish = $content->contentEnglish;
+			$contentJapanese = $content->contentJapanese;
+			$contentPublished = $content->contentPublished;
+			$contentViews = $content->contentViews;
+			$contentIsEvent = $content->contentIsEvent;
+			$contentEventDate = $content->contentEventDate;
+			$contentEventStartTime = $content->contentEventStartTime;
+			$contentEventEndTime = $content->contentEventEndTime;
+			$contentLatitude = $content->contentLatitude;
+			$contentLongitude = $content->contentLongitude;
+
 		} else {
 		
-			$channelID = $inputArray['channelID'];
-			$contentURL = $inputArray['contentURL'];
-			$contentCategoryKey = $inputArray['contentCategoryKey'];
-			$contentSubmittedByUserID = $inputArray['contentSubmittedByUserID'];
-			$contentSubmissionDateTime = $inputArray['contentSubmissionDateTime'];
-			$contentPublishStartDate = $inputArray['contentPublishStartDate'];
-			$contentPublishEndDate = $inputArray['contentPublishEndDate'];
-			$contentLastModified = $inputArray['contentLastModified'];
-			$contentTitleEnglish = $inputArray['contentTitleEnglish'];
-			$contentTitleJapanese = $inputArray['contentTitleJapanese'];
-			$contentEnglish = $inputArray['contentEnglish'];
-			$contentJapanese = $inputArray['contentJapanese'];
-			$contentPublished = $inputArray['contentPublished'];
-			$contentViews = $inputArray['contentViews'];
-			$isEvent = $inputArray['isEvent'];
-			$eventDate = $inputArray['eventDate'];
-			$eventStartTime = $inputArray['eventStartTime'];
-			$eventEndTime = $inputArray['eventEndTime'];
-			$contentCoordinates = $inputArray['contentCoordinates'];
-
+			$channelID = $_SESSION['channelID'];
+			if (isset($inputArray['contentURL'])) { $contentURL = $inputArray['contentURL']; }
+			if (isset($inputArray['contentCategoryKey'])) { $contentCategoryKey = $inputArray['contentCategoryKey']; }
+			if (isset($inputArray['contentSubmittedByUserID'])) { $contentSubmittedByUserID = $inputArray['contentSubmittedByUserID']; }
+			if (isset($inputArray['contentSubmissionDateTime'])) { $contentSubmissionDateTime = $inputArray['contentSubmissionDateTime']; }
+			if (isset($inputArray['contentPublishStartDate'])) { $contentPublishStartDate = $inputArray['contentPublishStartDate']; }
+			if (isset($inputArray['contentPublishEndDate'])) { $contentPublishEndDate = $inputArray['contentPublishEndDate']; }
+			if (isset($inputArray['contentLastModified'])) { $contentLastModified = $inputArray['contentLastModified']; }
+			if (isset($inputArray['contentTitleEnglish'])) { $contentTitleEnglish = $inputArray['contentTitleEnglish']; }
+			if (isset($inputArray['contentTitleJapanese'])) { $contentTitleJapanese = $inputArray['contentTitleJapanese']; }
+			if (isset($inputArray['contentEnglish'])) { $contentEnglish = $inputArray['contentEnglish']; }
+			if (isset($inputArray['contentJapanese'])) { $contentJapanese = $inputArray['contentJapanese']; }
+			if (isset($inputArray['contentPublished'])) { $contentPublished = $inputArray['contentPublished']; }
+			if (isset($inputArray['contentViews'])) { $contentViews = $inputArray['contentViews']; }
+			if (isset($inputArray['contentIsEvent'])) { $contentIsEvent = $inputArray['contentIsEvent']; }
+			if (isset($inputArray['contentEventDate'])) { $contentEventDate = $inputArray['contentEventDate']; }
+			if (isset($inputArray['contentEventStartTime'])) { $contentEventStartTime = $inputArray['contentEventStartTime']; }
+			if (isset($inputArray['contentEventEndTime'])) { $contentEventEndTime = $inputArray['contentEventEndTime']; }
+			if (isset($inputArray['contentLatitude'])) { $contentLatitude = $inputArray['contentLatitude']; }
+			if (isset($inputArray['contentLongitude'])) { $contentLongitude = $inputArray['contentLongitude']; }
+			
 		}
 		
 
@@ -818,7 +772,8 @@ class ContentView {
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
 								$html .= "\t\t\t\t\t\t\t<label for=\"contentCategoryKey\" class=\"col-sm-2 control-label\">contentCategoryKey</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
-									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentCategoryKey\" name=\"contentCategoryKey\" class=\"form-control\" placeholder=\"contentCategoryKey\" value=\"" . $contentCategoryKey . "\">\n";
+									$html .= CategoryView::categoryDropdown($contentCategoryKey);
+									// $html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentCategoryKey\" name=\"contentCategoryKey\" class=\"form-control\" placeholder=\"contentCategoryKey\" value=\"" . $contentCategoryKey . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
@@ -1147,6 +1102,8 @@ class PageView {
 	
 	public function buildPage($urlArray, $inputArray = array(), $errorArray = array()) {
 
+		// print_r($inputArray);
+		
 		$html = $this->getHeader();
 		
 			$navBar = new MenuView();
@@ -1231,16 +1188,26 @@ class PageView {
 						
 					$html .= ContentView::getContentForm('update', $urlArray[2], '', $inputArray, $errorArray);
 						
+				} elseif ($urlArray[1] == 'create') { // /k/create/<contentCategoryKey>/
+					
+					
+					// print_r($inputArray);
+					if (isset($inputArray['contentCategoryKey'])) {
+						$contentCategoryKey = $inputArray['contentCategoryKey'];
+					} else {
+						$contentCategoryKey = $urlArray[2];
+					}
+					
+					
+					
+					$html .= ContentView::getContentForm('create', 0, $contentCategoryKey, $inputArray, $errorArray);
+				
 				} else {
 				
 					if ($urlArray[2] == '') { // /k/<contentCategoryKey>/
 						
 						$html .= ContentView::displayChannelContentList($_SESSION['channelID'],$urlArray[1]);
 
-					} elseif ($urlArray[2] == 'create') { // /k/<contentCategoryKey>/create/
-					
-						$html .= ContentView::getContentForm('create', 0, $urlArray[1],$inputArray, $errorArray);
-						
 					} else { // /k/<contentCategoryKey>/<contentURL>/
 					
 						$contentID = Content::getContentID($urlArray[2]);
@@ -1524,6 +1491,14 @@ class ThemeView {
 		$css .= "div.jagaContentPanelHeading {
 			color:#$contentPanelHeadingTextColor !important;
 			background-color:#$contentPanelHeadingBackgroundColor !important;
+		}\n\n";
+		
+		$css .= "div.jagaContentPanelHeading > a {
+			color:#$contentPanelHeadingTextColor !important;
+		}\n";
+		
+		$css .= "div.jagaContentPanelHeading > a:hover {
+			color:#$navbarBackgroundColor !important;
 		}\n\n";
 
 		// $css .= "a.jagaListGroupItemMore {
