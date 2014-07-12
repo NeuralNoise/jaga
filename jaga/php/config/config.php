@@ -7,15 +7,22 @@
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/controller/ORM.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/controller/Session.php');
 
-	
 	// MODEL
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/model.php');
 
 	// VIEW
-	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/view.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/AuthenticationView.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/CarouselView.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/CategoryView.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/ChannelView.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/CommentView.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/ContentView.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/MenuView.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/PageView.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/ProfileView.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/SubscriptionView.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/ThemeView.php');
 
-
-	
 	// DB: apply gitignore to taterbase.php
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/config/taterbase.php');
 
