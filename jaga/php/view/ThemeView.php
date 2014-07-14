@@ -80,6 +80,15 @@ class ThemeView {
 		$css .= "div.jagaContentPanelHeading > a:hover {
 			color:#$navbarBackgroundColor !important;
 		}\n\n";
+		
+		// $css .= "div.jagaCommentPanelHeading {
+			// color:#$navbarTextColor !important;
+			// background-color:#$navbarBackgroundColor !important;
+		// }\n\n";
+		
+		$css .= "div.jagaCommentPanelHeading {
+			background-color:#f5f5f5 !important;
+		}\n\n";
 
 		// $css .= "a.jagaListGroupItemMore {
 			// color:#$contentPanelHeadingTextColor;

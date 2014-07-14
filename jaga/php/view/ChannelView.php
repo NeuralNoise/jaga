@@ -1,4 +1,5 @@
 <?php
+
 class ChannelView {
 
 	public static function getChannelForm($type, $channelID = 0, $inputArray = array(), $errorArray = array()) {

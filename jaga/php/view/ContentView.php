@@ -41,14 +41,16 @@ class ContentView {
 
 		$contentArray = Content::getContentListArray($channelID, $contentCategoryKey, 1);
 
-		$html = "\t<!-- START CHANNEL LIST -->\n";
+		$html = "\t<!-- START CONTENT LIST -->\n";
 		$html .= "\t<div class=\"container\">\n\n";
 		
-			$html .= "<div class=\"panel panel-default\">\n";
+			$html .= "\t\t<div class=\"panel panel-default\">\n\n";
 		
-		
-				$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . strtoupper($contentCategoryKey) . "</h4></div>\n";
-				$html .= "<ul class=\"list-group\">\n";
+				$html .= "\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n";
+					$html .= "\t\t\t\t<a href=\"/k/create/" . $contentCategoryKey . "/\"><span style=\"float:right;\" class=\"glyphicon glyphicon-plus\"></span></a>\n";
+					$html .= "\t\t\t\t<h4>" . strtoupper($contentCategoryKey) . "</h4>\n";
+				$html .= "\t\t\t</div>\n";
+				$html .= "\t\t\t<ul class=\"list-group\">\n";
 
 				
 					foreach ($contentArray as $contentID => $contentURL) {
@@ -57,7 +59,7 @@ class ContentView {
 						$contentTitle = $content->contentTitleEnglish;
 						$contentViews = $content->contentViews;
 
-						$html .= "<a href=\"/k/" . $contentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
+						$html .= "\t\t\t\t<a href=\"/k/" . $contentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
 							$html .= "<span class=\"jagaListGroup\">";
 								$html .= "<span class=\"jagaListGroupBadge\">" . $contentViews . "</span>";
 								$html .=  $contentTitle;
@@ -70,16 +72,17 @@ class ContentView {
 					
 					
 
-					$html .= "<a href=\"/k/" . $contentCategoryKey . "/\" class=\"list-group-item jagaListGroupItemMore\">";
+					$html .= "\t\t\t\t<a href=\"/k/" . $contentCategoryKey . "/\" class=\"list-group-item jagaListGroupItemMore\">";
 						$html .= "MORE <span class=\"glyphicon glyphicon-arrow-right\"></span>";
 					$html .= "</a>\n";
 					
-				$html .= "</ul>\n";
+				$html .= "\t\t\t</ul>\n";
 				
-			$html .= "</div>\n";
+			$html .= "\t\t</div>\n\n";
 			
-		$html .= "</div>\n";
-
+		$html .= "\t</div>\n";
+		$html .= "\t<!-- END CONTENT LIST -->\n\n";
+		
 		return $html;	
 
 	

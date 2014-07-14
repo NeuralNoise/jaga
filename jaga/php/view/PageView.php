@@ -94,8 +94,9 @@ class PageView {
 						$html .= $this->getBreadcrumbs($urlArray);
 						$html .= ContentView::displayChannelContentList($_SESSION['channelID'],$urlArray[1]);
 					} else { // /k/<contentCategoryKey>/<contentURL>/
+						$contentURL = urldecode($urlArray[2]);
+						$contentID = Content::getContentID($contentURL);
 						$html .= $this->getBreadcrumbs($urlArray);
-						$contentID = Content::getContentID($urlArray[2]);
 						$html .= ContentView::displayContentView($contentID);
 						$html .= CommentView::displayContentCommentsView($contentID);
 					}
@@ -281,13 +282,15 @@ class PageView {
 		$channel = new Channel($_SESSION['channelID']);
 		$channelKey = $channel->channelKey;
 		$channelTitle = $channel->channelTitleEnglish;
+		
+		
 		$html = "<div class=\"container\"><ol class=\"breadcrumb\">";
 			$html .= "<li><a href=\"http://the.kutchannel.net/\">THE KUTCHANNEL</a></li>";
 			$html .= "<li><a href=\"http://" . $channelKey . ".kutchannel.net/\">" . strtoupper($channelTitle) . "</a></li>";
 			if ($urlArray[0] == 'k' && $urlArray[1] != '' && $urlArray[2] == '') { // /k/<contentCategoryKey>/
 				$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "\">" . strtoupper($urlArray[1]) . "</a></li>";
 			} elseif ($urlArray[0] == 'k' && $urlArray[1] != '' && $urlArray[2] != '') { // /k/<contentCategoryKey>/<contentURL>/
-				$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "/" . strtoupper($urlArray[2]) . "\">" . strtoupper($urlArray[2]) . "</a></li>";	
+				$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "/" . strtoupper($urlArray[2]) . "/\">" . strtoupper(urldecode($urlArray[2])) . "</a></li>";	
 			}
 		$html .= "</ol></div>";
 		return $html;

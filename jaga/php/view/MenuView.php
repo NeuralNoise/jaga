@@ -35,7 +35,7 @@ class MenuView {
 							$html .= "\t\t\t\t\t\t<span class=\"icon-bar\"></span>\n";
 						$html .= "\t\t\t\t\t</button>\n\n";
 						
-						if ($_SESSION['channelID'] == 2006) {
+						if ($_SESSION['channelID'] == 14 || $_SESSION['channelID'] == 2006) {
 							$html .= "\t\t\t\t\t<a href=\"/\"><img id=\"kLogo\" src=\"/jaga/images/banner.png\"></a>\n\n";
 						} else {
 							$html .= "\t\t\t\t\t<a class=\"navbar-brand\" href=\"/\">" . strtoupper($channelTitle) . "</a>\n\n";
