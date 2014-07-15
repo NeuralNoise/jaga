@@ -6,12 +6,14 @@ The Kutchannel
 **SPECS**
 - THE.KUTCHANNEL.NET
     - site home; aggregate site showing content from all **channels and categories**.
-- NEWSFEED
+- NEWSFEED (JAGAROLL?)
     - user home; shows content from channels (...categories,users?) the owner is subscribed to
 - CHANNEL
     - users can **create channels**: `<channel>.kutchannel.net`
     - a **theme** must be selected for the channel.
     - at least one **category** must be assigned to the channel: `<channel>.kutchannel.net/k/<category>/`
+- CATEGORIES
+    - users can select existing categories for their channels, or create new ones
 - POSTS
     - content exists in /k/
     - users can **post** to any channel and any category on The Kutchannel: `<channel>.kutchannel.net/k/<category>/<post/>`

@@ -14,13 +14,15 @@ class ChannelCategory extends ORM {
 		
 		// returns $array[contentCategoryKey][contentCategoryPostCount]
 		
+		if ($_SESSION['channelID'] != 2006) { $channelFilter = 'WHERE jaga_ChannelCategory.channelID = :channelID'; } else { $channelFilter = ''; }
+		
 		$core = Core::getInstance();
 		$query = "
 			SELECT jaga_ChannelCategory.contentCategoryKey AS contentCategoryKey, COUNT( jaga_Content.contentID ) AS postCount
 			FROM jaga_ChannelCategory
 			LEFT JOIN jaga_Content ON jaga_ChannelCategory.channelID = jaga_Content.channelID
 			AND jaga_ChannelCategory.contentCategoryKey = jaga_Content.contentCategoryKey
-			WHERE jaga_ChannelCategory.channelID = :channelID
+			$channelFilter
 			GROUP BY contentCategoryKey
 			ORDER BY postCount DESC 
 		";
@@ -30,7 +32,6 @@ class ChannelCategory extends ORM {
 		
 		$channelCategoryArray = array();
 		while ($row = $statement->fetch()) {
-		
 			$contentCategoryKey = $row['contentCategoryKey'];
 			$contentCategoryPostCount = $row['postCount'];
 			$channelCategoryArray[$contentCategoryKey] = $contentCategoryPostCount;

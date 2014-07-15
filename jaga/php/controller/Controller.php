@@ -230,34 +230,6 @@ class Controller {
 			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
 			return $html;
 
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 		} elseif ($urlArray[0] == 'k' && ($urlArray[1] == 'update' || $urlArray[1] == 'create')) {
 		
 			// INITIALIZE $inputArray and $errorArray
@@ -355,61 +327,6 @@ class Controller {
 			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
 			return $html;
 
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 		} else {
 		
 			$page = new PageView();

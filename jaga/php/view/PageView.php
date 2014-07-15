@@ -33,9 +33,16 @@ class PageView {
 				$html .= "\t<!-- END ERROR ARRAY -->\n\n";
 			}
 		
-			if ($urlArray[0] == '' && $_SESSION['channelID'] == 2006 && $_SESSION['userID'] == 0) {
-				$carousel = new CarouselView();
-				$html .= $carousel->getCarousel();
+			if ($urlArray[0] == '') { 
+			
+				if ($_SESSION['channelID'] == 2006) {
+					$carousel = new CarouselView();
+					$html .= $carousel->getCarousel();
+				}
+				
+				$categoryView = new CategoryView();
+				$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
+
 			}
 			
 
@@ -43,8 +50,8 @@ class PageView {
 
 			if ($urlArray[0] == '') {
 			
-				$categoryView = new CategoryView();
-				$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
+				// $categoryView = new CategoryView();
+				// $html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
 				
 			} elseif ($urlArray[0] == 'register') {
 			

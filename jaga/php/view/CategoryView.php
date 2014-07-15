@@ -24,6 +24,8 @@ class CategoryView {
 								foreach ($contentArray AS $contentID) {
 									if ($i < 5) {
 										$content = new Content($contentID);
+										$thisContentChannelID = $content->channelID;
+										$thisContentChannelKey = Channel::getChannelKey($thisContentChannelID);
 										$contentURL = $content->contentURL;
 										$contentTitle = $content->contentTitleEnglish;
 										$contentSubmittedByUserID = $content->contentSubmittedByUserID;
@@ -31,9 +33,10 @@ class CategoryView {
 										$contentViews = $content->contentViews;
 										$user = new User($contentSubmittedByUserID);
 										$username = $user->username;
-										$html .= "<a href=\"/k/" . $contentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
+										$html .= "<a href=\"http://" . $thisContentChannelKey . ".kutchannel.net/k/" . $contentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
 											$html .= "<span class=\"jagaListGroup\">";
 												$html .= "<span class=\"jagaListGroupBadge\">" . $contentViews . "</span>";
+												if ($_SESSION['channelID'] == 2006) { $html .=  '<strong><small>' . strtoupper($thisContentChannelKey) . '</small></strong><br />'; }
 												$html .=  $contentTitle;
 											$html .= "</span>";
 										$html .= "</a>\n"; 

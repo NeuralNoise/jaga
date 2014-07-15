@@ -7,11 +7,13 @@ class Category {
 	
 		$currentDate = date('Y-m-d');
 		
+		if ($channelID != 2006) { $channelFilter = "AND channelID = :channelID"; } else { $channelFilter = ''; }
+		
 		$query = "
 			SELECT `contentID`, `contentViews`
 			FROM `jaga_Content`
-			WHERE channelID = :channelID
-			AND contentPublished =1
+			WHERE contentPublished = 1
+			$channelFilter
 			AND contentPublishStartDate <=  '$currentDate'
 			AND (
 				contentPublishEndDate >=  '$currentDate'
@@ -23,7 +25,9 @@ class Category {
 		
 		$core = Core::getInstance();
 		$statement = $core->database->prepare($query);
-		$statement->execute(array(':channelID' => $channelID, ':contentCategoryKey' => $contentCategoryKey));
+		if ($channelID != 2006) { $statement->bindValue(':channelID', $channelID); }
+		$statement->bindValue(':contentCategoryKey', $contentCategoryKey);
+		$statement->execute();
 		
 		$categoryContentArray = array();
 		while ($row = $statement->fetch()) { $categoryContentArray[] = $row['contentID']; }
