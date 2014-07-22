@@ -5,7 +5,7 @@ class CarouselView {
 	public function getCarousel() {
 	
 		$html = "
-		<div class=\"container\">
+		<div class=\"container\" style=\"margin-bottom:10px;\">
 			<div id=\"kutchannel-carousel\" class=\"carousel slide\" data-ride=\"carousel\">
 
 				<!-- Indicators -->

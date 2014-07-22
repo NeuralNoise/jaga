@@ -217,16 +217,31 @@ class PageView {
 				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/jaga/css/kutchannel.css\" />\n";
 				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/channel.css\" />\n\n";
 
-				// $html .= "\t\t<script type=\"text/javascript\">";
-					// $html .= "
-					// $(document).ready(function () {
-						// if ($(\"[rel=tooltip]\").length) {
-						// $(\"[rel=tooltip]\").tooltip();
-						// }
-					// });
-					// \n";
-				// $html .= "\t\t</script>\n\n";
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				$html .= "\t\t<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js\"></script>\n";
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/bootstrap/3.1.1/js/bootstrap.min.js\"></script>\n\n";
+				
+				$html .= "\t\t<script type=\"text/javascript\" src=\"http://maps.google.com/maps/api/js?sensor=false&libraries=places\"></script>\n";
+				$html .= "\t\t<script src=\"/jaga/library/locationpicker/locationpicker.jquery.js\"></script>\n\n";
+				
 
+				
+				$html .= "\t\t<script> jQuery(document).ready(function($) { $(\".jagaClickableRow\").click(function() { window.document.location = $(this).data('url'); }); }); </script>\n\n";
+			
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/tooltip.js\"></script>\n\n";				
+				
+				
+				
+				
+				
 			$html .= "\t</head>\n\n";
 
 			$html .= "\t<body>\n\n";
@@ -256,27 +271,30 @@ class PageView {
 					$html .= "\t\t\t</div>\n";
 				$html .= "\t\t</div>\n\n";
 				
-				$html .= "\t\t<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js\"></script>\n";
-				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/bootstrap/3.1.1/js/bootstrap.min.js\"></script>\n";
+				// $html .= "\t\t<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js\"></script>\n";
+				// $html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/bootstrap/3.1.1/js/bootstrap.min.js\"></script>\n\n";
 				
-				$html .= "
-				<script>
-				jQuery(document).ready(function($) {
-					  $(\".jagaClickableRow\").click(function() {
-							window.document.location = $(this).data('url');
-					  });
-				});
-				</script>
-				";
+				// $html .= "\t\t<script type=\"text/javascript\" src=\"http://maps.google.com/maps/api/js?sensor=false&libraries=places\"></script>\n";
+				// $html .= "\t\t<script src=\"/jaga/library/locationpicker/locationpicker.jquery.js\"></script>\n\n";
+				// $html .= "
+				// <script>
+					// $('contentCordinates').locationpicker();
+				// </script>
+				// ";
+
+				
+				// $html .= "
+				// <script>
+				// jQuery(document).ready(function($) {
+					  // $(\".jagaClickableRow\").click(function() {
+							// window.document.location = $(this).data('url');
+					  // });
+				// });
+				// </script>
+				// ";
 			
 				// $html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/tooltip.js\"></script>\n\n";
-				
-				// $html .= "\t\t<script type=\"text/javascript\">\n";
-					// $html .= "\t\t\t$(function () {\n";
-						// $html .= "\t\t\t\t$(\"[rel='tooltip']\").tooltip();\n";
-					// $html .= "\t\t\t});\n";
-				// $html .= "\t\t</script>\n\n";
-				
+
 			$html .= "\t</body>\n\n";
 		$html .= "</html>";
 		

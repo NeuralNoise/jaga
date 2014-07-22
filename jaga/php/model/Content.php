@@ -59,9 +59,8 @@ class Content extends ORM {
 			$this->contentEventDate = date('Y-m-d');
 			$this->contentEventStartTime = date('H:00:00');
 			$this->contentEventEndTime = date('H:30:00');
-			$this->contentLatitude = '42.827200';
-			$this->contentLongitude = '140.806995';
-
+			$this->contentLatitude = '0.000000';
+			$this->contentLongitude = '0.000000';
 		}
 		
 	}

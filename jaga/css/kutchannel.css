@@ -60,13 +60,10 @@ span.jagaListGroupBadge {
 	color:#fff;
 }
 
-
-
-
-
-
-
-
+div#contentCoordinatesMap {
+	height:200px;
+	width:auto;
+}
 
 /* NAVBAR ACTION */
 
@@ -99,8 +96,6 @@ span.jagaListGroupBadge {
 	text-align:right;
 }
 
-
-
 @media (max-width:767px) {
 	body {
 		/* padding-top: 30px; */
@@ -114,8 +109,6 @@ span.jagaListGroupBadge {
 		width:300px;
 	}
 }
-
-
 
 /*
                                 :.. :IVVYYYXRI,
