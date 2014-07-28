@@ -1,4 +1,5 @@
 <?php
+
 class PageView {
 
 	public $pageTitle;
@@ -217,24 +218,16 @@ class PageView {
 				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/jaga/css/kutchannel.css\" />\n";
 				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/channel.css\" />\n\n";
 
-				
-				
-				
-				
-				
-				
-				
-				
-				
 				$html .= "\t\t<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js\"></script>\n";
-				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/bootstrap/3.1.1/js/bootstrap.min.js\"></script>\n\n";
-				
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/bootstrap/3.1.1/js/bootstrap.min.js\"></script>\n";
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/masonry.pkgd.min.js\"></script>\n";
 				$html .= "\t\t<script type=\"text/javascript\" src=\"http://maps.google.com/maps/api/js?sensor=false&libraries=places\"></script>\n";
-				$html .= "\t\t<script src=\"/jaga/library/locationpicker/locationpicker.jquery.js\"></script>\n\n";
-				
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/library/locationpicker/locationpicker.jquery.js\"></script>\n\n";
 
-				
 				$html .= "\t\t<script> jQuery(document).ready(function($) { $(\".jagaClickableRow\").click(function() { window.document.location = $(this).data('url'); }); }); </script>\n\n";
+				
+				$html .= "\t\t<script> $( window ).load( function() { $( '#list' ).masonry( { itemSelector: '.item' } ); }); </script>\n\n";
+				
 			
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/tooltip.js\"></script>\n\n";				
 				

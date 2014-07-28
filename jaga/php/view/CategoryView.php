@@ -3,13 +3,18 @@
 class CategoryView {
 	
 	public function displayChannelCategories($channelID) {
+	
 		$categoryArray = ChannelCategory::getChannelCategoryArray($channelID);
-		$html = '';
-		$html .= "\t\t<div class=\"container\">\n";
-		$k = 0;
+
+		$html = "\t\t<div class=\"container\"> <!-- START CONTAINER -->\n\n";
+		
+			$html .= "\t\t\t<div class=\"row\" id=\"list\"> <!-- START ROW -->\n\n";
+		
 		foreach ($categoryArray AS $contentCategoryKey => $postCount) {
-			if ($k % 3 == 0) { $html .= "<div class=\"row\">"; }
-				$html .= "<div class=\"col-md-4\">";
+		
+
+				$html .= "<div class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\">";
+				
 					$html .= "<div class=\"panel panel-default\">\n";
 						$html .= "<div class=\"panel-heading jagaContentPanelHeading\">
 							<a href=\"/k/create/" . $contentCategoryKey . "/\"><span style=\"float:right;\" class=\"glyphicon glyphicon-plus\"></span></a>
@@ -49,11 +54,11 @@ class CategoryView {
 							$html .= "</ul>\n";
 					$html .= "</div>\n";
 				$html .= "</div>";
-			if ($k % 3 == 2) { $html .= "</div>"; }
-			$k++;
+
 		}
-		if ($k % 3 != 0) { $html .= "</div> <!-- END ROW -->"; }
-		$html .= "\t\t</div>\n";
+			$html .= "\t\t\t</div> <!-- END ROW -->\n\n";
+
+		$html .= "\t\t</div> <!-- END CONTAINER -->\n\n";
 		return $html;	
 	}
 	
