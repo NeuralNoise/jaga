@@ -232,6 +232,27 @@ class Controller {
 
 		} elseif ($urlArray[0] == 'k' && ($urlArray[1] == 'update' || $urlArray[1] == 'create')) {
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 			// INITIALIZE $inputArray and $errorArray
 			$inputArray = array();
 			$errorArray = array();
@@ -263,8 +284,6 @@ class Controller {
 				// VALIDATION
 				if ($inputArray['contentTitleEnglish'] == '') { $errorArray[] = 'Every post needs a title.'; }
 				if ($inputArray['contentEnglish'] == '') { $errorArray[] = 'Your post is empty.'; }
-				
-				
 				if ($inputArray['contentCategoryKey'] == '') { $errorArray[] = 'A category must be selected.'; }
 				// is this category enabled for this channel? check it
 				
@@ -315,6 +334,7 @@ class Controller {
 						Content::update($content, $conditions);
 
 						$postSubmitURL = "/k/" . $inputArray['contentCategoryKey'] . "/";
+						
 						header("Location: $postSubmitURL");
 						
 					}
@@ -335,6 +355,31 @@ class Controller {
 			
 		}
 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 	
 }

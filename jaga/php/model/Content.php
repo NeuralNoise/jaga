@@ -22,6 +22,7 @@ class Content extends ORM {
 	public $contentEventDate;
 	public $contentEventStartTime;
 	public $contentEventEndTime;
+	public $contentHasLocation;
 	public $contentLatitude;
 	public $contentLongitude;
 	
@@ -59,8 +60,14 @@ class Content extends ORM {
 			$this->contentEventDate = date('Y-m-d');
 			$this->contentEventStartTime = date('H:00:00');
 			$this->contentEventEndTime = date('H:30:00');
-			$this->contentLatitude = '0.000000';
-			$this->contentLongitude = '0.000000';
+			$this->contentHasLocation = 0;
+			if ($_SESSION['channelID'] == 14) {
+				$this->contentLatitude = '42.858659';
+				$this->contentLongitude = '140.704899';
+			} else {
+				$this->contentLatitude = '0.000000';
+				$this->contentLongitude = '0.000000';
+			}
 		}
 		
 	}
@@ -120,6 +127,35 @@ class Content extends ORM {
 		
 	}
 
+	public function getUserContent($userID) {
+			
+			$currentDate = date('Y-m-d');
+
+			if ($userID != $_SESSION['userID']) {
+				$whereClause = "
+					AND contentPublished = 1
+					AND contentPublishStartDate <= '$currentDate' 
+					AND (contentPublishEndDate >= '$currentDate' OR contentPublishEndDate = '0000-00-00')
+				";
+			} else { $whereClause = ""; }
+			
+			$query = "
+				SELECT contentID, contentURL FROM jaga_Content 
+				WHERE contentSubmittedByUserID = :userID $whereClause
+				ORDER BY contentSubmissionDateTime DESC
+			";
+
+			// print_r($query);
+			
+			$core = Core::getInstance();
+			$statement = $core->database->prepare($query);
+			$statement->execute(array(':userID' => $userID));
+			
+			$userContentArray = array();
+			while ($row = $statement->fetch()) { $userContentArray[$row['contentID']] = $row['contentURL']; }
+			return $userContentArray;
+	}
+	
 }
 
 ?>

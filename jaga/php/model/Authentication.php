@@ -8,7 +8,7 @@ class Authentication {
 		$errorArray = array();
 	
 		$core = Core::getInstance();
-		$query = "SELECT id, username, email, password FROM jaga_user WHERE username = :username OR email = :username LIMIT 1";
+		$query = "SELECT userID, username, userEmail, userPassword FROM jaga_User WHERE username = :username OR userEmail = :username LIMIT 1";
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':username' => $username));
 		
@@ -20,10 +20,10 @@ class Authentication {
 		} else { // account exists => check password
 		
 			// PRE-DEPLOYMENT ONLY
-			if ($row['id'] != 2 && $row['id'] != 3 && $row['id'] != 64) { $errorArray[] = 'You are not a beta user.'; }
+			if ($row['userID'] != 2 && $row['userID'] != 3 && $row['userID'] != 64) { $errorArray[] = 'You are not a beta user.'; }
 			
 			
-			if ($row['password'] != $encryptedPassword) { $errorArray[] = 'Your password is incorrect. Please try again.'; }
+			if ($row['userPassword'] != $encryptedPassword) { $errorArray[] = 'Your password is incorrect. Please try again.'; }
 		}
 
 		return $errorArray;

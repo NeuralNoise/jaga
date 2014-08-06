@@ -42,6 +42,7 @@
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/ProfileView.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/SubscriptionView.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/ThemeView.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/UserView.php');
 
 	// DB: apply gitignore to taterbase.php
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/config/taterbase.php');

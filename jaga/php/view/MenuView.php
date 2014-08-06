@@ -80,13 +80,11 @@ class MenuView {
 									$html .= "\t\t\t\t\t\t\t</ul>\n";	
 								} else {
 									$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu jagaDrop\">\n";
+										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/u/" .  $username . "/channels/\"><em>CHANNELS...</em></a></li>\n";
 										$html .= self::getNavBarOwnChannelListItems();
 										$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
-										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/channels/\"><em>YOUR CHANNELS...</em></a></li>\n";
-										$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
+										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/u/" .  $username . "/subscriptions/\"><em>SUBSCRIPTIONS...</em></a></li>\n";
 										$html .= self::getNavBarSubscriptionListItems();
-										$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
-										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/subscriptions/\"><em>YOUR SUBSCRIPTIONS...</em></a></li>\n";
 									$html .= "\t\t\t\t\t\t\t</ul>\n";
 								}
 							$html .= "\t\t\t\t\t\t</li>\n";
@@ -112,7 +110,7 @@ class MenuView {
 							
 								$html .= "\t\t\t\t\t\t<li><a href=\"/u/" .  $username . "/\"><span class=\"glyphicon glyphicon glyphicon-user\"></span><span class=\"visible-xs\">PROFILE</span></a></li>\n";
 								
-								$html .= "\t\t\t\t\t\t<li><a href=\"/messages/\"><span class=\"glyphicon glyphicon-envelope\"></span><span class=\"visible-xs\">MESSAGES</span></a></li>\n";
+								$html .= "\t\t\t\t\t\t<li><a href=\"/imo/\"><span class=\"glyphicon glyphicon-envelope\"></span><span class=\"visible-xs\">MESSAGES</span></a></li>\n";
 								
 								$html .= "\t\t\t\t\t\t<li><a href=\"/settings/\"><span class=\"glyphicon glyphicon-cog\"></span><span class=\"visible-xs\">SETTINGS</span></a></li>\n";
 								

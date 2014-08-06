@@ -65,7 +65,7 @@ class ChannelView {
 		
 		$html = "\n\n";
 		$html .= "\t<div class=\"container\">\n";
-		$html .= "\t<!-- START CHANNEL CONTAINER -->\n\n";
+		$html .= "\t<!-- START CHANNEL CONTAINER --><div class=\"row\">\n\n";
 
 			$html .= "\t\t<!-- START jagaChannel -->\n";
 			$html .= "\t\t<div id=\"jagaChannel\" class=\"\">\n\n";
@@ -85,7 +85,7 @@ class ChannelView {
 					$html .= "\t\t\t\t<div class=\"panel-body\">\n\n";
 						
 						$html .= "\t\t\t\t\t<!-- START jagaChannelForm -->\n";
-						$html .= "\t\t\t\t\t<form role=\"form\" id=\"jagaChannelForm\" name=\"jagaChannelForm\" class=\"form-horizontal\"  method=\"post\" action=\"/manage-channels/" . $type . "/";
+						$html .= "\t\t\t\t\t<form role=\"form\" id=\"jagaChannelForm\" name=\"jagaChannelForm\" class=\"form-horizontal\"  method=\"post\" action=\"/settings/channels/" . $type . "/";
 							if ($type == 'update') { $html .= $channelKey . "/"; }
 						$html .= "\">\n\n";
 					
@@ -200,7 +200,7 @@ class ChannelView {
 			$html .= "\t\t</div>\n";
 			$html .= "\t\t<!-- END jagaChannel -->\n\n";
 
-		$html .= "\t</div>\n";
+		$html .= "\t</div></div>\n";
 		$html .= "\t<!-- END CHANNEL CONTAINER -->\n\n";
 			
 		return $html;
@@ -216,6 +216,8 @@ class ChannelView {
 		$html .= "\t<!-- START CHANNEL LIST -->\n";
 		$html .= "\t<div class=\"container\">\n\n";
 		
+			$html .= "\t<div class=\"row\">\n\n";
+		
 			$html .= "<div class=\"panel panel-default\">\n";
 				
 				$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>YOUR CHANNELS</h4></div>\n";
@@ -224,11 +226,11 @@ class ChannelView {
 					$html .= "<table class=\"table table-hover\">\n";
 						$html .= "<thead>\n";
 							$html .= "<tr>";
-								$html .= "<th>channelKey</th>\n";
-								$html .= "<th>channelTitleEnglish</th>\n";
-								$html .= "<th>themeKey</th>\n";
-								$html .= "<th>totalPosts</th>\n";
-								$html .= "<th>pagesServed</th>\n";
+								$html .= "<th>Key</th>\n";
+								$html .= "<th>Title</th>\n";
+								$html .= "<th>Theme</th>\n";
+								$html .= "<th>Total Posts</th>\n";
+								$html .= "<th>Pages Served</th>\n";
 							$html .= "</tr>";
 						$html .= "</thead>\n";
 						$html .= "<tbody>\n";
@@ -249,7 +251,7 @@ class ChannelView {
 								$pagesServed = $channel->pagesServed;
 								$siteManagerUserID = $channel->siteManagerUserID;
 								
-								$html .= "<tr class=\"jagaClickableRow\" data-url=\"/manage-channels/update/" . $channelKey . "/\">";
+								$html .= "<tr class=\"jagaClickableRow\" data-url=\"/settings/channels/update/" . $channelKey . "/\">";
 								
 									$html .= "<td>" . strtoupper($channelKey) . "</td>\n";
 									$html .= "<td>" . $channelTitleEnglish . "</td>\n";
@@ -266,6 +268,8 @@ class ChannelView {
 				
 			$html .= "</div>\n";
 
+			$html .= "\t\t</div>\n\n";
+			
 		$html .= "\t</div>\n";
 		$html .= "\t<!-- END CHANNEL LIST -->\n\n";
 		

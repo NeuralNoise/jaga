@@ -17,8 +17,6 @@ class PageView {
 	
 	public function buildPage($urlArray, $inputArray = array(), $errorArray = array()) {
 
-		// print_r($inputArray);
-		
 		$html = $this->getHeader();
 		
 			$navBar = new MenuView();
@@ -34,60 +32,30 @@ class PageView {
 				$html .= "\t<!-- END ERROR ARRAY -->\n\n";
 			}
 		
-			if ($urlArray[0] == '') { 
-			
+			if ($urlArray[0] == '') {
 				if ($_SESSION['channelID'] == 2006) {
 					$carousel = new CarouselView();
 					$html .= $carousel->getCarousel();
 				}
-				
 				$categoryView = new CategoryView();
 				$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
-
-			}
-			
-
-			
-
-			if ($urlArray[0] == '') {
-			
-				// $categoryView = new CategoryView();
-				// $html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
-				
 			} elseif ($urlArray[0] == 'register') {
-			
 				$html .= AuthenticationView::getAuthForm('register', $errorArray);
-				
 			} elseif ($urlArray[0] == 'login') {
-			
 				$html .= AuthenticationView::getAuthForm('login', $errorArray);
-				
 			} elseif ($urlArray[0] == 'about') {
-			
 				$html .= "about";
-				
 			} elseif ($urlArray[0] == 'tos') {
-			
 				$html .= "tos";
-				
 			} elseif ($urlArray[0] == 'privacy') {
-			
 				$html .= "privacy";
-				
 			} elseif ($urlArray[0] == 'sponsor') {
-			
 				$html .= "sponsor";
-				
 			} elseif ($urlArray[0] == 'sitemap') {
-			
 				$html .= "sitemap";
-				
 			} elseif ($urlArray[0] == 'contact') {
-			
 				$html .= "contact";
-				
 			} elseif ($urlArray[0] == 'k') {
-
 				if ($urlArray[1] == '') { // /k/
 					$html .= $this->getBreadcrumbs($urlArray);
 					$html .= CategoryView::displayChannelCategoryList($_SESSION['channelID']);
@@ -109,27 +77,61 @@ class PageView {
 						$html .= CommentView::displayContentCommentsView($contentID);
 					}
 				}
-				
 			} elseif ($urlArray[0] == 'u') {
 			
 				$username = $urlArray[1];
 				if (!User::usernameExists($username)) { die ('That username does not exist.'); }
-				$html .= "I fight for the Users (user profiles: /u/" . $username . "/)";
 				
-			} elseif ($urlArray[0] == 'manage-channels') {
-			
-				if ($urlArray[1] == 'create') {
-					$html .= ChannelView::getChannelForm('create', 0, $inputArray, $errorArray);
-				} elseif ($urlArray[1] == 'update') {
-					$channelID = Channel::getChannelID($urlArray[2]);
-					$html .= ChannelView::getChannelForm('update', $channelID, $inputArray, $errorArray);
-				} else {
-					$html .= ChannelView::displayUserChannelList();
+				if ($urlArray[2] == 'posts') {
+					$html .= UserView::displayUserProfileContentList($username);
+				} elseif ($urlArray[2] == 'comments') {
+					$html .= UserView::displayUserProfileCommentList($username);
+				} elseif ($urlArray[2] == 'channels') {
+					$html .= UserView::displayUserProfileChannelList($username);
+				} elseif ($urlArray[2] == 'subscriptions') {
+					$html .= UserView::displayUserProfileSubscriptionList($username);
 				}
 				
 			} elseif ($urlArray[0] == 'subscriptions') {
 			
 
+
+			} elseif ($urlArray[0] == 'settings') {
+			
+				$html .= $this->getSettingsNav();
+			
+				if ($urlArray[1] == 'profile') {
+				
+					$userID = $_SESSION['userID'];
+					
+					if ($urlArray[2] == 'update') {
+						$html .= UserView::displayUserForm($userID);
+					} else {
+						$html .= UserView::displayUserProfile($userID);
+					}
+				
+				} elseif ($urlArray[1] == 'channels') {
+				
+					if ($urlArray[2] == 'create') {
+						$html .= ChannelView::getChannelForm('create', 0, $inputArray, $errorArray);
+					} elseif ($urlArray[2] == 'update') {
+						$channelID = Channel::getChannelID($urlArray[3]);
+						$html .= ChannelView::getChannelForm('update', $channelID, $inputArray, $errorArray);
+					} else {
+						$html .= ChannelView::displayUserChannelList();
+					}
+				
+				} elseif ($urlArray[1] == 'subscriptions') {
+				
+				}
+				
+				
+				
+			
+			
+			
+				
+				
 				
 			} else {
 				$html .= "\n\n\t<!-- START 404 TEXT -->\n";
@@ -141,48 +143,46 @@ class PageView {
 			
 			
 			
-			if ($_SESSION['userID'] == 2) {
+			// if ($_SESSION['userID'] == 2) {
 			
 				$html .= "\t<div class=\"container\">\n";
 
 					$html .= "\t\t<div class=\"row\">\n";
 					
 						$html .= "\t\t\t<div class=\"col-md-3 bg-warning\">";
+							$html .= '<h3>$urlArray</h3>';
+							$html .= '<pre>' . print_r($urlArray, true) . '</pre>';
+						$html .= "</div>\n";
+						
+						$html .= "\t\t\t<div class=\"col-md-3 bg-warning\">";
 							$html .= '<h3>Session::sessionArray</h3>';
 							$html .= '<pre>' . print_r(Session::sessionDump(), true) . '</pre>';
+						$html .= "</div>\n";
+						
+						$html .= "\t\t\t<div class=\"col-md-3 bg-warning\">";
+							$html .= '<h3>$_SESSION</h3>';
+							$html .= '<pre>' . print_r($_SESSION, true) . '</pre>';
 						$html .= "</div>\n";
 						
 						$html .= "\t\t\t<div class=\"col-md-3 bg-warning\">";
 							$html .= '<h3>$_COOKIE</h3>';
 							$html .= '<pre>' . print_r($_COOKIE, true) . '</pre>';
 						$html .= "</div>\n";
-						
-						$html .= "\t\t\t<div class=\"col-md-3 bg-warning\">";
-							$html .= '<h3>$_POST</h3>';
-							$html .= '<pre>' . print_r($_POST, true) . '</pre>';
-						$html .= "</div>\n";
-						
-						$html .= "\t\t\t<div class=\"col-md-3 bg-warning\">";
-							$html .= '<h3>$urlArray</h3>';
-							$html .= '<pre>' . print_r($urlArray, true) . '</pre>';
-						$html .= "</div>\n";
-						
-					$html .= "\t\t</div>\n";
-					
-					$html .= "\t\t<div class=\"row\">\n";
-					
-						if (isset($_SESSION)) { 
-							$html .= "\t\t\t\t<div class=\"col-md-12 bg-warning\">";
-								$html .= '<h3>$_SESSION</h3>';
-								$html .= '<pre>' . print_r($_SESSION, true) . '</pre>';
-							$html .= "</div>\n";
-						}
 
-					$html .= "\t\t</div>\n";					
-					
+					$html .= "\t\t</div>\n";
+
+					if (!empty($_POST)) { 
+						$html .= "\t\t<div class=\"row\">\n";
+							$html .= "\t\t\t\t<div class=\"col-md-12 bg-warning\">";
+								$html .= '<h3>$_POST</h3>';
+								$html .= '<pre>' . print_r(_POST, true) . '</pre>';
+							$html .= "</div>\n";
+						$html .= "\t\t</div>\n";
+					}
+
 				$html .= "\t</div>\n";
 			
-			}
+			// }
 		
 		$html .= $this->getFooter();
 		
@@ -248,9 +248,6 @@ class PageView {
 				$html = "\n\n";
 				$html .= "\t\t<div id=\"footer\">\n";
 					$html .= "\t\t\t<div class=\"container\">\n";
-					
-					
-					
 						$html .= "\t\t\t\t<p class=\"text-muted\">";
 							$html .= "<a href=\"http://the.kutchannel.net/about/\">About</a> | ";
 							$html .= "<a href=\"http://the.kutchannel.net/tos/\">Terms of Service</a> | ";
@@ -260,34 +257,8 @@ class PageView {
 							$html .= "<a href=\"http://the.kutchannel.net/contact/\">Contact</a> | ";
 							$html .= "&copy; The Kutchannel 2006-" . date('Y');
 						$html .= "</p>\n";
-						
 					$html .= "\t\t\t</div>\n";
 				$html .= "\t\t</div>\n\n";
-				
-				// $html .= "\t\t<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js\"></script>\n";
-				// $html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/bootstrap/3.1.1/js/bootstrap.min.js\"></script>\n\n";
-				
-				// $html .= "\t\t<script type=\"text/javascript\" src=\"http://maps.google.com/maps/api/js?sensor=false&libraries=places\"></script>\n";
-				// $html .= "\t\t<script src=\"/jaga/library/locationpicker/locationpicker.jquery.js\"></script>\n\n";
-				// $html .= "
-				// <script>
-					// $('contentCordinates').locationpicker();
-				// </script>
-				// ";
-
-				
-				// $html .= "
-				// <script>
-				// jQuery(document).ready(function($) {
-					  // $(\".jagaClickableRow\").click(function() {
-							// window.document.location = $(this).data('url');
-					  // });
-				// });
-				// </script>
-				// ";
-			
-				// $html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/tooltip.js\"></script>\n\n";
-
 			$html .= "\t</body>\n\n";
 		$html .= "</html>";
 		
@@ -295,19 +266,20 @@ class PageView {
 		
 	}
 
+	// which class?
 	private function getBreadcrumbs($urlArray) {
 	
 		$channel = new Channel($_SESSION['channelID']);
 		$channelKey = $channel->channelKey;
 		$channelTitle = $channel->channelTitleEnglish;
 		
-		
 		$html = "<div class=\"container\"><ol class=\"breadcrumb\">";
 			$html .= "<li><a href=\"http://the.kutchannel.net/\">THE KUTCHANNEL</a></li>";
 			$html .= "<li><a href=\"http://" . $channelKey . ".kutchannel.net/\">" . strtoupper($channelTitle) . "</a></li>";
-			if ($urlArray[0] == 'k' && $urlArray[1] != '' && $urlArray[2] == '') { // /k/<contentCategoryKey>/
-				$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "\">" . strtoupper($urlArray[1]) . "</a></li>";
-			} elseif ($urlArray[0] == 'k' && $urlArray[1] != '' && $urlArray[2] != '') { // /k/<contentCategoryKey>/<contentURL>/
+			if ($urlArray[0] == 'k' && $urlArray[1] != '') { // /k/<contentCategoryKey>/
+				$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "/\">" . strtoupper($urlArray[1]) . "</a></li>";
+			}
+			if ($urlArray[0] == 'k' && $urlArray[1] != '' && $urlArray[2] != '') { // /k/<contentCategoryKey>/<contentURL>/
 				$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "/" . strtoupper($urlArray[2]) . "/\">" . strtoupper(urldecode($urlArray[2])) . "</a></li>";	
 			}
 		$html .= "</ol></div>";
@@ -315,6 +287,43 @@ class PageView {
 		
 	}
 	
+	// which class?
+	private function getSettingsNav() {
+
+		$html = "\t<div class=\"container\">\n";
+			$html .= "\t\t<div class=\"row\" style=\"margin-bottom:10px;\">\n";
+				$html .= "
+					<div class=\"btn-group btn-group-lg\">
+						<a href=\"/settings/profile/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-user\"></span> Profile</a>
+						<a href=\"/settings/channels/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-th-large\"></span> Channels</a>
+						<a href=\"/settings/subscriptions/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-star\"></span> Subscriptions</a>
+					</div>
+				";
+			$html .= "\t\t</div>\n";
+		$html .= "\t</div>\n";
+		
+		return $html;
+		
+	}
+
+	// which class? 
+	private function getProfileNav($username) {
+
+		$html = "\t<div class=\"container\">\n";
+			$html .= "\t\t<div class=\"row\" style=\"margin-bottom:10px;\">\n";
+				$html .= "
+					<div class=\"btn-group btn-group-lg\">
+						<a href=\"/u/" . $username . "/posts/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-user\"></span> Profile</a>
+						<a href=\"/u/" . $username . "/channels/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-th-large\"></span> Channels</a>
+						<a href=\"/u/" . $username . "/subscriptions/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-star\"></span> Subscriptions</a>
+					</div>
+				";
+			$html .= "\t\t</div>\n";
+		$html .= "\t</div>\n";
+		
+		return $html;
+		
+	}	
 }
 
 ?>
