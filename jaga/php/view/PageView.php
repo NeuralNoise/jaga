@@ -40,7 +40,31 @@ class PageView {
 				$categoryView = new CategoryView();
 				$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
 			} elseif ($urlArray[0] == 'register') {
-				$html .= AuthenticationView::getAuthForm('register', $errorArray);
+			
+			
+			
+			
+			
+			
+			
+			
+				$html .= AuthenticationView::getAuthForm('register', $inputArray, $errorArray);
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			} elseif ($urlArray[0] == 'login') {
 				$html .= AuthenticationView::getAuthForm('login', $errorArray);
 			} elseif ($urlArray[0] == 'about') {
@@ -147,6 +171,15 @@ class PageView {
 			
 				$html .= "\t<div class=\"container\">\n";
 
+					if (!empty($_POST)) { 
+						$html .= "\t\t<div class=\"row\">\n";
+							$html .= "\t\t\t\t<div class=\"col-md-12 bg-warning\">";
+								$html .= '<h3>$_POST</h3>';
+								$html .= '<pre>' . print_r($_POST, true) . '</pre>';
+							$html .= "</div>\n";
+						$html .= "\t\t</div>\n";
+					}
+					
 					$html .= "\t\t<div class=\"row\">\n";
 					
 						$html .= "\t\t\t<div class=\"col-md-3 bg-warning\">";
@@ -171,14 +204,7 @@ class PageView {
 
 					$html .= "\t\t</div>\n";
 
-					if (!empty($_POST)) { 
-						$html .= "\t\t<div class=\"row\">\n";
-							$html .= "\t\t\t\t<div class=\"col-md-12 bg-warning\">";
-								$html .= '<h3>$_POST</h3>';
-								$html .= '<pre>' . print_r(_POST, true) . '</pre>';
-							$html .= "</div>\n";
-						$html .= "\t\t</div>\n";
-					}
+
 
 				$html .= "\t</div>\n";
 			
@@ -266,7 +292,6 @@ class PageView {
 		
 	}
 
-	// which class?
 	private function getBreadcrumbs($urlArray) {
 	
 		$channel = new Channel($_SESSION['channelID']);
@@ -287,7 +312,6 @@ class PageView {
 		
 	}
 	
-	// which class?
 	private function getSettingsNav() {
 
 		$html = "\t<div class=\"container\">\n";
@@ -306,7 +330,6 @@ class PageView {
 		
 	}
 
-	// which class? 
 	private function getProfileNav($username) {
 
 		$html = "\t<div class=\"container\">\n";

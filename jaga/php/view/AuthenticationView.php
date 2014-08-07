@@ -2,7 +2,7 @@
 
 class AuthenticationView {
 
-	public static function getAuthForm($type, $errorArray = array()) {
+	public static function getAuthForm($type, $inputArray, $errorArray = array()) {
 	
 		$html = "\n\n\t<!-- START AUTH CONTAINER -->\n";
 		$html .= "\t<div class=\"container\" style=\"margin-top:30px;\">\n\n";
@@ -98,12 +98,16 @@ class AuthenticationView {
 						
 							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom:25px;\" class=\"input-group\">\n";
 								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-user\"></i></span>\n";
-								$html .= "\t\t\t\t\t\t\t<input id=\"register-username\" type=\"text\" class=\"form-control\" name=\"username\" value=\"\" placeholder=\"desired username\">\n";
+								$html .= "\t\t\t\t\t\t\t<input id=\"register-username\" type=\"text\" class=\"form-control\" name=\"username\" value=\"";
+									if (isset($inputArray['username'])) { $html .= $inputArray['username']; }
+								$html .= "\" placeholder=\"username\">\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom:25px;\" class=\"input-group\">\n";
 								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-envelope\"></i></span>\n";
-								$html .= "\t\t\t\t\t\t\t<input id=\"register-email\" type=\"email\" class=\"form-control\" name=\"userEmail\" value=\"\" placeholder=\"email\">\n";
+								$html .= "\t\t\t\t\t\t\t<input id=\"register-email\" type=\"email\" class=\"form-control\" name=\"userEmail\" value=\"";
+									if (isset($inputArray['userEmail'])) { $html .= $inputArray['userEmail']; }
+								$html .= "\" placeholder=\"email\">\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom: 25px\" class=\"input-group\">\n";
@@ -141,6 +145,7 @@ class AuthenticationView {
 		return $html;
 	
 	}
+
 }
 
 ?>

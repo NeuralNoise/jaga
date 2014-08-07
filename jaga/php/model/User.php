@@ -63,6 +63,16 @@ class User {
 	
 	}
 	
+	public function emailInUse($userEmail) {
+	
+		$core = Core::getInstance($userEmail);
+		$query = "SELECT userEmail FROM jaga_User WHERE userEmail = :userEmail LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':userEmail' => $userEmail));
+		if ($row = $statement->fetch()) { return true; } else { return false; }
+	
+	}
+	
 }
 
 ?>

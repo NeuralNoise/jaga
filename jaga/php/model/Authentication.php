@@ -52,8 +52,36 @@ class Authentication {
 		
 	}
 	
-	public static function register() {
+	public static function register($username, $userEmail, $password, $confirmPassword) {
 	
+		$errorArray = array();
+		
+		if ($username == '') {
+			$errorArray[] = "The 'username' field is required.";
+		} else {
+			if (User::usernameExists($username)) { $errorArray[] = "That 'username' is already taken."; }
+			if (!preg_match('/^[A-Za-z0-9_-]+$/',$username)) {
+				$errorArray[] = "Your 'username' can contain only letters, numbers, hyphens, and underscores.";
+			}
+		}
+		
+		if ($userEmail == '') {
+			$errorArray[] = "The 'email' field is required.";
+		} else {
+			if (!preg_match('/^\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b$/',$userEmail)) {
+				$errorArray[] = "That email address appears to be formatted incorrectly.";
+			}
+			if (User::emailInUse($userEmail)) { $errorArray[] = "That email address is already in use."; }		
+		}
+
+		if ($password == '') { $errorArray[] = "The 'password' field is required."; }
+		if ($confirmPassword == '') { $errorArray[] = "The 'confirm password' field is required."; }
+		if ($password != '' && $confirmPassword != '' && $password != $confirmPassword) {
+			$errorArray[] = "The passwords you entered did not match.";
+		}
+		
+		return $errorArray;
+		
 	}
 	
 	public static function isLoggedIn() {

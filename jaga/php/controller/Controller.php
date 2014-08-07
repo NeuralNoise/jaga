@@ -27,13 +27,20 @@ class Controller {
 		
 			// note: still need to reroute reserved strings
 			
+			$reservedDomains = array('dev');
+			
 			$domain = $_SERVER['HTTP_HOST'];
 			$tmp = explode('.', $domain);
 			$subdomain = current($tmp);
 			
-			return '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><head><title>The Kutchannel: The "' . $subdomain . '" channel does not yet exist.</title><META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"></head><body style="background-color:#FFFF99;padding-top:150px;"><div style="text-align:center;"><a href="http://the.kutchannel.net/"><img src="/jaga/images/banner.png" style="max-width:100%;border-style:none;"></a><br />This channel has not yet been created. <a href="http://the.kutchannel.net/create-a-channel/' . $subdomain . '/" style="text-decoration:none;">Create it</a>!</div></body></html>';
-			die();
-			
+			if (in_array($subdomain,$reservedDomains)) {
+				return '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><head><title>The Kutchannel: This subdomain is reserved.</title><META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"></head><body style="background-color:#FFFF99;padding-top:150px;"><div style="text-align:center;"><a href="http://the.kutchannel.net/"><img src="/jaga/images/banner.png" style="max-width:100%;border-style:none;"></a><br />This subdomain is reserved.</div></body></html>';
+				die();			
+			} else {
+				return '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><head><title>The Kutchannel: The "' . $subdomain . '" channel does not yet exist.</title><META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"></head><body style="background-color:#FFFF99;padding-top:150px;"><div style="text-align:center;"><a href="http://the.kutchannel.net/"><img src="/jaga/images/banner.png" style="max-width:100%;border-style:none;"></a><br />This channel has not yet been created. <a href="http://the.kutchannel.net/create-a-channel/' . $subdomain . '/" style="text-decoration:none;">Create it</a>!</div></body></html>';
+				die();
+			}
+
 		}
 	
 		$arrayOfSupportedLanguages = array('en','ja');
@@ -86,6 +93,87 @@ class Controller {
 			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
 			return $html;
 			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		} elseif ($urlArray[0] == 'register') {
+		
+			$inputArray = array();
+			$errorArray = array();
+			
+			if (isset($_POST['jagaRegisterSubmit'])) {
+			
+				$inputArray['username'] = $_POST['username'];
+				$inputArray['userEmail'] = $_POST['userEmail'];
+				
+				$username = $_POST['username'];
+				$userEmail = $_POST['userEmail'];
+				$password = $_POST['password'];
+				$confirmPassword = $_POST['confirmPassword'];
+			
+				$errorArray = Authentication::register($username, $userEmail, $password, $confirmPassword);
+				
+				if (empty($errorArray)) {
+				
+					// register user
+					// $userID = User::getUserIDwithUserNameOrEmail($username);
+					// Session::setSession('userID', $userID);
+
+					// terminate script; forward header
+					$forwardURL = '/thank-you-for-registering/';
+					header("Location: $forwardURL");
+					
+				}
+				
+			}
+			
+			$page = new PageView();
+			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
+			return $html;
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		
 		} elseif ($urlArray[0] == 'logout') {
 
 			Authentication::logout();

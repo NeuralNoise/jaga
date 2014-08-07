@@ -1,9 +1,7 @@
 <?php
 
 	class UserView {
-	
-	
-	
+
 		public function displayUserProfileContentList($username) {
 
 			$html = "\t<div class=\"container\">\n";
@@ -45,9 +43,7 @@
 			
 			return $html;
 		}
-		
-		
-		
+
 		public function displayUserForm($userID) {
 			$html = "\t<div class=\"container\">\n";
 				$html .= "\t\t<div class=\"row\">\n";
@@ -68,8 +64,6 @@
 			return $html;
 		}
 
-		
-		
 	}
 
 ?>
