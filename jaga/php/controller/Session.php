@@ -2,6 +2,8 @@
 
 class Session {
 
+	static $sessionArray;
+		
 	public $sessionID;
 	public $userID;
 	public $sessionDateTimeSet;
@@ -38,10 +40,6 @@ class Session {
 		
 	}
 
-	/* START STATIC */
-	
-	static $sessionArray;
-	
 	public static function getSession($name) {
 		if (isset(self::$sessionArray[$name])) {
 			return self::$sessionArray[$name];
@@ -82,9 +80,7 @@ class Session {
 		return $userID;
 		
 	}
-	
-	/* END STATIC */
-	
+
 }
 
 ?>

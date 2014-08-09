@@ -25,8 +25,10 @@ class PageView {
 			if (!empty($errorArray)) {
 				$html .= "\t<!-- START ERROR ARRAY -->\n";
 				$html .= "\t<div class=\"container\">\n";
-					foreach ($errorArray AS $value) {
-						$html .= "\t\t<div class=\"alert alert-danger col-sm-12 jagaErrorArray\">$value</div>\n";
+					foreach ($errorArray AS $errorFlag) {
+						foreach ($errorFlag AS $errorMessage) {
+							$html .= "\t\t<div class=\"alert alert-danger col-sm-12 jagaErrorArray\">$errorMessage</div>\n";
+						}
 					}
 				$html .= "\t</div>\n";
 				$html .= "\t<!-- END ERROR ARRAY -->\n\n";
@@ -66,7 +68,7 @@ class PageView {
 				
 				
 			} elseif ($urlArray[0] == 'login') {
-				$html .= AuthenticationView::getAuthForm('login', $errorArray);
+				$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
 			} elseif ($urlArray[0] == 'about') {
 				$html .= "about";
 			} elseif ($urlArray[0] == 'tos') {

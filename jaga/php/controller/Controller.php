@@ -60,6 +60,8 @@ class Controller {
 			
 			if (isset($_POST['jagaLoginSubmit'])) {
 			
+				$inputArray['username'] = $_POST['username'];
+				
 				$username = $_POST['username'];
 				$password = $_POST['password'];
 			
@@ -125,16 +127,12 @@ class Controller {
 				$userEmail = $_POST['userEmail'];
 				$password = $_POST['password'];
 				$confirmPassword = $_POST['confirmPassword'];
+				$raptcha = $_POST['raptcha'];
 			
-				$errorArray = Authentication::register($username, $userEmail, $password, $confirmPassword);
+				$errorArray = Authentication::register($username, $userEmail, $password, $confirmPassword, $raptcha);
 				
 				if (empty($errorArray)) {
 				
-					// register user
-					// $userID = User::getUserIDwithUserNameOrEmail($username);
-					// Session::setSession('userID', $userID);
-
-					// terminate script; forward header
 					$forwardURL = '/thank-you-for-registering/';
 					header("Location: $forwardURL");
 					

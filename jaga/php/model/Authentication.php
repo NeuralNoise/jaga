@@ -13,17 +13,12 @@ class Authentication {
 		$statement->execute(array(':username' => $username));
 		
 
-		if (!$row = $statement->fetch()) { // account does not exist
-		
-			$errorArray[] = 'That account does not exist. Please try again.';
-			
-		} else { // account exists => check password
-		
-			// PRE-DEPLOYMENT ONLY
-			if ($row['userID'] != 2 && $row['userID'] != 3 && $row['userID'] != 64) { $errorArray[] = 'You are not a beta user.'; }
-			
-			
-			if ($row['userPassword'] != $encryptedPassword) { $errorArray[] = 'Your password is incorrect. Please try again.'; }
+		if (
+			(!$row = $statement->fetch()) || 
+			($row['userID'] != 2 && $row['userID'] != 3 && $row['userID'] != 64) ||
+			($row['userPassword'] != $encryptedPassword)
+		) {
+			$errorArray['login'][] = 'Authentication failed. Please try again or <a href="/account-recovery/">recover your account details</a> using your email address.';
 		}
 
 		return $errorArray;
@@ -52,33 +47,35 @@ class Authentication {
 		
 	}
 	
-	public static function register($username, $userEmail, $password, $confirmPassword) {
+	public static function register($username, $userEmail, $password, $confirmPassword, $raptcha) {
 	
 		$errorArray = array();
 		
 		if ($username == '') {
-			$errorArray[] = "The 'username' field is required.";
+			$errorArray['username'][] = "The username field is required.";
 		} else {
-			if (User::usernameExists($username)) { $errorArray[] = "That 'username' is already taken."; }
+			if (User::usernameExists($username)) { $errorArray['username'][] = "That username is already taken."; }
 			if (!preg_match('/^[A-Za-z0-9_-]+$/',$username)) {
-				$errorArray[] = "Your 'username' can contain only letters, numbers, hyphens, and underscores.";
+				$errorArray['username'][] = "Your username can contain only letters, numbers, hyphens, and underscores.";
 			}
 		}
 		
 		if ($userEmail == '') {
-			$errorArray[] = "The 'email' field is required.";
+			$errorArray['userEmail'][] = "The 'email' field is required.";
 		} else {
 			if (!preg_match('/^\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b$/',$userEmail)) {
-				$errorArray[] = "That email address appears to be formatted incorrectly.";
+				$errorArray['userEmail'][] = "That email address appears to be formatted incorrectly.";
 			}
-			if (User::emailInUse($userEmail)) { $errorArray[] = "That email address is already in use."; }		
+			if (User::emailInUse($userEmail)) { $errorArray['userEmail'][] = "That email address is already in use."; }		
 		}
 
-		if ($password == '') { $errorArray[] = "The 'password' field is required."; }
-		if ($confirmPassword == '') { $errorArray[] = "The 'confirm password' field is required."; }
+		if ($password == '') { $errorArray['password'][] = "The password field is required."; }
+		if ($confirmPassword == '') { $errorArray['confirmPassword'][] = "The confirm password field is required."; }
 		if ($password != '' && $confirmPassword != '' && $password != $confirmPassword) {
-			$errorArray[] = "The passwords you entered did not match.";
+			$errorArray['passwords'][] = "The passwords you entered did not match.";
 		}
+		
+		if ($raptcha != $_SESSION['raptcha']) { $errorArray['raptcha'][] = "The code did not match."; }
 		
 		return $errorArray;
 		
