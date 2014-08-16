@@ -90,6 +90,17 @@ class Content extends ORM {
 		
 	}
 	
+	public function getContentURL($contentID) {
+	
+		$core = Core::getInstance();
+		$query = "SELECT contentURL, contentCategoryKey FROM jaga_Content WHERE contentID = :contentID LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':contentID' => $contentID));
+		if ($row = $statement->fetch()) { $contentURL = "/k/" . $row['contentCategoryKey'] . "/" . $row['contentURL'] . "/"; } else $contentURL = "/";
+		return $contentURL;
+		
+	}
+	
 	public function getContentArray($contentCategoryKey) {
 	
 	}

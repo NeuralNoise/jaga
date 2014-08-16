@@ -27,6 +27,7 @@
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/SEO.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/Shop.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/Sitemap.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/Subscription.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/Theme.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/User.php');
 	

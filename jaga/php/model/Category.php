@@ -1,6 +1,6 @@
 <?php
 
-class Category {
+class Category extends ORM {
 
 
 	public function getCategoryContent($channelID, $contentCategoryKey) {
@@ -42,11 +42,11 @@ class Category {
 		$core = Core::getInstance();
 		
 		$query = "
-			SELECT jaga_category.contentCategoryKey as contentCategoryKey, COUNT(jaga_Content.contentID) as postCount
-			FROM jaga_category LEFT JOIN jaga_Content
-			ON jaga_category.contentCategoryKey = jaga_Content.contentCategoryKey
-			GROUP BY jaga_category.contentCategoryKey
-			ORDER BY jaga_category.contentCategoryKey ASC
+			SELECT jaga_Category.contentCategoryKey as contentCategoryKey, COUNT(jaga_Content.contentID) as postCount
+			FROM jaga_Category LEFT JOIN jaga_Content
+			ON jaga_Category.contentCategoryKey = jaga_Content.contentCategoryKey
+			GROUP BY jaga_Category.contentCategoryKey
+			ORDER BY jaga_Category.contentCategoryKey ASC
 		";
 		
 		$statement = $core->database->prepare($query);

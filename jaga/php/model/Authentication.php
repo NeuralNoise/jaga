@@ -16,7 +16,7 @@ class Authentication {
 		if (
 			(!$row = $statement->fetch()) || 
 			($row['userID'] != 2 && $row['userID'] != 3 && $row['userID'] != 64) ||
-			($row['userPassword'] != $encryptedPassword)
+			($row['userPassword'] != $encryptedPassword) 
 		) {
 			$errorArray['login'][] = 'Authentication failed. Please try again or <a href="/account-recovery/">recover your account details</a> using your email address.';
 		}
@@ -76,7 +76,7 @@ class Authentication {
 		}
 		
 		if ($raptcha != $_SESSION['raptcha']) { $errorArray['raptcha'][] = "The code did not match."; }
-		
+
 		return $errorArray;
 		
 	}

@@ -42,6 +42,8 @@ class MenuView {
 							$html .= "\t\t\t\t\t<a class=\"navbar-brand\" href=\"/\">" . strtoupper($channelTitle) . "</a>\n\n";
 						}
 						
+						
+						
 					$html .= "\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t<!-- END NAVBAR-HEADER -->\n\n";
 
@@ -62,10 +64,28 @@ class MenuView {
 							if ($_SESSION['channelID'] != 2006) { // the.kutchannel.net categories are aggregate
 								$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"/\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">THIS CHANNEL <b class=\"caret\"></b></a>\n";
 									$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\">\n";
+									
+									
+										// IF UNSUBCRIBED TO CURRENT CHANNEL
+										if (!Subscription::userIsSubscribed($_SESSION['userID'], $_SESSION['channelID'])) {
+											$html .= "\t\t\t\t\t<li><a href=\"/subscribe/" . $_SESSION['channelKey'] . "/\"><span class=\"glyphicon glyphicon-star-empty\"> <span class=\"\">SUBSCRIBE</span></span></a></li>\n\n";
+										}
+
 										$html .= self::getNavBarCategoryListItems();
 										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/k/\"><em>ALL CATEGORIES...</em></a></li>\n";
+																				
+										// IF SUBCRIBED TO CURRENT CHANNEL
+										if (Subscription::userIsSubscribed($_SESSION['userID'], $_SESSION['channelID'])) {
+											$html .= "\t\t\t\t\t<li><a href=\"/unsubscribe/" . $_SESSION['channelKey'] . "/\"><span class=\"glyphicon glyphicon-remove\"> <span class=\"\">UNSUBSCRIBE</span></span></a></li>\n\n";
+										}
+										
+										
 									$html .= "\t\t\t\t\t\t\t</ul>\n";
 								$html .= "\t\t\t\t\t\t</li>\n";
+								
+								
+								
+								
 							}
 							// END "THIS CHANNEL" DROPDOWN //
 							

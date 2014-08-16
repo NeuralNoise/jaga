@@ -131,10 +131,10 @@ class Channel extends ORM {
 		
 		$core = Core::getInstance();
 		$query = "
-			SELECT jaga_subscription.channelID as channelID, COUNT(jaga_Content.contentID) as postCount 
-			FROM jaga_subscription, jaga_Content 
-			WHERE jaga_subscription.channelID = jaga_Content.channelID 
-			AND jaga_subscription.userID = :userID
+			SELECT jaga_Subscription.channelID as channelID, COUNT(jaga_Content.contentID) as postCount 
+			FROM jaga_Subscription, jaga_Content 
+			WHERE jaga_Subscription.channelID = jaga_Content.channelID 
+			AND jaga_Subscription.userID = :userID
 			GROUP BY channelID 
 			ORDER BY postCount DESC
 		";

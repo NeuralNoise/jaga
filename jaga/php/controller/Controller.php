@@ -8,6 +8,8 @@ class Controller {
 	
 		$channelID = Channel::getSelectedChannelID();
 		Session::setSession('channelID', $channelID);
+		$channelKey = Channel::getChannelKey($channelID);
+		Session::setSession('channelKey', $channelKey);
 		
 		$userID = 0;
 		if (isset($_COOKIE['TheKutchannel'])) {
@@ -44,13 +46,11 @@ class Controller {
 		}
 	
 		$arrayOfSupportedLanguages = array('en','ja');
-		if (in_array($urlArray[0], $arrayOfSupportedLanguages)) {
-			Session::setSession('lang', $urlArray[0]);
-			array_shift($urlArray);
-		} else {
-			Session::setSession('lang', 'en');
-		}
-
+		$lang = Language::getBrowserDefaultLanguage();
+		if ($_SESSION['userID'] != 0) { $lang = User::getUserSelectedLanguage($_SESSION['userID']); }
+		if (!in_array($lang, $arrayOfSupportedLanguages)) { $lang = 'en'; }
+		Session::setSession('lang', $lang);
+		
 		$i = 0; while ($i <= 3) { if (!isset($urlArray[$i])) { $urlArray[$i] = ''; } $i++; } // minimum 3 array pointers
 
 		if ($urlArray[0] == 'login') {
@@ -72,6 +72,9 @@ class Controller {
 					// log user in
 					$userID = User::getUserIDwithUserNameOrEmail($username);
 					Session::setSession('userID', $userID);
+					
+					// set userLastVisitDateTime
+					User::setUserLastVisitDateTime($userID);
 					
 					// save session to db
 					$authSession = new Session();
@@ -132,7 +135,19 @@ class Controller {
 				$errorArray = Authentication::register($username, $userEmail, $password, $confirmPassword, $raptcha);
 				
 				if (empty($errorArray)) {
+
+					$user = new User(0);
 				
+					unset($user->userID);
+					
+					$user->username = $username;
+					$user->userDisplayName = $username;
+					$user->userEmail = $userEmail;
+					$user->userPassword = md5($password);
+					$user->userRegistrationDateTime = date('Y-m-d H:i:s');
+
+					$userID = Content::insert($user);
+
 					$forwardURL = '/thank-you-for-registering/';
 					header("Location: $forwardURL");
 					
@@ -316,29 +331,8 @@ class Controller {
 			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
 			return $html;
 
-		} elseif ($urlArray[0] == 'k' && ($urlArray[1] == 'update' || $urlArray[1] == 'create')) {
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		} elseif ($urlArray[0] == 'k' && ($urlArray[1] == 'update' || $urlArray[1] == 'create')) { // CONTENT
+
 			// INITIALIZE $inputArray and $errorArray
 			$inputArray = array();
 			$errorArray = array();
@@ -433,6 +427,16 @@ class Controller {
 			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
 			return $html;
 
+		} elseif ($urlArray[0] == 'k' && $urlArray[1] == 'comment' && is_numeric($urlArray[2])) {
+		
+			$contentPath = Content::getContentURL($urlArray[2]);
+		
+			if (!empty($_POST)) { $inputArray = $_POST; } else { header("Location: $contentPath"); }
+			
+			$page = new PageView();
+			$html = $page->buildPage($urlArray, $inputArray);
+			return $html;
+		
 		} else {
 		
 			$page = new PageView();

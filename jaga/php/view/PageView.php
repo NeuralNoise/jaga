@@ -64,6 +64,19 @@ class PageView {
 				
 				
 				
+			} elseif ($urlArray[0] == 'thank-you-for-registering') {
+				
+				
+
+				$html .= "\t\t<div class=\"container\">";
+					$html .= "<div class=\"col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2\" style=\"margin-bottom:10px;\">Thank you for registering for The Kutchannel!</div>";
+				$html .= "</div>\n\n";
+
+
+				$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
+				
+				
+				
 				
 				
 				
@@ -91,6 +104,8 @@ class PageView {
 					if (isset($inputArray['contentCategoryKey'])) { $contentCategoryKey = $inputArray['contentCategoryKey'];
 					} else { $contentCategoryKey = $urlArray[2]; }
 					$html .= ContentView::getContentForm('create', 0, $contentCategoryKey, $inputArray, $errorArray);
+				} elseif ($urlArray[1] == 'comment') {
+					$html .= $urlArray[2];
 				} else {
 					if ($urlArray[2] == '') { // /k/<contentCategoryKey>/
 						$html .= $this->getBreadcrumbs($urlArray);
@@ -101,6 +116,7 @@ class PageView {
 						$html .= $this->getBreadcrumbs($urlArray);
 						$html .= ContentView::displayContentView($contentID);
 						$html .= CommentView::displayContentCommentsView($contentID);
+						$html .= CommentView::displayContentCommentForm($contentID);
 					}
 				}
 			} elseif ($urlArray[0] == 'u') {
@@ -169,7 +185,7 @@ class PageView {
 			
 			
 			
-			// if ($_SESSION['userID'] == 2) {
+			if ($_SESSION['userID'] == 2) {
 			
 				$html .= "\t<div class=\"container\">\n";
 
@@ -210,7 +226,7 @@ class PageView {
 
 				$html .= "\t</div>\n";
 			
-			// }
+			}
 		
 		$html .= $this->getFooter();
 		

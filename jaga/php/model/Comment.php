@@ -9,9 +9,10 @@ class Comment extends ORM {
 		$core = Core::getInstance();
 		$query = "
 			SELECT userID, commentDateTime, commentContent
-			FROM jaga_comment 
+			FROM jaga_Comment 
 			WHERE contentID = :contentID
-			AND siteID = :channelID
+			AND channelID = :channelID
+			ORDER BY commentDateTime ASC
 		";
 
 		$statement = $core->database->prepare($query);
