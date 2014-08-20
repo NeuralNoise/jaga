@@ -133,7 +133,62 @@ class PageView {
 				} elseif ($urlArray[2] == 'subscriptions') {
 					$html .= UserView::displayUserProfileSubscriptionList($username);
 				}
-				
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			} elseif ($urlArray[0] == 'subscribe') {
+			
+			
+				if ($_SESSION['userID'] == 0) {
+					$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
+				} else {
+					$html .= "<div class=\"container\">You have been subscribed to " . $_SESSION['channelKey'] . ".</div>";
+				}
+			
+			} elseif ($urlArray[0] == 'unsubscribe') {
+			
+			
+				if ($_SESSION['userID'] == 0) {
+					$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
+				} else {
+					$html .= "<div class=\"container\">You have been unsubscribed from " . $_SESSION['hannelKey'] . ".</div>";
+				}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			} elseif ($urlArray[0] == 'subscriptions') {
 			
 

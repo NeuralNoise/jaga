@@ -437,6 +437,57 @@ class Controller {
 			$html = $page->buildPage($urlArray, $inputArray);
 			return $html;
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		} elseif ($urlArray[0] == 'subscribe') {
+			
+			$inputArray = array();
+			$errorArray = array();
+			
+			if ($_SESSION['userID'] != 0) {
+				Subscription::subscribeUser($_SESSION['userID'], $_SESSION['channelID']);
+			} else {
+				$errorArray['subscribe'][] = 'You must be logged in to subscribe.';
+			}
+			
+			$page = new PageView();
+			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
+			return $html;
+				
+		} elseif ($urlArray[0] == 'unsubscribe') {
+			
+			$inputArray = array();
+			$errorArray = array();
+			
+			if ($_SESSION['userID'] != 0) {
+				Subscription::unsubscribeUser($_SESSION['userID'], $_SESSION['channelID']);
+			} else {
+				$errorArray['unsubscribe'][] = 'You must be logged in to unsubscribe.';
+			}
+			
+			$page = new PageView();
+			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
+			return $html;
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		} else {
 		
 			$page = new PageView();

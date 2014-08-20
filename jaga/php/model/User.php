@@ -2,25 +2,6 @@
 
 class User extends ORM {
 
-/*
-CREATE TABLE IF NOT EXISTS `jaga_User` (
-  `userID` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
-  `userDisplayName` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `userEmail` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `userEmailVerified` varchar(3) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
-  `userAcceptsEmail` int(1) DEFAULT '0',
-  `userPassword` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `userRegistrationChannelID` int(8) NOT NULL DEFAULT '0',
-  `userRegistrationDateTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `userLastVisitDateTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `userTestMode` int(1) NOT NULL DEFAULT '0',
-  `userBlackList` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`userID`),
-  UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `userEmail` (`userEmail`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=999900 ;
-*/
 
 	public $userID;
 	public $username;
@@ -34,9 +15,6 @@ CREATE TABLE IF NOT EXISTS `jaga_User` (
 	public $userLastVisitDateTime;
 	public $userTestMode;
 	public $userBlackList;
-	
-	
-	
 	
 	public function __construct($userID = 0) {
 

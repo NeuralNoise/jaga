@@ -147,7 +147,6 @@ class Channel extends ORM {
 			$channelKey = self::getChannelKey($row['channelID']);
 			$userSubscribedChannelArray[$channelKey] = $row['postCount'];
 		}
-		
 		return $userSubscribedChannelArray;
 		
 	}
