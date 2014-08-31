@@ -166,7 +166,7 @@ class PageView {
 				if ($_SESSION['userID'] == 0) {
 					$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
 				} else {
-					$html .= "<div class=\"container\">You have been unsubscribed from " . $_SESSION['hannelKey'] . ".</div>";
+					$html .= "<div class=\"container\">You have been unsubscribed from " . $_SESSION['channelKey'] . ".</div>";
 				}
 			
 			

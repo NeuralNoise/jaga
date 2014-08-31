@@ -3,6 +3,9 @@ The Kutchannel
 
 *JAGATAKUN FIGHTS FOR THE USER*
 
+**LICENSE**
+- *The codebase that powers [The Kutchannel](the.kutchannel.net) is licensed under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.html) (see license.md).*
+
 **SPECS**
 - THE.KUTCHANNEL.NET
     - site home; aggregate site showing content from all **channels and categories**.
@@ -15,7 +18,7 @@ The Kutchannel
 - CATEGORIES
     - users can select existing categories for their channels, or create new ones
 - POSTS
-    - content exists in /k/
+    - content exists in `/k/`
     - users can **post** to any channel and any category on The Kutchannel: `<channel>.kutchannel.net/k/<category>/<post/>`
     - posts can include **images** and an **outbound link**.
     - posts can be marked as **events**; date & time can be set.
@@ -26,5 +29,5 @@ The Kutchannel
     - plaintext only and observe line breaks.
     - cmments can be edited and deleted.
 - USERS
-    - individual profiles as /u/username/
+    - individual profiles as `/u/<username>/`
     - can subscribe to channels, categories (TBD), or users (TBD); this personalizes newsfeed
