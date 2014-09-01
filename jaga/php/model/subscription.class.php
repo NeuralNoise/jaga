@@ -33,6 +33,19 @@ class Subscription {
 		}	
 	}
 
+	public function getUserSubscriptionArray($userID) {
+		$core = Core::getInstance();
+		$query = "SELECT channelID FROM jaga_Subscription WHERE userID = :userID";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':userID' => $userID));
+		
+		$userSubscriptionArray = array();
+		while ($row = $statement->fetch()) {
+			$userSubscriptionArray[] = $row['channelID'];
+		}
+		return $userSubscriptionArray;
+	}
+	
 }
 
 ?>

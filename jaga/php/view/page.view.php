@@ -220,6 +220,8 @@ class PageView {
 				
 				} elseif ($urlArray[1] == 'subscriptions') {
 				
+					$html .= SubscriptionView::displaySubscriptionSettingsList();
+				
 				}
 				
 				

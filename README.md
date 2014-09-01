@@ -4,10 +4,10 @@ The Kutchannel
 *JAGATAKUN FIGHTS FOR THE USER*
 
 **LICENSE**
-- *This code in this project powers [The Kutchannel](http://the.kutchannel.net) and is licensed under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.html) (see license.md).*
+- *This code powers [The Kutchannel](http://the.kutchannel.net) and is licensed under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.html) (see license.md).*
 
 **ACTIVE DEPLOYMENT**
-- The code is currently active on all subdomains of The Kutchannel (`*.kutchannel.net`) except http://niseko.kutchannel.net which, pending migration, is still using the old code. Devs... please edit your host files to reflect this.
+- The master branch is actively deployed on all subdomains of The Kutchannel (`*.kutchannel.net`) except http://niseko.kutchannel.net which, pending migration, is still using the old code. Devs... please edit your host files to reflect this.
 
 **FEATURES**
 - THE.KUTCHANNEL.NET
