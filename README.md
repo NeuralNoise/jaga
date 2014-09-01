@@ -4,11 +4,14 @@ The Kutchannel
 *JAGATAKUN FIGHTS FOR THE USER*
 
 **LICENSE**
-- *The codebase that powers [The Kutchannel](the.kutchannel.net) is licensed under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.html) (see license.md).*
+- *This code in this project powers [The Kutchannel](http://the.kutchannel.net) and is licensed under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.html) (see license.md).*
 
-**SPECS**
+**ACTIVE DEPLOYMENT**
+- The code is currently active on all subdomains of The Kutchannel (`*.kutchannel.net`) except http://niseko.kutchannel.net which, pending migration, is still using the old code. Devs... please edit your host files to reflect this.
+
+**FEATURES**
 - THE.KUTCHANNEL.NET
-    - site home; aggregate site showing content from all **channels and categories**.
+    - site home; aggregate site showing recent content from all **channels and categories**.
 - NEWSFEED (JAGAROLL?)
     - user home; shows content from channels (...categories,users?) the owner is subscribed to
 - CHANNEL
@@ -31,3 +34,6 @@ The Kutchannel
 - USERS
     - individual profiles as `/u/<username>/`
     - can subscribe to channels, categories (TBD), or users (TBD); this personalizes newsfeed
+	
+**DIRECTION**
+- Decentralized content network?
