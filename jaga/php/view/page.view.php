@@ -38,7 +38,8 @@ class PageView {
 				if ($_SESSION['channelID'] == 2006) {
 					$carousel = new CarouselView();
 					$html .= $carousel->getCarousel();
-				}
+				} else { $html .= $this->getBreadcrumbs($urlArray); }
+				
 				$categoryView = new CategoryView();
 				$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
 			} elseif ($urlArray[0] == 'register') {
@@ -200,13 +201,8 @@ class PageView {
 				if ($urlArray[1] == 'profile') {
 				
 					$userID = $_SESSION['userID'];
-					
-					if ($urlArray[2] == 'update') {
-						$html .= UserView::displayUserForm($userID);
-					} else {
-						$html .= UserView::displayUserProfile($userID);
-					}
-				
+					$html .= UserView::displayUserForm($userID);
+
 				} elseif ($urlArray[1] == 'channels') {
 				
 					if ($urlArray[2] == 'create') {
