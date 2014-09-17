@@ -2,6 +2,31 @@
 
 class Category extends ORM {
 
+	public $contentCategoryKey;
+	public $contentCategoryEnglish;
+	public $contentCategoryJapanese;
+	public $contentCategoryjapaneseReading;
+	
+	public function __construct($contentCategoryKey = '') {
+		
+		if ($contentCategoryKey != '') {
+		
+			$core = Core::getInstance();
+			$query = "SELECT * FROM jaga_Category WHERE contentCategoryKey = :contentCategoryKey LIMIT 1";
+			$statement = $core->database->prepare($query);
+			$statement->execute(array(':contentCategoryKey' => $contentCategoryKey));
+			if (!$row = $statement->fetch()) { die('Content does not exist.'); }
+			foreach ($row AS $key => $value) { if (!is_int($key)) { $this->$key = $value; } }
+			
+		} else {
+
+			$this->contentCategoryKey = '';
+			$this->contentCategoryEnglish = '';
+			$this->contentCategoryJapanese = '';
+			$this->contentCategoryjapaneseReading = '';
+			
+		}
+	}
 
 	public function getCategoryContent($channelID, $contentCategoryKey) {
 	
@@ -58,6 +83,9 @@ class Category extends ORM {
 		
 	}
 	
+	public function getCategoryName($contentCategoryKey) {
+	
+	}
 }
 
 ?>

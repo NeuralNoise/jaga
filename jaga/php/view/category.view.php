@@ -10,6 +10,10 @@ class CategoryView {
 		$html .= "\t\t<div class=\"container\"> <!-- START CONTAINER -->\n";
 			$html .= "\t\t\t<div class=\"row\" id=\"list\"> <!-- START ROW -->\n";
 				foreach ($categoryArray AS $contentCategoryKey => $postCount) {
+				
+					$category = new Category($contentCategoryKey);
+					$categoryName = $category->contentCategoryEnglish;
+				
 					$html .= "\t\t\t\t<div class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\">\n";
 						$html .= "\t\t\t\t\t<div class=\"panel panel-default\">\n";
 							$html .= "\t\t\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n";
@@ -18,7 +22,7 @@ class CategoryView {
 										$html .= "<span style=\"float:right;\" class=\"glyphicon glyphicon-plus\"></span>";
 									$html .= "</a>\n";
 								}
-								$html .= "\t\t\t\t\t\t\t<h4>" . strtoupper($contentCategoryKey) . "</h4>\n";
+								$html .= "\t\t\t\t\t\t\t<h4>" . strtoupper($categoryName) . "</h4>\n";
 							$html .= "\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t<ul class=\"list-group\">\n";
 								$contentArray = Category::getCategoryContent($channelID, $contentCategoryKey);
@@ -26,29 +30,40 @@ class CategoryView {
 								$i = 0;
 								foreach ($contentArray AS $contentID) {
 									if ($i < 5) {
+									
 										$content = new Content($contentID);
-										$thisContentChannelID = $content->channelID;
-										$thisContentChannelKey = Channel::getChannelKey($thisContentChannelID);
 										$contentURL = $content->contentURL;
 										$contentTitle = $content->contentTitleEnglish;
 										$contentSubmittedByUserID = $content->contentSubmittedByUserID;
 										$contentSubmissionDateTime = $content->contentSubmissionDateTime;
+										
+										$thisChannelID = $content->channelID;
+										$channel = new Channel($thisChannelID);
+										// $thisContentChannelKey = Channel::getChannelKey($thisContentChannelID);
+										$thisContentChannelKey = $channel->channelKey;
+										$channelTitle = $channel->channelTitleEnglish;
+										
 										$contentViews = $content->contentViews;
 										$user = new User($contentSubmittedByUserID);
 										$username = $user->username;
+										
 										$html .= "\t\t\t\t\t\t\t<a href=\"http://" . $thisContentChannelKey . ".kutchannel.net/k/" . $contentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
 											$html .= "<span class=\"jagaListGroup\">";
 												$html .= "<span class=\"jagaListGroupBadge\">" . $contentViews . "</span>";
-												if ($_SESSION['channelID'] == 2006) { $html .=  '<strong><small>' . strtoupper($thisContentChannelKey) . '</small></strong><br />'; }
+												if ($_SESSION['channelID'] == 2006) { $html .=  '<strong><small>' . strtoupper($channelTitle) . '</small></strong><br />'; }
 												$html .=  $contentTitle;
 											$html .= "</span>";
 										$html .= "</a>\n";
 									}
 									$i++;
 								}
-								$html .= "\t\t\t\t\t\t\t<a href=\"/k/" . $contentCategoryKey . "/\" class=\"list-group-item jagaListGroupItemMore\">";
-									$html .= "MORE <span class=\"glyphicon glyphicon-arrow-right\"></span>";
-								$html .= "</a>\n";
+								
+								if ($_SESSION['channelID'] != 2006) {
+									$html .= "\t\t\t\t\t\t\t<a href=\"/k/" . $contentCategoryKey . "/\" class=\"list-group-item jagaListGroupItemMore\">";
+										$html .= "MORE <span class=\"glyphicon glyphicon-arrow-right\"></span>";
+									$html .= "</a>\n";
+								}
+								
 							$html .= "\t\t\t\t\t\t</ul>\n";
 						$html .= "\t\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t</div>\n";

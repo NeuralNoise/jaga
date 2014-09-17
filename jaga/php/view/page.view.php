@@ -35,6 +35,7 @@ class PageView {
 			}
 		
 			if ($urlArray[0] == '') {
+			
 				if ($_SESSION['channelID'] == 2006) {
 					$carousel = new CarouselView();
 					$html .= $carousel->getCarousel();
@@ -42,45 +43,19 @@ class PageView {
 				
 				$categoryView = new CategoryView();
 				$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
+				
 			} elseif ($urlArray[0] == 'register') {
-			
-			
-			
-			
-			
-			
-			
-			
+
 				$html .= AuthenticationView::getAuthForm('register', $inputArray, $errorArray);
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+
 			} elseif ($urlArray[0] == 'thank-you-for-registering') {
-				
-				
 
 				$html .= "\t\t<div class=\"container\">";
 					$html .= "<div class=\"col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2\" style=\"margin-bottom:10px;\">Thank you for registering for The Kutchannel!</div>";
 				$html .= "</div>\n\n";
 
-
 				$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
-				
-				
-				
-				
-				
-				
+
 			} elseif ($urlArray[0] == 'login') {
 				$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
 			} elseif ($urlArray[0] == 'about') {
@@ -96,6 +71,7 @@ class PageView {
 			} elseif ($urlArray[0] == 'contact') {
 				$html .= "contact";
 			} elseif ($urlArray[0] == 'k') {
+			
 				if ($urlArray[1] == '') { // /k/
 					$html .= $this->getBreadcrumbs($urlArray);
 					$html .= CategoryView::displayChannelCategoryList($_SESSION['channelID']);
@@ -120,6 +96,7 @@ class PageView {
 						$html .= CommentView::displayContentCommentForm($contentID);
 					}
 				}
+				
 			} elseif ($urlArray[0] == 'u') {
 			
 				$username = $urlArray[1];
@@ -135,25 +112,7 @@ class PageView {
 					$html .= UserView::displayUserProfileSubscriptionList($username);
 				}
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			} elseif ($urlArray[0] == 'subscribe') {
-			
 			
 				if ($_SESSION['userID'] == 0) {
 					$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
@@ -163,36 +122,13 @@ class PageView {
 			
 			} elseif ($urlArray[0] == 'unsubscribe') {
 			
-			
 				if ($_SESSION['userID'] == 0) {
 					$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
 				} else {
 					$html .= "<div class=\"container\">You have been unsubscribed from " . $_SESSION['channelKey'] . ".</div>";
 				}
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			} elseif ($urlArray[0] == 'subscriptions') {
-			
-
 
 			} elseif ($urlArray[0] == 'settings') {
 			
@@ -219,25 +155,13 @@ class PageView {
 					$html .= SubscriptionView::displaySubscriptionSettingsList();
 				
 				}
-				
-				
-				
-			
-			
-			
-				
-				
-				
+
 			} else {
 				$html .= "\n\n\t<!-- START 404 TEXT -->\n";
 					$html .= "\t\t<div class=\"container\">404: " . $urlArray[0] . "</div>\n";
 				$html .= "\t<!-- END 404 TEXT -->\n\n";
 			}
-		
-			
-			
-			
-			
+
 			if ($_SESSION['userID'] == 2) {
 			
 				$html .= "\t<div class=\"container\">\n";
@@ -274,8 +198,6 @@ class PageView {
 						$html .= "</div>\n";
 
 					$html .= "\t\t</div>\n";
-
-
 
 				$html .= "\t</div>\n";
 			
