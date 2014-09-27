@@ -82,10 +82,7 @@ class Category extends ORM {
 		return $categoryArray;
 		
 	}
-	
-	public function getCategoryName($contentCategoryKey) {
-	
-	}
+
 }
 
 ?>

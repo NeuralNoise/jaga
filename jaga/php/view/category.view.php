@@ -26,7 +26,7 @@ class CategoryView {
 							$html .= "\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t<ul class=\"list-group\">\n";
 								$contentArray = Category::getCategoryContent($channelID, $contentCategoryKey);
-								// print_r($contentArray);
+
 								$i = 0;
 								foreach ($contentArray AS $contentID) {
 									if ($i < 5) {
@@ -39,7 +39,6 @@ class CategoryView {
 										
 										$thisChannelID = $content->channelID;
 										$channel = new Channel($thisChannelID);
-										// $thisContentChannelKey = Channel::getChannelKey($thisContentChannelID);
 										$thisContentChannelKey = $channel->channelKey;
 										$channelTitle = $channel->channelTitleEnglish;
 										
