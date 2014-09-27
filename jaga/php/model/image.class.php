@@ -72,6 +72,24 @@ class Image {
 		
 	}
 
+	public function objectHasImage($imageObject, $imageObjectID) {
+		$core = Core::getInstance();
+		$query = "SELECT * FROM jaga_Image WHERE imageObject = :imageObject AND imageObjectID = :imageObjectID";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':imageObject' => $imageObject, ':imageObjectID' => $imageObjectID));
+		if ($row = $statement->fetch()) { return true; } else { return false; }
+	}
+	
+	public function getObjectMainImagePath($imageObject, $imageObjectID) {
+	
+		$core = Core::getInstance();
+		$query = "SELECT imagePath FROM jaga_Image WHERE imageObject = :imageObject AND imageObjectID = :imageObjectID LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':imageObject' => $imageObject, ':imageObjectID' => $imageObjectID));
+		if ($row = $statement->fetch()) { return $row['imagePath']; } else { return ""; }
+	
+	}
+	
 }
 
 ?>

@@ -48,10 +48,24 @@ class CategoryView {
 										
 										$html .= "\t\t\t\t\t\t\t<a href=\"http://" . $thisContentChannelKey . ".kutchannel.net/k/" . $contentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
 											$html .= "<span class=\"jagaListGroup\">";
+												
 												$html .= "<span class=\"jagaListGroupBadge\">" . $contentViews . "</span>";
+												
 												if ($_SESSION['channelID'] == 2006) { $html .=  '<strong><small>' . strtoupper($channelTitle) . '</small></strong><br />'; }
+												
+												if (Image::objectHasImage('Content',$contentID)) {
+													$imagePath = Image::getObjectMainImagePath('Content',$contentID);
+													if ($imagePath != "") { $html .= "<br /><img class=\"img-responsive\" src=\"" . $imagePath . "\"><br />"; }
+												}
+												
 												$html .=  $contentTitle;
+												
+												
 											$html .= "</span>";
+											
+											
+											
+											
 										$html .= "</a>\n";
 									}
 									$i++;
