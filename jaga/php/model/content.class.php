@@ -167,6 +167,20 @@ class Content extends ORM {
 			return $userContentArray;
 	}
 	
+	public function getContentTitle($contentURL) {
+		
+		$core = Core::getInstance();
+		$query = "SELECT contentTitleEnglish FROM jaga_Content WHERE contentURL = :contentURL LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':contentURL' => $contentURL));
+		if ($row = $statement->fetch()) {
+			return $row['contentTitleEnglish'];
+		} else {
+			die($contentURL);
+		}
+		
+	}
+	
 }
 
 ?>

@@ -294,12 +294,20 @@ class PageView {
 		$html = "<div class=\"container\"><ol class=\"breadcrumb\">";
 			$html .= "<li><a href=\"http://the.kutchannel.net/\">THE KUTCHANNEL</a></li>";
 			$html .= "<li><a href=\"http://" . $channelKey . ".kutchannel.net/\">" . strtoupper($channelTitle) . "</a></li>";
+			
+			// CATEGORY
 			if ($urlArray[0] == 'k' && $urlArray[1] != '') { // /k/<contentCategoryKey>/
-				$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "/\">" . strtoupper($urlArray[1]) . "</a></li>";
+				$categoryTitle = strtoupper(Category::getCategoryTitle($urlArray[1]));
+				$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "/\">" . $categoryTitle . "</a></li>";
 			}
+			
+			// CONTENT
 			if ($urlArray[0] == 'k' && $urlArray[1] != '' && $urlArray[2] != '') { // /k/<contentCategoryKey>/<contentURL>/
-				$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "/" . strtoupper($urlArray[2]) . "/\">" . strtoupper(urldecode($urlArray[2])) . "</a></li>";	
+				$contentTitle = strtoupper(Content::getContentTitle($urlArray[2]));
+				$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "/" . $urlArray[2] . "/\">" . $contentTitle . "</a></li>";
 			}
+			
+			
 		$html .= "</ol></div>";
 		return $html;
 		
