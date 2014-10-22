@@ -273,12 +273,12 @@ CREATE TABLE IF NOT EXISTS `jaga_Content` (
 									
 										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
 										
-											$html .= "\t\t\t\t\t\t\t<label for=\"contentEnglish\" class=\"col-sm-2 control-label\">IMAGES</label>\n";
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentImages\" class=\"col-sm-2 control-label\">IMAGES</label>\n";
 										
 											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-6\">\n";
 												$html .= "<div class=\"input-group\">";
 													$html .= "<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-picture\"></i></span>";
-													$html .= "<input type=\"file\" accept=\"image/jpeg\" class=\"form-control\"  multiple=\"multiple\">";
+													$html .= "<input type=\"file\" name=\"contentImages[]\" accept=\"image/jpeg\" class=\"form-control\"  multiple=\"multiple\">";
 												$html .= "</div>";
 											$html .= "</div>";
 											

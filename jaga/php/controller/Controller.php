@@ -358,13 +358,13 @@ class Controller {
 			
 			// IF USER INPUT EXISTS
 			if (!empty($_POST)) {
-			
+
 				$inputArray = $_POST;
 
 				// VALIDATION
-				if ($inputArray['contentTitleEnglish'] == '') { $errorArray[] = 'Every post needs a title.'; }
-				if ($inputArray['contentEnglish'] == '') { $errorArray[] = 'Your post is empty.'; }
-				if ($inputArray['contentCategoryKey'] == '') { $errorArray[] = 'A category must be selected.'; }
+				if ($inputArray['contentTitleEnglish'] == '') { $errorArray['contentTitleEnglish'][] = 'Every post needs a title.'; }
+				if ($inputArray['contentEnglish'] == '') { $errorArray['contentEnglish'][] = 'Your post is empty.'; }
+				if ($inputArray['contentCategoryKey'] == '') { $errorArray['contentCategoryKey'][] = 'A category must be selected.'; }
 				// is this category enabled for this channel? check it
 				
 				
@@ -383,13 +383,51 @@ class Controller {
 						// modify values where required
 						$content->contentURL = SEO::googlify($inputArray['contentTitleEnglish']);
 						
-						
-						
 						$contentID = Content::insert($content);
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						if (!empty($_FILES)) {
 
+							// print_r($_FILES);
+							
+							$numberOfImages = count($_FILES['contentImages']['name']);
+							
+							for ($i = 0; $i < $numberOfImages; $i++) {
+							
+								$imageArray = array();
+								$imageArray['name'] = $_FILES['contentImages']['name'][$i];
+								$imageArray['type'] = $_FILES['contentImages']['type'][$i];
+								$imageArray['tmp_name'] = $_FILES['contentImages']['tmp_name'][$i];
+								$imageArray['error'] = $_FILES['contentImages']['error'][$i];
+								$imageArray['size'] = $_FILES['contentImages']['size'][$i];
+								
+								$imageObject = 'Content';
+								$imageObjectID = $contentID;
+								Image::uploadImageFile($imageArray,$imageObject,$imageObjectID);
+								
+							}
+
+						}
+	
 						$postSubmitURL = "/k/" . $inputArray['contentCategoryKey'] . "/";
 						header("Location: $postSubmitURL");
-						
+
 					} elseif ($urlArray[1] == 'update' && isset($urlArray[2])) {
 					
 						$contentID = $urlArray[2];

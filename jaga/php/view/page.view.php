@@ -26,6 +26,7 @@ class PageView {
 				$html .= "\t<!-- START ERROR ARRAY -->\n";
 				$html .= "\t<div class=\"container\">\n";
 					foreach ($errorArray AS $errorFlag) {
+						// print_r($errorFlag);
 						foreach ($errorFlag AS $errorMessage) {
 							$html .= "\t\t<div class=\"alert alert-danger col-sm-12 jagaErrorArray\">$errorMessage</div>\n";
 						}

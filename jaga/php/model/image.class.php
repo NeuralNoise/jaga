@@ -1,8 +1,28 @@
 <?php
 
-class Image {
+class Image extends ORM {
 
-	public function createImage(
+	public $imageID;
+	public $imageDisplayOrder;
+	public $channelID;
+	public $imageSubmittedByUserID;
+	public $imageSubmissionDateTime;
+	public $imagePath;
+	public $imageObject;
+	public $imageObjectID;
+	public $imageDisplayClassification;
+	public $imageOriginalName;
+	public $imageType;
+	public $imageSize;
+	public $imageDimensionX;
+	public $imageDimensionY;
+	public $imageDisplayInGallery;
+	
+	public function __construct($imageID = 0) {
+	
+	}
+
+	public function uploadImageFile(
 		$imageArray,
 		$imageObject,
 		$imageObjectID
@@ -22,27 +42,35 @@ class Image {
 				return $imageArray['error'];
 				
 			} else {
-
-				$imageOriginalName = $imageArray["name"];
-				$imagePath = 'zeni/images/';
-				$imageType = substr($imageArray["type"],6);
-				if ($imageType == 'jpeg') { $imageType = 'jpg'; }
-				$imageSize = $imageArray['size'];
-				$imageDimensionX = 0;
-				$imageDimensionY = 0;
-				$channelID = $_SESSION['channelID'];
-				$imageSubmittedByUserID = $_SESSION['userID'];
-				$imageSubmissionDateTime = date('Y-m-d H:i:s');
-
+			
+				$image = new Image(0);
 				
+				$image->imageDisplayOrder = 0;
+				$image->channelID = $_SESSION['channelID'];
+				$image->imageSubmittedByUserID = $_SESSION['userID'];
+				$image->imageSubmissionDateTime = date('Y-m-d H:i:s');
+				$image->imagePath = 'jaga/images/';
+				$image->imageObject = $imageObject;
+				$image->imageObjectID = $imageObjectID;
+				$image->imageDisplayClassification = '';
+				$image->imageOriginalName = $imageArray["name"];
+				$image->imageType = substr($imageArray["type"],6);
+				if ($image->imageType == 'jpeg') { $image->imageType = 'jpg'; }
+				$image->imageSize = $imageArray['size'];
+				$image->imageDimensionX = 0;
+				$image->imageDimensionY = 0;
+				$image->imageDisplayInGallery = 1;
+
+				unset($image->imageID);
+				$imageID = self::insert($image);
+			
 				// need new imageID
-				$newImage = $imagePath . $imageID . '.' . $imageType;
-				
+				$newImage = $image->imagePath . $imageID . '.' . $image->imageType;
 				
 				move_uploaded_file($imageArray['tmp_name'], $newImage) or die ('move_uploaded_file() ERROR');
 				
-				if ($imageType == 'jpg') {
-					$newImageThumbnail50px = $imagePath . $imageID . '-50px.' . $imageType;
+				if ($image->imageType == 'jpg') {
+					$newImageThumbnail50px = $image->imagePath . $imageID . '-50px.' . $image->imageType;
 					self::createThumbnail($newImage,$newImageThumbnail50px,50);
 				}
 				
@@ -56,7 +84,7 @@ class Image {
 
 	}
 	
-	public function deleteImage($imageID) {
+	public function deleteImageFile($imageID) {
 
 	}
 

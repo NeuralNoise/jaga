@@ -4,19 +4,25 @@ class ORM {
 
 	public function insert($object) {
 	
-		// print_r($object);
+		
 	
 		$objectName = get_class($object);
+		
+		// if ($objectName == 'Image') { print_r($object); }
+		
+		
 		$objectVariableArray = get_object_vars($object);
 		$objectPropertyArray = array_keys($objectVariableArray);
 		$tablePrefix = self::getTablePrefix();
 		$tableName = $tablePrefix . $objectName;
+		
+		// print_r($tableName);
 		if (!self::tableExists($tableName)) { die('ORM::insert($object) => A table does not exist with that object name.'); }
 		
 		// create insert query
-		$query = "INSERT INTO $tableName (" . implode(', ', $objectPropertyArray) . ") VALUES (:" . implode(', :', $objectPropertyArray) . ")";
+		$query = "INSERT INTO `$tableName` (" . implode(', ', $objectPropertyArray) . ") VALUES (:" . implode(', :', $objectPropertyArray) . ")";
 		
-		// print_r($query);
+		// if ($objectName == 'Image') { print_r($query); }
 		
 		// build prepared statement
 		$core = Core::getInstance();
@@ -110,7 +116,7 @@ class ORM {
 	private function tableExists($tableName) {
 	
 		$core = Core::getInstance();
-		$queryTableCheck = "SELECT 1 FROM $tableName LIMIT 1";
+		$queryTableCheck = "SELECT 1 FROM `$tableName` LIMIT 1";
 		$statement = $core->database->prepare($queryTableCheck);
 		$statement->execute();
 		if ($row = $statement->fetch()){ return true; } else { return false; }
