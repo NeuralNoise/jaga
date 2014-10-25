@@ -15,6 +15,7 @@ class User extends ORM {
 	public $userLastVisitDateTime;
 	public $userTestMode;
 	public $userBlackList;
+	public $userSelectedLanguage;
 	
 	public function __construct($userID = 0) {
 
@@ -32,6 +33,7 @@ class User extends ORM {
 			$this->userLastVisitDateTime = '0000-00-00 00:00:00';
 			$this->userTestMode = 0;
 			$this->userBlackList = 0;
+			$this->userSelectedLanguage = 'en';
 			
 		} else {
 			
@@ -40,8 +42,7 @@ class User extends ORM {
 			$statement = $core->database->prepare($query);
 			$statement->execute(array(':userID' => $userID));
 			$row = $statement->fetch();
-			
-			foreach ($row AS $property => $value) { $this->$property = $value; }
+			foreach ($row AS $property => $value) { if (!is_int($property)) { $this->$property = $value; } }
 
 		}
 

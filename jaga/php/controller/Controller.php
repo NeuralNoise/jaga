@@ -485,6 +485,174 @@ class Controller {
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		} elseif ($urlArray[0] == 'settings') {
+		
+			// INITIALIZE $inputArray and $errorArray
+			$inputArray = array();
+			$errorArray = array();
+			
+			
+			// REDIRECT USERS WITHOUT CREDS TO LOGIN ROUTE
+			if ($_SESSION['userID'] == 0) {
+				Session::setSession('loginForwardURL', $_SERVER['REQUEST_URI']);
+				header("Location: /login/");
+			}
+			
+			
+			if ($urlArray[1] == 'profile') {
+				
+				// IF USER INPUT EXISTS
+				if (!empty($_POST)) {
+				
+					$inputArray = $_POST;
+					
+					// VALIDATION
+					if ($inputArray['userEmail'] == '') { $errorArray['userEmail'][] = 'An email address is required.'; }
+					if ($inputArray['password'] != $inputArray['confirmPassword']) { $errorArray['passsword'][] = 'Passwords do not match.'; }
+					
+					
+					
+					if (empty($errorArray)) {
+					
+						$userID = $_SESSION['userID'];
+					
+						// build object
+						$user = new User($userID);
+
+						print_r($user);
+						
+						foreach ($inputArray AS $property => $value) {
+							if (isset($user->$property)) {
+								$user->$property = $value;
+							}
+						}
+						
+						// build conditions
+						$conditions = array();
+						$conditions['userID'] = $userID;
+						
+						// unset attributes that you don't want to update
+						unset($user->userID);
+						unset($user->username);
+						unset($user->userEmailVerified);
+						unset($user->userAcceptsEmail);
+						unset($user->userRegistrationChannelID);
+						unset($user->userRegistrationDateTime);
+						unset($user->userLastVisitDateTime);
+						unset($user->userTestMode);
+						unset($user->userBlackList);
+						unset($user->userBlackList);
+
+						if ($inputArray['password'] == '') { unset($user->userPassword); }
+						
+
+						print_r($user);
+						die();
+						
+						// update user
+						// print_r($user);
+						// User::update($user, $conditions);
+
+						$postSubmitURL = "/user/profile/";
+
+						// header("Location: $postSubmitURL");
+						
+					}
+					
+				}
+				
+			} elseif ($urlArray[1] == 'channels') {
+			
+			} elseif ($urlArray[1] == 'subscriptions') {
+			
+			}
+
+			$page = new PageView();
+			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
+			return $html;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		} elseif ($urlArray[0] == 'subscribe') {
 			
 			$inputArray = array();
