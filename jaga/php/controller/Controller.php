@@ -594,19 +594,26 @@ class Controller {
 						if ($inputArray['userPassword'] == '') {
 							unset($user->userPassword);
 						}
-						
-						print_r($_FILES);
-						
-						print_r($user);
-						die();
+
 						
 						// update user
-						// print_r($user);
-						// User::update($user, $conditions);
+						User::update($user, $conditions);
+						
+						// upload profile image
+						if (!empty($_FILES)) {
 
-						$postSubmitURL = "/user/profile/";
+							print_r($_FILES);
+							
+							$image = $_FILES['profileImage'];
+							$imageObject = 'User';
+							$imageObjectID = $userID;
+							Image::uploadImageFile($image,$imageObject,$imageObjectID);
 
-						// header("Location: $postSubmitURL");
+						}
+
+						$postSubmitURL = "/settings/profile/";
+die();
+						header("Location: $postSubmitURL");
 						
 					}
 					

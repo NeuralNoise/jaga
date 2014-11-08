@@ -54,7 +54,8 @@ class CategoryView {
 												if ($_SESSION['channelID'] == 2006) { $html .=  '<strong><small>' . strtoupper($channelTitle) . '</small></strong><br />'; }
 												
 												if (Image::objectHasImage('Content',$contentID)) {
-													$imagePath = Image::getObjectMainImagePath('Content',$contentID);
+													$imagePath = Image::getLegacyObjectMainImagePath('Content',$contentID);
+													if ($imagePath == "") { $imagePath = Image::getObjectMainImagePath('Content',$contentID); }
 													if ($imagePath != "") { $html .= "<br /><img class=\"img-responsive\" src=\"" . $imagePath . "\"><br />"; }
 												}
 												

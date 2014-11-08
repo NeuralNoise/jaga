@@ -111,7 +111,33 @@ class Image extends ORM {
 	public function getObjectMainImagePath($imageObject, $imageObjectID) {
 	
 		$core = Core::getInstance();
-		$query = "SELECT imagePath FROM jaga_Image WHERE imageObject = :imageObject AND imageObjectID = :imageObjectID LIMIT 1";
+		$query = "
+			SELECT imagePath, imageID, imageType 
+			FROM jaga_Image 
+			WHERE imageObject = :imageObject AND imageObjectID = :imageObjectID 
+			ORDER BY imageSubmissionDateTime DESC 
+			LIMIT 1
+		";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':imageObject' => $imageObject, ':imageObjectID' => $imageObjectID));
+	
+		if ($row = $statement->fetch()) {
+			$mainImagePath = "/" . $row['imagePath'] . $row['imageID'] . "." . $row['imageType'];
+			return $mainImagePath;
+		} else { return ""; }
+	
+	}
+	
+	public function getLegacyObjectMainImagePath($imageObject, $imageObjectID) {
+	
+		$core = Core::getInstance();
+		$query = "
+			SELECT imagePath 
+			FROM jaga_Image 
+			WHERE imageObject = :imageObject AND imageObjectID = :imageObjectID AND imageLegacy = 1
+			ORDER BY imageSubmissionDateTime DESC 
+			LIMIT 1
+		";
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':imageObject' => $imageObject, ':imageObjectID' => $imageObjectID));
 		if ($row = $statement->fetch()) { return $row['imagePath']; } else { return ""; }

@@ -52,6 +52,7 @@
 			$userDisplayName = $user->userDisplayName;
 			$userEmail = $user->userEmail;
 		
+			$profileImageURL = Image::getObjectMainImagePath('User', $userID);
 		
 			$html = "\n\n<!-- START container -->\n";
 			$html .= "<div class=\"container\">\n\n";
@@ -80,8 +81,8 @@
 						$html .= "<form role=\"form\" id=\"jagaUserForm\" name=\"jagaContentForm\" class=\"form-horizontal\"  method=\"post\" action=\"/settings/profile/\"  enctype=\"multipart/form-data\">\n\n";
 
 							$html .= "<div class=\"col-md-3\">";
-								$html .= "<img src=\"#\"><br />";
-								$html .= "<input type=\"file\" name=\"file\" id=\"file\">";
+								$html .= "<img src=\"" . $profileImageURL . "\" class=\"img-responsive\"><br />";
+								$html .= "<input type=\"file\" name=\"profileImage\" id=\"profileImage\">";
 							$html .= "</div>\n\n";
 							
 							$html .= "<div class=\"col-md-9\">\n\n";
