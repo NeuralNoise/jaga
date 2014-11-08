@@ -384,24 +384,7 @@ class Controller {
 						$content->contentURL = SEO::googlify($inputArray['contentTitleEnglish']);
 						
 						$contentID = Content::insert($content);
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
+
 						if (!empty($_FILES)) {
 
 							// print_r($_FILES);
@@ -475,75 +458,20 @@ class Controller {
 			$html = $page->buildPage($urlArray, $inputArray);
 			return $html;
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		} elseif ($urlArray[0] == 'settings') {
 		
 			// INITIALIZE $inputArray and $errorArray
 			$inputArray = array();
 			$errorArray = array();
 			
-			
 			// REDIRECT USERS WITHOUT CREDS TO LOGIN ROUTE
 			if ($_SESSION['userID'] == 0) {
 				Session::setSession('loginForwardURL', $_SERVER['REQUEST_URI']);
 				header("Location: /login/");
 			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
 			if ($urlArray[1] == 'profile') {
 				
-
 				// IF USER INPUT EXISTS
 				if (!empty($_POST)) {
 				
@@ -562,18 +490,8 @@ class Controller {
 					
 						// build object
 						$user = new User($userID);
-
-						print_r($user);
-						
-						foreach ($inputArray AS $property => $value) {
-							if (isset($user->$property)) {
-								$user->$property = $value;
-							}
-						}
-						
-						if ($inputArray['userPassword'] != '') {
-							$user->userPassword = md5($inputArray['userPassword']);
-						}
+						foreach ($inputArray AS $property => $value) { if (isset($user->$property)) { $user->$property = $value; } }
+						if ($inputArray['userPassword'] != '') { $user->userPassword = md5($inputArray['userPassword']); }
 						
 						// build conditions
 						$conditions = array();
@@ -590,63 +508,26 @@ class Controller {
 						unset($user->userTestMode);
 						unset($user->userBlackList);
 						unset($user->userSelectedLanguage);
+						if ($inputArray['userPassword'] == '') { unset($user->userPassword); }
 
-						if ($inputArray['userPassword'] == '') {
-							unset($user->userPassword);
-						}
-
-						
 						// update user
 						User::update($user, $conditions);
 						
 						// upload profile image
 						if (!empty($_FILES)) {
-
-							print_r($_FILES);
-							
 							$image = $_FILES['profileImage'];
 							$imageObject = 'User';
 							$imageObjectID = $userID;
 							Image::uploadImageFile($image,$imageObject,$imageObjectID);
-
 						}
 
 						$postSubmitURL = "/settings/profile/";
-die();
 						header("Location: $postSubmitURL");
 						
 					}
 					
 				}
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+
 			} elseif ($urlArray[1] == 'channels') {
 			
 			} elseif ($urlArray[1] == 'subscriptions') {
@@ -656,61 +537,6 @@ die();
 			$page = new PageView();
 			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
 			return $html;
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		} elseif ($urlArray[0] == 'subscribe') {
 			

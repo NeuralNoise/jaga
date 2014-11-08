@@ -108,6 +108,26 @@ class Image extends ORM {
 		if ($row = $statement->fetch()) { return true; } else { return false; }
 	}
 	
+	public function getObjectImageUrlArray($imageObject, $imageObjectID) {
+
+		$core = Core::getInstance();
+		$query = "SELECT imageID, imagePath, imageType, imageLegacy FROM jaga_Image WHERE imageObject = :imageObject AND imageObjectID = :imageObjectID";
+		$statement = $core->database->prepare($query);
+		
+		$statement->execute(array(':imageObject' => $imageObject, ':imageObjectID' => $imageObjectID));
+		
+		$objectImageArray = array();
+		while ($row = $statement->fetch()) {
+			if ($row['imageLegacy'] == 0) {
+				$objectImageArray[$row['imageID']] = "/" . $row['imagePath'] . $row['imageID'] . "." . $row['imageType'];
+			} elseif ($row['imageLegacy'] == 1) {
+				$objectImageArray[$row['imageID']] = $row['imagePath'];
+			}
+		}
+
+		return $objectImageArray;
+	}
+	
 	public function getObjectMainImagePath($imageObject, $imageObjectID) {
 	
 		$core = Core::getInstance();

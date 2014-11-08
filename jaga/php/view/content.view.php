@@ -20,9 +20,14 @@ class ContentView {
 			$html .= "\t<div class=\"container\">\n\n";
 				$html .= "\t<div class=\"panel panel-default\">\n";
 					$html .= "\t\t<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . $row['title'] . "</h4></div>\n";
-					$html .= "\t\t<div class=\"panel-body\">\n\n";
+					$html .= "\t\t<div class=\"panel-body\">";
+						
 						$html .= $row['content'];
-					$html .= "\n\t\t</div>\n";
+						
+						$imageArray = Image::getObjectImageUrlArray('Content', $contentID);
+						foreach ($imageArray AS $imageID => $imageURL) { $html .= "<img src=\"" . $imageURL . "\" class=\"img-responsive col-xs-12 col-sm-6 col-md-4 col-lg-3\">"; }
+						
+					$html .= "</div>\n";
 				$html .= "\t</div>\n";
 			$html .= "\t</div>\n";
 			$html .= "\t<!-- END CONTENT -->\n\n";
