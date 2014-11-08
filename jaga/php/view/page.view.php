@@ -138,7 +138,7 @@ class PageView {
 				if ($urlArray[1] == 'profile') {
 				
 					$userID = $_SESSION['userID'];
-					$html .= UserView::displayUserForm($userID);
+					$html .= UserView::displayUserForm($userID, $inputArray, $errorArray);
 
 				} elseif ($urlArray[1] == 'channels') {
 				

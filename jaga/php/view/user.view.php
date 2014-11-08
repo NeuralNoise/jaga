@@ -92,7 +92,7 @@
 										if (isset($errorArray['userDisplayName'])) { $html .= " jagaFormValidationError"; }
 									$html .= "\" name=\"userDisplayName\" value=\"";
 										if (isset($inputArray['userDisplayName'])) { $html .= $inputArray['userDisplayName']; } else { $html .= $userDisplayName; }
-									$html .= "\" placeholder=\"Display Name\">\n";
+									$html .= "\" placeholder=\"Display Name\" required>\n";
 								$html .= "</div>\n\n";
 								
 								$html .= "<div style=\"margin-bottom:25px;\" class=\"input-group\">\n";
@@ -101,16 +101,17 @@
 										if (isset($errorArray['userEmail'])) { $html .= " jagaFormValidationError"; }
 									$html .= "\" name=\"userEmail\" value=\"";
 										if (isset($inputArray['userEmail'])) { $html .= $inputArray['userEmail']; } else { $html .= $userEmail; }
-									$html .= "\" placeholder=\"email\">\n";
+									$html .= "\" placeholder=\"email\" required>\n";
 								$html .= "</div>\n\n";
 								
 								$html .= "<div class=\"row\">";
+									
 									$html .= "<div class=\"col-md-6\">";
 										$html .= "<div class=\"input-group\">\n";
 											$html .= "<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-lock\"></i></span>\n";
 											$html .= "<input id=\"register-password\" type=\"password\" class=\"form-control";
 												if (isset($errorArray['password'])) { $html .= " jagaFormValidationError"; }
-											$html .= "\" name=\"password\" placeholder=\"password\">\n";
+											$html .= "\" name=\"userPassword\" placeholder=\"new password\" value=\"\">\n";
 										$html .= "</div>\n\n";
 									$html .= "</div>";
 									
@@ -119,9 +120,10 @@
 											$html .= "<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-lock\"></i></span>\n";
 											$html .= "<input id=\"register-confirm-password\" type=\"password\" class=\"form-control";
 												if (isset($errorArray['confirmPassword'])) { $html .= " jagaFormValidationError"; }
-											$html .= "\" name=\"confirmPassword\" placeholder=\"confirm password\">\n";
+											$html .= "\" name=\"confirmPassword\" placeholder=\"confirm new password\" value=\"\">\n";
 										$html .= "</div>\n\n";
 									$html .= "</div>";
+									
 								$html .= "</div>";
 								
 					

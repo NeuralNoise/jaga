@@ -29,7 +29,7 @@ class Controller {
 		
 			// note: still need to reroute reserved strings
 			
-			$reservedDomains = array('dev');
+			$reservedDomains = array('dev', 'mail', 'property', 'realestate', 'news', 'www', 'blog', 'qa', 'faq', 'support');
 			
 			$domain = $_SERVER['HTTP_HOST'];
 			$tmp = explode('.', $domain);
@@ -526,18 +526,35 @@ class Controller {
 			}
 			
 			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			if ($urlArray[1] == 'profile') {
 				
+
 				// IF USER INPUT EXISTS
 				if (!empty($_POST)) {
 				
 					$inputArray = $_POST;
 					
+					// print_r($inputArray);
+					
 					// VALIDATION
+					if ($inputArray['userDisplayName'] == '') { $errorArray['userDisplayName'][] = 'A display name is required.'; }
 					if ($inputArray['userEmail'] == '') { $errorArray['userEmail'][] = 'An email address is required.'; }
-					if ($inputArray['password'] != $inputArray['confirmPassword']) { $errorArray['passsword'][] = 'Passwords do not match.'; }
-					
-					
+					if ($inputArray['userPassword'] != $inputArray['confirmPassword']) { $errorArray['confirmPassword'][] = 'Passwords do not match.'; }
 					
 					if (empty($errorArray)) {
 					
@@ -554,6 +571,10 @@ class Controller {
 							}
 						}
 						
+						if ($inputArray['userPassword'] != '') {
+							$user->userPassword = md5($inputArray['userPassword']);
+						}
+						
 						// build conditions
 						$conditions = array();
 						$conditions['userID'] = $userID;
@@ -568,11 +589,14 @@ class Controller {
 						unset($user->userLastVisitDateTime);
 						unset($user->userTestMode);
 						unset($user->userBlackList);
-						unset($user->userBlackList);
+						unset($user->userSelectedLanguage);
 
-						if ($inputArray['password'] == '') { unset($user->userPassword); }
+						if ($inputArray['userPassword'] == '') {
+							unset($user->userPassword);
+						}
 						
-
+						print_r($_FILES);
+						
 						print_r($user);
 						die();
 						
@@ -587,6 +611,34 @@ class Controller {
 					}
 					
 				}
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				
 			} elseif ($urlArray[1] == 'channels') {
 			
