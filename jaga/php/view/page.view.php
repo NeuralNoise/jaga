@@ -45,6 +45,10 @@ class PageView {
 				$categoryView = new CategoryView();
 				$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
 				
+			} elseif ($urlArray[0] == 'imo') {
+
+				$html .= MessageView::displayInbox();
+				
 			} elseif ($urlArray[0] == 'register') {
 
 				$html .= AuthenticationView::getAuthForm('register', $inputArray, $errorArray);

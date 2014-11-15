@@ -39,6 +39,7 @@
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/comment.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/content.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/menu.view.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/message.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/page.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/profile.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/subscription.view.php');
