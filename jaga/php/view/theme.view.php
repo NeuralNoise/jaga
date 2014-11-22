@@ -64,8 +64,14 @@ class ThemeView {
 		$css = "/* WELCOME TO THE KUTCHANNEL */\n/* The " . strtoupper(Channel::getChannelKey($_SESSION['channelID'])) . " channel is using the " . strtoupper($themeKey) . " theme. */\n\n";
 		
 		$css .= "#footer {
+			color:#$contentPanelHeadingTextColor;
 			background-color:#$navbarBackgroundColor;
-			a { color:#$navbarTextColor !important; }
+
+		}\n\n";
+		
+		$css .= "#footer a {
+			text-decoration:none;
+			color:#$navbarTextColor !important;
 		}\n\n";
 		
 		$css .= "div.jagaContentPanelHeading {

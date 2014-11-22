@@ -95,19 +95,14 @@ div#contentCoordinatesMap {
 }
 
 #footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	height: 45px;
+	position:absolute;
+	bottom:0;
+	width:100%;
 	background-color:#FFFF99;
 	padding-top:10px;
-	text-align:right;
 }
 
 @media (max-width:767px) {
-	body {
-		/* padding-top: 30px; */
-	}
 	#kLogo {
 		margin-left:5px;
 		margin-top:10px;
@@ -116,6 +111,21 @@ div#contentCoordinatesMap {
 	.jagaDrop {
 		width:300px;
 	}
+}
+
+@media (max-width: 991px) {
+	
+	/* NAVBAR COLLAPSE */
+	.navbar-header { float: none; }
+	.navbar-toggle { display: block; }
+	.navbar-collapse { border-top: 1px solid transparent; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1); }
+	.navbar-collapse.collapse { display: none!important; }
+	.navbar-nav { float: none!important; margin: 7.5px -15px; }
+	.navbar-nav>li { float: none; }
+	.navbar-nav>li>a { padding-top: 10px; padding-bottom: 10px; }
+	.navbar-collapse.collapse.in { display: block!important; }
+	.collapsing { overflow: hidden!important; }
+
 }
 
 /*

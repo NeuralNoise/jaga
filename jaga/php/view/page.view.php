@@ -38,12 +38,26 @@ class PageView {
 			if ($urlArray[0] == '') {
 			
 				if ($_SESSION['channelID'] == 2006) {
+				
 					$carousel = new CarouselView();
 					$html .= $carousel->getCarousel();
-				} else { $html .= $this->getBreadcrumbs($urlArray); }
+					
+					$channelArray = Channel::getChannelArray();
+					foreach ($channelArray AS $channelKey => $postCount) {
+					
+					}
+					// $html .= print_r($channelArray, true);
+					
+				} else {
 				
-				$categoryView = new CategoryView();
-				$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
+					$html .= $this->getBreadcrumbs($urlArray);
+					
+					$categoryView = new CategoryView();
+					$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
+					
+				}
+				
+				
 				
 			} elseif ($urlArray[0] == 'imo') {
 
@@ -268,19 +282,22 @@ class PageView {
 	}
 	
 	private function getFooter() {
-
-				$html = "\n\n";
-				$html .= "\t\t<div id=\"footer\">\n";
+	
+				$html = "\n\n\t\t<div id=\"footer\">\n";
 					$html .= "\t\t\t<div class=\"container\">\n";
-						$html .= "\t\t\t\t<p class=\"text-muted\">";
-							$html .= "<a href=\"http://the.kutchannel.net/about/\">About</a> | ";
-							$html .= "<a href=\"http://the.kutchannel.net/tos/\">Terms of Service</a> | ";
-							$html .= "<a href=\"http://the.kutchannel.net/privacy/\">Privacy Policy</a> | ";
-							$html .= "<a href=\"http://the.kutchannel.net/advertise/\">Advertise</a> | ";
-							$html .= "<a href=\"http://the.kutchannel.net/sitemap/\">Sitemap</a> | ";
-							$html .= "<a href=\"http://the.kutchannel.net/contact/\">Contact</a> | ";
-							$html .= "&copy; The Kutchannel 2006-" . date('Y');
-						$html .= "</p>\n";
+						$html .= "\t\t\t\t<div class=\"col-sm-6\">\n";
+							$html .= "\t\t\t\t\t<ul class=\"list-inline\">\n";
+								$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/about/\">About</a></li>\n";
+								$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/tos/\">Terms of Service</a></li>\n";
+								$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/privacy/\">Privacy Policy</a></li>\n";						
+								$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/sitemap/\">Sitemap</a></li>\n";
+								$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/advertise/\">Advertise</a></li>\n";
+								$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/contact/\">Contact</a></li>\n";
+							$html .= "\t\t\t\t\t</ul>\n";
+						$html .= "\t\t\t\t</div>\n";
+						$html .= "\t\t\t\t<div class=\"col-sm-6\">\n";
+							$html .= "\t\t\t\t<div class=\"pull-right\">&copy; The Kutchannel 2006-" . date('Y') . "</div>\n";
+						$html .= "\t\t\t\t</div>\n";
 					$html .= "\t\t\t</div>\n";
 				$html .= "\t\t</div>\n\n";
 			$html .= "\t</body>\n\n";
