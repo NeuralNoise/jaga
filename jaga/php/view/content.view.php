@@ -22,10 +22,35 @@ class ContentView {
 					$html .= "\t\t<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . $row['title'] . "</h4></div>\n";
 					$html .= "\t\t<div class=\"panel-body\">";
 						
-						$html .= $row['content'];
+						$html .= "<div class=\"well\">" . $row['content'] . "</div>";
 						
-						$imageArray = Image::getObjectImageUrlArray('Content', $contentID);
-						foreach ($imageArray AS $imageID => $imageURL) { $html .= "<img src=\"" . $imageURL . "\" class=\"img-responsive col-xs-12 col-sm-6 col-md-4 col-lg-3\">"; }
+						$html .= "<div id=\"list\" class=\"row\">";
+							$imageArray = Image::getObjectImageUrlArray('Content', $contentID);
+							foreach ($imageArray AS $imageID => $imageURL) {
+								
+								// IMAGE
+								$html .= "<div class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\" data-toggle=\"modal\" data-target=\"#" . $imageID . "\" style=\"margin-bottom:10px;\">";
+									$html .= "<img src=\"" . $imageURL . "\" class=\"img-responsive\">";
+								$html .= "</div>\n";
+								
+								// MODAL
+								$html .= "
+								<div class=\"modal fade\" id=\"" . $imageID . "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"deluxeNobileFirLabel\" aria-hidden=\"true\">
+								<div class=\"modal-dialog\">
+									<div class=\"modal-content\">
+										<div class=\"modal-header\">
+											<button type=\"button\" class=\"close\" data-dismiss=\"modal\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span></button>
+											<h4 class=\"modal-title\" id=\"" . $imageID . "\">" . $row['title'] ."</h4>
+										</div>
+										<div class=\"modal-body text-center\"><img src=\"" . $imageURL . "\" class=\"img-responsive\" style=\"margin:0px auto 0px auto;\"></div>
+										<div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button></div>
+									</div>
+								</div>
+								</div>
+								";
+								
+							}
+						$html .= "</div>\n";
 						
 					$html .= "</div>\n";
 				$html .= "\t</div>\n";
