@@ -515,6 +515,64 @@ CREATE TABLE IF NOT EXISTS `jaga_Content` (
 	
 	}
 	
+	public function displayRecentContentItems($channelID = 0, $contentCategoryKey = '', $numberOfItems = 50) {
+		
+		$recentContentArray = Content::getRecentContentArray($channelID, $contentCategoryKey, $numberOfItems);
+
+		$html = "\n\n";
+		$html .= "\t\t<div class=\"container\"> <!-- START CONTAINER -->\n";
+			$html .= "\t\t\t<div class=\"row\" id=\"list\"> <!-- START ROW -->\n";
+
+				foreach ($recentContentArray AS $contentID) {
+				
+					$content = new Content($contentID);
+					$contentURL = $content->contentURL;
+					$thisContentCategoryKey = $content->contentCategoryKey;
+					$contentTitle = $content->contentTitleEnglish;
+					$contentSubmittedByUserID = $content->contentSubmittedByUserID;
+					$contentSubmissionDateTime = $content->contentSubmissionDateTime;
+					$contentEnglish = $content->contentEnglish;
+					
+					$thisChannelID = $content->channelID;
+					$channel = new Channel($thisChannelID);
+					$thisContentChannelKey = $channel->channelKey;
+					$channelTitle = $channel->channelTitleEnglish;
+					
+					$contentViews = $content->contentViews;
+					$user = new User($contentSubmittedByUserID);
+					$username = $user->username;
+
+					$html .= "\t\t\t\t<div class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\">\n";
+						$html .= "\t\t\t\t\t<div class=\"panel panel-default\">\n";
+							
+							$html .= "\t\t\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n";
+								$html .= "\t\t\t\t\t\t\t<h4>" . strtoupper($contentTitle) . "</h4>\n";
+							$html .= "\t\t\t\t\t\t</div>\n";
+
+							$html .= "\t\t\t\t\t\t\t<a href=\"http://" . $thisContentChannelKey . ".kutchannel.net/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
+								$html .= "<span class=\"jagaListGroup\">";
+									// $html .= "<span class=\"jagaListGroupBadge\">" . $contentViews . "</span>";
+									if (Image::objectHasImage('Content',$contentID)) {
+										$imagePath = Image::getLegacyObjectMainImagePath('Content',$contentID);
+										if ($imagePath == "") { $imagePath = Image::getObjectMainImagePath('Content',$contentID); }
+										if ($imagePath != "") { $html .= "<br /><img class=\"img-responsive\" src=\"" . $imagePath . "\"><br />"; }
+									}			
+									$html .=  $contentEnglish;	
+								$html .= "</span>";
+							$html .= "</a>\n";
+							
+						$html .= "\t\t\t\t\t</div>\n";
+					$html .= "\t\t\t\t</div>\n";
+
+				}
+				
+			$html .= "\t\t\t</div> <!-- END ROW -->\n";
+		$html .= "\t\t</div> <!-- END CONTAINER -->\n\n";
+		
+		return $html;
+	
+	}
+
 }
 
 ?>

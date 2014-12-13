@@ -41,12 +41,8 @@ class PageView {
 				
 					$carousel = new CarouselView();
 					$html .= $carousel->getCarousel();
-					
-					$channelArray = Channel::getChannelArray();
-					foreach ($channelArray AS $channelKey => $postCount) {
-					
-					}
-					// $html .= print_r($channelArray, true);
+
+					$html .= ContentView::displayRecentContentItems(0, '', 50);
 					
 				} else {
 				
@@ -56,8 +52,6 @@ class PageView {
 					$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
 					
 				}
-				
-				
 				
 			} elseif ($urlArray[0] == 'imo') {
 

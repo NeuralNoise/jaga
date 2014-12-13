@@ -181,6 +181,38 @@ class Content extends ORM {
 		
 	}
 	
+	public function getRecentContentArray($channelID, $contentCategoryKey, $numberOfItems) {
+
+		$currentDate = date('Y-m-d');
+		if ($channelID != 0) { $whereClauseChannelID = "AND channelID = :channelID"; } else { $whereClauseChannelID = ''; }
+		if ($contentCategoryKey != '') { $whereClauseContentCategoryKey = "AND contentCategoryKey = :contentCategoryKey"; } else { $whereClauseContentCategoryKey = ''; }
+		$limitClause = "LIMIT $numberOfItems";
+
+		$query = "
+			SELECT * FROM jaga_Content 
+			WHERE contentPublished = 1 
+			AND contentPublishStartDate <= '$currentDate' 
+			AND (contentPublishEndDate >= '$currentDate' OR contentPublishEndDate = '0000-00-00')
+			$whereClauseChannelID
+			$whereClauseContentCategoryKey
+			ORDER BY contentLastModified DESC
+			$limitClause
+		";
+
+		$core = Core::getInstance();
+		$statement = $core->database->prepare($query);
+		
+		if ($channelID != 0) { $statement->bindParam(':channelID', $channelID, PDO::PARAM_INT, 12); }
+		if ($contentCategoryKey != '') { $statement->bindParam(':contentCategoryKey', $contentCategoryKey, PDO::PARAM_STR, 255); }
+		
+		$statement->execute();
+		
+		$recentContentArray = array();
+		while ($row = $statement->fetch()) { $recentContentArray[] = $row['contentID']; }
+		return $recentContentArray;
+		
+	}
+
 }
 
 ?>
