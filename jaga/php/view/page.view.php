@@ -169,6 +169,21 @@ class PageView {
 				
 				}
 
+			} elseif ($urlArray[0] == 'account-recovery') {
+			
+				if (isset($inputArray['userEmail']) && empty($errorArray)) {
+					
+					// save record
+					// send email
+					
+					$html .= AccountRecoveryView::accountRecoveryMailConfirmation($inputArray['userEmail']);
+					
+				} else {
+				
+					$html .= AccountRecoveryView::accountRecoveryForm($inputArray, $errorArray);
+					
+				}
+				
 			} else {
 				$html .= "\n\n\t<!-- START 404 TEXT -->\n";
 					$html .= "\t\t<div class=\"container\">404: " . $urlArray[0] . "</div>\n";

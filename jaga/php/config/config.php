@@ -9,6 +9,7 @@
 
 	// MODEL
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/audit.class.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/accountRecovery.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/authentication.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/calendar.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/category.class.php');
@@ -30,8 +31,10 @@
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/subscription.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/theme.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/user.class.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/utilities.class.php');
 	
 	// VIEW
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/accountRecovery.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/authentication.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/carousel.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/category.view.php');

@@ -25,11 +25,7 @@ class AuthenticationView {
 					
 					$html .= "\t\t\t\t<!-- START PANEL-BODY -->\n";
 					$html .= "\t\t\t\t<div style=\"padding-top:30px\" class=\"panel-body\">\n\n";
-					
-						
-						
-						
-						
+
 						
 						$html .= "\t\t\t\t\t<!-- START jagaLoginForm -->\n";
 						$html .= "\t\t\t\t\t<form role=\"form\" id=\"jagaLoginForm\" name=\"login\" class=\"form-horizontal\" method=\"post\" action=\"/login/\">\n\n";
@@ -56,11 +52,12 @@ class AuthenticationView {
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 			
-							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-md-12 control\">\n";
-									$html .= "\t\t\t\t\t\t\t\t<div style=\"border-top: 1px solid#888; padding-top:15px; font-size:85%\" >Don't have a Kutchannel account? <a href=\"/register/\">Register</a></div>\n";
-								$html .= "\t\t\t\t\t\t\t</div>\n";
-							$html .= "\t\t\t\t\t\t</div>\n\n";
+							$html .= "\t\t\t\t\t\t\t<div class=\"col-md-12 control\" style=\"border-top:1px solid #888;\">\n";
+								$html .= "\t\t\t\t\t\t\t\t<div style=\"padding-top:15px;font-size:85%;\" >
+									Don't have a Kutchannel account? <a href=\"/register/\">Register (FREE)</a><br />
+									Forget your username or password? <a href=\"/account-recovery/\">Account Recovery</a>
+								</div>\n";
+							$html .= "\t\t\t\t\t\t\t</div>\n";
 			
 						$html .= "\t\t\t\t\t</form>\n";
 						$html .= "\t\t\t\t\t<!-- END jagaLoginForm -->\n\n";
@@ -84,11 +81,11 @@ class AuthenticationView {
 				$html .= "\t\t\t<!-- START PANEL -->\n";
 				$html .= "\t\t\t<div class=\"panel panel-default\" >\n\n";
 					
+
 					$html .= "\t\t\t\t<!-- START PANEL-HEADING -->\n";
 					$html .= "\t\t\t\t<div class=\"panel-heading\">\n\n";
 
 						$html .= "\t\t\t\t\t<div class=\"panel-title\">TESTING ONLY</div>\n";
-						// $html .= "\t\t\t\t\t<div style=\"float:right;font-size:85%;position:relative;top:-10px;\"><a href=\"/login/\">Login</a></div>\n";
 						
 					$html .= "\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t<!-- END PANEL-HEADING -->\n\n";

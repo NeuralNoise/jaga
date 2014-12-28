@@ -1,3 +1,48 @@
+-- phpMyAdmin SQL Dump
+-- version 4.1.7
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Dec 27, 2014 at 09:40 PM
+-- Server version: 5.1.70
+-- PHP Version: 5.5.14-pl0-gentoo
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `kutchannelDB`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jaga_AccountRecovery`
+--
+
+CREATE TABLE IF NOT EXISTS `jaga_AccountRecovery` (
+  `accountRecoveryID` int(8) NOT NULL AUTO_INCREMENT,
+  `accountRecoveryEmail` varchar(255) NOT NULL,
+  `accountRecoveryUserID` int(8) NOT NULL,
+  `accountRecoveryRequestDateTime` datetime NOT NULL,
+  `accountRecoveryRequestedFromIP` varchar(50) NOT NULL,
+  `accountRecoveryMash` varchar(40) NOT NULL,
+  `accountRecoveryVisited` int(1) NOT NULL,
+  PRIMARY KEY (`accountRecoveryID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1000001 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jaga_Category`
+--
+
 CREATE TABLE IF NOT EXISTS `jaga_Category` (
   `contentCategoryKey` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `contentCategoryEnglish` varchar(255) CHARACTER SET utf8 NOT NULL,
@@ -5,6 +50,12 @@ CREATE TABLE IF NOT EXISTS `jaga_Category` (
   `contentCategoryJapaneseReading` varchar(255) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`contentCategoryKey`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jaga_Channel`
+--
 
 CREATE TABLE IF NOT EXISTS `jaga_Channel` (
   `channelID` int(8) NOT NULL AUTO_INCREMENT,
@@ -22,13 +73,25 @@ CREATE TABLE IF NOT EXISTS `jaga_Channel` (
   `pagesServed` int(12) NOT NULL,
   `siteManagerUserID` int(8) NOT NULL,
   PRIMARY KEY (`channelID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=100008;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=100008 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jaga_ChannelCategory`
+--
 
 CREATE TABLE IF NOT EXISTS `jaga_ChannelCategory` (
   `channelID` int(8) NOT NULL,
   `contentCategoryKey` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`channelID`,`contentCategoryKey`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jaga_Comment`
+--
 
 CREATE TABLE IF NOT EXISTS `jaga_Comment` (
   `contentID` int(8) NOT NULL,
@@ -38,6 +101,12 @@ CREATE TABLE IF NOT EXISTS `jaga_Comment` (
   `commentContent` text CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`contentID`,`userID`,`commentDateTime`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jaga_Content`
+--
 
 CREATE TABLE IF NOT EXISTS `jaga_Content` (
   `contentID` int(8) NOT NULL AUTO_INCREMENT,
@@ -64,7 +133,13 @@ CREATE TABLE IF NOT EXISTS `jaga_Content` (
   `contentLatitude` decimal(9,6) NOT NULL,
   `contentLongitude` decimal(9,6) NOT NULL,
   PRIMARY KEY (`contentID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9999913;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9999951 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jaga_Image`
+--
 
 CREATE TABLE IF NOT EXISTS `jaga_Image` (
   `imageID` int(12) NOT NULL AUTO_INCREMENT,
@@ -82,8 +157,15 @@ CREATE TABLE IF NOT EXISTS `jaga_Image` (
   `imageDimensionX` int(5) NOT NULL,
   `imageDimensionY` int(5) NOT NULL,
   `imageDisplayInGallery` int(1) NOT NULL,
+  `imageLegacy` int(1) NOT NULL,
   PRIMARY KEY (`imageID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=100001;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=100035 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jaga_language`
+--
 
 CREATE TABLE IF NOT EXISTS `jaga_language` (
   `resourceID` varchar(255) CHARACTER SET utf8 NOT NULL,
@@ -95,6 +177,12 @@ CREATE TABLE IF NOT EXISTS `jaga_language` (
   PRIMARY KEY (`resourceID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jaga_mail`
+--
+
 CREATE TABLE IF NOT EXISTS `jaga_mail` (
   `mailID` int(8) NOT NULL AUTO_INCREMENT,
   `siteID` int(8) NOT NULL,
@@ -105,7 +193,30 @@ CREATE TABLE IF NOT EXISTS `jaga_mail` (
   `mailSubject` varchar(255) CHARACTER SET utf8 NOT NULL,
   `mailMessage` text CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`mailID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1000001;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1000001 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jaga_Message`
+--
+
+CREATE TABLE IF NOT EXISTS `jaga_Message` (
+  `messageID` int(12) NOT NULL AUTO_INCREMENT,
+  `messageSenderUserID` int(8) NOT NULL,
+  `messageRecipientUserID` int(8) NOT NULL,
+  `messageContent` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `messageDateTimeSent` datetime NOT NULL,
+  `messageSenderIP` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `messageReadByRecipient` int(1) NOT NULL,
+  PRIMARY KEY (`messageID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jaga_session`
+--
 
 CREATE TABLE IF NOT EXISTS `jaga_session` (
   `sessionID` varchar(32) CHARACTER SET utf8 NOT NULL,
@@ -117,11 +228,23 @@ CREATE TABLE IF NOT EXISTS `jaga_session` (
   PRIMARY KEY (`sessionID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jaga_Subscription`
+--
+
 CREATE TABLE IF NOT EXISTS `jaga_Subscription` (
   `userID` int(8) NOT NULL,
   `channelID` int(8) NOT NULL,
   PRIMARY KEY (`userID`,`channelID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jaga_theme`
+--
 
 CREATE TABLE IF NOT EXISTS `jaga_theme` (
   `themeKey` varchar(50) CHARACTER SET utf8 NOT NULL,
@@ -140,6 +263,12 @@ CREATE TABLE IF NOT EXISTS `jaga_theme` (
   PRIMARY KEY (`themeKey`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jaga_User`
+--
+
 CREATE TABLE IF NOT EXISTS `jaga_User` (
   `userID` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
@@ -157,4 +286,8 @@ CREATE TABLE IF NOT EXISTS `jaga_User` (
   PRIMARY KEY (`userID`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `userEmail` (`userEmail`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=999904;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=999907 ;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -569,15 +569,29 @@ class Controller {
 			return $html;
 
 			
+		} elseif ($urlArray[0] == 'account-recovery') {
 			
+			$inputArray = array();
+			$errorArray = array();
 			
-			
-			
-			
-			
-			
-			
-			
+			if (isset($_POST['jagaAccountRecoverySubmit'])) {
+				$inputArray = $_POST;
+				$userEmail = $inputArray['userEmail'];
+				$raptcha = $inputArray['raptcha'];
+				$errorArray = AccountRecovery::accountRecoveryRequestValidation($userEmail, $raptcha);
+				if (empty($errorArray)) {
+					$accountRecovery = new AccountRecovery(0);
+					unset($accountRecovery->accountRecoveryID);
+					$accountRecovery->accountRecoveryEmail = $userEmail;
+					$accountRecovery->accountRecoveryRequestDateTime = date('Y-m-d H:i:s');
+					$accountRecovery->accountRecoveryUserID = User::getUserID($userEmail);
+					$accountRecoveryID = AccountRecovery::insert($accountRecovery);
+				}
+			}
+
+			$page = new PageView();
+			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
+			return $html;
 			
 		} else {
 		

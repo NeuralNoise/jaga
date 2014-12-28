@@ -15,8 +15,7 @@ class ORM {
 		$objectPropertyArray = array_keys($objectVariableArray);
 		$tablePrefix = self::getTablePrefix();
 		$tableName = $tablePrefix . $objectName;
-		
-		// print_r($tableName);
+
 		if (!self::tableExists($tableName)) { die('ORM::insert($object) => A table does not exist with that object name.'); }
 		
 		// create insert query
