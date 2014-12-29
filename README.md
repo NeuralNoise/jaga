@@ -4,13 +4,13 @@ The Kutchannel
 *JAGATAKUN FIGHTS FOR THE USER*
 
 **LICENSE**
-- *This code powers [The Kutchannel](http://the.kutchannel.net) and is freely available for use under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.html) (see license.md; [FAQ](http://www.affero.org/oagf.html)).*
+- *This code powers [The Kutchannel](http://the.kutchannel.net) and is available for use under the coyleft [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.html). This license allows anyone to use or modify this code, but requires that any modifications to it are shared. This is intended to encourage participation in the project and to assure that The Kutchannel's codebase will always be non-commercial and non-proprietary (see [license.md](license.md) & [FAQ](http://www.affero.org/oagf.html)). 
 
 **PRODUCTION DEPLOYMENT**
 - The master branch is actively deployed on all subdomains of The Kutchannel (`*.kutchannel.net`) except http://niseko.kutchannel.net which, pending migration, is still using the old code. Devs... please edit your host files to reflect this.
 
 **FEATURES**
-- HOME SUBDOMAIN (eg: [THE.KUTCHANNEL.NET](http://the.kutchannel.net))
+- HOME (eg: [THE.KUTCHANNEL.NET](http://the.kutchannel.net))
     - aggregate site showing recent content from all **channels and categories**.
 - JAGAROLL
     - shows content from channels (...categories,users?) the owner is subscribed to
