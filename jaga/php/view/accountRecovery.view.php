@@ -74,9 +74,9 @@ class AccountRecoveryView {
 	
 		$html = "\n\n\t<!-- START RECOVERY MAIL CONFIRMATION CONTAINER -->\n";
 		$html .= "\t<div class=\"container\">\n\n";
-			$html .= "Thank you. <b>An email has been sent to $userEmail</b> containing your <u>username</u> and <u>a link to reset your password</u>.";
+			$html .= "<b>An email has been sent to $userEmail</b> containing your <b>username</b> and <b>a link to reset your password</b>.";
 			$html .= "<ul>";
-				$html .= "<li>It can take a few minutes to recieve your acount recovery email.</li>";
+				$html .= "<li>It can take a few minutes to recieve your account recovery email.</li>";
 				$html .= "<li>If you do not see the email in your inbox, please check your spam folder.</li>";
 				$html .= "<li>If you submit this form multiple times, only the most recent password recovery email will work.</li>";
 			$html .= "<ul>";

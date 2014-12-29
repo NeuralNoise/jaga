@@ -293,21 +293,20 @@ class PageView {
 	private function getFooter() {
 	
 				$html = "\n\n\t\t<div id=\"footer\">\n";
-					$html .= "\t\t\t<div class=\"container\">\n";
-						$html .= "\t\t\t\t<div class=\"col-sm-6\">\n";
-							$html .= "\t\t\t\t\t<ul class=\"list-inline\">\n";
-								$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/about/\">About</a></li>\n";
-								$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/tos/\">Terms of Service</a></li>\n";
-								$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/privacy/\">Privacy Policy</a></li>\n";						
-								$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/sitemap/\">Sitemap</a></li>\n";
-								$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/advertise/\">Advertise</a></li>\n";
-								$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/contact/\">Contact</a></li>\n";
-							$html .= "\t\t\t\t\t</ul>\n";
-						$html .= "\t\t\t\t</div>\n";
-						$html .= "\t\t\t\t<div class=\"col-sm-6\">\n";
-							$html .= "\t\t\t\t<div class=\"pull-right\">&copy; The Kutchannel 2006-" . date('Y') . "</div>\n";
-						$html .= "\t\t\t\t</div>\n";
-					$html .= "\t\t\t</div>\n";
+					$html .= "\t\t\t\t<div class=\"col-sm-6 hidden-xs\" style=\"padding-bottom:3px;\">\n";
+						$html .= "\t\t\t\t\t<ul class=\"list-inline\">\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/about/\">About</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/tos/\">Terms of Service</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/privacy/\">Privacy Policy</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://github.com/chishiki/kutchannel/\">Source Code</a></li>\n";								
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/sitemap/\">Sitemap</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/advertise/\">Advertise</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/contact/\">Contact</a></li>\n";
+						$html .= "\t\t\t\t\t</ul>\n";
+					$html .= "\t\t\t\t</div>\n";
+					$html .= "\t\t\t\t<div class=\"col-sm-6\">\n";
+						$html .= "\t\t\t\t<div class=\"pull-right\">&copy; The Kutchannel 2006-" . date('Y') . "</div>\n";
+					$html .= "\t\t\t\t</div>\n";
 				$html .= "\t\t</div>\n\n";
 			$html .= "\t</body>\n\n";
 		$html .= "</html>";
