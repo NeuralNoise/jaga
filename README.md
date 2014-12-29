@@ -4,16 +4,16 @@ The Kutchannel
 *JAGATAKUN FIGHTS FOR THE USER*
 
 **LICENSE**
-- *This code powers [The Kutchannel](http://the.kutchannel.net) and is licensed under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.html) (see license.md).*
+- *This code powers [The Kutchannel](http://the.kutchannel.net) and is freely available for use under the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.html) (see license.md; [FAQ](http://www.affero.org/oagf.html)).*
 
-**ACTIVE DEPLOYMENT**
+**PRODUCTION DEPLOYMENT**
 - The master branch is actively deployed on all subdomains of The Kutchannel (`*.kutchannel.net`) except http://niseko.kutchannel.net which, pending migration, is still using the old code. Devs... please edit your host files to reflect this.
 
 **FEATURES**
-- THE.KUTCHANNEL.NET
-    - site home; aggregate site showing recent content from all **channels and categories**.
-- NEWSFEED (JAGAROLL?)
-    - user home; shows content from channels (...categories,users?) the owner is subscribed to
+- HOME SUBDOMAIN (eg: [THE.KUTCHANNEL.NET](http://the.kutchannel.net))
+    - aggregate site showing recent content from all **channels and categories**.
+- JAGAROLL
+    - shows content from channels (...categories,users?) the owner is subscribed to
 - CHANNEL
     - users can **create channels**: `<channel>.kutchannel.net`
     - a **theme** must be selected for the channel.
@@ -30,10 +30,7 @@ The Kutchannel
 - COMMENTS
     - users can **comment** on any post in any category on any channel.
     - plaintext only and observe line breaks.
-    - cmments can be edited and deleted.
+    - comments can be edited and deleted.
 - USERS
     - individual profiles as `/u/<username>/`
     - can subscribe to channels, categories (TBD), or users (TBD); this personalizes newsfeed
-	
-**DIRECTION**
-- Decentralized content network?
