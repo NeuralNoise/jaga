@@ -28,7 +28,7 @@ class AccountRecoveryView {
 							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom:25px;\" class=\"input-group\">\n";
 								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-envelope\"></i></span>\n";
 								$html .= "\t\t\t\t\t\t\t<input id=\"userEmail\" type=\"email\" class=\"form-control";
-									if (isset($errorArray['loginFailed'])) { $html .= " jagaFormValidationError"; }
+									if (isset($errorArray['userEmail'])) { $html .= " jagaFormValidationError"; }
 								$html .= "\" name=\"userEmail\" value=\"";
 									if (isset($inputArray['userEmail'])) { $html .= $inputArray['userEmail']; }
 								$html .= "\" placeholder=\"potato@example.com\" required>\n";

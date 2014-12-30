@@ -580,12 +580,16 @@ class Controller {
 				$raptcha = $inputArray['raptcha'];
 				$errorArray = AccountRecovery::accountRecoveryRequestValidation($userEmail, $raptcha);
 				if (empty($errorArray)) {
+				
 					$accountRecovery = new AccountRecovery(0);
 					unset($accountRecovery->accountRecoveryID);
 					$accountRecovery->accountRecoveryEmail = $userEmail;
 					$accountRecovery->accountRecoveryRequestDateTime = date('Y-m-d H:i:s');
 					$accountRecovery->accountRecoveryUserID = User::getUserID($userEmail);
 					$accountRecoveryID = AccountRecovery::insert($accountRecovery);
+					
+					// send email
+					
 				}
 			}
 

@@ -173,9 +173,6 @@ class PageView {
 			
 				if (isset($inputArray['userEmail']) && empty($errorArray)) {
 					
-					// save record
-					// send email
-					
 					$html .= AccountRecoveryView::accountRecoveryMailConfirmation($inputArray['userEmail']);
 					
 				} else {
