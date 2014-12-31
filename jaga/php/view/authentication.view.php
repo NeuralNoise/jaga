@@ -18,7 +18,7 @@ class AuthenticationView {
 					$html .= "\t\t\t\t<!-- START PANEL-HEADING -->\n";
 					$html .= "\t\t\t\t<div class=\"panel-heading\">\n\n";
 						
-						$html .= "\t\t\t\t\t<div class=\"panel-title\">BETA USERS ONLY</div>\n";
+						$html .= "\t\t\t\t\t<div class=\"panel-title\">LOGIN</div>\n";
 					
 					$html .= "\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t<!-- END PANEL-HEADING -->\n\n";
@@ -85,7 +85,7 @@ class AuthenticationView {
 					$html .= "\t\t\t\t<!-- START PANEL-HEADING -->\n";
 					$html .= "\t\t\t\t<div class=\"panel-heading\">\n\n";
 
-						$html .= "\t\t\t\t\t<div class=\"panel-title\">TESTING ONLY</div>\n";
+						$html .= "\t\t\t\t\t<div class=\"panel-title\">REGISTER</div>\n";
 						
 					$html .= "\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t<!-- END PANEL-HEADING -->\n\n";

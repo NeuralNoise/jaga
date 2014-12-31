@@ -14,7 +14,7 @@ The Kutchannel
     - aggregate site showing recent content from all **channels and categories**.
 - NEWSFEED
     - shows content from channels (...categories,users?) the user is subscribed to
-- CHANNEL
+- CHANNELS
     - users can **create channels**: `<channel>.kutchannel.net`
     - a **theme** must be selected for the channel.
     - at least one **category** must be assigned to the channel: `<channel>.kutchannel.net/k/<category>/`

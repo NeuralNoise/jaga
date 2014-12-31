@@ -4,6 +4,8 @@ class ContentView {
 
 	public function displayContentView($contentID) {
 	
+		
+	
 		$core = Core::getInstance();
 		$query = "
 			SELECT contentEnglish AS content, contentTitleEnglish AS title
@@ -15,6 +17,8 @@ class ContentView {
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':contentID' => $contentID));
 		if ($row = $statement->fetch()) {
+		
+			Content::contentViewsPlusOne($contentID);
 		
 			$html = "\n\t<!-- START CONTENT -->\n";
 			$html .= "\t<div class=\"container\">\n\n";

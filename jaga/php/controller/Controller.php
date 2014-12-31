@@ -382,6 +382,9 @@ class Controller {
 						
 						// modify values where required
 						$content->contentURL = SEO::googlify($inputArray['contentTitleEnglish']);
+						if (Content::contentURLExists($content->contentURL)) {
+							$content->contentURL = Content::generateNonDuplicateContentURL($content->contentURL);
+						}
 						
 						$contentID = Content::insert($content);
 
@@ -421,6 +424,12 @@ class Controller {
 							if (isset($content->$property)) {
 								$content->$property = $value;
 							}
+						}
+						
+						// modify values where required
+						$content->contentURL = SEO::googlify($inputArray['contentTitleEnglish']);
+						if (Content::contentURLExists($content->contentURL)) {
+							$content->contentURL = Content::generateNonDuplicateContentURL($content->contentURL);
 						}
 						
 						// build conditions

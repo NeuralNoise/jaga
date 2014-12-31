@@ -213,6 +213,25 @@ class Content extends ORM {
 		
 	}
 
+	public function contentURLExists($contentURL) {
+		$core = Core::getInstance();
+		$query = "SELECT contentURL FROM jaga_Content WHERE contentURL = :contentURL LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':contentURL' => $contentURL));
+		if ($row = $statement->fetch()) { return true; } else { return false; }
+	}
+	
+	public function generateNonDuplicateContentURL($contentURL) {
+		$contentURL = $contentURL . '-' . date('Ymd-His');
+		return $contentURL;
+	}
+	
+	public function contentViewsPlusOne($contentID) {
+		$core = Core::getInstance();
+		$query = "UPDATE jaga_Content SET contentViews = contentViews + 1 WHERE contentID = :contentID LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':contentID' => $contentID));
+	}
 }
 
 ?>
