@@ -3,9 +3,14 @@ class MessageView {
 	
 	public function displayInbox() {
 
-		$messages = Message::getInboxMessageArray();
+		$messages = Message::getInboxArray();
+		
+		print_r($messages);
+		die();
+		
 		$html = '';
 		
+		/*
 		if (empty($messages)) {
 		
 			$html .= '<div class="container">You do not currently have any messages in your inbox.</div>';
@@ -33,7 +38,7 @@ class MessageView {
 			}
 		
 		}
-		
+		*/
 		return $html;
 	
 	}

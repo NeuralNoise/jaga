@@ -36,6 +36,35 @@ class Message extends ORM {
 		
 	}
 
+	
+	public function getInboxArray() {
+	
+		$userID = $_SESSION['userID'];
+		
+		$core = Core::getInstance();
+		
+		$query = "
+			SELECT messageID, messageSenderUserID, messageRecipientUserID, messageContent, messageContent, messageDateTimeSent, messageReadByRecipient 
+			FROM jaga_Message 
+			WHERE messageSenderUserID = 64 OR messageRecipientUserID = 64 
+			ORDER BY messageDateTimeSent DESC
+		";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':userID' => $userID));
+
+		$inboxArray = array();
+		while ($row = $statement->fetch()) {
+			$messageID = $row['messageID'];
+			$inboxArray[$messageID]['messageSenderUserID'] = $row['messageSenderUserID'];
+			$inboxArray[$messageID]['messageRecipientUserID'] = $row['messageRecipientUserID'];
+			$inboxArray[$messageID]['messageContent'] = $row['messageContent'];
+			$inboxArray[$messageID]['messageDateTimeSent'] = $row['messageDateTimeSent'];
+			$inboxArray[$messageID]['messageReadByRecipient'] = $row['messageReadByRecipient'];
+		}
+		return $inboxArray;
+	}
+	
+	
 	public function getInboxMessageArray() {
 	
 		$userID = $_SESSION['userID'];

@@ -131,6 +131,22 @@ div#contentCoordinatesMap {
 
 span.jagaListGroup iframe { width:100%; height:100%; }
 
+.panel { border-radius:0; }
+
+.panel-heading {
+	border-top-right-radius: 0;
+	border-top-left-radius: 0;
+}
+
+.list-group-item:last-child {
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.jagaListGroupItem {
+	border:none;
+}
+
 /*
                                 :.. :IVVYYYXRI,
                                 tXXWMMXVWWRBBMB:
