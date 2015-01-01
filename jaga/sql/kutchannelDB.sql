@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 27, 2014 at 09:40 PM
+-- Generation Time: Dec 31, 2014 at 09:51 PM
 -- Server version: 5.1.70
 -- PHP Version: 5.5.14-pl0-gentoo
 
@@ -35,6 +35,29 @@ CREATE TABLE IF NOT EXISTS `jaga_AccountRecovery` (
   `accountRecoveryMash` varchar(40) NOT NULL,
   `accountRecoveryVisited` int(1) NOT NULL,
   PRIMARY KEY (`accountRecoveryID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1000006 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jaga_Audit`
+--
+
+CREATE TABLE IF NOT EXISTS `jaga_Audit` (
+  `auditID` int(8) NOT NULL AUTO_INCREMENT,
+  `channelID` int(8) NOT NULL,
+  `auditDateTime` datetime NOT NULL,
+  `auditUserID` int(8) NOT NULL,
+  `auditIP` varchar(45) NOT NULL,
+  `auditAction` varchar(255) NOT NULL,
+  `auditOldData` varchar(255) NOT NULL,
+  `auditNewData` varchar(255) NOT NULL,
+  `auditResult` varchar(255) NOT NULL,
+  `auditObject` varchar(20) NOT NULL,
+  `auditObjectID` int(8) NOT NULL,
+  `auditValue` varchar(50) NOT NULL,
+  `auditNote` varchar(255) NOT NULL,
+  PRIMARY KEY (`auditID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1000001 ;
 
 -- --------------------------------------------------------
@@ -133,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Content` (
   `contentLatitude` decimal(9,6) NOT NULL,
   `contentLongitude` decimal(9,6) NOT NULL,
   PRIMARY KEY (`contentID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9999951 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9999954 ;
 
 -- --------------------------------------------------------
 
@@ -159,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Image` (
   `imageDisplayInGallery` int(1) NOT NULL,
   `imageLegacy` int(1) NOT NULL,
   PRIMARY KEY (`imageID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=100035 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=100036 ;
 
 -- --------------------------------------------------------
 
@@ -180,12 +203,12 @@ CREATE TABLE IF NOT EXISTS `jaga_language` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jaga_mail`
+-- Table structure for table `jaga_Mail`
 --
 
-CREATE TABLE IF NOT EXISTS `jaga_mail` (
+CREATE TABLE IF NOT EXISTS `jaga_Mail` (
   `mailID` int(8) NOT NULL AUTO_INCREMENT,
-  `siteID` int(8) NOT NULL,
+  `channelID` int(8) NOT NULL,
   `mailSentByUserID` int(8) NOT NULL,
   `mailSentDateTime` datetime NOT NULL,
   `mailToAddress` varchar(255) CHARACTER SET utf8 NOT NULL,
@@ -210,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Message` (
   `messageSenderIP` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `messageReadByRecipient` int(1) NOT NULL,
   PRIMARY KEY (`messageID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
