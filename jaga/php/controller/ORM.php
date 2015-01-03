@@ -3,14 +3,8 @@
 class ORM {
 
 	public function insert($object) {
-	
-		
-	
+
 		$objectName = get_class($object);
-		
-		// if ($objectName == 'Image') { print_r($object); }
-		
-		
 		$objectVariableArray = get_object_vars($object);
 		$objectPropertyArray = array_keys($objectVariableArray);
 		$tablePrefix = self::getTablePrefix();
@@ -20,15 +14,10 @@ class ORM {
 		
 		// create insert query
 		$query = "INSERT INTO `$tableName` (" . implode(', ', $objectPropertyArray) . ") VALUES (:" . implode(', :', $objectPropertyArray) . ")";
-		
-		// if ($objectName == 'Image') { print_r($query); }
-		
+
 		// build prepared statement
 		$core = Core::getInstance();
 		$statement = $core->database->prepare($query);
-		
-		// print_r($statement);
-		
 		foreach ($objectVariableArray AS $property => $value) {
 			$attribute = ':' . $property;
 			$statement->bindValue($attribute, $value);
@@ -37,9 +26,22 @@ class ORM {
 		// execute
 		if (!$statement->execute()){ die("ORM::insert(\$object) => There was a problem saving your new $objectName."); }
 		
-		// return last_insert_id
-		$lastInsertID = $core->database->lastInsertId();
-		return $lastInsertID;
+		// get new objectID
+		$auditObjectID = $core->database->lastInsertId();
+		
+		// ADD TO AUDIT TRAIL (for each value?)
+		$ioa = new Audit(); // Instance of Audit
+		unset($ioa->auditID);
+		$ioa->auditAction = 'create';
+		$ioa->auditObject = $objectName;
+		$ioa->auditObjectID = $auditObjectID;
+		$ioa->auditOldValue = '';
+		$ioa->auditNewValue = '';
+		$ioa->auditResult = 'success';
+		Audit::createAuditEntry($ioa);
+		
+		// return new objectID
+		return $auditObjectID;
 		
 	}
 	

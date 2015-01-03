@@ -11,15 +11,14 @@ class Audit {
 	public $auditUserID;
 	public $auditIP;
 	public $auditAction;
-	public $auditOldData;
-	public $auditNewData;
-	public $auditResult;
 	public $auditObject;
 	public $auditObjectID;
-	public $auditValue;
+	public $auditOldValue;
+	public $auditNewValue;
+	public $auditResult;
 	public $auditNote;
 	
-	public function __construct($auditID) {
+	public function __construct($auditID = 0) {
 	
 		if ($auditID != 0) {
 		
@@ -38,26 +37,25 @@ class Audit {
 			if (isset($_SESSION['userID'])) { $this->auditUserID = $_SESSION['userID']; } else { $this->auditUserID = 0; }
 			$this->auditIP = $_SERVER['REMOTE_ADDR'];
 			$this->auditAction = '';
-			$this->auditOldData = '';
-			$this->auditNewData = '';
-			$this->auditResult = '';
 			$this->auditObject = '';
 			$this->auditObjectID = 0;
-			$this->auditValue = '';
+			$this->auditOldValue = '';
+			$this->auditNewValue = '';
+			$this->auditResult = '';
 			$this->auditNote = '';
 
 		}
 	}
 	
 	public function createAuditEntry($ioa) { // Instance of Audit Object
-	
+
 		$objectName = get_class($ioa);
 		$auditVariableArray = get_object_vars($ioa);
 		$auditPropertyArray = array_keys($auditVariableArray);
-		$query = "INSERT INTO 'jaga_Audit' (" . implode(', ', $auditPropertyArray) . ") VALUES (:" . implode(', :', $auditPropertyArray) . ")";
+		$query = "INSERT INTO `jaga_Audit` (" . implode(', ', $auditPropertyArray) . ") VALUES (:" . implode(', :', $auditPropertyArray) . ")";
 		$core = Core::getInstance();
 		$statement = $core->database->prepare($query);
-		foreach ($objectVariableArray AS $property => $value) { $attribute = ':' . $property; $statement->bindValue($attribute, $value); }
+		foreach ($auditVariableArray AS $property => $value) { $attribute = ':' . $property; $statement->bindValue($attribute, $value); }
 		if (!$statement->execute()){ die("Audit::createAuditEntry(\$ioa) => There was a problem saving to the audit trail."); }
 		$auditID = $core->database->lastInsertId();
 		return $auditID;
