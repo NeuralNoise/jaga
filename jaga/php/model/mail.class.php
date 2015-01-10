@@ -38,8 +38,6 @@ class Mail extends ORM {
 
 	public static function sendEmail($mailRecipient, $mailSender, $mailSubject, $mailMessage, $channelKey = 0, $userID = 0, $mailType = 'plaintext') {
 
-		// print_r('YO!'); die();
-	
 		$mailHeader = "From: $mailSender\n";
 		$mailHeader .= "Reply-To: $mailSender\n";
 			
@@ -47,9 +45,7 @@ class Mail extends ORM {
 			$mailHeader .= "MIME-Version: 1.0\n";
 			$mailHeader .= "Content-Type: text/html; charset=UTF-8\n";
 		}
-		
-		
-		
+
 		// SAVE MAIL TO DB
 		
 		$mail = new Mail(0);
@@ -62,14 +58,15 @@ class Mail extends ORM {
 		$mail->mailSubject = $mailSubject;
 		$mail->mailMessage = $mailMessage;
 		$mailID = Mail::insert($mail);
-
 	
+		// SEND MAIL
+		
 		if (mail("chishiki@gmail.com","test","test",$mailHeader)) {
-			die("Mail Sent Successfully: THANKS DAVID");
+			die("MAIL SENT SUCCESSFULLY");
 		} else {
 			// print_r(error_get_last());
 			die("
-				Mail Not Sent<hr />
+				MAIL FAIL<hr />
 				<table style=\"border:1px solid #ddd;\">
 					<tr><td>Header</td><td>$mailHeader</td></tr>
 					<tr><td>To</td><td>$mailRecipient</td></tr>
