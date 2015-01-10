@@ -598,7 +598,7 @@ class Controller {
 					$accountRecoveryID = AccountRecovery::insert($accountRecovery);
 					
 					// send email
-					Mail::sendEmail($userEmail, "norepy@kutchannel.net", "Account Recovery link from The Kutchannel", "http://account-recovery.example.com/kshgeskrgjkghskhag/", $_SESSION['channelID'], $_SESSION['userID'], "html");
+					Mail::sendEmail($userEmail, "noreply@kutchannel.net", "Account Recovery link from The Kutchannel", "<html><body>http://account-recovery.example.com/kshgeskrgjkghskhag/</body></html>", $_SESSION['channelID'], $_SESSION['userID'], "html");
 					
 				}
 			}

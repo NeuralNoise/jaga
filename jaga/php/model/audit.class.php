@@ -47,7 +47,7 @@ class Audit {
 		}
 	}
 	
-	public function createAuditEntry($ioa) { // Instance of Audit Object
+	public static function createAuditEntry($ioa) { // Instance of Audit Object
 
 		$objectName = get_class($ioa);
 		$auditVariableArray = get_object_vars($ioa);

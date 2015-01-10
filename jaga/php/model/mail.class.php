@@ -36,8 +36,10 @@ class Mail extends ORM {
 		}
 	}
 
-	public function sendEmail($mailRecipient, $mailSender, $mailSubject, $mailMessage, $channelKey = 0, $userID = 0, $mailType = 'plaintext') {
+	public static function sendEmail($mailRecipient, $mailSender, $mailSubject, $mailMessage, $channelKey = 0, $userID = 0, $mailType = 'plaintext') {
 
+		// print_r('YO!'); die();
+	
 		$mailHeader = "From: $mailSender\n";
 		$mailHeader .= "Reply-To: $mailSender\n";
 			
@@ -46,14 +48,42 @@ class Mail extends ORM {
 			$mailHeader .= "Content-Type: text/html; charset=UTF-8\n";
 		}
 		
-		// mail("$mailRecipient","$mailSubject","$mailMessage","$mailHeader");
-		mail("chishiki@gmail.com","$mailSubject","$mailMessage","$mailHeader");
 		
-		// $auditTrailAction = 'mail to ' . $mailRecipient . ' from ' . $mailSender;
-		// $auditTrailMailMessage = substr(strip_tags($mailMessage), 0, 200);
 		
-		// $auditTrailAction = 'sendEmail';
-		// $auditTrailMailMessage = 'to ' . $mailRecipient . ' from ' . $mailSender;
+		// SAVE MAIL TO DB
+		
+		$mail = new Mail(0);
+		unset($mail->mailID);
+		$mail->channelID = $_SESSION['channelID'];
+		$mail->mailSentByUserID = $_SESSION['userID'];
+		$mail->mailSentDateTime = date('Y-m-d H:i:s');
+		$mail->mailToAddress = $mailRecipient;
+		$mail->mailFromAddress = $mailSender;
+		$mail->mailSubject = $mailSubject;
+		$mail->mailMessage = $mailMessage;
+		$mailID = Mail::insert($mail);
+
+	
+		if (mail("chishiki@gmail.com","test","test",$mailHeader)) {
+			die("Mail Sent Successfully: THANKS DAVID");
+		} else {
+			// print_r(error_get_last());
+			die("
+				Mail Not Sent<hr />
+				<table style=\"border:1px solid #ddd;\">
+					<tr><td>Header</td><td>$mailHeader</td></tr>
+					<tr><td>To</td><td>$mailRecipient</td></tr>
+					<tr><td>From</td><td>$mailSender</td></tr>
+					<tr><td>Subject</td><td>$mailSubject</td></tr>
+					<tr><td>Message</td><td>" . htmlspecialchars($mailMessage) . "</td></tr>
+					<tr><td>ChannelID</td><td>$channelKey</td></tr>
+					<tr><td>UserID</td><td>$userID</td></tr>
+					<tr><td>Mail Format</td><td>$mailType</td></tr>
+				</table>
+			");
+		}
+					
+		// SAVE TO AUDIT TRAIL
 	
 	}
 

@@ -2,7 +2,7 @@
 
 class ORM {
 
-	public function insert($object) {
+	public static function insert($object) {
 
 		$objectName = get_class($object);
 		$objectVariableArray = get_object_vars($object);
@@ -45,7 +45,7 @@ class ORM {
 		
 	}
 	
-	public function update($object, $conditions) {
+	public static function update($object, $conditions) {
 		
 		$objectName = get_class($object);
 		// print_r($object);
@@ -86,7 +86,7 @@ class ORM {
 		
 	}
 	
-	public function delete($object) {
+	public static function delete($object) {
 		
 		$objectName = get_class($object);
 		$objectVariableArray = get_object_vars($object);
@@ -109,12 +109,12 @@ class ORM {
 		
 	}
 
-	private function getTablePrefix() {
+	private static function getTablePrefix() {
 		$tablePrefix = 'jaga_';
 		return $tablePrefix;
 	}
 	
-	private function tableExists($tableName) {
+	private static function tableExists($tableName) {
 	
 		$core = Core::getInstance();
 		$queryTableCheck = "SELECT 1 FROM `$tableName` LIMIT 1";
