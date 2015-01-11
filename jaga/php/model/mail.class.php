@@ -46,25 +46,24 @@ class Mail extends ORM {
 			$mailHeader .= "Content-Type: text/html; charset=UTF-8\n";
 		}
 
-		// SAVE MAIL TO DB
-		
-		$mail = new Mail(0);
-		unset($mail->mailID);
-		$mail->channelID = $_SESSION['channelID'];
-		$mail->mailSentByUserID = $_SESSION['userID'];
-		$mail->mailSentDateTime = date('Y-m-d H:i:s');
-		$mail->mailToAddress = $mailRecipient;
-		$mail->mailFromAddress = $mailSender;
-		$mail->mailSubject = $mailSubject;
-		$mail->mailMessage = $mailMessage;
-		$mailID = Mail::insert($mail);
-	
 		// SEND MAIL
 		
-		if (mail("chishiki@gmail.com","test","test",$mailHeader)) {
-			die("MAIL SENT SUCCESSFULLY");
+		if (mail($mailRecipient,$mailSubject,$mailMessage,$mailHeader)) {
+			
+			// SAVE MAIL TO DB
+			$mail = new Mail(0);
+			unset($mail->mailID);
+			$mail->channelID = $_SESSION['channelID'];
+			$mail->mailSentByUserID = $_SESSION['userID'];
+			$mail->mailSentDateTime = date('Y-m-d H:i:s');
+			$mail->mailToAddress = $mailRecipient;
+			$mail->mailFromAddress = $mailSender;
+			$mail->mailSubject = $mailSubject;
+			$mail->mailMessage = $mailMessage;
+			$mailID = Mail::insert($mail);
+			
 		} else {
-			// print_r(error_get_last());
+
 			die("
 				MAIL FAIL<hr />
 				<table style=\"border:1px solid #ddd;\">
@@ -78,8 +77,9 @@ class Mail extends ORM {
 					<tr><td>Mail Format</td><td>$mailType</td></tr>
 				</table>
 			");
+			
 		}
-					
+
 		// SAVE TO AUDIT TRAIL
 	
 	}
