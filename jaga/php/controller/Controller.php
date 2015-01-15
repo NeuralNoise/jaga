@@ -596,17 +596,17 @@ class Controller {
 					$accountRecovery->accountRecoveryRequestDateTime = date('Y-m-d H:i:s');
 					$accountRecovery->accountRecoveryUserID = User::getUserID($userEmail);
 					$accountRecoveryID = AccountRecovery::insert($accountRecovery);
-					
+
 					// send email
-					Mail::sendEmail(
-						$userEmail, 
-						"The Kutchannel <noreply@kutchannel.net>", 
-						"Account Recovery", 
-						"<html><body>http://account-recovery.example.com/kshgeskrgjkghskhag/</body></html>", 
-						$_SESSION['channelID'], 
-						$_SESSION['userID'], 
-						"html"
-					);
+					$newAccountRecovery = new AccountRecovery($accountRecoveryID);
+					$accountRecoveryMash = $newAccountRecovery->accountRecoveryMash;
+					$userName = User::getUsername($accountRecovery->accountRecoveryUserID);
+					$mailMessage = "<html><body>Please visit the following URL, <b>$userName</b>.<br /><br />You will need to enter your username and create a new password.<br /><br />http://the.kutchannel.net/reset-password/" . $accountRecoveryMash . "/<br /><br /><i>Only your most recent Account Recovery link is valid.<br />This Account Recovery link is only valid for 24 hours.</i></body></html>";
+					Mail::sendEmail($userEmail, "The Kutchannel <noreply@kutchannel.net>", "Account Recovery", $mailMessage, $_SESSION['channelID'], $_SESSION['userID'], "html");
+					
+					// forward
+					$postSubmitURL = "/account-recovery-mail-sent/";
+					header("Location: $postSubmitURL");
 					
 				}
 			}
@@ -614,7 +614,13 @@ class Controller {
 			$page = new PageView();
 			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
 			return $html;
-			
+		
+
+		} elseif ($urlArray[0] == 'account-recovery-mail-sent') {
+		
+		} elseif ($urlArray[0] == 'reset-password') {
+		
+		
 		} else {
 		
 			$page = new PageView();

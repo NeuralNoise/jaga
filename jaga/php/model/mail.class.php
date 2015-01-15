@@ -59,7 +59,7 @@ class Mail extends ORM {
 			$mail->mailToAddress = $mailRecipient;
 			$mail->mailFromAddress = $mailSender;
 			$mail->mailSubject = $mailSubject;
-			$mail->mailMessage = $mailMessage;
+			$mail->mailMessage = json_encode($mailMessage);
 			$mailID = Mail::insert($mail);
 			
 		} else {
