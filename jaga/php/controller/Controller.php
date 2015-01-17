@@ -615,10 +615,71 @@ class Controller {
 			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
 			return $html;
 		
-
-		} elseif ($urlArray[0] == 'account-recovery-mail-sent') {
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		} elseif ($urlArray[0] == 'reset-password') {
+		
+			if (!ctype_xdigit($urlArray[1])) { header("Location: /account-recovery/"); }
+		
+			$inputArray = array();
+			$errorArray = array();
+			
+			if (isset($_POST['jagaResetPasswordSubmit'])) {
+			
+				$inputArray = $_POST;
+				$accountRecoveryMash = $urlArray[1];
+				if ($accountRecoveryMash != $inputArray['accountRecoveryMash']) { die(" POST/GET accountRecoveryMash equivalence fail"); }
+				$username = $inputArray['username'];
+				$password = $inputArray['password'];
+				$confirmPassword = $inputArray['confirmPassword'];
+				$raptcha = $inputArray['raptcha'];
+				
+				$errorArray = AccountRecovery::resetPasswordRequestValidation($accountRecoveryMash, $username, $password, $confirmPassword, $raptcha);
+				
+				if (empty($errorArray)) {
+				
+					// set AccountRecovery as used
+					$accountRecoveryID = AccountRecovery::getAccountRecoveryID($accountRecoveryMash);
+					$accountRecovery = new AccountRecovery();
+					
+					// change user password
+					
+					
+					// forward
+					$postSubmitURL = "/password-reset-successful/";
+					header("Location: $postSubmitURL");
+					
+				}
+			}
+
+			$page = new PageView();
+			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
+			return $html;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		} else {

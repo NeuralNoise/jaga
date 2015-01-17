@@ -19,8 +19,7 @@ class AccountRecovery extends ORM {
 			$this->accountRecoveryUserID = 0;
 			$this->accountRecoveryRequestDateTime = '0000-00-00 00:00:00';
 			$this->accountRecoveryRequestedFromIP = $_SERVER['REMOTE_ADDR'];
-			$natto = Utilites::generateNatto();
-			$this->accountRecoveryMash = md5(time() . $natto);
+			$this->accountRecoveryMash = Utilities::generateMash();
 			$this->accountRecoveryVisited = 0;
 			
 		} else {
@@ -36,6 +35,18 @@ class AccountRecovery extends ORM {
 
 	}
 
+	public function getAccountRecoveryID($accountRecoveryMash) {
+
+		$accountRecoveryID = 0;
+		$core = Core::getInstance();
+		$query = "SELECT accountRecoveryID FROM jaga_AccountRecovery WHERE accountRecoveryMash = :accountRecoveryMash ORDER BY accountRecoveryRequestDateTime DESC LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':accountRecoveryMash' => $accountRecoveryMash));
+		if ($row = $statement->fetch()) { $accountRecoveryID = $row['accountRecoveryID']; }
+		return $accountRecoveryID;
+	
+	}
+	
 	public function accountRecoveryRequestValidation($userEmail, $raptcha) {
 		
 		$errorArray = array();
@@ -50,6 +61,32 @@ class AccountRecovery extends ORM {
 
 		if ($raptcha != $_SESSION['raptcha']) { $errorArray['raptcha'][] = "The code did not match. Please try again."; }
 		
+		return $errorArray;
+	}
+
+	public function resetPasswordRequestValidation($accountRecoveryMash, $username, $password, $confirmPassword, $raptcha) {
+		
+		$errorArray = array();
+		$userID = User::getUserID($username);
+		$accountRecoveryID = Self::getAccountRecoveryID($accountRecoveryMash);
+		$accountRecovery = new AccountRecovery($accountRecoveryID);
+		$currentDateTime = date('Y-m-d');
+		
+		if ($username == '') { $errorArray['username'][] = "Please enter a username."; }
+		if (!User::usernameExists($username)) { $errorArray['username'][] = "That username is not associated with a Kutchannel account."; }
+		if ($userID != $accountRecovery->accountRecoveryUserID) { $errorArray['username'][] = "This password reset URL is not associated with that username."; }
+		
+		if ($currentDateTime >= date('Y-m-d H:i:s', strtotime($accountRecovery->accountRecoveryRequestDateTime . " +1 day"))) {
+			$errorArray['accountRecoveryMash'][] = "This password reset URL has expired... <a href=\"/account-recovery/\">REQUEST ANOTHER</a>.";
+		}
+		
+		if ($password == '') { $errorArray['password'][] = "Please enter a password."; }
+		if ($confirmPassword == '') { $errorArray['confirmPassword'][] = "You must enter your password twice."; }
+		if ($password != $confirmPassword) { $errorArray['password'][] = "Your passwords did not match."; }
+		
+		if ($raptcha == '') { $errorArray['raptcha'][] = "You must accurately enter the security code."; }
+		if ($raptcha != $_SESSION['raptcha']) { $errorArray['raptcha'][] = "The security code was incorrect."; }
+
 		return $errorArray;
 	}
 	

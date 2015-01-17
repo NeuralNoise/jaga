@@ -173,26 +173,46 @@ class PageView {
 				
 				
 				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			} elseif ($urlArray[0] == 'account-recovery') {
 			
-				if (isset($inputArray['userEmail']) && empty($errorArray)) {
-					
-					$html .= AccountRecoveryView::accountRecoveryMailConfirmation($inputArray['userEmail']);
-					
-				} else {
-				
-					$html .= AccountRecoveryView::accountRecoveryForm($inputArray, $errorArray);
-					
-				}
+				$html .= AuthenticationView::accountRecoveryForm($inputArray, $errorArray);
 			
 			} elseif ($urlArray[0] == 'account-recovery-mail-sent') {
 			
-				// $html .= AccountRecoveryView::accountRecoveryMailConfirmation($inputArray['userEmail']);
+				$html .= AuthenticationView::accountRecoveryMailConfirmation();
 			
 			} elseif ($urlArray[0] == 'reset-password') {
 			
-				// enter username and new password
+				$html .= AuthenticationView::resetPasswordForm($urlArray, $inputArray, $errorArray);
 			
+			} elseif ($urlArray[0] == 'password-reset-successful') {
+			
+				$html .= AuthenticationView::passwordResetConfirmation();
+				$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
+
 			} else {
 				$html .= "\n\n\t<!-- START 404 TEXT -->\n";
 					$html .= "\t\t<div class=\"container\">404: " . $urlArray[0] . "</div>\n";
