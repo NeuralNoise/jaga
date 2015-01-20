@@ -601,7 +601,7 @@ class Controller {
 					$newAccountRecovery = new AccountRecovery($accountRecoveryID);
 					$accountRecoveryMash = $newAccountRecovery->accountRecoveryMash;
 					$userName = User::getUsername($accountRecovery->accountRecoveryUserID);
-					$mailMessage = "<html><body>Please visit the following URL, <b>$userName</b>.<br /><br />You will need to enter your username and create a new password.<br /><br />http://the.kutchannel.net/reset-password/" . $accountRecoveryMash . "/<br /><br /><i>Only your most recent Account Recovery link is valid.<br />This Account Recovery link is only valid for 24 hours.</i></body></html>";
+					$mailMessage = "<html><body>Hello, <b>$userName</b>!<br /><br />You can use your username to reset your password at the following URL:<br /><br />http://the.kutchannel.net/reset-password/" . $accountRecoveryMash . "/<br /><br /><i>Only your most recent Account Recovery link is valid.<br />This Account Recovery link is only valid for 24 hours.</i><br /><hr />Thank you for using The Kutchannel!</body></html>";
 					Mail::sendEmail($userEmail, "The Kutchannel <noreply@kutchannel.net>", "Account Recovery", $mailMessage, $_SESSION['channelID'], $_SESSION['userID'], "html");
 					
 					// forward
@@ -651,12 +651,16 @@ class Controller {
 				
 				if (empty($errorArray)) {
 				
-					// set AccountRecovery as used
+					// accountRecoveryVisited
 					$accountRecoveryID = AccountRecovery::getAccountRecoveryID($accountRecoveryMash);
-					$accountRecovery = new AccountRecovery();
-					
+					$accountRecovery = new AccountRecovery($accountRecoveryID);
+					$accountRecovery->accountRecoveryVisited = 1;
+					$conditions = array('accountRecoveryID' => $accountRecoveryID);
+					AccountRecovery::update($accountRecovery, $conditions);
+
 					// change user password
-					
+					$userID = User::getUserID($username);
+					// PUT STUFF HERE
 					
 					// forward
 					$postSubmitURL = "/password-reset-successful/";

@@ -234,11 +234,11 @@ class AuthenticationView {
 	
 		$html = "\n\n\t<!-- START RECOVERY MAIL CONFIRMATION CONTAINER -->\n";
 		$html .= "\t<div class=\"container alert alert-success\">\n\n";
-			$html .= "<b>An email has been sent to you containing your <u>username</u> and <u>a link to reset your password</u>.</b>";
+			$html .= "<b>An email has been sent to you containing <u>your username</u> and <u>a link to reset your password</u>.</b>";
 			$html .= "<ul>";
 				$html .= "<li>It can take a few minutes to receive your account recovery email.</li>";
-				$html .= "<li>If you do not see the email in your inbox, please check your spam folder.</li>";
-				$html .= "<li>Only your most recent password recovery email will work.</li>";
+				$html .= "<li>Please check your spam folder if you do not see the email in your inbox.</li>";
+				$html .= "<li>Only your most recent account recovery email will work.</li>";
 			$html .= "<ul>";
 		$html .= "\n\n\t</div>\n";
 		$html .= "\t<!-- END RECOVERY MAIL CONFIRMATION CONTAINER -->\n\n";
