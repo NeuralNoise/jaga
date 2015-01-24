@@ -70,14 +70,20 @@ class AccountRecovery extends ORM {
 		$userID = User::getUserID($username);
 		$accountRecoveryID = Self::getAccountRecoveryID($accountRecoveryMash);
 		$accountRecovery = new AccountRecovery($accountRecoveryID);
-		$currentDateTime = date('Y-m-d');
+		$currentDateTime = date('Y-m-d H:i:s');
 		
 		if ($username == '') { $errorArray['username'][] = "Please enter a username."; }
 		if (!User::usernameExists($username)) { $errorArray['username'][] = "That username is not associated with a Kutchannel account."; }
 		if ($userID != $accountRecovery->accountRecoveryUserID) { $errorArray['username'][] = "This password reset URL is not associated with that username."; }
 		
+		// is $accountRecoveryMash for a record within the last 24 hours?
 		if ($currentDateTime >= date('Y-m-d H:i:s', strtotime($accountRecovery->accountRecoveryRequestDateTime . " +1 day"))) {
 			$errorArray['accountRecoveryMash'][] = "This password reset URL has expired... <a href=\"/account-recovery/\">REQUEST ANOTHER</a>.";
+		}
+		
+		// is $accountRecoveryMash the most recent record for this user?
+		if (!Self::isMostRecentAccountRecoveryMash($accountRecoveryMash, $userID)) {
+			$errorArray['error'][] = "This is not the most recent account recovery request for this user. Perhaps you submitted the account recovery form more than once? Please check your inbox for a newer Account Recovery email from The Kutchannel or <a href=\"/account-recovery/\">REQUEST ANOTHER</a>.";
 		}
 		
 		if ($password == '') { $errorArray['password'][] = "Please enter a password."; }
@@ -87,7 +93,28 @@ class AccountRecovery extends ORM {
 		if ($raptcha == '') { $errorArray['raptcha'][] = "You must accurately enter the security code."; }
 		if ($raptcha != $_SESSION['raptcha']) { $errorArray['raptcha'][] = "The security code was incorrect."; }
 
+		
+		
+		
+		
+		
 		return $errorArray;
+	}
+	
+	public function isMostRecentAccountRecoveryMash($accountRecoveryMash, $userID) {
+		
+		$core = Core::getInstance();
+		$query = "
+			SELECT accountRecoveryMash FROM jaga_AccountRecovery 
+			WHERE accountRecoveryUserID = :userID
+			ORDER BY accountRecoveryRequestDateTime DESC
+			LIMIT 1
+		";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':userID' => $userID));
+		if ($row = $statement->fetch()) { $armash = $row['accountRecoveryMash']; }
+		if ($armash == $accountRecoveryMash) { return true; } else { return false; }
+		
 	}
 	
 }

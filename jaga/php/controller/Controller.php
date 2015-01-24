@@ -618,9 +618,6 @@ class Controller {
 		
 			if (!ctype_xdigit($urlArray[1])) { header("Location: /account-recovery/"); }
 			
-			// is $urlArray[0] for a record within the last 24 hours?
-			// is $urlArray[0] the most recent record for this user?
-			
 			$inputArray = array();
 			$errorArray = array();
 			
