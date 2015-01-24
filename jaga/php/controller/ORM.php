@@ -38,6 +38,7 @@ class ORM {
 		$ioa->auditOldValue = '';
 		$ioa->auditNewValue = '';
 		$ioa->auditResult = 'success';
+		$ioa->auditNote = json_encode($object);
 		Audit::createAuditEntry($ioa);
 		
 		// return new objectID
@@ -84,9 +85,21 @@ class ORM {
 		// execute
 		if (!$statement->execute()){ die("ORM::update(\$object) => There was a problem saving your new $objectName."); }
 		
+		// ADD TO AUDIT TRAIL (for each revised value?)
+		$ioa = new Audit();
+		unset($ioa->auditID);
+		$ioa->auditAction = 'update';
+		$ioa->auditObject = $objectName;
+		$ioa->auditObjectID = array_shift(array_values($conditions));
+		$ioa->auditOldValue = '';
+		$ioa->auditNewValue = '';
+		$ioa->auditResult = 'success';
+		$ioa->auditNote = json_encode($object);
+		Audit::createAuditEntry($ioa);
+		
 	}
 	
-	public static function delete($object) {
+	public static function delete($object, $conditions) {
 		
 		$objectName = get_class($object);
 		$objectVariableArray = get_object_vars($object);
@@ -96,7 +109,7 @@ class ORM {
 		
 		// create delete query
 		$scooby = array();
-		foreach ($objectVariableArray AS $key => $value) { $scooby[] = "$key = '$value'"; }
+		foreach ($conditions AS $key => $value) { $scooby[] = "$key = '$value'"; }
 		$scoobyString = implode(' AND ', $scooby);
 		$query = "DELETE FROM $tableName WHERE $scoobyString LIMIT 1";
 		
@@ -106,6 +119,17 @@ class ORM {
 		
 		// execute
 		if (!$statement->execute()){ die("ORM::delete(\$object) => There was a problem deleting your $objectName."); }
+		
+		// ADD TO AUDIT TRAIL (for each revised value?)
+		$ioa = new Audit();
+		unset($ioa->auditID);
+		$ioa->auditAction = 'delete';
+		$ioa->auditObject = $objectName;
+		$ioa->auditObjectID = array_shift(array_values($conditions));
+		$ioa->auditOldValue = '';
+		$ioa->auditNewValue = '';
+		$ioa->auditResult = 'success';
+		Audit::createAuditEntry($ioa);
 		
 	}
 

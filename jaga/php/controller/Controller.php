@@ -577,7 +577,6 @@ class Controller {
 			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
 			return $html;
 
-			
 		} elseif ($urlArray[0] == 'account-recovery') {
 			
 			$inputArray = array();
@@ -615,25 +614,13 @@ class Controller {
 			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
 			return $html;
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		} elseif ($urlArray[0] == 'reset-password') {
 		
 			if (!ctype_xdigit($urlArray[1])) { header("Location: /account-recovery/"); }
-		
+			
+			// is $urlArray[0] for a record within the last 24 hours?
+			// is $urlArray[0] the most recent record for this user?
+			
 			$inputArray = array();
 			$errorArray = array();
 			
@@ -660,7 +647,10 @@ class Controller {
 
 					// change user password
 					$userID = User::getUserID($username);
-					// PUT STUFF HERE
+					$user = new User($userID);
+					$user->userPassword = md5($password);
+					$conditions = array('userID' => $userID);
+					User::update($user, $conditions);
 					
 					// forward
 					$postSubmitURL = "/password-reset-successful/";
@@ -672,20 +662,7 @@ class Controller {
 			$page = new PageView();
 			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
 			return $html;
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		} else {
 		
 			$page = new PageView();
