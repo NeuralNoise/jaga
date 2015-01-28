@@ -660,6 +660,12 @@ class Controller {
 			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
 			return $html;
 
+		} elseif ($urlArray[0] == 'spudnik') { // testing
+			
+			// $content = new Content(9999976);
+			// $conditions = array('contentID' => $content->contentID);
+			// Content::delete($content, $conditions);
+			
 		} else {
 		
 			$page = new PageView();

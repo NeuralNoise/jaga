@@ -49,7 +49,6 @@ class ORM {
 	public static function update($object, $conditions) {
 		
 		$objectName = get_class($object);
-		// print_r($object);
 		$objectVariableArray = get_object_vars($object);
 		$tablePrefix = self::getTablePrefix();
 		$tableName = $tablePrefix . $objectName;
@@ -101,8 +100,12 @@ class ORM {
 	
 	public static function delete($object, $conditions) {
 		
+		// SAMPLE USAGE //
+		// $content = new Content(123456);
+		// $conditions = array('contentID' => $content->contentID);
+		// Content::delete($content, $conditions);
+		
 		$objectName = get_class($object);
-		$objectVariableArray = get_object_vars($object);
 		$tablePrefix = self::getTablePrefix();
 		$tableName = $tablePrefix . $objectName;
 		if (!self::tableExists($tableName)) { die('ORM::delete($object) => A table does not exist with that object name.'); }
@@ -112,7 +115,7 @@ class ORM {
 		foreach ($conditions AS $key => $value) { $scooby[] = "$key = '$value'"; }
 		$scoobyString = implode(' AND ', $scooby);
 		$query = "DELETE FROM $tableName WHERE $scoobyString LIMIT 1";
-		
+
 		// build prepared statement
 		$core = Core::getInstance();
 		$statement = $core->database->prepare($query);
@@ -129,6 +132,7 @@ class ORM {
 		$ioa->auditOldValue = '';
 		$ioa->auditNewValue = '';
 		$ioa->auditResult = 'success';
+		$ioa->auditNote = json_encode($object);
 		Audit::createAuditEntry($ioa);
 		
 	}
