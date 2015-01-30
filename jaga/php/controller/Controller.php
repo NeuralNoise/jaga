@@ -212,124 +212,9 @@ class Controller {
 			header("Content-type: text/css");
 			return $css;
 			
-		} elseif ($urlArray[0] == 'manage-channels') {
+		// } elseif ($urlArray[0] == 'manage-channels') {
 
-			// LOGGED IN USERS ONLY
-			if ($_SESSION['userID'] == 0) { die('you are not logged in'); }
-		
-			// CHANNEL OWNER ONLY FOR UPDATE
-			if ($urlArray[1] == 'update') {
-				if ($urlArray[2] == '') {
-					die ('A channel must be selected.');
-				} else {
-					$channelID = Channel::getChannelID($urlArray[2]);
-					$channel = new Channel($channelID);
-					$channelCreatorID = $channel->siteManagerUserID;
-					if ($_SESSION['userID'] != $channelCreatorID) { die ('You do not own this channel.'); }
-				}
-			}
 			
-			// INITIALIZE $inputArray and $errorArray
-			$inputArray = array();
-			$errorArray = array();
-			
-			// IF USER INPUT EXISTS
-			if (!empty($_POST)) {
-			
-				$inputArray = $_POST;
-
-				// VALIDATION
-				if (!preg_match('/^[a-zA-Z0-9-]+$/', $inputArray['channelKey'])) {
-					$errorArray[] = 'The Key can contain only letters, numbers, and hyphens.';
-				}
-				// check if channel key exists
-				if ($inputArray['channelTitleEnglish'] == '') { $errorArray[] = 'A title is required field.'; }
-				if ($inputArray['channelKeywordsEnglish'] == '') { $errorArray[] = 'Keywords are required.'; }
-				if ($inputArray['channelDescriptionEnglish'] == '') { $errorArray[] = 'A description is required.'; }
-				// is at least one contentCategorySelected?
-				
-				if (empty($errorArray)) {
-				
-					if ($urlArray[1] == 'create') {
-
-						$channel = new Channel(0);
-						
-						// filter out auto_increment key
-						unset($channel->channelID);
-						
-						// set object property values
-						foreach ($inputArray AS $property => $value) { if (isset($channel->$property)) { $channel->$property = $value; } }
-						
-						$channelID = Channel::insert($channel);
-
-						// START ChannelCategory //
-						foreach ($inputArray['contentCategoryKey'] AS $contentCategoryKey) {
-							$channelCategory = new ChannelCategory();
-							$channelCategory->channelID = $channelID;
-							$channelCategory->contentCategoryKey = $contentCategoryKey;
-							ChannelCategory::insert($channelCategory);
-						}
-						// END ChannelCategory //
-						
-						header("Location: /channels/");
-						
-					} elseif ($urlArray[1] == 'update' && isset($urlArray[2])) {
-					
-						$channelID = Channel::getChannelID($urlArray[2]);
-					
-						// build object
-						$channel = new Channel($channelID);
-						foreach ($inputArray AS $property => $value) { if (isset($channel->$property)) { $channel->$property = $value; } }
-						
-						// build conditions
-						$conditions = array();
-						$conditions['channelID'] = $channelID;
-						
-						// unset attributes that you don't want to update
-						unset($channel->channelID);
-						
-						// update object
-						Channel::update($channel, $conditions);
-						
-							// START ChannelCategory //
-							
-							$oldCategoryArray = array_keys(ChannelCategory::getChannelCategoryArray($channelID));
-							$newCategoryArray = $inputArray['contentCategoryKey'];
-							
-							// if the old ain't in the new, delete it
-							foreach ($oldCategoryArray AS $oldContentCategoryKey) {
-								if (!in_array($oldContentCategoryKey, $newCategoryArray)) {
-									$channelCategory = new ChannelCategory();
-									$channelCategory->channelID = $channelID;
-									$channelCategory->contentCategoryKey = $oldContentCategoryKey;
-									ChannelCategory::delete($channelCategory);
-								}
-							}
-							
-							// if the new ain't in the old, insert it
-							foreach ($newCategoryArray AS $newContentCategoryKey) {
-								if (!in_array($newContentCategoryKey, $oldCategoryArray)) {
-									$channelCategory = new ChannelCategory();
-									$channelCategory->channelID = $channelID;
-									$channelCategory->contentCategoryKey = $newContentCategoryKey;
-									ChannelCategory::insert($channelCategory);
-								}
-							}
-							
-							// END ChannelCategory //
-
-						// die ();
-						header("Location: /manage-channels/");
-						
-					}
-
-				}
-
-			}
-			
-			$page = new PageView();
-			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
-			return $html;
 
 		} elseif ($urlArray[0] == 'k' && ($urlArray[1] == 'update' || $urlArray[1] == 'create')) { // CONTENT
 
@@ -538,6 +423,137 @@ class Controller {
 				}
 
 			} elseif ($urlArray[1] == 'channels') {
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+				// LOGGED IN USERS ONLY
+				if ($_SESSION['userID'] == 0) { die('you are not logged in'); }
+			
+				// CHANNEL OWNER ONLY FOR UPDATE
+				if ($urlArray[2] == 'update') {
+					if ($urlArray[3] == '') {
+						die ('A channel must be selected.');
+					} else {
+						$channelID = Channel::getChannelID($urlArray[3]);
+						$channel = new Channel($channelID);
+						$channelCreatorID = $channel->siteManagerUserID;
+						if ($_SESSION['userID'] != $channelCreatorID) { die ('You do not own this channel.'); }
+					}
+				}
+				
+				// INITIALIZE $inputArray and $errorArray
+				$inputArray = array();
+				$errorArray = array();
+				
+				// IF USER INPUT EXISTS
+				if (!empty($_POST)) {
+				
+					$inputArray = $_POST;
+
+					// VALIDATION
+					if (!preg_match('/^[a-zA-Z0-9-]+$/', $inputArray['channelKey'])) {
+						$errorArray[] = 'The Key can contain only letters, numbers, and hyphens.';
+					}
+					// check if channel key exists
+					if ($inputArray['channelTitleEnglish'] == '') { $errorArray[] = 'A title is required field.'; }
+					if ($inputArray['channelKeywordsEnglish'] == '') { $errorArray[] = 'Keywords are required.'; }
+					if ($inputArray['channelDescriptionEnglish'] == '') { $errorArray[] = 'A description is required.'; }
+					// is at least one contentCategorySelected?
+					
+					if (empty($errorArray)) {
+					
+						if ($urlArray[2] == 'create') {
+
+							$channel = new Channel(0);
+							
+							// filter out auto_increment key
+							unset($channel->channelID);
+							
+							// set object property values
+							foreach ($inputArray AS $property => $value) { if (isset($channel->$property)) { $channel->$property = $value; } }
+							
+							$channelID = Channel::insert($channel);
+
+							// START ChannelCategory //
+							foreach ($inputArray['contentCategoryKey'] AS $contentCategoryKey) {
+								$channelCategory = new ChannelCategory();
+								$channelCategory->channelID = $channelID;
+								$channelCategory->contentCategoryKey = $contentCategoryKey;
+								ChannelCategory::insert($channelCategory);
+							}
+							// END ChannelCategory //
+							
+							header("Location: /channels/");
+							
+						} elseif ($urlArray[2] == 'update' && isset($urlArray[3])) {
+						
+							$channelID = Channel::getChannelID($urlArray[3]);
+						
+							// build object
+							$channel = new Channel($channelID);
+							foreach ($inputArray AS $property => $value) { if (isset($channel->$property)) { $channel->$property = $value; } }
+							
+							// build conditions
+							$conditions = array();
+							$conditions['channelID'] = $channelID;
+							
+							// unset attributes that you don't want to update
+							unset($channel->channelID);
+							
+							// update object
+							Channel::update($channel, $conditions);
+							
+								// START ChannelCategory //
+								
+								$oldCategoryArray = array_keys(ChannelCategory::getChannelCategoryArray($channelID));
+								$newCategoryArray = $inputArray['contentCategoryKey'];
+								
+								// if the old ain't in the new, delete it
+								foreach ($oldCategoryArray AS $oldContentCategoryKey) {
+									if (!in_array($oldContentCategoryKey, $newCategoryArray)) {
+										$channelCategory = new ChannelCategory();
+										$channelCategory->channelID = $channelID;
+										$channelCategory->contentCategoryKey = $oldContentCategoryKey;
+										$conditions = array('channelID' => $channelCategory->channelID, 'contentCategoryKey' => $channelCategory->contentCategoryKey);
+										ChannelCategory::delete($channelCategory, $conditions);
+									}
+								}
+								
+								// if the new ain't in the old, insert it
+								foreach ($newCategoryArray AS $newContentCategoryKey) {
+									if (!in_array($newContentCategoryKey, $oldCategoryArray)) {
+										$channelCategory = new ChannelCategory();
+										$channelCategory->channelID = $channelID;
+										$channelCategory->contentCategoryKey = $newContentCategoryKey;
+										ChannelCategory::insert($channelCategory);
+									}
+								}
+								
+								// END ChannelCategory //
+
+							// die ();
+							header("Location: /settings/channels/");
+							
+						}
+
+					}
+
+				}
+				
+				$page = new PageView();
+				$html = $page->buildPage($urlArray, $inputArray, $errorArray);
+				return $html;
 			
 			} elseif ($urlArray[1] == 'subscriptions') {
 			

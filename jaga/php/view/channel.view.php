@@ -65,10 +65,9 @@ class ChannelView {
 		
 		$html = "\n\n";
 		$html .= "\t<div class=\"container\">\n";
-		$html .= "\t<!-- START CHANNEL CONTAINER --><div class=\"row\">\n\n";
-
-			$html .= "\t\t<!-- START jagaChannel -->\n";
-			$html .= "\t\t<div id=\"jagaChannel\" class=\"\">\n\n";
+		$html .= "\t<!-- START CHANNEL CONTAINER -->\n\n";
+		
+			$html .= "\t\t<div class=\"row\">\n\n";
 
 				$html .= "\t\t\t<!-- START PANEL -->\n";
 				$html .= "\t\t\t<div class=\"panel panel-default\" >\n\n";
@@ -90,8 +89,8 @@ class ChannelView {
 						$html .= "\">\n\n";
 					
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelKey\" class=\"col-sm-2 control-label\">channelKey</label>\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelKey\" class=\"col-sm-4 control-label\">Channel</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 								
 									if ($type == 'create') {
 										$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelKey\" name=\"channelKey\" class=\"form-control\" placeholder=\"channelKey\" value=\"" . strtoupper($channelKey) . "\">\n";
@@ -106,22 +105,22 @@ class ChannelView {
 							$html .= "<hr />";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelTitleEnglish\" class=\"col-sm-2 control-label\">channelTitleEnglish</label>\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelTitleEnglish\" class=\"col-sm-4 control-label\">Title (English)</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelTitleEnglish\" name=\"channelTitleEnglish\" class=\"form-control\" placeholder=\"channelTitleEnglish\" value=\"" . $channelTitleEnglish . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelKeywordsEnglish\" class=\"col-sm-2 control-label\">channelKeywordsEnglish</label>\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelKeywordsEnglish\" class=\"col-sm-4 control-label\">Keywords (English)</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelKeywordsEnglish\" name=\"channelKeywordsEnglish\" class=\"form-control\" placeholder=\"channelKeywordsEnglish\" value=\"" . $channelKeywordsEnglish . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelDescriptionEnglish\" class=\"col-sm-2 control-label\">channelDescriptionEnglish</label>\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelDescriptionEnglish\" class=\"col-sm-4 control-label\">Description (English)</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelDescriptionEnglish\" name=\"channelDescriptionEnglish\" class=\"form-control\" placeholder=\"channelDescriptionEnglish\" value=\"" . $channelDescriptionEnglish . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
@@ -129,22 +128,22 @@ class ChannelView {
 							$html .= "<hr />";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelTitleJapanese\" class=\"col-sm-2 control-label\">channelTitleJapanese</label>\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelTitleJapanese\" class=\"col-sm-4 control-label\">Title (Japanese)</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelTitleJapanese\" name=\"channelTitleJapanese\" class=\"form-control\" placeholder=\"channelTitleJapanese\" value=\"" . $channelTitleJapanese . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelKeywordsJapanese\" class=\"col-sm-2 control-label\">channelKeywordsJapanese</label>\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelKeywordsJapanese\" class=\"col-sm-4 control-label\">Keywords (Japanese)</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelKeywordsJapanese\" name=\"channelKeywordsJapanese\" class=\"form-control\" placeholder=\"channelKeywordsJapanese\" value=\"" . $channelKeywordsJapanese . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelDescriptionJapanese\" class=\"col-sm-2 control-label\">channelDescriptionJapanese</label>\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelDescriptionJapanese\" class=\"col-sm-4 control-label\">Description (Japanese)</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelDescriptionJapanese\" name=\"channelDescriptionJapanese\" class=\"form-control\" placeholder=\"channelDescriptionJapanese\" value=\"" . $channelDescriptionJapanese . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
@@ -152,36 +151,51 @@ class ChannelView {
 							$html .= "<hr />";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"themeKey\" class=\"col-sm-2 control-label\">themeKey</label>\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-2\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"themeKey\" class=\"col-sm-4 control-label\">Theme</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-4\">\n";
 									$html .= ThemeView::getThemeDropdown($themeKey);
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "<hr />";
 							
+							
+							
+							
+							
+							$categoryArray = Category::getAllCategories();	
+							$categoryCount = count($categoryArray);
+							$checkboxColumnCount = ceil($categoryCount/2);
+							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"contentCategoryKey[]\" class=\"col-sm-2 control-label\">categories</label>\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
-									$categoryArray = Category::getAllCategories();
-									foreach ($categoryArray AS $contentCategoryKey => $postCount) {
-										$html .= "<label class=\"checkbox-inline\">\n";
-											$html .= "<input type=\"checkbox\" id=\"contentCategoryKey\" name=\"contentCategoryKey[]\" value=\"" . $contentCategoryKey . "\"";
-												if (in_array($contentCategoryKey, $contentCategoryKeyArray)) {
-													$html .= " checked";
-												}
-											$html .= "> " . $contentCategoryKey . " (" . $postCount . ")\n";
-										$html .= "</label>\n";
-									}
+								$html .= "\t\t\t\t\t\t\t<label for=\"contentCategoryKey[]\" class=\"col-sm-4 control-label\">Categories</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
+
+									$html .= "<div class=\"row\">";
+										$html .= "<div class=\"col-sm-6\">";
+											$i = 0;
+											foreach ($categoryArray AS $contentCategoryKey => $postCount) {
+												$html .= "<div class=\"checkbox\">";
+													$html .= "<input type=\"checkbox\" id=\"contentCategoryKey\" name=\"contentCategoryKey[]\" value=\"" . $contentCategoryKey . "\"";
+														if (in_array($contentCategoryKey, $contentCategoryKeyArray)) {
+															// if ($postCount > 0) { $html .= " onchange=\"this.checked=true\""; }
+															$html .= " checked";
+														}
+													$html .= "> " . $contentCategoryKey;
+													// if ($postCount > 0) { $html .= " (" . $postCount . ")"; }
+												$html .= "</div>\n";
+												if ($i == $checkboxColumnCount - 1) { $html .= "</div><div class=\"col-sm-6\">"; }
+												$i++;
+											}
+										$html .= "</div>";
+									$html .= "</div>";
+
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
-							
-								
-							
+
 							$html .= "<hr />";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								// $html .= "\t\t\t\t\t\t\t<label for=\"themeKey\" class=\"col-sm-2 control-label\">themeKey</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaChannelSubmit\" id=\"jagaChannelSubmit\" class=\"btn btn-default jagaFormButton col-xs-8 col-sm-6 col-md-4 pull-right\" value=\"" . $type . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
@@ -196,11 +210,13 @@ class ChannelView {
 			
 				$html .= "\t\t\t</div>\n";
 				$html .= "\t\t\t<!-- END PANEL -->\n\n";
+
+			
 			
 			$html .= "\t\t</div>\n";
-			$html .= "\t\t<!-- END jagaChannel -->\n\n";
-
-		$html .= "\t</div></div>\n";
+			$html .= "\t\t<!-- END ROW -->\n\n";
+			
+		$html .= "\t</div>\n";
 		$html .= "\t<!-- END CHANNEL CONTAINER -->\n\n";
 			
 		return $html;
