@@ -114,16 +114,18 @@ class PageView {
 			
 				$username = $urlArray[1];
 				if (!User::usernameExists($username)) { die ('That username does not exist.'); }
+				$userID = User::getUserID($username);
+				$html .= UserView::displayUserProfile($userID);
 				
-				if ($urlArray[2] == 'posts') {
-					$html .= UserView::displayUserProfileContentList($username);
-				} elseif ($urlArray[2] == 'comments') {
-					$html .= UserView::displayUserProfileCommentList($username);
-				} elseif ($urlArray[2] == 'channels') {
-					$html .= UserView::displayUserProfileChannelList($username);
-				} elseif ($urlArray[2] == 'subscriptions') {
-					$html .= UserView::displayUserProfileSubscriptionList($username);
-				}
+				// if ($urlArray[2] == 'posts') {
+					// $html .= UserView::displayUserProfileContentList($username);
+				// } elseif ($urlArray[2] == 'comments') {
+					// $html .= UserView::displayUserProfileCommentList($username);
+				// } elseif ($urlArray[2] == 'channels') {
+					// $html .= UserView::displayUserProfileChannelList($username);
+				// } elseif ($urlArray[2] == 'subscriptions') {
+					// $html .= UserView::displayUserProfileSubscriptionList($username);
+				// }
 			
 			} elseif ($urlArray[0] == 'subscribe') {
 			

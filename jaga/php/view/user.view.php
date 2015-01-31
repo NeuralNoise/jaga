@@ -161,13 +161,64 @@
 		}
 		
 		public function displayUserProfile($userID) {
-			$html = "<div class=\"container\">\n";
-				$html .= "<div class=\"row\">\n";
-				
-				$html = "</div>\n";
-			$html .= "</div>\n";
+
+			$user = new User($userID);
+			$username = $user->username;
+			$userDisplayName = $user->userDisplayName;
+			$userEmail = $user->userEmail;
+		
+			$profileImageURL = Image::getObjectMainImagePath('User', $userID);
+		
+			$html = "\n\n<!-- START container -->\n";
+			$html .= "<div class=\"container\">\n\n";
 			
+			$html .= "\n\n<!-- START row -->\n";
+			$html .= "<div class=\"row\">\n\n";
+			
+
+				$html .= "<!-- START PANEL -->\n";
+				$html .= "<div class=\"panel panel-default\" >\n\n";
+					
+					
+					$html .= "<!-- START PANEL-HEADING -->\n";
+					$html .= "<div class=\"panel-heading jagaContentPanelHeading\">";
+						$html .= "<div class=\"panel-title\"><h4>" . $username . "</h4></div>";
+					$html .= "</div>\n";
+					$html .= "<!-- END PANEL-HEADING -->\n\n";
+					
+					
+					$html .= "<!-- START PANEL-BODY -->\n";
+					$html .= "<div class=\"panel-body\">\n\n";
+				
+							$html .= "<div class=\"col-sm-3\">";
+								$html .= "<img src=\"" . $profileImageURL . "\" class=\"img-responsive\">";
+							$html .= "</div>\n\n";
+							
+							$html .= "<div class=\"col-sm-9\">\n\n";
+							
+								$html .= $userDisplayName;
+								
+								// content
+								$userContentArray = Content::getUserContent($userID);
+								$html .= "<pre>" . print_r($userContentArray, TRUE) . "</pre>";
+								// comments
+								
+							$html .= "</div>\n\n";
+
+						$html .= "</div>\n";
+						$html .= "<!-- END PANEL-BODY -->\n\n";
+						
+					$html .= "</div>\n";
+					$html .= "<!-- END PANEL -->\n\n";
+
+			$html .= "</div>\n";
+			$html .= "<!-- END row -->\n\n";
+			
+			$html .= "</div>\n";
+			$html .= "<!-- END container -->\n\n";
+				
 			return $html;
+		
 		}
 
 	}
