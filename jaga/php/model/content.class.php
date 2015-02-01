@@ -156,8 +156,6 @@ class Content extends ORM {
 				ORDER BY contentSubmissionDateTime DESC
 			";
 
-			// print_r($query);
-			
 			$core = Core::getInstance();
 			$statement = $core->database->prepare($query);
 			$statement->execute(array(':userID' => $userID));

@@ -198,10 +198,46 @@
 							
 								$html .= $userDisplayName;
 								
-								// content
+								
 								$userContentArray = Content::getUserContent($userID);
-								$html .= "<pre>" . print_r($userContentArray, TRUE) . "</pre>";
-								// comments
+								
+								$html .= "<div style=\"height:300px;overflow:auto;\">";
+									$html .= "<div class=\"table-responsive\">";
+										$html .= "<table class=\"table table-striped table-condensed\">";
+											
+											$html .= "<tr>";
+												$html .= "<th>Channel</th>";
+												$html .= "<th>Date</th>";
+												$html .= "<th>Content</th>";
+											$html .= "</tr>";
+											
+											foreach ($userContentArray AS $contentID => $contentURL) {
+												
+												$content = new Content($contentID);
+												$contentTitle = $content->contentTitleEnglish;
+												$contentCategoryKey = $content->contentCategoryKey;
+												$contentSubmissionDateTime = date('Y-m-d', strtotime($content->contentSubmissionDateTime));
+												$channel = new Channel($content->channelID);
+												$channelKey = $channel->channelKey;
+												$channelTitle = $channel->channelTitleEnglish;
+												$contentViewURL = "http://" . $channelKey . ".kutchannel.net/k/" . $contentCategoryKey . "/" . $contentURL . "/";
+
+												$html .= "<tr>";
+													$html .= "<td>" . $channelTitle . "</td>";
+													$html .= "<td>" . $contentSubmissionDateTime . "</td>";
+													$html .= "<td><a href=\"" . $contentViewURL . "\">" . $contentTitle . "</a></td>";
+												$html .= "</tr>";
+
+											}
+											
+										$html .= "</table>";
+									$html .= "</div>";
+								$html .= "</div>";
+								
+								
+								
+								// $html .= "<pre>" . print_r($userContentArray, TRUE) . "</pre>";
+								// comments table
 								
 							$html .= "</div>\n\n";
 

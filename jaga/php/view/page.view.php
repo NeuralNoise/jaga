@@ -116,17 +116,7 @@ class PageView {
 				if (!User::usernameExists($username)) { die ('That username does not exist.'); }
 				$userID = User::getUserID($username);
 				$html .= UserView::displayUserProfile($userID);
-				
-				// if ($urlArray[2] == 'posts') {
-					// $html .= UserView::displayUserProfileContentList($username);
-				// } elseif ($urlArray[2] == 'comments') {
-					// $html .= UserView::displayUserProfileCommentList($username);
-				// } elseif ($urlArray[2] == 'channels') {
-					// $html .= UserView::displayUserProfileChannelList($username);
-				// } elseif ($urlArray[2] == 'subscriptions') {
-					// $html .= UserView::displayUserProfileSubscriptionList($username);
-				// }
-			
+
 			} elseif ($urlArray[0] == 'subscribe') {
 			
 				if ($_SESSION['userID'] == 0) {
@@ -300,19 +290,10 @@ class PageView {
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/bootstrap/3.1.1/js/bootstrap.min.js\"></script>\n";
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/masonry.pkgd.min.js\"></script>\n";
 				$html .= "\t\t<script type=\"text/javascript\" src=\"http://maps.google.com/maps/api/js?sensor=false&libraries=places\"></script>\n";
-				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/library/locationpicker/locationpicker.jquery.js\"></script>\n\n";
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/library/locationpicker/locationpicker.jquery.js\"></script>\n";
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/tooltip.js\"></script>\n";				
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/kutchannel.js\"></script>\n\n";
 
-				$html .= "\t\t<script> jQuery(document).ready(function($) { $(\".jagaClickableRow\").click(function() { window.document.location = $(this).data('url'); }); }); </script>\n\n";
-				
-				$html .= "\t\t<script> $( window ).load( function() { $( '#list' ).masonry( { itemSelector: '.item' } ); }); </script>\n\n";
-				
-			
-				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/tooltip.js\"></script>\n\n";				
-				
-				
-				
-				
-				
 			$html .= "\t</head>\n\n";
 
 			$html .= "\t<body>\n\n";
