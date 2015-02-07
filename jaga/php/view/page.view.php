@@ -105,8 +105,8 @@ class PageView {
 						$contentID = Content::getContentID($contentURL);
 						$html .= $this->getBreadcrumbs($urlArray);
 						$html .= ContentView::displayContentView($contentID);
-						$html .= CommentView::displayContentCommentsView($contentID);
-						$html .= CommentView::displayContentCommentForm($contentID);
+						$html .= CommentView::displayCommentsView('Content', $contentID);
+						$html .= CommentView::displayCommentForm('Content', $contentID);
 					}
 				}
 				
@@ -305,7 +305,7 @@ class PageView {
 	private function getFooter() {
 	
 				$html = "\n\n\t\t<div id=\"footer\">\n";
-					$html .= "\t\t\t\t<div class=\"col-sm-6 hidden-xs\" style=\"padding-bottom:3px;\">\n";
+					$html .= "\t\t\t\t<div class=\"col-sm-8 hidden-xs\" style=\"padding-bottom:3px;\">\n";
 						$html .= "\t\t\t\t\t<ul class=\"list-inline\">\n";
 							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/about/\">About</a></li>\n";
 							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/tos/\">Terms of Service</a></li>\n";
@@ -316,7 +316,7 @@ class PageView {
 							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/contact/\">Contact</a></li>\n";
 						$html .= "\t\t\t\t\t</ul>\n";
 					$html .= "\t\t\t\t</div>\n";
-					$html .= "\t\t\t\t<div class=\"col-sm-6\">\n";
+					$html .= "\t\t\t\t<div class=\"col-sm-4\">\n";
 						$html .= "\t\t\t\t<div class=\"pull-right\">&copy; The Kutchannel 2006-" . date('Y') . "</div>\n";
 					$html .= "\t\t\t\t</div>\n";
 				$html .= "\t\t</div>\n\n";

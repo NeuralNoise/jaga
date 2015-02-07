@@ -1,9 +1,9 @@
 <?php
 class CommentView {
 	
-	public function displayContentCommentsView($contentID) {
+	public function displayCommentsView($object, $objectID) {
 
-		$comments = Comment::getComments($contentID);
+		$comments = Comment::getComments($object, $objectID);
 
 		$html = '';
 		foreach ($comments AS $comment) {
@@ -27,7 +27,7 @@ class CommentView {
 	
 	}
 
-	public function displayContentCommentForm($contentID) {
+	public function displayCommentForm($object, $contentID) {
 
 		$html = "\n\t<!-- START CONTENT COMMENT FORM CONTAINER -->\n";
 		$html .= "\t<div class=\"container\">\n\n";
@@ -52,7 +52,7 @@ class CommentView {
 
 						$html .= "\t\t\t\t\t\t<div class=\"row\">\n";
 							$html .= "<div class=\"col-sm-12\">";
-									$html .= "\t\t\t\t\t\t\t\t<textarea id=\"contentComment\" name=\"contentComment\" class=\"form-control\" placeholder=\"contentComment\"></textarea>\n";
+									$html .= "\t\t\t\t\t\t\t\t<textarea id=\"commentContent\" name=\"commentContent\" class=\"form-control\" placeholder=\"commentContent\"></textarea>\n";
 							$html .= "</div>";
 						$html .= "</div>";
 

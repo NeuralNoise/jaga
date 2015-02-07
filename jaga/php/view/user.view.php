@@ -203,7 +203,7 @@
 								
 								$html .= "<div style=\"height:300px;overflow:auto;\">";
 									$html .= "<div class=\"table-responsive\">";
-										$html .= "<table class=\"table table-striped table-condensed\">";
+										$html .= "<table class=\"table table-striped table-condensed table-bordered\">";
 											
 											$html .= "<tr>";
 												$html .= "<th>Channel</th>";

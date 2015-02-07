@@ -74,15 +74,15 @@ class AccountRecovery extends ORM {
 		
 		if ($username == '') { $errorArray['username'][] = "Please enter a username."; }
 		if (!User::usernameExists($username)) { $errorArray['username'][] = "That username is not associated with a Kutchannel account."; }
-		if ($userID != $accountRecovery->accountRecoveryUserID) { $errorArray['username'][] = "This password reset URL is not associated with that username."; }
+		if ($userID != 0 && $userID != $accountRecovery->accountRecoveryUserID) { $errorArray['username'][] = "This password reset URL is not associated with that username."; }
 		
 		// is $accountRecoveryMash for a record within the last 24 hours?
 		if ($currentDateTime >= date('Y-m-d H:i:s', strtotime($accountRecovery->accountRecoveryRequestDateTime . " +1 day"))) {
 			$errorArray['accountRecoveryMash'][] = "This password reset URL has expired... <a href=\"/account-recovery/\">REQUEST ANOTHER</a>.";
 		}
 		
-		// is $accountRecoveryMash the most recent record for this user?
-		if (!Self::isMostRecentAccountRecoveryMash($accountRecoveryMash, $userID)) {
+		// if user exists, is $accountRecoveryMash the most recent record for this user?
+		if ($userID != 0 && !Self::isMostRecentAccountRecoveryMash($accountRecoveryMash, $userID)) {
 			$errorArray['error'][] = "This is not the most recent account recovery request for this user. Perhaps you submitted the account recovery form more than once? Please check your inbox for a newer Account Recovery email from The Kutchannel or <a href=\"/account-recovery/\">REQUEST ANOTHER</a>.";
 		}
 		
@@ -112,7 +112,7 @@ class AccountRecovery extends ORM {
 		";
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':userID' => $userID));
-		if ($row = $statement->fetch()) { $armash = $row['accountRecoveryMash']; }
+		if ($row = $statement->fetch()) { $armash = $row['accountRecoveryMash']; } else { $armash = ''; }
 		if ($armash == $accountRecoveryMash) { return true; } else { return false; }
 		
 	}

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 24, 2015 at 09:56 PM
+-- Generation Time: Feb 07, 2015 at 07:37 PM
 -- Server version: 5.1.70
 -- PHP Version: 5.5.14-pl0-gentoo
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `jaga_AccountRecovery` (
   `accountRecoveryMash` varchar(40) NOT NULL,
   `accountRecoveryVisited` int(1) NOT NULL,
   PRIMARY KEY (`accountRecoveryID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1000102 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1000107 ;
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Audit` (
   `auditResult` varchar(255) NOT NULL,
   `auditNote` text NOT NULL,
   PRIMARY KEY (`auditID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1000174 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1000212 ;
 
 -- --------------------------------------------------------
 
@@ -116,13 +116,15 @@ CREATE TABLE IF NOT EXISTS `jaga_ChannelCategory` (
 --
 
 CREATE TABLE IF NOT EXISTS `jaga_Comment` (
-  `contentID` int(8) NOT NULL,
-  `channelID` int(8) NOT NULL,
-  `userID` int(8) NOT NULL,
+  `commentID` int(12) NOT NULL AUTO_INCREMENT,
+  `channelID` int(12) NOT NULL,
+  `userID` int(12) NOT NULL,
   `commentDateTime` datetime NOT NULL,
-  `commentContent` text CHARACTER SET utf8 NOT NULL,
-  PRIMARY KEY (`contentID`,`userID`,`commentDateTime`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `commentObject` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
+  `commentObjectID` int(11) NOT NULL,
+  `commentContent` text COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`commentID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10001599 ;
 
 -- --------------------------------------------------------
 
@@ -215,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Mail` (
   `mailSubject` varchar(255) CHARACTER SET utf8 NOT NULL,
   `mailMessage` text CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`mailID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1000062 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1000067 ;
 
 -- --------------------------------------------------------
 

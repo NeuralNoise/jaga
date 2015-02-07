@@ -18,8 +18,6 @@ class Controller {
 		}
 		
 		Session::setSession('userID', $userID);
-		
-		// if (!empty($_POST)) { Session::setSession('post', $_POST); } else {  }
 
 	}
 
@@ -50,13 +48,12 @@ class Controller {
 		if ($_SESSION['userID'] != 0) { $lang = User::getUserSelectedLanguage($_SESSION['userID']); }
 		if (!in_array($lang, $arrayOfSupportedLanguages)) { $lang = 'en'; }
 		Session::setSession('lang', $lang);
-		
 		$i = 0; while ($i <= 3) { if (!isset($urlArray[$i])) { $urlArray[$i] = ''; } $i++; } // minimum 3 array pointers
-
+		$notHTML = array('rss','sitemap.xml','channel.css');
+		$inputArray = array();
+		$errorArray = array();
+		
 		if ($urlArray[0] == 'login') {
-			
-			$inputArray = array();
-			$errorArray = array();
 			
 			if (isset($_POST['jagaLoginSubmit'])) {
 			
@@ -93,34 +90,12 @@ class Controller {
 				}
 				
 			}
+
 			
-			$page = new PageView();
-			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
-			return $html;
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-		} elseif ($urlArray[0] == 'register') {
+		}
 		
-			$inputArray = array();
-			$errorArray = array();
-			
+		if ($urlArray[0] == 'register') {
+
 			if (isset($_POST['jagaRegisterSubmit'])) {
 			
 				$inputArray['username'] = $_POST['username'];
@@ -154,75 +129,18 @@ class Controller {
 				}
 				
 			}
-			
-			$page = new PageView();
-			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
-			return $html;
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
+		}
 		
-		} elseif ($urlArray[0] == 'logout') {
+		if ($urlArray[0] == 'logout') {
 
 			Authentication::logout();
 			header("Location: /");
 			
-		} elseif ($urlArray[0] == 'rss') {
-
-			$rss = new Rss();
-			$feed = $rss->getFeed($urlArray);
-			return $feed;
-			
-		} elseif ($urlArray[0] == 'sitemap.xml') {
+		}
 		
-			$sitemap = new Sitemap();
-			$xml = $sitemap->getSitemap($urlArray);
-			return $xml;
-			
-		} elseif ($urlArray[0] == 'channel.css') {
-		
-			$theme = new ThemeView();
-			$css = $theme->getTheme();
-			
-			header("Content-type: text/css");
-			return $css;
-			
-		// } elseif ($urlArray[0] == 'manage-channels') {
+		if ($urlArray[0] == 'k' && ($urlArray[1] == 'update' || $urlArray[1] == 'create')) {
 
-			
-
-		} elseif ($urlArray[0] == 'k' && ($urlArray[1] == 'update' || $urlArray[1] == 'create')) { // CONTENT
-
-			// INITIALIZE $inputArray and $errorArray
-			$inputArray = array();
-			$errorArray = array();
-			
-			
 			// LOGGED IN USERS ONLY
 			if ($_SESSION['userID'] == 0) {
 				Session::setSession('loginForwardURL', $_SERVER['REQUEST_URI']);
@@ -337,27 +255,23 @@ class Controller {
 				}
 				
 			}
-		
-			$page = new PageView();
-			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
-			return $html;
 
-		} elseif ($urlArray[0] == 'k' && $urlArray[1] == 'comment' && is_numeric($urlArray[2])) {
+		}
 		
+		if ($urlArray[0] == 'k' && $urlArray[1] == 'comment' && is_numeric($urlArray[2])) {
 			$contentPath = Content::getContentURL($urlArray[2]);
-		
 			if (!empty($_POST)) { $inputArray = $_POST; } else { header("Location: $contentPath"); }
-			
-			$page = new PageView();
-			$html = $page->buildPage($urlArray, $inputArray);
-			return $html;
+			$comment = new Comment(0);
+			unset($comment->commentID);
+			foreach ($inputArray AS $property => $value) { if (isset($comment->$property)) { $comment->$property = $value; } }
+			$comment->commentObject = 'Content';
+			$comment->commentObjectID = $urlArray[2];
+			$commentID = Comment::insert($comment);
+			header("Location: $contentPath");
+		}
 		
-		} elseif ($urlArray[0] == 'settings') {
+		if ($urlArray[0] == 'settings') {
 		
-			// INITIALIZE $inputArray and $errorArray
-			$inputArray = array();
-			$errorArray = array();
-			
 			// REDIRECT USERS WITHOUT CREDS TO LOGIN ROUTE
 			if ($_SESSION['userID'] == 0) {
 				Session::setSession('loginForwardURL', $_SERVER['REQUEST_URI']);
@@ -423,19 +337,6 @@ class Controller {
 				}
 
 			} elseif ($urlArray[1] == 'channels') {
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			
 				// LOGGED IN USERS ONLY
 				if ($_SESSION['userID'] == 0) { die('you are not logged in'); }
@@ -550,53 +451,37 @@ class Controller {
 					}
 
 				}
-				
-				$page = new PageView();
-				$html = $page->buildPage($urlArray, $inputArray, $errorArray);
-				return $html;
+
 			
-			} elseif ($urlArray[1] == 'subscriptions') {
+			}
+			
+			if ($urlArray[1] == 'subscriptions') {
 			
 			}
 
-			$page = new PageView();
-			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
-			return $html;
+		}
 		
-		} elseif ($urlArray[0] == 'subscribe') {
-			
-			$inputArray = array();
-			$errorArray = array();
+		if ($urlArray[0] == 'subscribe') {
 			
 			if ($_SESSION['userID'] != 0) {
 				Subscription::subscribeUser($_SESSION['userID'], $_SESSION['channelID']);
 			} else {
 				$errorArray['subscribe'][] = 'You must be logged in to subscribe.';
 			}
-			
-			$page = new PageView();
-			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
-			return $html;
-				
-		} elseif ($urlArray[0] == 'unsubscribe') {
-			
-			$inputArray = array();
-			$errorArray = array();
-			
+		
+		}
+		
+		if ($urlArray[0] == 'unsubscribe') {
+
 			if ($_SESSION['userID'] != 0) {
 				Subscription::unsubscribeUser($_SESSION['userID'], $_SESSION['channelID']);
 			} else {
 				$errorArray['unsubscribe'][] = 'You must be logged in to unsubscribe.';
 			}
 			
-			$page = new PageView();
-			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
-			return $html;
-
-		} elseif ($urlArray[0] == 'account-recovery') {
-			
-			$inputArray = array();
-			$errorArray = array();
+		}
+		
+		if ($urlArray[0] == 'account-recovery') {
 			
 			if (isset($_POST['jagaAccountRecoverySubmit'])) {
 				$inputArray = $_POST;
@@ -625,18 +510,13 @@ class Controller {
 					
 				}
 			}
-
-			$page = new PageView();
-			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
-			return $html;
 		
-		} elseif ($urlArray[0] == 'reset-password') {
+		}
+		
+		if ($urlArray[0] == 'reset-password') {
 		
 			if (!ctype_xdigit($urlArray[1])) { header("Location: /account-recovery/"); }
-			
-			$inputArray = array();
-			$errorArray = array();
-			
+
 			if (isset($_POST['jagaResetPasswordSubmit'])) {
 			
 				$inputArray = $_POST;
@@ -672,48 +552,47 @@ class Controller {
 				}
 			}
 
-			$page = new PageView();
-			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
-			return $html;
-
-		} elseif ($urlArray[0] == 'spudnik') { // testing
+		}
+		
+		if ($urlArray[0] == 'spudnik') {
 			
 			// $content = new Content(9999976);
 			// $conditions = array('contentID' => $content->contentID);
 			// Content::delete($content, $conditions);
 			
-		} else {
-		
-			$page = new PageView();
-			$html = $page->buildPage($urlArray);
-			return $html;
-			
 		}
 
+		if (!in_array($urlArray[0],$notHTML)) {
+			$page = new PageView();
+			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
+			return $html;
+		}
 		
+		if ($urlArray[0] == 'rss') {
+
+			$rss = new Rss();
+			$feed = $rss->getFeed($urlArray);
+			return $feed;
+			
+		}
 		
+		if ($urlArray[0] == 'sitemap.xml') {
 		
+			$sitemap = new Sitemap();
+			$xml = $sitemap->getSitemap($urlArray);
+			return $xml;
+			
+		}
 		
+		if ($urlArray[0] == 'channel.css') {
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+			$theme = new ThemeView();
+			$css = $theme->getTheme();
+			
+			header("Content-type: text/css");
+			return $css;
+
+		}
 		
 	}
 	
