@@ -3,26 +3,29 @@ class CommentView {
 	
 	public function displayCommentsView($object, $objectID) {
 
-		$comments = Comment::getComments($object, $objectID);
-
 		$html = '';
-		foreach ($comments AS $comment) {
+		$commentArray = Comment::getComments($object, $objectID);
 		
-			$username = User::getUsername($comment['userID']);
+		foreach ($commentArray AS $commentKey => $commentID) {
+			
+			$comment = new Comment($commentID);
+			$username = User::getUsername($comment->userID);
 			
 			$html .= "\n\t<!-- START COMMENT -->\n";
 			$html .= "\t<div class=\"container\">\n\n";
 				$html .= "\t\t<div class=\"panel panel-info\">\n";
 					$html .= "\t\t\t<div class=\"panel-heading jagaCommentPanelHeading\">";
-						$html .= "<h5 style=\"text-align:right;\">" . $username . " - " . $comment['commentDateTime'] .= "</h5>";
+						$html .= "<h5 style=\"text-align:right;\">" . $username . " - " . $comment->commentDateTime .= "</h5>";
 					$html .= "</div>\n";
 					$html .= "\t\t\t<div class=\"panel-body\">\n";
-						$html .= $comment['commentContent'];
+						$html .= $comment->commentContent;
 					$html .= "\n\t\t\t</div>\n";
 				$html .= "\t\t</div>\n";
 			$html .= "\n\t</div>\n";
 			$html .= "\t<!-- END COMMENT -->\n\n";
+			
 		}
+		
 		return $html;
 	
 	}

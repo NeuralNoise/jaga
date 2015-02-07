@@ -29,13 +29,13 @@ class Comment extends ORM {
 		}
 	}
 
-	public function getComments($object, $objectID) {
+	public function getComments($commentObject, $commentObjectID) {
 		$core = Core::getInstance();
-		$query = "SELECT commentID FROM jaga_Comment WHERE object = :object AND objectID = :objectID ORDER BY commentDateTime DESC";
+		$query = "SELECT commentID FROM jaga_Comment WHERE commentObject = :commentObject AND commentObjectID = :commentObjectID ORDER BY commentDateTime DESC";
 		$statement = $core->database->prepare($query);
-		$statement->execute(array(':object' => $object, ':objectID' => $objectID));
+		$statement->execute(array(':commentObject' => $commentObject, ':commentObjectID' => $commentObjectID));
 		$commentArray = array();
-		while ($row = $statement->fetch()) { $commentArray[$row['contentID']] = $row['contentURL']; }
+		while ($row = $statement->fetch()) { $commentArray[] = $row['commentID']; }
 		return $commentArray;
 	}
 
