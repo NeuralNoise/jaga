@@ -161,33 +161,6 @@ class PageView {
 				
 				}
 
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			} elseif ($urlArray[0] == 'account-recovery') {
 			
 				$html .= AuthenticationView::accountRecoveryForm($inputArray, $errorArray);
@@ -206,9 +179,7 @@ class PageView {
 				$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
 
 			} else {
-				$html .= "\n\n\t<!-- START 404 TEXT -->\n";
-					$html .= "\t\t<div class=\"container\">404: " . $urlArray[0] . "</div>\n";
-				$html .= "\t<!-- END 404 TEXT -->\n\n";
+				$html .= "\n\n\t<!-- START 404 TEXT --><div class=\"container\">404: " . $urlArray[0] . "</div>\n\n";
 			}
 
 			if ($_SESSION['userID'] == 2) {

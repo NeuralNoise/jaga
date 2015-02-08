@@ -172,33 +172,28 @@
 			$html = "\n\n<!-- START container -->\n";
 			$html .= "<div class=\"container\">\n\n";
 			
-			$html .= "\n\n<!-- START row -->\n";
-			$html .= "<div class=\"row\">\n\n";
-			
-
-				$html .= "<!-- START PANEL -->\n";
-				$html .= "<div class=\"panel panel-default\" >\n\n";
-					
-					
-					$html .= "<!-- START PANEL-HEADING -->\n";
-					$html .= "<div class=\"panel-heading jagaContentPanelHeading\">";
-						$html .= "<div class=\"panel-title\"><h4>" . $username . "</h4></div>";
-					$html .= "</div>\n";
-					$html .= "<!-- END PANEL-HEADING -->\n\n";
-					
-					
-					$html .= "<!-- START PANEL-BODY -->\n";
-					$html .= "<div class=\"panel-body\">\n\n";
+				$html .= "\n\n<!-- START row -->\n";
+				$html .= "<div class=\"row\">\n\n";
 				
-							$html .= "<div class=\"col-sm-3\">";
-								$html .= "<img src=\"" . $profileImageURL . "\" class=\"img-responsive\">";
-							$html .= "</div>\n\n";
+					$html .= "<div class=\"col-sm-3\">";
+						$html .= "<img src=\"" . $profileImageURL . "\" class=\"img-responsive\">";
+						$html .= "<h3 style=\"text-align:center;\">" . $username . "</h3>";
+					$html .= "</div>\n\n";
+					
+					$html .= "<div class=\"col-sm-9\">\n\n";
+
+						$html .= "<!-- START PANEL -->\n";
+						$html .= "<div class=\"panel panel-default\" >\n\n";
 							
-							$html .= "<div class=\"col-sm-9\">\n\n";
+							$html .= "<!-- START PANEL-HEADING -->\n";
+							$html .= "<div class=\"panel-heading jagaContentPanelHeading\">";
+								$html .= "<div class=\"panel-title\"><h4>POSTS</h4></div>";
+							$html .= "</div>\n";
+							$html .= "<!-- END PANEL-HEADING -->\n\n";
 							
-								$html .= $userDisplayName;
-								
-								
+							$html .= "<!-- START PANEL-BODY -->\n";
+							$html .= "<div class=\"panel-body\">\n\n";
+
 								$userContentArray = Content::getUserContent($userID);
 								
 								$html .= "<div style=\"height:300px;overflow:auto;\">";
@@ -206,9 +201,9 @@
 										$html .= "<table class=\"table table-striped table-condensed table-bordered\">";
 											
 											$html .= "<tr>";
+												$html .= "<th>Content</th>";
 												$html .= "<th>Channel</th>";
 												$html .= "<th>Date</th>";
-												$html .= "<th>Content</th>";
 											$html .= "</tr>";
 											
 											foreach ($userContentArray AS $contentID => $contentURL) {
@@ -223,9 +218,9 @@
 												$contentViewURL = "http://" . $channelKey . ".kutchannel.net/k/" . $contentCategoryKey . "/" . $contentURL . "/";
 
 												$html .= "<tr>";
+													$html .= "<td><a href=\"" . $contentViewURL . "\">" . $contentTitle . "</a></td>";
 													$html .= "<td>" . $channelTitle . "</td>";
 													$html .= "<td>" . $contentSubmissionDateTime . "</td>";
-													$html .= "<td><a href=\"" . $contentViewURL . "\">" . $contentTitle . "</a></td>";
 												$html .= "</tr>";
 
 											}
@@ -233,22 +228,79 @@
 										$html .= "</table>";
 									$html .= "</div>";
 								$html .= "</div>";
-								
-								
-								
-								// $html .= "<pre>" . print_r($userContentArray, TRUE) . "</pre>";
-								// comments table
-								
-							$html .= "</div>\n\n";
-
-						$html .= "</div>\n";
-						$html .= "<!-- END PANEL-BODY -->\n\n";
 						
-					$html .= "</div>\n";
-					$html .= "<!-- END PANEL -->\n\n";
+							$html .= "</div>\n";
+							$html .= "<!-- END PANEL-BODY -->\n\n";
+							
+						$html .= "</div>\n";
+						$html .= "<!-- END PANEL -->\n\n";
+								
+					
 
-			$html .= "</div>\n";
-			$html .= "<!-- END row -->\n\n";
+						$html .= "<!-- START PANEL -->\n";
+							$html .= "<div class=\"panel panel-default\" >\n\n";
+								
+								$html .= "<!-- START PANEL-HEADING -->\n";
+								$html .= "<div class=\"panel-heading jagaContentPanelHeading\">";
+									$html .= "<div class=\"panel-title\"><h4>COMMENTS</h4></div>";
+								$html .= "</div>\n";
+								$html .= "<!-- END PANEL-HEADING -->\n\n";
+								
+								$html .= "<!-- START PANEL-BODY -->\n";
+								$html .= "<div class=\"panel-body\">\n\n";
+
+									$userCommentArray = Comment::getUserComments($userID);
+									
+									$html .= "<div style=\"height:300px;overflow:auto;\">";
+										$html .= "<div class=\"table-responsive\">";
+											$html .= "<table class=\"table table-striped table-condensed table-bordered\">";
+												
+												$html .= "<tr>";
+													$html .= "<th>Comment</th>";
+													$html .= "<th>Channel</th>";
+													$html .= "<th>Date</th>";
+												$html .= "</tr>";
+												
+												foreach ($userCommentArray AS $commentID) {
+													
+													$comment = new Comment($commentID);
+
+													$channel = new Channel($comment->channelID);
+													$channelKey = $channel->channelKey;
+													$channelTitle = $channel->channelTitleEnglish;
+													
+													if ($comment->commentObject == 'Content') {
+														$content = new Content($comment->commentObjectID);
+														$contentCategoryKey = $content->contentCategoryKey;
+														$contentURL = $content->contentURL;
+														$contentViewURL = "http://" . $channelKey . ".kutchannel.net/k/" . $contentCategoryKey . "/" . $contentURL . "/";
+													}
+													
+													$html .= "<tr>";
+														if (isset($contentViewURL)) { $html .= "<td><a href=\"" . $contentViewURL . "\">" . $comment->commentContent . "</a></td>";
+														} else { $html .= "<td>" . strip_tags($comment->commentContent) . "</td>"; }
+														$html .= "<td>" . $channelTitle . "</td>";
+														$html .= "<td>" . $comment->commentDateTime . "</td>";
+													$html .= "</tr>";
+
+												}
+												
+											$html .= "</table>";
+										$html .= "</div>";
+									$html .= "</div>";
+							
+								$html .= "</div>\n";
+								$html .= "<!-- END PANEL-BODY -->\n\n";
+								
+							$html .= "</div>\n";
+							$html .= "<!-- END PANEL -->\n\n";
+						
+						$html .= "</div>\n\n";
+						
+					$html .= "</div>\n\n";
+
+				$html .= "</div>\n";
+				$html .= "<!-- END row -->\n\n";
 			
 			$html .= "</div>\n";
 			$html .= "<!-- END container -->\n\n";

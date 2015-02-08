@@ -39,6 +39,24 @@ class Comment extends ORM {
 		return $commentArray;
 	}
 
+	public function getUserComments($userID) {
+
+		$query = "
+			SELECT commentID
+			FROM jaga_Comment 
+			WHERE userID = :userID
+			ORDER BY commentDateTime DESC
+		";
+
+		$core = Core::getInstance();
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':userID' => $userID));
+		
+		$userCommentArray = array();
+		while ($row = $statement->fetch()) { $userCommentArray[] = $row['commentID']; }
+		return $userCommentArray;
+	}
+	
 }
 
 ?>
