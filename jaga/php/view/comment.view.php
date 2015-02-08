@@ -14,12 +14,27 @@ class CommentView {
 			$html .= "\n\t<!-- START COMMENT -->\n";
 			$html .= "\t<div class=\"container\">\n\n";
 				$html .= "\t\t<div class=\"panel panel-info\">\n";
-					$html .= "\t\t\t<div class=\"panel-heading jagaCommentPanelHeading\">";
-						$html .= "<h5 style=\"text-align:right;\">" . $username . " - " . $comment->commentDateTime .= "</h5>";
-					$html .= "</div>\n";
-					$html .= "\t\t\t<div class=\"panel-body\">\n";
-						$html .= $comment->commentContent;
-					$html .= "\n\t\t\t</div>\n";
+					
+					$html .= "\t\t\t<div class=\"panel-heading jagaCommentPanelHeading\">\n";
+					
+						$html.= "\t\t\t\t<div class=\"row\">\n";
+						
+							$html .= "\t\t\t\t\t<div class=\"col-md-6\">";
+								$html .= "<b>" . $username . "</b> (<i>" . $comment->commentDateTime .= "</i>)";
+							$html .= "</div>\n";
+							
+							$html .= "\t\t\t\t\t<div class=\"col-md-6\">";						
+								if ($comment->userID == $_SESSION['userID']) {
+									$html .= "<a href=\"/k/comment/delete/" . $commentID . "/\" class=\"btn btn-default btn-xs pull-right\"><span class=\"glyphicon glyphicon-remove\" style=\"color:#f00;\"></span> DELETE</a>";
+								}
+							$html .= "</div>\n";
+							
+						$html .= "\t\t\t\t</div>\n";
+						
+					$html .= "\t\t\t</div>\n";
+					
+					$html .= "\t\t\t<div class=\"panel-body\">" . $comment->commentContent . "</div>\n";
+					
 				$html .= "\t\t</div>\n";
 			$html .= "\n\t</div>\n";
 			$html .= "\t<!-- END COMMENT -->\n\n";

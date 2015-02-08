@@ -24,10 +24,8 @@ class Controller {
 	public function getResource($urlArray) {
 
 		if ($_SESSION['channelID'] == 0) {
-		
-			// note: still need to reroute reserved strings
-			
-			$reservedDomains = array('dev', 'mail', 'property', 'realestate', 'news', 'www', 'blog', 'qa', 'faq', 'support');
+
+			$reservedDomains = array('blog', 'db', 'dev', 'domains', 'dns', 'faq', 'ftp', 'groups', 'help', 'int', 'mail', 'prod', 'repo', 'sandbox', 'secure', 'support', 'qa', 'wiki', 'www');
 			
 			$domain = $_SERVER['HTTP_HOST'];
 			$tmp = explode('.', $domain);
@@ -268,6 +266,22 @@ class Controller {
 			$comment->commentObjectID = $urlArray[2];
 			$commentID = Comment::insert($comment);
 			header("Location: $contentPath");
+		}
+		
+		if ($urlArray[0] == 'k' && $urlArray[1] == 'comment' && $urlArray[2] == 'delete' && is_numeric($urlArray[3])) {
+
+			$commentID = $urlArray[3];
+			$comment = new Comment($commentID);
+			if ($comment->userID != $_SESSION['userID']) { die('You do not own this comment, you silly goose!'); }
+			if ($comment->commentObject == 'Content') {
+				$contentPath = Content::getContentURL($comment->commentObjectID);
+			} else {
+				die ("What kind of comment exactly you trying to delete, boss? It obviously ain't content.");
+			}
+			$conditions = array('commentID' => $commentID);
+			Comment::delete($comment, $conditions);
+			header("Location: $contentPath");
+			
 		}
 		
 		if ($urlArray[0] == 'settings') {
