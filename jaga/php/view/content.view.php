@@ -471,7 +471,6 @@ CREATE TABLE IF NOT EXISTS `jaga_Content` (
 
 	}
 
-	
 	public function displayUserContentList($username) {
 
 		$userID = User::getUserIDwithUserNameOrEmail($username);
@@ -536,13 +535,13 @@ CREATE TABLE IF NOT EXISTS `jaga_Content` (
 					$contentSubmittedByUserID = $content->contentSubmittedByUserID;
 					$contentSubmissionDateTime = $content->contentSubmissionDateTime;
 					$contentEnglish = $content->contentEnglish;
-					
+					$contentViews = $content->contentViews;
 					$thisChannelID = $content->channelID;
+					
 					$channel = new Channel($thisChannelID);
 					$thisContentChannelKey = $channel->channelKey;
 					$channelTitle = $channel->channelTitleEnglish;
 					
-					$contentViews = $content->contentViews;
 					$user = new User($contentSubmittedByUserID);
 					$username = $user->username;
 
@@ -550,7 +549,8 @@ CREATE TABLE IF NOT EXISTS `jaga_Content` (
 						$html .= "\t\t\t\t\t<div class=\"panel panel-default\">\n";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n";
-								$html .= "\t\t\t\t\t\t\t<h4>" . strtoupper($contentTitle) . "</h4>\n";
+								$html .= "<h4>" . strtoupper($contentTitle) . "</h4>";
+								$html .= "<a href=\"/u/" . $username . "/\" style=\"text-decoration:none;\">" . $username . "</a>";
 							$html .= "\t\t\t\t\t\t</div>\n";
 
 							$html .= "\t\t\t\t\t\t\t<a href=\"http://" . $thisContentChannelKey . ".kutchannel.net/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
@@ -559,9 +559,9 @@ CREATE TABLE IF NOT EXISTS `jaga_Content` (
 									if (Image::objectHasImage('Content',$contentID)) {
 										$imagePath = Image::getLegacyObjectMainImagePath('Content',$contentID);
 										if ($imagePath == "") { $imagePath = Image::getObjectMainImagePath('Content',$contentID); }
-										if ($imagePath != "") { $html .= "<br /><img class=\"img-responsive\" src=\"" . $imagePath . "\"><br />"; }
+										if ($imagePath != "") { $html .= "<img class=\"img-responsive\" src=\"" . $imagePath . "\"><br />"; }
 									}			
-									$html .=  $contentEnglish;	
+									$html .=  $contentEnglish;
 								$html .= "</span>";
 							$html .= "</a>\n";
 							

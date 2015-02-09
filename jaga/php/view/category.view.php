@@ -52,6 +52,10 @@ class CategoryView {
 											$username = $user->username;
 											
 											$html .= "\t\t\t\t\t\t\t<a href=\"http://" . $thisContentChannelKey . ".kutchannel.net/k/" . $contentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
+												
+												
+												
+												
 												$html .= "<span class=\"jagaListGroup\">";
 													
 													$html .= "<span class=\"jagaListGroupBadge\">" . $contentViews . "</span>";

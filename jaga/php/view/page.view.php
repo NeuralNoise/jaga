@@ -48,8 +48,10 @@ class PageView {
 				
 					$html .= $this->getBreadcrumbs($urlArray);
 					
-					$categoryView = new CategoryView();
-					$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
+					// $categoryView = new CategoryView();
+					// $html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
+					
+					$html .= ContentView::displayRecentContentItems($_SESSION['channelID'], '', 50);
 					
 				}
 				
