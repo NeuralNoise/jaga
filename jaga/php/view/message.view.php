@@ -1,16 +1,16 @@
 <?php
 class MessageView {
 	
-	public function displayInbox() {
+	public function conversationList() {
 
-		$messages = Message::getInboxArray();
+		$conversations = Message::getConversationArray();
 		
-		print_r($messages);
+		print_r($conversations);
 		die();
 		
 		$html = '';
 		
-		/*
+		
 		if (empty($messages)) {
 		
 			$html .= '<div class="container">You do not currently have any messages in your inbox.</div>';
@@ -38,7 +38,50 @@ class MessageView {
 			}
 		
 		}
-		*/
+		
+		return $html;
+	
+	}
+
+	
+	public function displayInbox() {
+
+		$messages = Message::getInboxArray();
+		
+		// print_r($messages);
+		// die();
+		
+		$html = '';
+		
+		
+		if (empty($messages)) {
+		
+			$html .= '<div class="container">You do not currently have any messages in your inbox.</div>';
+		
+		} else {
+		
+			foreach ($messages AS $message) {
+			
+				$sender = User::getUsername($message['messageSenderUserID']);
+				
+				$html .= "\n\t<!-- START MESSAGE -->\n";
+				$html .= "\t<div class=\"container\">\n\n";
+					$html .= "\t\t<div class=\"panel panel-info\">\n";
+					
+						$html .= "\t\t\t<div class=\"panel-heading jagaMessagePanelHeading\">";
+							$html .= "<h5 style=\"text-align:right;\">" . $sender . " - " . $message['messageDateTimeSent'] .= "</h5>";
+						$html .= "</div>\n";
+						$html .= "\t\t\t<div class=\"panel-body\">\n";
+							$html .= $message['messageContent'];
+						$html .= "\n\t\t\t</div>\n";
+						
+					$html .= "\t\t</div>\n";
+				$html .= "\n\t</div>\n";
+				$html .= "\t<!-- END MESSAGE -->\n\n";
+			}
+		
+		}
+		
 		return $html;
 	
 	}

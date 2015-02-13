@@ -257,6 +257,7 @@ class Controller {
 		}
 		
 		if ($urlArray[0] == 'k' && $urlArray[1] == 'comment' && is_numeric($urlArray[2])) {
+			if ($_SESSION['userID'] == 0) { die('You must be logged in to comment.'); }
 			$contentPath = Content::getContentURL($urlArray[2]);
 			if (!empty($_POST)) { $inputArray = $_POST; } else { header("Location: $contentPath"); }
 			$comment = new Comment(0);

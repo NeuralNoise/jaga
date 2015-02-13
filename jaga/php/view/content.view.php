@@ -84,9 +84,9 @@ class ContentView {
 					$html .= "\t\t\t\t<a href=\"/k/create/" . $contentCategoryKey . "/\"><span style=\"float:right;\" class=\"glyphicon glyphicon-plus\"></span></a>\n";
 					$html .= "\t\t\t\t<h4>" . strtoupper($contentCategoryKey) . "</h4>\n";
 				$html .= "\t\t\t</div>\n";
+				
 				$html .= "\t\t\t<ul class=\"list-group\">\n";
 
-				
 					foreach ($contentArray as $contentID => $contentURL) {
 					
 						$content = new Content($contentID);
@@ -101,16 +101,15 @@ class ContentView {
 						$html .= "</a>\n";
 						
 					}
-					
-					
-					
-					
 
 					$html .= "\t\t\t\t<a href=\"/k/" . $contentCategoryKey . "/\" class=\"list-group-item jagaListGroupItemMore\">";
 						$html .= "MORE <span class=\"glyphicon glyphicon-arrow-right\"></span>";
 					$html .= "</a>\n";
 					
 				$html .= "\t\t\t</ul>\n";
+				
+				
+				
 				
 			$html .= "\t\t</div>\n\n";
 			

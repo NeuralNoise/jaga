@@ -57,7 +57,9 @@ class PageView {
 				
 			} elseif ($urlArray[0] == 'imo') {
 
-				$html .= MessageView::displayInbox();
+				$html .= MessageView::conversationList();
+			
+				// $html .= MessageView::displayInbox();
 				
 			} elseif ($urlArray[0] == 'register') {
 
