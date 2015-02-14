@@ -10,7 +10,7 @@ class Message extends ORM {
 	public $messageSenderIP;
 	public $messageReadByRecipient;
 
-	public function __construct($contentID) {
+	public function __construct($messageID) {
 	
 		
 		if ($messageID != 0) {
@@ -36,8 +36,7 @@ class Message extends ORM {
 		
 	}
 
-	
-	public function getInboxArray() {
+	public static function getInboxArray() {
 	
 		$userID = $_SESSION['userID'];
 		
@@ -64,7 +63,7 @@ class Message extends ORM {
 		return $inboxArray;
 	}
 	
-	public function getConversationArray() {
+	public static function getConversationArray() {
 	
 		$userID = $_SESSION['userID'];
 		
@@ -72,8 +71,7 @@ class Message extends ORM {
 		$query = "
 			SELECT messageSenderUserID AS userID, messageDateTimeSent FROM jaga_Message WHERE messageSenderUserID = :userID OR messageRecipientUserID = :userID 
 			UNION
-			SELECT messageRecipientUserID AS userID, messageDateTimeSent FROM jaga_Message WHERE messageSenderUserID = :userID OR messageRecipientUserID = :userID 
-			ORDER BY messageDateTimeSent DESC
+			SELECT messageRecipientUserID AS userID, messageDateTimeSent FROM jaga_Message WHERE messageSenderUserID = :userID OR messageRecipientUserID = :userID
 		";
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':userID' => $userID));
@@ -91,12 +89,37 @@ class Message extends ORM {
 				}
 			}
 		}
+		arsort($conversationArray);
 		return $conversationArray;
 		
 	}
 	
+	public static function getConversationMessageArray($otherUserID) {
 	
-	public function getInboxMessageArray() {
+		$currentUserID = $_SESSION['userID'];
+		if ($otherUserID == $currentUserID) { die('dafug?'); }
+		
+		$core = Core::getInstance();
+		$query = "
+			SELECT messageID, messageDateTimeSent FROM jaga_Message WHERE messageSenderUserID = :currentUserID AND messageRecipientUserID = :otherUserID 
+			UNION
+			SELECT messageID, messageDateTimeSent FROM jaga_Message WHERE messageSenderUserID = :otherUserID AND messageRecipientUserID = :currentUserID
+		";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':currentUserID' => $currentUserID, ':otherUserID' => $otherUserID));
+
+		$conversationMessageArray = array();
+		while ($row = $statement->fetch()) {
+			$thisMessageID = $row['messageID'];
+			$thisMessageDateTimeSent = $row['messageDateTimeSent'];
+			$conversationMessageArray[$thisMessageID] = $thisMessageDateTimeSent;
+		}
+		arsort($conversationMessageArray);
+		return $conversationMessageArray;
+		
+	}
+	
+	public static function getInboxMessageArray() {
 	
 		$userID = $_SESSION['userID'];
 		
