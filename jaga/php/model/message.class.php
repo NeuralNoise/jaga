@@ -36,33 +36,6 @@ class Message extends ORM {
 		
 	}
 
-	public static function getInboxArray() {
-	
-		$userID = $_SESSION['userID'];
-		
-		$core = Core::getInstance();
-		
-		$query = "
-			SELECT messageID, messageSenderUserID, messageRecipientUserID, messageContent, messageContent, messageDateTimeSent, messageReadByRecipient 
-			FROM jaga_Message 
-			WHERE messageSenderUserID = 64 OR messageRecipientUserID = 64 
-			ORDER BY messageDateTimeSent DESC
-		";
-		$statement = $core->database->prepare($query);
-		$statement->execute(array(':userID' => $userID));
-
-		$inboxArray = array();
-		while ($row = $statement->fetch()) {
-			$messageID = $row['messageID'];
-			$inboxArray[$messageID]['messageSenderUserID'] = $row['messageSenderUserID'];
-			$inboxArray[$messageID]['messageRecipientUserID'] = $row['messageRecipientUserID'];
-			$inboxArray[$messageID]['messageContent'] = $row['messageContent'];
-			$inboxArray[$messageID]['messageDateTimeSent'] = $row['messageDateTimeSent'];
-			$inboxArray[$messageID]['messageReadByRecipient'] = $row['messageReadByRecipient'];
-		}
-		return $inboxArray;
-	}
-	
 	public static function getConversationArray() {
 	
 		$userID = $_SESSION['userID'];
@@ -118,30 +91,12 @@ class Message extends ORM {
 		return $conversationMessageArray;
 		
 	}
-	
-	public static function getInboxMessageArray() {
-	
-		$userID = $_SESSION['userID'];
-		
-		$core = Core::getInstance();
-		
-		$query = "
-			SELECT messageID, messageSenderUserID, messageContent, messageDateTimeSent
-			FROM jaga_Message 
-			WHERE messageRecipientUserID = :userID 
-			ORDER BY messageDateTimeSent DESC
-		";
-		$statement = $core->database->prepare($query);
-		$statement->execute(array(':userID' => $userID));
 
-		$inboxMessageArray = array();
-		while ($row = $statement->fetch()) {
-			$messageID = $row['messageID'];
-			$inboxMessageArray[$messageID]['messageSenderUserID'] = $row['messageSenderUserID'];
-			$inboxMessageArray[$messageID]['messageContent'] = $row['messageContent'];
-			$inboxMessageArray[$messageID]['messageDateTimeSent'] = $row['messageDateTimeSent'];
-		}
-		return $inboxMessageArray;
+	public static function markMessageAsRead($messageID) {
+		$core = Core::getInstance();
+		$query = "UPDATE jaga_Message SET messageReadByRecipient = 1 WHERE messageID = :messageID LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':messageID' => $messageID));
 	}
 	
 }

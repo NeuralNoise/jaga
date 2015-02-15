@@ -15,6 +15,140 @@ class PageView {
 		$this->pageDescription = $channel->channelDescriptionEnglish;
 	}
 	
+	private function getHeader() {
+
+		$html = "<!DOCTYPE html>\n";
+		$html .= "<html lang=\"en\">\n\n";
+		
+			$html .= "\t<head>\n\n";
+			
+				$html .= "\t\t<title>" . $this->pageTitle . "</title>\n\n";
+				
+				$html .= "\t\t<meta charset=\"utf-8\">\n";
+				$html .= "\t\t<meta name=\"robots\" content=\"NOINDEX, NOFOLLOW\">\n\n";
+				
+				$html .= "\t\t<meta name=\"keywords\" content=\"" . $this->pageKeywords . "\">\n";
+				$html .= "\t\t<meta name=\"description\" content=\"" . $this->pageDescription . "\">\n\n";
+				
+				$html .= "\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\">\n";
+				$html .= "\t\t<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">\n";
+				$html .= "\t\t<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\">\n\n";
+
+				$html .= "\t\t<meta name=\"author\" content=\"Chishiki\">\n";
+				$html .= "\t\t<meta name=\"generator\" content=\"The Kutchannel\">\n\n";
+				
+				$html .= "\t\t<link rel=\"icon\" type=\"image/x-icon\" href=\"/jaga/images/favicon.ico\"/>\n\n";
+
+				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/jaga/bootstrap/3.1.1/css/bootstrap.min.css\">\n";
+				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/jaga/css/kutchannel.css\" />\n";
+				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/channel.css\" />\n\n";
+
+				$html .= "\t\t<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js\"></script>\n";
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/bootstrap/3.1.1/js/bootstrap.min.js\"></script>\n";
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/masonry.pkgd.min.js\"></script>\n";
+				$html .= "\t\t<script type=\"text/javascript\" src=\"http://maps.google.com/maps/api/js?sensor=false&libraries=places\"></script>\n";
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/library/locationpicker/locationpicker.jquery.js\"></script>\n";
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/tooltip.js\"></script>\n";				
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/kutchannel.js\"></script>\n\n";
+
+			$html .= "\t</head>\n\n";
+
+			$html .= "\t<body>\n\n";
+			
+		return $html;
+		
+	}
+	
+	private function getFooter() {
+	
+				$html = "\n\n\t\t<div id=\"footer\">\n";
+					$html .= "\t\t\t\t<div class=\"col-sm-8 hidden-xs\" style=\"padding-bottom:3px;\">\n";
+						$html .= "\t\t\t\t\t<ul class=\"list-inline\">\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/about/\">About</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/tos/\">Terms of Service</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/privacy/\">Privacy Policy</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://github.com/chishiki/kutchannel/\">Source Code</a></li>\n";								
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/sitemap/\">Sitemap</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/advertise/\">Advertise</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/contact/\">Contact</a></li>\n";
+						$html .= "\t\t\t\t\t</ul>\n";
+					$html .= "\t\t\t\t</div>\n";
+					$html .= "\t\t\t\t<div class=\"col-sm-4\">\n";
+						$html .= "\t\t\t\t<div class=\"pull-right\">&copy; The Kutchannel 2006-" . date('Y') . "</div>\n";
+					$html .= "\t\t\t\t</div>\n";
+				$html .= "\t\t</div>\n\n";
+			$html .= "\t</body>\n\n";
+		$html .= "</html>";
+		
+		return $html;
+		
+	}
+
+	private function getBreadcrumbs($urlArray) {
+	
+		$channel = new Channel($_SESSION['channelID']);
+		$channelKey = $channel->channelKey;
+		$channelTitle = $channel->channelTitleEnglish;
+		
+		$html = "<div class=\"container\"><ol class=\"breadcrumb\">";
+			$html .= "<li><a href=\"http://the.kutchannel.net/\">THE KUTCHANNEL</a></li>";
+			$html .= "<li><a href=\"http://" . $channelKey . ".kutchannel.net/\">" . strtoupper($channelTitle) . "</a></li>";
+			
+			// CATEGORY
+			if ($urlArray[0] == 'k' && $urlArray[1] != '') { // /k/<contentCategoryKey>/
+				$categoryTitle = strtoupper(Category::getCategoryTitle($urlArray[1]));
+				$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "/\">" . $categoryTitle . "</a></li>";
+			}
+			
+			// CONTENT
+			if ($urlArray[0] == 'k' && $urlArray[1] != '' && $urlArray[2] != '') { // /k/<contentCategoryKey>/<contentURL>/
+				$contentTitle = strtoupper(Content::getContentTitle($urlArray[2]));
+				// $html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "/" . $urlArray[2] . "/\">" . $contentTitle . "</a></li>";
+				$html .= "<li class=\"active\">" . $contentTitle . "</li>";
+			}
+			
+			
+		$html .= "</ol></div>";
+		return $html;
+		
+	}
+	
+	private function getSettingsNav() {
+
+		$html = "\t<div class=\"container\">\n";
+			$html .= "\t\t<div class=\"row\" style=\"margin-bottom:10px;\">\n";
+				$html .= "
+					<div class=\"btn-group btn-group-lg\">
+						<a href=\"/settings/profile/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-user\"></span> Profile</a>
+						<a href=\"/settings/channels/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-th-large\"></span> Channels</a>
+						<a href=\"/settings/subscriptions/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-star\"></span> Subscriptions</a>
+					</div>
+				";
+			$html .= "\t\t</div>\n";
+		$html .= "\t</div>\n";
+		
+		return $html;
+		
+	}
+
+	private function getProfileNav($username) {
+
+		$html = "\t<div class=\"container\">\n";
+			$html .= "\t\t<div class=\"row\" style=\"margin-bottom:10px;\">\n";
+				$html .= "
+					<div class=\"btn-group btn-group-lg\">
+						<a href=\"/u/" . $username . "/posts/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-user\"></span> Profile</a>
+						<a href=\"/u/" . $username . "/channels/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-th-large\"></span> Channels</a>
+						<a href=\"/u/" . $username . "/subscriptions/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-star\"></span> Subscriptions</a>
+					</div>
+				";
+			$html .= "\t\t</div>\n";
+		$html .= "\t</div>\n";
+		
+		return $html;
+		
+	}	
+
 	public function buildPage($urlArray, $inputArray = array(), $errorArray = array()) {
 
 		$html = $this->getHeader();
@@ -26,10 +160,7 @@ class PageView {
 				$html .= "\t<!-- START ERROR ARRAY -->\n";
 				$html .= "\t<div class=\"container\">\n";
 					foreach ($errorArray AS $errorFlag) {
-						// print_r($errorFlag);
-						foreach ($errorFlag AS $errorMessage) {
-							$html .= "\t\t<div class=\"alert alert-danger col-sm-12 jagaErrorArray\">$errorMessage</div>\n";
-						}
+						foreach ($errorFlag AS $errorMessage) { $html .= "\t\t<div class=\"alert alert-danger col-sm-12 jagaErrorArray\">$errorMessage</div>\n"; }
 					}
 				$html .= "\t</div>\n";
 				$html .= "\t<!-- END ERROR ARRAY -->\n\n";
@@ -47,20 +178,16 @@ class PageView {
 				} else {
 				
 					$html .= $this->getBreadcrumbs($urlArray);
-					
-					// $categoryView = new CategoryView();
-					// $html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
-					
-					$html .= ContentView::displayRecentContentItems($_SESSION['channelID'], '', 50);
+					$categoryView = new CategoryView();
+					$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
+					// $html .= ContentView::displayRecentContentItems($_SESSION['channelID'], '', 50);
 					
 				}
 				
 			} elseif ($urlArray[0] == 'imo') {
-
-				$html .= MessageView::conversationList();
-			
-				// $html .= MessageView::displayInbox();
 				
+				$html .= MessageView::imo();
+
 			} elseif ($urlArray[0] == 'register') {
 
 				$html .= AuthenticationView::getAuthForm('register', $inputArray, $errorArray);
@@ -232,139 +359,7 @@ class PageView {
 		return $html;
 		
 	}
-	
-	private function getHeader() {
 
-		$html = "<!DOCTYPE html>\n";
-		$html .= "<html lang=\"en\">\n\n";
-		
-			$html .= "\t<head>\n\n";
-			
-				$html .= "\t\t<title>" . $this->pageTitle . "</title>\n\n";
-				
-				$html .= "\t\t<meta charset=\"utf-8\">\n";
-				$html .= "\t\t<meta name=\"robots\" content=\"NOINDEX, NOFOLLOW\">\n\n";
-				
-				$html .= "\t\t<meta name=\"keywords\" content=\"" . $this->pageKeywords . "\">\n";
-				$html .= "\t\t<meta name=\"description\" content=\"" . $this->pageDescription . "\">\n\n";
-				
-				$html .= "\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\">\n";
-				$html .= "\t\t<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">\n";
-				$html .= "\t\t<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\">\n\n";
-
-				$html .= "\t\t<meta name=\"author\" content=\"Chishiki\">\n";
-				$html .= "\t\t<meta name=\"generator\" content=\"The Kutchannel\">\n\n";
-				
-				$html .= "\t\t<link rel=\"icon\" type=\"image/x-icon\" href=\"/jaga/images/favicon.ico\"/>\n\n";
-
-				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/jaga/bootstrap/3.1.1/css/bootstrap.min.css\">\n";
-				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/jaga/css/kutchannel.css\" />\n";
-				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/channel.css\" />\n\n";
-
-				$html .= "\t\t<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js\"></script>\n";
-				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/bootstrap/3.1.1/js/bootstrap.min.js\"></script>\n";
-				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/masonry.pkgd.min.js\"></script>\n";
-				$html .= "\t\t<script type=\"text/javascript\" src=\"http://maps.google.com/maps/api/js?sensor=false&libraries=places\"></script>\n";
-				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/library/locationpicker/locationpicker.jquery.js\"></script>\n";
-				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/tooltip.js\"></script>\n";				
-				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/kutchannel.js\"></script>\n\n";
-
-			$html .= "\t</head>\n\n";
-
-			$html .= "\t<body>\n\n";
-			
-		return $html;
-		
-	}
-	
-	private function getFooter() {
-	
-				$html = "\n\n\t\t<div id=\"footer\">\n";
-					$html .= "\t\t\t\t<div class=\"col-sm-8 hidden-xs\" style=\"padding-bottom:3px;\">\n";
-						$html .= "\t\t\t\t\t<ul class=\"list-inline\">\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/about/\">About</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/tos/\">Terms of Service</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/privacy/\">Privacy Policy</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://github.com/chishiki/kutchannel/\">Source Code</a></li>\n";								
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/sitemap/\">Sitemap</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/advertise/\">Advertise</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/contact/\">Contact</a></li>\n";
-						$html .= "\t\t\t\t\t</ul>\n";
-					$html .= "\t\t\t\t</div>\n";
-					$html .= "\t\t\t\t<div class=\"col-sm-4\">\n";
-						$html .= "\t\t\t\t<div class=\"pull-right\">&copy; The Kutchannel 2006-" . date('Y') . "</div>\n";
-					$html .= "\t\t\t\t</div>\n";
-				$html .= "\t\t</div>\n\n";
-			$html .= "\t</body>\n\n";
-		$html .= "</html>";
-		
-		return $html;
-		
-	}
-
-	private function getBreadcrumbs($urlArray) {
-	
-		$channel = new Channel($_SESSION['channelID']);
-		$channelKey = $channel->channelKey;
-		$channelTitle = $channel->channelTitleEnglish;
-		
-		$html = "<div class=\"container\"><ol class=\"breadcrumb\">";
-			$html .= "<li><a href=\"http://the.kutchannel.net/\">THE KUTCHANNEL</a></li>";
-			$html .= "<li><a href=\"http://" . $channelKey . ".kutchannel.net/\">" . strtoupper($channelTitle) . "</a></li>";
-			
-			// CATEGORY
-			if ($urlArray[0] == 'k' && $urlArray[1] != '') { // /k/<contentCategoryKey>/
-				$categoryTitle = strtoupper(Category::getCategoryTitle($urlArray[1]));
-				$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "/\">" . $categoryTitle . "</a></li>";
-			}
-			
-			// CONTENT
-			if ($urlArray[0] == 'k' && $urlArray[1] != '' && $urlArray[2] != '') { // /k/<contentCategoryKey>/<contentURL>/
-				$contentTitle = strtoupper(Content::getContentTitle($urlArray[2]));
-				$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "/" . $urlArray[2] . "/\">" . $contentTitle . "</a></li>";
-			}
-			
-			
-		$html .= "</ol></div>";
-		return $html;
-		
-	}
-	
-	private function getSettingsNav() {
-
-		$html = "\t<div class=\"container\">\n";
-			$html .= "\t\t<div class=\"row\" style=\"margin-bottom:10px;\">\n";
-				$html .= "
-					<div class=\"btn-group btn-group-lg\">
-						<a href=\"/settings/profile/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-user\"></span> Profile</a>
-						<a href=\"/settings/channels/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-th-large\"></span> Channels</a>
-						<a href=\"/settings/subscriptions/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-star\"></span> Subscriptions</a>
-					</div>
-				";
-			$html .= "\t\t</div>\n";
-		$html .= "\t</div>\n";
-		
-		return $html;
-		
-	}
-
-	private function getProfileNav($username) {
-
-		$html = "\t<div class=\"container\">\n";
-			$html .= "\t\t<div class=\"row\" style=\"margin-bottom:10px;\">\n";
-				$html .= "
-					<div class=\"btn-group btn-group-lg\">
-						<a href=\"/u/" . $username . "/posts/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-user\"></span> Profile</a>
-						<a href=\"/u/" . $username . "/channels/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-th-large\"></span> Channels</a>
-						<a href=\"/u/" . $username . "/subscriptions/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-star\"></span> Subscriptions</a>
-					</div>
-				";
-			$html .= "\t\t</div>\n";
-		$html .= "\t</div>\n";
-		
-		return $html;
-		
-	}	
 }
 
 ?>

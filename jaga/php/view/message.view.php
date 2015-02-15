@@ -1,162 +1,136 @@
 <?php
+
 class MessageView {
 	
-	public function conversationList() {
+	public function imo() {
 
 		$conversations = Message::getConversationArray();
 
-		$html = '';
-
+		$html = "\n\t<!-- START CONVERSATION -->\n";
+		$html .= "\t<div class=\"container\">\n";
+			
 		if (empty($conversations)) {
 		
-			$html .= '<div class="container">Welcome to IMO, The Kutchannel\'s private message service. You do not yet have any ongoing conversations.</div>';
+			$html .= 'Welcome to IMO, The Kutchannel\'s private message service. You do not yet have any ongoing conversations.';
 		
 		} else {
-		
+
 			foreach ($conversations AS $userID => $lastMessageDateTime) {
 			
 				$username = User::getUsername($userID);
 				$conversationMessageArray = Message::getConversationMessageArray($userID);
-
-				$html .= "\n\t<!-- START CONVERSATION -->\n";
-				$html .= "\t<div class=\"container\">\n";
-					$html .= "\t\t<div class=\"panel panel-info\">\n";
-						$html .= "\t\t\t<div class=\"panel-heading jagaMessagePanelHeading\"><h5 style=\"text-align:right;\">" . $username . "</h5></div>\n";
-						$html .= "\t\t\t<div class=\"panel-body\">\n";
-							$html .= "\t\t\t\t<div class=\"panel-group\" id=\"accordion$userID\" role=\"tablist\" aria-multiselectable=\"true\">";
-								$x = 0;
-								foreach ($conversationMessageArray AS $messageID => $messageDateTimeSent) {
-									
-									$message = new Message($messageID);
-									
-									if ($x == 0) { $expand = "true"; $in = "in"; } else { $expand = "false"; $in = ""; }
-									if ($message->messageSenderUserID == $_SESSION['userID']) { $classy = "col-xs-10"; } else { $classy = "col-xs-10 col-xs-offset-2"; }
-									
-									$html .= "\t\t\t\t\t<div class=\"panel panel-default\">\n";
-										$html .= "\t\t\t\t\t\t<div class=\"panel-heading\" role=\"tab\" id=\"heading$messageID\">";
-											$html .= "<h4 class=\"panel-title\">";
-												$html .= "<a ";
-													if ($x != 0) { $html .= "class=\"collapsed\" ";}
-												$html .= "data-toggle=\"collapse\" data-parent=\"#accordion$userID\" href=\"#collapse$messageID\" aria-expanded=\"$expand\" aria-controls=\"collapse$messageID\">" . $message->messageDateTimeSent . "</a>";
-											$html .= "</h4>";
-										$html .= "</div>\n";
-										$html .= "\t\t\t\t\t\t<div id=\"collapse$messageID\" class=\"panel-collapse collapse $in\" role=\"tabpanel\" aria-labelledby=\"heading$messageID\">\n";
-											$html .= "\t\t\t\t\t\t\t<div class=\"panel-body\">";
-												$html .= $message->messageContent;
-											$html .= "</div>\n";
-										$html .= "\t\t\t\t\t\t</div>\n";
-									$html .= "\t\t\t\t\t</div>\n";
-									$x++;
-								}
-							$html .= "\t\t\t\t</div>\n";
-						$html .= "\n\t\t\t</div>\n";
-					$html .= "\t\t</div>\n";
-				$html .= "\t</div>\n";
-				$html .= "\t<!-- END CONVERSATION -->\n\n";
-			}
-			
-		}
-		
-		return $html;
-	
-	}
-
-	
-	public function displayInbox() {
-
-		$messages = Message::getInboxArray();
-		
-		// print_r($messages);
-		// die();
-		
-		$html = '';
-		
-		
-		if (empty($messages)) {
-		
-			$html .= '<div class="container">You do not currently have any messages in your inbox.</div>';
-		
-		} else {
-		
-			foreach ($messages AS $message) {
-			
-				$sender = User::getUsername($message['messageSenderUserID']);
 				
-				$html .= "\n\t<!-- START MESSAGE -->\n";
-				$html .= "\t<div class=\"container\">\n\n";
-					$html .= "\t\t<div class=\"panel panel-info\">\n";
+				$html .= "\t\t<div class=\"panel panel-info jagaMessagePanel\">\n";
+					$html .= "\t\t\t<div class=\"panel-heading jagaMessagePanelHeading\">";
 					
-						$html .= "\t\t\t<div class=\"panel-heading jagaMessagePanelHeading\">";
-							$html .= "<h5 style=\"text-align:right;\">" . $sender . " - " . $message['messageDateTimeSent'] .= "</h5>";
-						$html .= "</div>\n";
-						$html .= "\t\t\t<div class=\"panel-body\">\n";
-							$html .= $message['messageContent'];
-						$html .= "\n\t\t\t</div>\n";
+						$html .= "<div style=\"float:left;\"><h3 style=\"text-align:right;\">$username</h3></div>";
+						$html .= "<div style=\"float:right;\">";
+							$html .= "<a role=\"button\" href=\"/u/$username/\" class=\"btn btn-default btn-lg\"><span class=\"glyphicon glyphicon-user\"></span></a>";
+							$html .= "<button type=\"button\" class=\"btn btn-default btn-lg\" data-toggle=\"modal\" data-target=\".modal-$username\"><span class=\"glyphicon glyphicon-envelope\"></span></button>";
+						$html .= "</div>";
+						$html .= "<div style=\"clear:both;\"></div>";
 						
-					$html .= "\t\t</div>\n";
-				$html .= "\n\t</div>\n";
-				$html .= "\t<!-- END MESSAGE -->\n\n";
+					$html .= "</div>\n\n";
+					
+					$html .= "\t\t\t<div class=\"modal fade modal-$username\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"modalLabel$username\" aria-hidden=\"true\">\n";
+						$html .= "\t\t\t\t<div class=\"modal-dialog\">\n";
+							$html .= "\t\t\t\t\t<div class=\"modal-content\">\n";
+								$html .= "
+								
+				<div class=\"modal-header\">
+					<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>
+					<h4 class=\"modal-title\">Send a message to $username...</h4>
+				</div>
+
+				<form method=\"post\" action=\"/imo/send/$userID/\">
+					<div class=\"modal-body\">
+						  <div class=\"form-group\">
+							<textarea class=\"form-control\" name=\"messageContent\" id=\"messageContent\" placeholder=\"Enter your message...\"></textarea>
+						  </div>
+					</div>
+					<div class=\"modal-footer\">
+						  <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancel</button>
+						  <button type=\"submit\" class=\"btn btn-default\">Send</button>
+					</div>
+				</form>									
+
+								";
+							$html .= "\t\t\t\t\t</div>\n";
+						$html .= "\t\t\t\t</div>\n";
+					$html .= "\t\t\t</div>\n\n";
+					
+					$html .= "\t\t\t<div class=\"panel-body jagaMessagePanelBody\">\n";
+						$html .= "\t\t\t\t<div class=\"panel-group jagaMessagePanelGroup\" id=\"accordion$userID\" role=\"tablist\" aria-multiselectable=\"true\">";
+							
+							$messagesToMarkAsRead = array();
+							
+							foreach ($conversationMessageArray AS $messageID => $messageDateTimeSent) {
+								
+								$message = new Message($messageID);
+								$messageSenderUserID = $message->messageSenderUserID;
+								$messageReadByRecipient = $message->messageReadByRecipient;
+
+								if ($messageReadByRecipient == 0) { $in = "in"; $expand = "true"; } else { $in = ""; $expand = "false"; }
+								if ($messageSenderUserID == $_SESSION['userID']) { $classy = "col-xs-11"; } else { $classy = "col-xs-11 col-xs-offset-1"; }
+								
+								$html .= "\t\t\t<div class=\"row\">\n";
+									$html .= "\t\t\t\t<div class=\"$classy\" style=\"margin-bottom:10px;\">\n";
+									
+									
+										$html .= "\t\t\t\t\t<div class=\"panel panel-default\">\n";
+											$html .= "\t\t\t\t\t\t<div class=\"panel-heading\" role=\"tab\" id=\"heading$messageID\">\n";
+												$html .= "\t\t\t\t\t\t\t<h4 class=\"panel-title\">\n";
+													$html .= "\t\t\t\t\t\t\t\t<a ";
+														if ($messageReadByRecipient == 1) { $html .= "class=\"collapsed\" "; }
+													$html .= "data-toggle=\"collapse\" data-parent=\"#accordion$userID\" href=\"#collapse$messageID\" aria-expanded=\"$expand\" aria-controls=\"collapse$messageID\">\n";
+														if ($messageSenderUserID != $_SESSION['userID']) { $html .= "\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-left\"></span>\n"; }
+														$html .= "\t\t\t\t\t\t\t\t" . User::getUsername($messageSenderUserID) . "\n";
+														$html .= "\t\t\t\t\t\t\t\t<small>" . $messageDateTimeSent . "</small>\n";
+														if ($messageSenderUserID == $_SESSION['userID']) { $html .= "\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-right\"></span>\n"; }
+													$html .= "\t\t\t\t\t\t\t\t</a>\n";
+												$html .= "\t\t\t\t\t\t\t</h4>\n";
+											$html .= "\t\t\t\t\t\t</div>\n";
+											$html .= "\t\t\t\t\t\t<div id=\"collapse$messageID\" class=\"panel-collapse collapse $in\" role=\"tabpanel\" aria-labelledby=\"heading$messageID\">\n";
+												$html .= "\t\t\t\t\t\t\t<div class=\"panel-body\">\n";
+													$html .= "\t\t\t\t\t\t\t\t" . strip_tags($message->messageContent) . "\n";
+													if ($messageSenderUserID == $_SESSION['userID']) { 
+														$html .= "\t\t\t\t\t\t\t\t<hr />\n";
+														$html .= "\t\t\t\t\t\t\t\t<div class=\"text-right\">\n";
+															$html .= "\t\t\t\t\t\t\t\t\t<a href=\"/imo/delete/$messageID/\" class=\"btn btn-default btn-xs\">\n";
+																$html .= "\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-remove\" style=\"color:#f00;\"></span>\n";
+																$html .= "\t\t\t\t\t\t\t\t\t\tDELETE\n";
+															$html .= "\t\t\t\t\t\t\t\t\t</a>\n";
+														$html .= "\t\t\t\t\t\t\t\t</div>\n";
+													}
+												$html .= "\t\t\t\t\t\t\t</div>\n";
+											$html .= "\t\t\t\t\t\t</div>\n";
+										$html .= "\t\t\t\t\t</div>\n";
+										
+										
+									$html .= "\t\t\t\t</div>\n";
+								$html .= "\t\t\t</div>\n";
+								
+								$messagesToMarkAsRead[] = $messageID;
+								
+							}
+							
+						$html .= "\t\t\t\t</div>\n";
+					$html .= "\t\t\t</div>\n";
+				$html .= "\t\t</div>\n";
+				
+				foreach ($messagesToMarkAsRead AS $thisMessageID) { Message::markMessageAsRead($thisMessageID); }
+				
 			}
-		
+
 		}
 		
-		return $html;
-	
-	}
-
-	public function displayMessageForm($messageID) {
-
-		/*
-		$html = "\n\t<!-- START MESSAGE FORM CONTAINER -->\n";
-		$html .= "\t<div class=\"container\">\n\n";
-		
-			$html .= "\t\t\t<!-- START PANEL -->\n";
-			$html .= "\t\t\t<div class=\"panel panel-default\" >\n\n";
-				
-				$html .= "\t\t\t\t<!-- START PANEL-HEADING -->\n";
-				$html .= "\t\t\t\t<div class=\"panel-heading jagaMessagePanelHeading\">\n\n";
-					$html .= "\t\t\t\t\t<div class=\"panel-title\">MESSAGE</div>\n";
-				$html .= "\t\t\t\t</div>\n";
-				$html .= "\t\t\t\t<!-- END PANEL-HEADING -->\n\n";
-				
-				$html .= "\t\t\t\t<!-- START PANEL-BODY -->\n";
-				$html .= "\t\t\t\t<div class=\"panel-body\">\n\n";
-
-					$html .= "\t\t\t\t\t<!-- START jagaMessageForm -->\n";
-					
-					$html .= "\t\t\t\t\t<form role=\"form\" id=\"jagaMessageForm\" name=\"jagaMessageForm\" class=\"form-horizontal\"  method=\"post\" action=\"/imo/" . $messageID . "/\">\n\n";
-				
-						$html .= "<input type=\"hidden\" name=\"messageID\" value=\"" . $messageID . "\">\n";
-
-						$html .= "\t\t\t\t\t\t<div class=\"row\">\n";
-							$html .= "<div class=\"col-sm-12\">";
-									$html .= "\t\t\t\t\t\t\t\t<textarea id=\"messageContent\" name=\"messageContent\" class=\"form-control\" placeholder=\"messageContent\"></textarea>\n";
-							$html .= "</div>";
-						$html .= "</div>";
-
-						// START SUBMIT BUTTON
-						$html .= "\t\t\t\t\t\t<div class=\"row\">\n";
-							$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12\" style=\"margin-top:5px;\">\n";
-								$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaMessageSubmit\" id=\"jagaMessageSubmit\" class=\"btn btn-default jagaFormButton col-xs-8 col-sm-6 col-md-4 pull-right\" value=\"Send Message\">\n";
-							$html .= "\t\t\t\t\t\t\t</div>\n";
-						$html .= "</div>";
-						// START SUBMIT BUTTON
-
-					$html .= "\t\t\t\t\t</form>\n";
-					$html .= "\t\t\t\t\t<!-- END jagaMessageForm -->\n\n";
-		
-				$html .= "\t\t\t\t</div>\n";
-				$html .= "\t\t\t\t<!-- END PANEL-BODY -->\n\n";
-		
-			$html .= "\t\t\t</div>\n";
-			$html .= "\t\t\t<!-- END PANEL -->\n\n";
-			
 		$html .= "\t</div>\n";
-		$html .= "\t<!-- END MESSAGE FORM CONTAINER -->\n\n";
+		$html .= "\t<!-- END CONVERSATION -->\n\n";
 			
+		
+		
 		return $html;
 
-		*/
 	}
 	
 }

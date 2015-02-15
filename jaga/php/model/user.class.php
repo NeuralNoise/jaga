@@ -91,6 +91,16 @@ class User extends ORM {
 	
 	}
 	
+	public function userIDexists($userID) {
+	
+		$core = Core::getInstance();
+		$query = "SELECT userID FROM jaga_User WHERE userID = :userID LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':userID' => $userID));
+		if ($row = $statement->fetch()) { return true; } else { return false; }
+	
+	}
+	
 	public function emailInUse($userEmail) {
 	
 		$core = Core::getInstance($userEmail);

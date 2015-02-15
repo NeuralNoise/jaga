@@ -569,6 +569,39 @@ class Controller {
 
 		}
 		
+		if ($urlArray[0] == 'imo' && $urlArray[1] == 'send' && is_numeric($urlArray[2])) {
+			
+			$messageRecipientUserID = $urlArray[2];
+			if (!empty($_POST)) { $inputArray = $_POST; } else { header("Location: /imo/"); }
+			if ($_SESSION['userID'] == 0) { die('You must be logged in to send messages.'); }
+			if ($_SESSION['userID'] == $messageRecipientUserID) { die('You cannot send yourself messages.'); }
+			if (!User::userIDexists($messageRecipientUserID)) { die('The user you are trying to send a message to does not exist.'); }
+			if ($inputArray['messageContent'] == '') { die('Your message is empty.'); }
+			// is this a duplicate message?
+			$message = new Message(0);
+			unset($message->messageID);
+			foreach ($inputArray AS $property => $value) { if (isset($message->$property)) { $message->$property = $value; } }
+			$message->messageSenderUserID = $_SESSION['userID'];
+			$message->messageRecipientUserID = $messageRecipientUserID;
+			$message->messageDateTimeSent = date("Y-m-d H:i:s");
+			$message->messageSenderIP = $_SERVER['REMOTE_ADDR'];
+			$messageID = Message::insert($message);
+			header("Location: /imo/");
+			
+		}
+		
+		if ($urlArray[0] == 'imo' && $urlArray[1] == 'delete' && is_numeric($urlArray[2])) {
+			
+			$messageID = $urlArray[2];
+			if ($_SESSION['userID'] == 0) { die('You must be logged in to delete a message.'); }
+			$message = new Message($messageID);
+			if ($message->messageSenderUserID != $_SESSION['userID']) { die('You can only delete messages that you have sent.'); }
+			$conditions = array('messageID' => $messageID);
+			Message::delete($message, $conditions);
+			header("Location: /imo/");
+			
+		}
+		
 		if ($urlArray[0] == 'spudnik') {
 			
 			// $content = new Content(9999976);
