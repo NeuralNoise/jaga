@@ -20,8 +20,32 @@ class Utilities {
 		return $accountRecoveryMash;
 	}
 	
-	function isValidMd5($md5) {
+	public function isValidMd5($md5) {
 		return preg_match('/^[a-f0-9]{32}$/', $md5);
+	}
+
+	public function truncate($string, $limit, $break = '.', $pad = '...') {
+		$truncatedString = $string;
+		if(strlen($string) > $limit) {
+			if(false !== ($breakpoint = strpos($string, $break, $limit))) {
+				if($breakpoint < strlen($string) - 1){
+					$truncatedString = substr($string, 0, $breakpoint) . $pad;
+				}
+			}
+		}
+		return $truncatedString;
+	}
+	
+	public function remove_bbcode($string) {
+		$pattern = '~\[[^]]+]~';
+		$replace = '';
+		return preg_replace($pattern, $replace, $string);
+	}
+	
+	public function remove_urls($string) {
+		$pattern = '#[-a-zA-Z0-9@:%_\+.~\#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~\#?&//=]*)?#si';
+		$replace = '';
+		return preg_replace($pattern, $replace, $string);
 	}
 
 }

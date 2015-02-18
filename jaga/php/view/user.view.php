@@ -201,9 +201,9 @@
 										$html .= "<table class=\"table table-striped table-condensed table-bordered\">";
 											
 											$html .= "<tr>";
-												$html .= "<th>Content</th>";
-												$html .= "<th>Channel</th>";
-												$html .= "<th>Date</th>";
+												$html .= "<th class=\"col-xs-6 col-sm-8\">Content</th>";
+												$html .= "<th class=\"col-xs-3 col-sm-2\">Channel</th>";
+												$html .= "<th class=\"col-xs-3 col-sm-2\">Date</th>";
 											$html .= "</tr>";
 											
 											foreach ($userContentArray AS $contentID => $contentURL) {
@@ -228,14 +228,12 @@
 										$html .= "</table>";
 									$html .= "</div>";
 								$html .= "</div>";
-						
+
 							$html .= "</div>\n";
 							$html .= "<!-- END PANEL-BODY -->\n\n";
 							
 						$html .= "</div>\n";
 						$html .= "<!-- END PANEL -->\n\n";
-								
-					
 
 						$html .= "<!-- START PANEL -->\n";
 							$html .= "<div class=\"panel panel-default\" >\n\n";
@@ -256,15 +254,22 @@
 											$html .= "<table class=\"table table-striped table-condensed table-bordered\">";
 												
 												$html .= "<tr>";
-													$html .= "<th>Comment</th>";
-													$html .= "<th>Channel</th>";
-													$html .= "<th>Date</th>";
+													$html .= "<th class=\"col-xs-8\">Comment</th>";
+													$html .= "<th class=\"col-xs-2\">Channel</th>";
+													$html .= "<th class=\"col-xs-2\">Date</th>";
 												$html .= "</tr>";
 												
 												foreach ($userCommentArray AS $commentID) {
 													
 													$comment = new Comment($commentID);
-
+													
+													$commentContent = strip_tags($comment->commentContent);
+													$commentContent = Utilities::remove_bbcode($commentContent);
+													$commentContent = Utilities::remove_urls($commentContent);
+													$commentContent = Utilities::truncate($commentContent, 50, " ");
+													
+													$commentDateTime = date('Y-m-d', strtotime($comment->commentDateTime));
+													
 													$channel = new Channel($comment->channelID);
 													$channelKey = $channel->channelKey;
 													$channelTitle = $channel->channelTitleEnglish;
@@ -276,12 +281,12 @@
 														$contentViewURL = "http://" . $channelKey . ".kutchannel.net/k/" . $contentCategoryKey . "/" . $contentURL . "/";
 													}
 													
-													$html .= "<tr>";
-														if (isset($contentViewURL)) { $html .= "<td><a href=\"" . $contentViewURL . "\">" . $comment->commentContent . "</a></td>";
-														} else { $html .= "<td>" . strip_tags($comment->commentContent) . "</td>"; }
+													$html .= "\t\t\t<tr>";
+														if (isset($contentViewURL)) { $html .= "<td><a href=\"" . $contentViewURL . "\">" . $commentContent . "</a></td>";
+														} else { $html .= "<td>" . $commentContent . "</td>"; }
 														$html .= "<td>" . $channelTitle . "</td>";
-														$html .= "<td>" . $comment->commentDateTime . "</td>";
-													$html .= "</tr>";
+														$html .= "<td>" . $commentDateTime . "</td>";
+													$html .= "\t\t\t</tr>\n";
 
 												}
 												
