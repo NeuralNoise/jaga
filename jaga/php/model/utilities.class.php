@@ -47,6 +47,12 @@ class Utilities {
 		$replace = '';
 		return preg_replace($pattern, $replace, $string);
 	}
+	
+	public function remove_linebreaks($string) {
+		
+		$newString = preg_replace( '/\r|\n/', ' ', $string);
+		return $newString;
+	}
 
 }
 
