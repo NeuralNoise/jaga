@@ -311,7 +311,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Content` (
 											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-6\">\n";
 												$html .= "<div class=\"input-group\">";
 													$html .= "<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-picture\"></i></span>";
-													$html .= "<input type=\"file\" name=\"contentImages[]\" accept=\"image/jpeg\" class=\"form-control\"  multiple=\"multiple\">";
+													$html .= "<input type=\"file\" name=\"contentImages[]\" accept=\"image/*\" class=\"form-control\"  multiple=\"multiple\">";
 												$html .= "</div>";
 											$html .= "</div>";
 											

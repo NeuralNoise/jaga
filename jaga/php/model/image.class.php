@@ -28,11 +28,19 @@ class Image extends ORM {
 		$imageObjectID
 	) {
 
-		$allowedExts = array("gif","jpeg","jpg","JPG","png","PNG");
+		$allowedExts = array("gif","GIF","jpeg","JPEG","jpg","JPG","png","PNG","ico","ICO");
 		$extension = end(explode(".", $imageArray["name"]));
 		
+		$imageType = $imageArray["type"];
+		
 		if (
-			(($imageArray["type"] == "image/jpeg") || ($imageArray["type"] == "image/jpg")) // need gif & png!
+			(
+				$imageType == "image/jpeg" || 
+				$imageType == "image/jpg" || 
+				$imageType == "image/png" || 
+				$imageType == "image/gif" || 
+				$imageType == "image/ico"
+			)
 			&& ($imageArray["size"] < 2097152)
 			&& in_array($extension, $allowedExts)
 		) {
@@ -71,15 +79,15 @@ class Image extends ORM {
 				
 				if ($image->imageType == 'jpg') {
 					$newImageThumbnail50px = $image->imagePath . $imageID . '-50px.' . $image->imageType;
-					self::createThumbnail($newImage,$newImageThumbnail50px,50);
+					self::createThumbnail($newImage,$image->imageType,$newImageThumbnail50px,50);
 				}
-				
+
 				return $imageID;
 				
 			}
 			
 		} else {
-			return 'IMAGE UPLOAD ERROR: Your image must be a JPG less than 2MB.';
+			return 'IMAGE UPLOAD ERROR: Your image must be a JPG or PNG less than 2MB.';
 		}
 
 	}
@@ -88,8 +96,11 @@ class Image extends ORM {
 
 	}
 
-	public function createThumbnail($source, $destination, $desiredWidth) {
+	public function createThumbnail($source, $filetype, $destination, $desiredWidth) {
 
+		// CURRENTLY SUPPORTS JPG ONLY
+		
+		$filetype = strtolower($filetype);
 		$sourceImage = imagecreatefromjpeg($source);
 		$width = imagesx($sourceImage);
 		$height = imagesy($sourceImage);
@@ -97,7 +108,7 @@ class Image extends ORM {
 		$virtualImage = imagecreatetruecolor($desiredWidth, $desiredHeight);
 		imagecopyresampled($virtualImage, $sourceImage, 0, 0, 0, 0, $desiredWidth, $desiredHeight, $width, $height);
 		imagejpeg($virtualImage, $destination);
-		
+
 	}
 
 	public function objectHasImage($imageObject, $imageObjectID) {
