@@ -626,8 +626,8 @@ class Controller {
 		
 		if ($urlArray[0] == 'sitemap.xml') {
 		
-			$sitemap = new Sitemap();
-			$xml = $sitemap->getSitemap($urlArray);
+			$sitemap = new Sitemap($urlArray);
+			$xml = $sitemap->getSitemap();
 			return $xml;
 			
 		}
