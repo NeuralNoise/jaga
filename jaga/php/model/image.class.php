@@ -78,8 +78,14 @@ class Image extends ORM {
 				move_uploaded_file($imageArray['tmp_name'], $newImage) or die ('move_uploaded_file() ERROR');
 				
 				if ($image->imageType == 'jpg') {
-					$newImageThumbnail50px = $image->imagePath . $imageID . '-50px.' . $image->imageType;
-					self::createThumbnail($newImage,$image->imageType,$newImageThumbnail50px,50);
+					
+					$thumbnailSizeArray = array(50, 90, 150, 210, 330, 600, 768, 992, 1200);
+					foreach ($thumbnailSizeArray AS $width) {
+						$newImageThumbnail = $image->imagePath . $imageID . '-' . $width . 'px.' . $image->imageType;
+						self::createThumbnail($newImage,$image->imageType,$newImageThumbnail,$width);
+					}
+					
+					
 				}
 
 				return $imageID;
