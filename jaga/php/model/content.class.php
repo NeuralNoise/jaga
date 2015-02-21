@@ -230,6 +230,18 @@ class Content extends ORM {
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':contentID' => $contentID));
 	}
+
+	public function createContentURL($contentTitleEnglish) {
+
+		$contentURL = preg_replace('/ +/', '-', $contentTitleEnglish);
+		$contentURL = preg_replace("/[^A-Za-z0-9-]/", '', $contentURL);
+		$contentURL = preg_replace('/-{2,}/', '', $contentURL);
+		$contentURL = trim($contentURL, "-");
+		$contentURL = strtolower($contentURL);
+		return $contentURL;
+		
+	}
+	
 }
 
 ?>

@@ -182,7 +182,7 @@ class Controller {
 						foreach ($inputArray AS $property => $value) { if (isset($content->$property)) { $content->$property = $value; } }
 						
 						// modify values where required
-						$content->contentURL = SEO::googlify($inputArray['contentTitleEnglish']);
+						$content->contentURL = Content::createContentURL($inputArray['contentTitleEnglish']);
 						if (Content::contentURLExists($content->contentURL)) {
 							$content->contentURL = Content::generateNonDuplicateContentURL($content->contentURL);
 						}
@@ -228,7 +228,7 @@ class Controller {
 						}
 						
 						// modify values where required
-						$content->contentURL = SEO::googlify($inputArray['contentTitleEnglish']);
+						$content->contentURL = Content::createContentURL($inputArray['contentTitleEnglish']);
 						if (Content::contentURLExists($content->contentURL)) {
 							$content->contentURL = Content::generateNonDuplicateContentURL($content->contentURL);
 						}
