@@ -293,6 +293,58 @@ class ChannelView {
 
 	}
 	
+	public static function displayChannelList() {
+	
+		$channelArray = Channel::getChannelArray();
+	
+		$html = '';
+		
+		$html .= "\t<!-- START CHANNEL LIST -->\n";
+		$html .= "\t<div class=\"container\">\n\n";
+		
+			$html .= "\t<div class=\"row\">\n\n";
+		
+			$html .= "<div class=\"panel panel-default\">\n";
+				
+				$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>ALL CHANNELS</h4></div>\n";
+
+				$html .= "<div class=\"table-responsive\">\n";
+					$html .= "<table class=\"table table-striped table-hover table-condensed\">\n";
+						$html .= "<tr>";
+							$html .= "<th>Channel</th>\n";
+							$html .= "<th>Title</th>\n";
+							$html .= "<th>Manager</th>\n";
+							$html .= "<th class=\"text-right\">Total Posts</th>\n";
+							$html .= "<th class=\"text-right\">Pages Served</th>\n";
+						$html .= "</tr>";
+						foreach ($channelArray AS $channelKey => $totalPosts) {
+							$channelID = Channel::getChannelID($channelKey);
+							$channel = new Channel($channelID);
+							$channelTitleEnglish = $channel->channelTitleEnglish;
+							$siteManagerUserName = User::getUserName($channel->siteManagerUserID);
+							$pagesServed = $channel->pagesServed;
+							$html .= "<tr class=\"jagaClickableRow\" data-url=\"http://" . $channelKey . ".kutchannel.net/\">";
+								$html .= "<td>" . strtoupper($channelKey) . "</td>\n";
+								$html .= "<td>" . $channelTitleEnglish . "</td>\n";
+								$html .= "<td>" . $siteManagerUserName . "</td>\n";
+								$html .= "<td class=\"text-right\">" . $totalPosts . "</td>\n";
+								$html .= "<td class=\"text-right\">" . $pagesServed . "</td>\n";
+							$html .= "</tr>";
+						}
+					$html .= "</table>\n";
+				$html .= "</div>\n";
+				
+			$html .= "</div>\n";
+
+			$html .= "\t\t</div>\n\n";
+			
+		$html .= "\t</div>\n";
+		$html .= "\t<!-- END CHANNEL LIST -->\n\n";
+		
+		return $html;	
+
+	}
+	
 }
 
 ?>

@@ -20,28 +20,12 @@ class Channel extends ORM {
 		
 		if ($channelID != 0) {
 		
-			$query = "
-				SELECT channelID, channelKey, channelCreationDateTime, channelEnabled, channelTitleEnglish, channelTitleJapanese, channelKeywordsEnglish, channelKeywordsJapanese, channelDescriptionEnglish, channelDescriptionJapanese, themeKey, pagesServed, siteManagerUserID
-				FROM jaga_Channel WHERE channelID = '$channelID' LIMIT 1
-			";
 			$core = Core::getInstance();
-			$statement = $core->database->query($query);
-			
-			$row = $statement->fetch();
-		
-			$this->channelID = $row['channelID'];
-			$this->channelKey = $row['channelKey'];
-			$this->channelCreationDateTime = $row['channelCreationDateTime'];
-			$this->channelEnabled = $row['channelEnabled'];
-			$this->channelTitleEnglish = $row['channelTitleEnglish'];
-			$this->channelTitleJapanese = $row['channelTitleJapanese'];
-			$this->channelKeywordsEnglish = $row['channelKeywordsEnglish'];
-			$this->channelKeywordsJapanese = $row['channelKeywordsJapanese'];
-			$this->channelDescriptionEnglish = $row['channelDescriptionEnglish'];
-			$this->channelDescriptionJapanese = $row['channelDescriptionJapanese'];
-			$this->themeKey = $row['themeKey'];
-			$this->pagesServed = $row['pagesServed'];
-			$this->siteManagerUserID = $row['siteManagerUserID'];
+			$query = "SELECT * FROM jaga_Channel WHERE channelID = '$channelID' LIMIT 1";
+			$statement = $core->database->prepare($query);
+			$statement->execute(array(':channelID' => $channelID));
+			if (!$row = $statement->fetch()) { die('Channel does not exist.'); }
+			foreach ($row AS $key => $value) { if (!is_int($key)) { $this->$key = $value; } }
 	
 		} else {
 		
@@ -76,22 +60,18 @@ class Channel extends ORM {
 	}
 	
 	public function getChannelArray() {
-		
-		// returns $array[contentCategoryKey][contentCategoryPostCount]
-		
+
 		$core = Core::getInstance();
 		$query = "
 			SELECT jaga_Channel.channelKey AS channelKey, COUNT(jaga_Content.contentID) AS postCount
 			FROM jaga_Channel LEFT JOIN jaga_Content
 			ON jaga_Channel.channelID = jaga_Content.channelID
-			WHERE jaga_Channel.channelEnabled = 1
+			WHERE jaga_Channel.channelEnabled = 1 AND jaga_Channel.channelID != 2006
 			GROUP BY jaga_Channel.channelKey
 			ORDER BY COUNT(jaga_Content.contentID) DESC
 		";
 		
 		$statement = $core->database->prepare($query);
-		
-		// $statement->execute(array(':channelID' => $channelID));
 		$statement->execute();
 		
 		$channelArray = array();

@@ -180,10 +180,13 @@ class PageView {
 					$html .= $this->getBreadcrumbs($urlArray);
 					$categoryView = new CategoryView();
 					$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
-					// $html .= ContentView::displayRecentContentItems($_SESSION['channelID'], '', 50);
 					
 				}
 				
+			} elseif ($urlArray[0] == 'channels' && $_SESSION['channelID'] == 2006) {
+				
+				$html .= ChannelView::displayChannelList();
+
 			} elseif ($urlArray[0] == 'imo') {
 				
 				$html .= MessageView::imo();

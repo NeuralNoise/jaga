@@ -117,7 +117,7 @@ class MenuView {
 								$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu jagaDrop\">\n";
 									$html .= self::getNavBarExploreListItems();
 									$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
-									$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/\">ALL CHANNELS...</a></li>\n";
+									$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/channels/\">ALL CHANNELS...</a></li>\n";
 								$html .= "\t\t\t\t\t\t\t</ul>\n";
 							$html .= "\t\t\t\t\t\t</li>\n";
 							// END "EXPLORE" DROPDOWN //

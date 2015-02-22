@@ -180,6 +180,16 @@ class ThemeView {
 			
 		";
 		
+		$css .= "
+			.jagaClickableRow:hover {
+				cursor:pointer;
+				/*
+				color:#$contentPanelHeadingTextColor !important;
+				background-color:#$contentPanelHeadingBackgroundColor !important;
+				*/
+			}
+		";
+
 		return $css;
 	
 	}
