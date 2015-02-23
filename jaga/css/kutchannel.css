@@ -57,6 +57,11 @@ span.jagaListGroup {
 
 }
 
+span.jagaListGroup > img {
+	width:auto;
+	margin:0px auto 0px auto;
+}
+
 span.jagaListGroupBadge {
 	float:right;
 	display:block;

@@ -130,7 +130,7 @@ class AuthenticationView {
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom: 25px\" class=\"input-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><img src=\"/jaga/library/raptcha.php\"></span>\n";
+								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><img src=\"/jaga/lib/raptcha.php\"></span>\n";
 								$html .= "\t\t\t\t\t\t\t<input id=\"raptcha\" type=\"text\" class=\"form-control";
 									if (isset($errorArray['raptcha'])) { $html .= " jagaFormValidationError"; }
 								$html .= "\" name=\"raptcha\" placeholder=\"Enter Code\">\n";
@@ -195,7 +195,7 @@ class AuthenticationView {
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 
 							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom: 25px\" class=\"input-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><img src=\"/jaga/library/raptcha.php\"></span>\n";
+								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><img src=\"/jaga/lib/raptcha.php\"></span>\n";
 								$html .= "\t\t\t\t\t\t\t<input id=\"raptcha\" type=\"text\" class=\"form-control";
 									if (isset($errorArray['raptcha'])) { $html .= " jagaFormValidationError"; }
 								$html .= "\" name=\"raptcha\" placeholder=\"Enter Code\">\n";
@@ -296,7 +296,7 @@ class AuthenticationView {
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom: 25px\" class=\"input-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><img src=\"/jaga/library/raptcha.php\"></span>\n";
+								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><img src=\"/jaga/lib/raptcha.php\"></span>\n";
 								$html .= "\t\t\t\t\t\t\t<input id=\"raptcha\" type=\"text\" class=\"form-control";
 									if (isset($errorArray['raptcha'])) { $html .= " jagaFormValidationError"; }
 								$html .= "\" name=\"raptcha\" placeholder=\"Enter Code\">\n";

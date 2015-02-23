@@ -14,7 +14,7 @@ class ChannelCategory extends ORM {
 		
 		// returns $array[contentCategoryKey][contentCategoryPostCount]
 		
-		if ($_SESSION['channelID'] != 2006) { $channelFilter = 'WHERE jaga_ChannelCategory.channelID = :channelID'; } else { $channelFilter = ''; }
+		if ($channelID != 2006) { $channelFilter = 'WHERE jaga_ChannelCategory.channelID = :channelID'; } else { $channelFilter = ''; }
 		
 		$core = Core::getInstance();
 		$query = "
