@@ -5,17 +5,10 @@ class MenuView {
 	public function getNavBar() {
 	
 		$channel = new Channel($_SESSION['channelID']);
-		$channelTitle = $channel->getChannelTitle();
+		$channelTitle = $channel->channelTitleEnglish;
 		
 		$user = new User($_SESSION['userID']);
 		$username = $user->username;
-		
-		// $categoryArray = ChannelCategory::getChannelCategoryArray($_SESSION['channelID']);
-		// $userOwnChannelArray = Channel::getUserOwnChannelArray($_SESSION['userID']);
-		// $userSubscribedChannelArray = Channel::getUserSubscribedChannelArray($_SESSION['userID']);
-		
-		
-		// $channelArray = Channel::getChannelArray();
 
 		$html = "\t<!-- START NAVIGATION DIV -->\n";
 		$html .= "\t<div class=\"navbar-wrapper\">\n\n";
@@ -41,30 +34,19 @@ class MenuView {
 						} else {
 							$html .= "\t\t\t\t\t<a class=\"navbar-brand\" href=\"/\">" . strtoupper($channelTitle) . "</a>\n\n";
 						}
-						
-						
-						
+
 					$html .= "\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t<!-- END NAVBAR-HEADER -->\n\n";
 
 					$html .= "\t\t\t\t<!-- START NAVBAR-COLLAPSE -->\n";
 					$html .= "\t\t\t\t<div class=\"collapse navbar-collapse\">\n\n";
 						
-						$html .= "\t\t\t\t\t<ul class=\"nav navbar-nav navbar-right\">\n";
+						$html .= "\t\t\t\t\t<ul class=\"nav navbar-nav\">\n";
 
-							$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/\"><span class=\"glyphicon glyphicon-home\"></span><span class=\"visible-xs\">HOME</span></a></li>\n";
-							
-							if ($_SESSION['userID'] != 0) {
-								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/newsfeed/\"><span class=\"glyphicon glyphicon-list-alt\"></span><span class=\"visible-xs\">NEWSFEED</span></a></li>\n";
-							}
-							
-							
-							
 							// START "THIS CHANNEL" DROPDOWN //
 							if ($_SESSION['channelID'] != 2006) { // the.kutchannel.net categories are aggregate
 								$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"/\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">THIS CHANNEL <b class=\"caret\"></b></a>\n";
 									$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\">\n";
-									
 									
 										// IF UNSUBCRIBED TO CURRENT CHANNEL
 										if (!Subscription::userIsSubscribed($_SESSION['userID'], $_SESSION['channelID'])) {
@@ -79,17 +61,48 @@ class MenuView {
 											$html .= "\t\t\t\t\t<li><a href=\"/unsubscribe/" . $_SESSION['channelKey'] . "/\"><span class=\"glyphicon glyphicon-remove\"> <span class=\"\">UNSUBSCRIBE</span></span></a></li>\n\n";
 										}
 										
-										
 									$html .= "\t\t\t\t\t\t\t</ul>\n";
 								$html .= "\t\t\t\t\t\t</li>\n";
-								
-								
-								
-								
+
 							}
+							
 							// END "THIS CHANNEL" DROPDOWN //
+						$html .= "\t\t\t\t\t</ul>\n";
+						
+						// $html .= "
+						
+						// <form class=\"navbar-form navbar-left\" role=\"search\">
+						  // <div class=\"form-group\">
+							// <div class=\"input-group\">
+								// <input type=\"text\" class=\"form-control\" placeholder=\"Recipient's username\" aria-describedby=\"basic-addon2\">
+								// <span class=\"input-group-addon\" id=\"basic-addon2\">@example.com</span>
+							// </div>
+						  // </div>
+						// </form>
+						
+						
+						// ";
+						
+						// $html .= "
+						
+						// <form class=\"navbar-form navbar-left\" role=\"search\">
+						  // <div class=\"form-group\">
+							// <input type=\"text\" class=\"form-control\" placeholder=\"Search\">
+						  // </div>
+						  // <button type=\"submit\" class=\"btn btn-default\">Submit</button>
+						// </form>
+						
+						
+						// ";
+
+						$html .= "\t\t\t\t\t<ul class=\"nav navbar-nav navbar-right\">\n";
+
+							$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/\"><span class=\"glyphicon glyphicon-home hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">HOME</span></a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/channels/\"><span class=\"glyphicon glyphicon-th-large hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">CHANNELS</span></a></li>\n";
 							
-							
+							if ($_SESSION['userID'] != 0) {
+								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/newsfeed/\"><span class=\"glyphicon glyphicon-star hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">NEWSFEED</span></a></li>\n";
+							}
 							
 							// START "YOUR CHANNELS" DROPDOWN //
 							$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">YOUR CHANNELS <b class=\"caret\"></b></a>\n";
@@ -100,18 +113,16 @@ class MenuView {
 									$html .= "\t\t\t\t\t\t\t</ul>\n";	
 								} else {
 									$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu jagaDrop\">\n";
-										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/u/" .  $username . "/channels/\"><em>CHANNELS...</em></a></li>\n";
+										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/u/" .  $username . "/channels/\"><em>CHANNELS...</em></a></li>\n";
 										$html .= self::getNavBarOwnChannelListItems();
 										$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
-										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/u/" .  $username . "/subscriptions/\"><em>SUBSCRIPTIONS...</em></a></li>\n";
+										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/u/" .  $username . "/subscriptions/\"><em>SUBSCRIPTIONS...</em></a></li>\n";
 										$html .= self::getNavBarSubscriptionListItems();
 									$html .= "\t\t\t\t\t\t\t</ul>\n";
 								}
 							$html .= "\t\t\t\t\t\t</li>\n";
 							// END "YOUR CHANNELS" DROPDOWN //
-							
-							
-							
+
 							// START "EXPLORE" DROPDOWN //
 							$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">EXPLORE <b class=\"caret\"></b></a>\n";
 								$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu jagaDrop\">\n";
@@ -123,19 +134,12 @@ class MenuView {
 							// END "EXPLORE" DROPDOWN //
 							
 							if ($_SESSION['userID'] == 0) { // IF NOT LOGGED IN
-								
-								$html .= "\t\t\t\t\t\t<li><a href=\"/login/\"><span class=\"glyphicon glyphicon-log-in\"></span><span class=\"visible-xs\">LOGIN</span></a></li>\n";
-				
+								$html .= "\t\t\t\t\t\t<li><a href=\"/login/\"><span class=\"glyphicon glyphicon-log-in hidden-xs\"></span><span class=\"visible-xs\">LOGIN</span></a></li>\n";
 							} else { // IF LOGGED IN
-							
-								$html .= "\t\t\t\t\t\t<li><a href=\"/u/" .  $username . "/\"><span class=\"glyphicon glyphicon glyphicon-user\"></span><span class=\"visible-xs\">PROFILE</span></a></li>\n";
-								
-								$html .= "\t\t\t\t\t\t<li><a href=\"/imo/\"><span class=\"glyphicon glyphicon-envelope\"></span><span class=\"visible-xs\">MESSAGES</span></a></li>\n";
-								
-								$html .= "\t\t\t\t\t\t<li><a href=\"/settings/\"><span class=\"glyphicon glyphicon-cog\"></span><span class=\"visible-xs\">SETTINGS</span></a></li>\n";
-								
-								$html .= "\t\t\t\t\t\t<li><a href=\"/logout/\"><span class=\"glyphicon glyphicon-log-out\"></span><span class=\"visible-xs\">LOGOUT</span></a></li>\n";
-								
+								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/u/" .  $username . "/\"><span class=\"glyphicon glyphicon glyphicon-user hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">PROFILE</span></a></li>\n";
+								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/imo/\"><span class=\"glyphicon glyphicon-envelope hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">MESSAGES</span></a></li>\n";
+								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/settings/\"><span class=\"glyphicon glyphicon-cog hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">SETTINGS</span></a></li>\n";
+								$html .= "\t\t\t\t\t\t<li><a href=\"/logout/\"><span class=\"glyphicon glyphicon-log-out hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">LOGOUT</span></a></li>\n";
 							}
 								
 						$html .= "\t\t\t\t\t</ul>\n";
