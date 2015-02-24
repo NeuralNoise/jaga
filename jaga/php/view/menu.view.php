@@ -44,7 +44,6 @@ class MenuView {
 						
 						$html .= "\t\t\t\t\t<ul class=\"nav navbar-nav\">\n";
 
-							
 							// START "THIS CHANNEL" DROPDOWN //
 							if ($_SESSION['channelID'] != 2006) { // the.kutchannel.net categories are aggregate
 								$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"/\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">THIS CHANNEL <b class=\"caret\"></b></a>\n";
@@ -88,12 +87,11 @@ class MenuView {
 
 						$html .= "\t\t\t\t\t<ul class=\"nav navbar-nav navbar-right\">\n";
 
-							$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/\"><span class=\"glyphicon glyphicon-home hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">HOME</span></a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/channels/\"><span class=\"glyphicon glyphicon-th-large hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">CHANNELS</span></a></li>\n";
 							
 							if ($_SESSION['userID'] != 0) {
-								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/newsfeed/\"><span class=\"glyphicon glyphicon-star hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">NEWSFEED</span></a></li>\n";
+								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/home/\"><span class=\"glyphicon glyphicon-home hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">HOME</span></a></li>\n";
 							}
+							$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/channels/\"><span class=\"glyphicon glyphicon-th-large hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">CHANNELS</span></a></li>\n";
 							
 							// START "YOUR CHANNELS" DROPDOWN //
 							$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">YOUR CHANNELS <b class=\"caret\"></b></a>\n";
@@ -104,11 +102,9 @@ class MenuView {
 									$html .= "\t\t\t\t\t\t\t</ul>\n";	
 								} else {
 									$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu jagaDrop\">\n";
-										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/u/" .  $username . "/channels/\"><em>CHANNELS...</em></a></li>\n";
-										$html .= self::getNavBarOwnChannelListItems();
-										$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
-										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/u/" .  $username . "/subscriptions/\"><em>SUBSCRIPTIONS...</em></a></li>\n";
-										$html .= self::getNavBarSubscriptionListItems();
+										$html .= self::navBarUserChannelDropdown();
+										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/u/" .  $username . "/channels/\"><em>YOUR CHANNELS...</em></a></li>\n";
+										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/u/" .  $username . "/subscriptions/\"><em>YOUR SUBSCRIPTIONS...</em></a></li>\n";
 									$html .= "\t\t\t\t\t\t\t</ul>\n";
 								}
 							$html .= "\t\t\t\t\t\t</li>\n";
@@ -168,35 +164,18 @@ class MenuView {
 		return $html;
 		
 	}
-	
-	private function getNavBarOwnChannelListItems() {
 
-		$userOwnChannelArray = Channel::getUserOwnChannelArray($_SESSION['userID']);
-		$html = '';
-		$i = 0;
-		foreach ($userOwnChannelArray AS $channelKey => $postCount) {
-			if ($i < 7) {
-				$html .= "\t\t\t\t\t\t\t\t<li";
-					if ($i >= 3) { $html .= " class=\"hidden-xs\""; }
-				$html .= "><a href=\"http://$channelKey.kutchannel.net/\">" . strtoupper($channelKey);
-					$html .= " <span class=\"jagaBadge\">$postCount</span>";
-				$html .= "</a></li>\n";
-				$i++;
-			}
-		}
-		return $html;
-
-		
-	}
-	
-	private function getNavBarSubscriptionListItems() {
-		
+	private function navBarUserChannelDropdown() {
 		$userOwnChannelArray = Channel::getUserOwnChannelArray($_SESSION['userID']);
 		$userSubscribedChannelArray = Channel::getUserSubscribedChannelArray($_SESSION['userID']);
+		$userChannels = $userOwnChannelArray + $userSubscribedChannelArray;
+		arsort($userChannels);
+		
+		
 		$html = '';
 		$j = 0;
-		foreach ($userSubscribedChannelArray AS $channelKey => $postCount) {
-			if (!isset($userOwnChannelArray[$channelKey]) && $j < 7) {
+		foreach ($userChannels AS $channelKey => $postCount) {
+			if ($j < 7) {
 				$html .= "\t\t\t\t\t\t\t\t<li";
 					if ($j >= 3) { $html .= " class=\"hidden-xs\""; }
 				$html .= "><a href=\"http://$channelKey.kutchannel.net/\">" . strtoupper($channelKey);
@@ -208,6 +187,7 @@ class MenuView {
 		return $html;
 		
 	}
+
 
 	private function getNavBarExploreListItems() {
 		
