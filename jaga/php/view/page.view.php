@@ -183,6 +183,10 @@ class PageView {
 			} elseif ($urlArray[0] == 'imo') {
 				
 				$html .= MessageView::imo();
+				
+			} elseif ($urlArray[0] == 'home') {
+				
+				$html .= ContentView::displayRecentContentItems(0, '', 50);
 
 			} elseif ($urlArray[0] == 'register') {
 

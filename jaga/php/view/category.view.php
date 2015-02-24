@@ -16,7 +16,7 @@ class CategoryView {
 				
 					$contentArray = Category::getCategoryContent($channelID, $contentCategoryKey);
 				
-					if (!empty($contentArray)) {
+					// if (!empty($contentArray)) {
 				
 						$html .= "\t\t\t\t<div class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\">\n";
 							$html .= "\t\t\t\t\t<div class=\"panel panel-default\">\n";
@@ -90,7 +90,7 @@ class CategoryView {
 								$html .= "\t\t\t\t\t\t</ul>\n";
 							$html .= "\t\t\t\t\t</div>\n";
 						$html .= "\t\t\t\t</div>\n";
-					}
+					// }
 				}
 			$html .= "\t\t\t</div> <!-- END ROW -->\n";
 		$html .= "\t\t</div> <!-- END CONTAINER -->\n\n";
