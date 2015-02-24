@@ -91,8 +91,13 @@ class MenuView {
 							if ($_SESSION['userID'] != 0) {
 								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/home/\"><span class=\"glyphicon glyphicon-home hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">HOME</span></a></li>\n";
 							}
+							
 							$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/channels/\"><span class=\"glyphicon glyphicon-th-large hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">CHANNELS</span></a></li>\n";
 							
+							if ($_SESSION['userID'] != 0) {
+								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/u/" .  $username . "/\"><span class=\"glyphicon glyphicon glyphicon-user hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">PROFILE</span></a></li>\n";
+							}
+								
 							// START "YOUR CHANNELS" DROPDOWN //
 							$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">YOUR CHANNELS <b class=\"caret\"></b></a>\n";
 								if ($_SESSION['userID'] == 0) {
@@ -123,9 +128,8 @@ class MenuView {
 							if ($_SESSION['userID'] == 0) { // IF NOT LOGGED IN
 								$html .= "\t\t\t\t\t\t<li><a href=\"/login/\"><span class=\"glyphicon glyphicon-log-in hidden-xs\"></span><span class=\"visible-xs\">LOGIN</span></a></li>\n";
 							} else { // IF LOGGED IN
-								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/u/" .  $username . "/\"><span class=\"glyphicon glyphicon glyphicon-user hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">PROFILE</span></a></li>\n";
 								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/imo/\"><span class=\"glyphicon glyphicon-envelope hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">MESSAGES</span></a></li>\n";
-								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/settings/\"><span class=\"glyphicon glyphicon-cog hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">SETTINGS</span></a></li>\n";
+								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/settings/profile/\"><span class=\"glyphicon glyphicon-cog hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">SETTINGS</span></a></li>\n";
 								$html .= "\t\t\t\t\t\t<li><a href=\"/logout/\"><span class=\"glyphicon glyphicon-log-out hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">LOGOUT</span></a></li>\n";
 							}
 								

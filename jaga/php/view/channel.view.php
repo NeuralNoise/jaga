@@ -68,6 +68,8 @@ class ChannelView {
 		$html .= "\t<!-- START CHANNEL CONTAINER -->\n\n";
 		
 			$html .= "\t\t<div class=\"row\">\n\n";
+			
+			$html .= "\t\t<div class=\"col-md-12\">\n\n";
 
 				$html .= "\t\t\t<!-- START PANEL -->\n";
 				$html .= "\t\t\t<div class=\"panel panel-default\" >\n\n";
@@ -211,7 +213,7 @@ class ChannelView {
 				$html .= "\t\t\t</div>\n";
 				$html .= "\t\t\t<!-- END PANEL -->\n\n";
 
-			
+			$html .= "\t\t</div>\n";
 			
 			$html .= "\t\t</div>\n";
 			$html .= "\t\t<!-- END ROW -->\n\n";
@@ -234,56 +236,47 @@ class ChannelView {
 		
 			$html .= "\t<div class=\"row\">\n\n";
 		
+			$html .= "\t<div class=\"col-md-12\">\n\n";
+		
 			$html .= "<div class=\"panel panel-default\">\n";
 				
 				$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>YOUR CHANNELS</h4></div>\n";
 				
 				$html .= "<div class=\"table-responsive\">\n";
-					$html .= "<table class=\"table table-hover\">\n";
-						$html .= "<thead>\n";
-							$html .= "<tr>";
-								$html .= "<th>Key</th>\n";
-								$html .= "<th>Title</th>\n";
-								$html .= "<th>Theme</th>\n";
-								$html .= "<th>Total Posts</th>\n";
-								$html .= "<th>Pages Served</th>\n";
+					$html .= "<table class=\"table table-hover table-striped\">\n";
+						$html .= "<tr>";
+							$html .= "<th>Key</th>\n";
+							$html .= "<th>Title</th>\n";
+							$html .= "<th>Theme</th>\n";
+							$html .= "<th class=\"text-right\">Total Posts</th>\n";
+							$html .= "<th class=\"text-right\">Pages Served</th>\n";
+						$html .= "</tr>";
+						foreach ($channelArray AS $channelKey => $totalPosts) {
+							$channelID = Channel::getChannelID($channelKey);
+							$channel = new Channel($channelID);
+							$channelEnabled = $channel->channelEnabled;
+							$channelTitleEnglish = $channel->channelTitleEnglish;
+							$channelTitleJapanese = $channel->channelTitleJapanese;
+							$channelKeywordsEnglish = $channel->channelKeywordsEnglish;
+							$channelKeywordsJapanese = $channel->channelKeywordsJapanese;
+							$channelDescriptionEnglish = $channel->channelDescriptionEnglish;
+							$channelDescriptionJapanese = $channel->channelDescriptionJapanese;
+							$themeKey = $channel->themeKey;
+							$pagesServed = $channel->pagesServed;
+							$siteManagerUserID = $channel->siteManagerUserID;
+							$html .= "<tr class=\"jagaClickableRow\" data-url=\"http://" . $channelKey . ".kutchannel.net/settings/channels/update/" . $channelKey . "/\">";
+								$html .= "<td>" . strtoupper($channelKey) . "</td>\n";
+								$html .= "<td>" . $channelTitleEnglish . "</td>\n";
+								$html .= "<td>" . $themeKey . "</td>\n";
+								$html .= "<td class=\"text-right\">" . $totalPosts . "</td>\n";
+								$html .= "<td class=\"text-right\">" . $pagesServed . "</td>\n";
 							$html .= "</tr>";
-						$html .= "</thead>\n";
-						$html .= "<tbody>\n";
-
-							foreach ($channelArray AS $channelKey => $totalPosts) {
-							
-								$channelID = Channel::getChannelID($channelKey);
-								
-								$channel = new Channel($channelID);
-								$channelEnabled = $channel->channelEnabled;
-								$channelTitleEnglish = $channel->channelTitleEnglish;
-								$channelTitleJapanese = $channel->channelTitleJapanese;
-								$channelKeywordsEnglish = $channel->channelKeywordsEnglish;
-								$channelKeywordsJapanese = $channel->channelKeywordsJapanese;
-								$channelDescriptionEnglish = $channel->channelDescriptionEnglish;
-								$channelDescriptionJapanese = $channel->channelDescriptionJapanese;
-								$themeKey = $channel->themeKey;
-								$pagesServed = $channel->pagesServed;
-								$siteManagerUserID = $channel->siteManagerUserID;
-								
-								$html .= "<tr class=\"jagaClickableRow\" data-url=\"/settings/channels/update/" . $channelKey . "/\">";
-								
-									$html .= "<td>" . strtoupper($channelKey) . "</td>\n";
-									$html .= "<td>" . $channelTitleEnglish . "</td>\n";
-									$html .= "<td>" . $themeKey . "</td>\n";
-									$html .= "<td>" . $totalPosts . "</td>\n";
-									$html .= "<td>" . $pagesServed . "</td>\n";
-								$html .= "</tr>";
-								
-							}
-							
-						$html .= "</tbody>\n";
+						}
 					$html .= "</table>\n";
 				$html .= "</div>\n";
-				
-			$html .= "</div>\n";
 
+			$html .= "</div>\n";
+			$html .= "</div>\n";
 			$html .= "\t\t</div>\n\n";
 			
 		$html .= "\t</div>\n";
@@ -304,6 +297,8 @@ class ChannelView {
 		
 			$html .= "\t<div class=\"row\">\n\n";
 		
+			$html .= "\t<div class=\"col-md-12\">\n\n";
+			
 			$html .= "<div class=\"panel panel-default\">\n";
 				
 				$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>ALL CHANNELS</h4></div>\n";
@@ -334,6 +329,8 @@ class ChannelView {
 					$html .= "</table>\n";
 				$html .= "</div>\n";
 				
+			$html .= "</div>\n";
+			
 			$html .= "</div>\n";
 
 			$html .= "\t\t</div>\n\n";

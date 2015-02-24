@@ -2,10 +2,11 @@
 
 class Subscription {
 
-	var $userID;
-	var $channelID;
+	public $userID;
+	public $channelID;
+	public $subscriptionDate;
 	
-	public function userIsSubscribed($userID, $channelID) {
+	public static function userIsSubscribed($userID, $channelID) {
 		$core = Core::getInstance();
 		$query = "SELECT * FROM jaga_Subscription WHERE userID = :userID AND channelID = :channelID LIMIT 1";
 		$statement = $core->database->prepare($query);
@@ -13,7 +14,7 @@ class Subscription {
 		if ($row = $statement->fetch()) { return true; } else { return false; }	
 	}
 
-	public function subscribeUser($userID, $channelID) {
+	public static function subscribeUser($userID, $channelID) {
 		
 		if (!self::userIsSubscribed($userID, $channelID)) {
 			$core = Core::getInstance();
@@ -23,7 +24,7 @@ class Subscription {
 		}
 	}
 	
-	public function unsubscribeUser($userID, $channelID) {
+	public static function unsubscribeUser($userID, $channelID) {
 		
 		if (self::userIsSubscribed($userID, $channelID)) {
 			$core = Core::getInstance();
@@ -33,7 +34,7 @@ class Subscription {
 		}	
 	}
 
-	public function getUserSubscriptionArray($userID) {
+	public static function getUserSubscriptionArray($userID) {
 		$core = Core::getInstance();
 		$query = "SELECT channelID FROM jaga_Subscription WHERE userID = :userID";
 		$statement = $core->database->prepare($query);

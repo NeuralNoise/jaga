@@ -93,37 +93,30 @@ class PageView {
 		$html = "<div class=\"container\"><ol class=\"breadcrumb\">";
 			$html .= "<li><a href=\"http://the.kutchannel.net/\">THE KUTCHANNEL</a></li>";
 			$html .= "<li><a href=\"http://" . $channelKey . ".kutchannel.net/\">" . strtoupper($channelTitle) . "</a></li>";
-			
-			// CATEGORY
 			if ($urlArray[0] == 'k' && $urlArray[1] != '') { // /k/<contentCategoryKey>/
 				$categoryTitle = strtoupper(Category::getCategoryTitle($urlArray[1]));
-				$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "/\">" . $categoryTitle . "</a></li>";
+				$html .= "<li class=\"active\">" . $categoryTitle . "</li>";
 			}
-			
-			// CONTENT
 			if ($urlArray[0] == 'k' && $urlArray[1] != '' && $urlArray[2] != '') { // /k/<contentCategoryKey>/<contentURL>/
 				$contentTitle = strtoupper(Content::getContentTitle($urlArray[2]));
-				// $html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "/" . $urlArray[2] . "/\">" . $contentTitle . "</a></li>";
 				$html .= "<li class=\"active\">" . $contentTitle . "</li>";
 			}
-			
-			
 		$html .= "</ol></div>";
 		return $html;
 		
 	}
 	
-	private function getSettingsNav() {
+	private function getSettingsNav($urlArray) {
 
 		$html = "\t<div class=\"container\">\n";
 			$html .= "\t\t<div class=\"row\" style=\"margin-bottom:10px;\">\n";
-				$html .= "
-					<div class=\"btn-group btn-group-lg\">
-						<a href=\"/settings/profile/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-user\"></span> Profile</a>
-						<a href=\"/settings/channels/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-th-large\"></span> Channels</a>
-						<a href=\"/settings/subscriptions/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-star\"></span> Subscriptions</a>
-					</div>
-				";
+				$html .= "\t\t\t<div class=\"col-md-12\">\n";
+					$html .= "\t\t\t\t<ul class=\"nav nav-tabs nav-justified\">\n";
+						 $html .= "\t\t\t\t\t<li role=\"presentation\" class=\"" . ($urlArray[1]=='profile'?'active':'') . "\"><a href=\"/settings/profile/\"><span class=\"glyphicon glyphicon-user\"></span> <span>Profile</span></a></li>";
+						 $html .= "\t\t\t\t\t<li role=\"presentation\" class=\"" . ($urlArray[1]=='channels'?'active':'') . "\"><a href=\"/settings/channels/\"><span class=\"glyphicon glyphicon-th-large\"></span>  <span>Channels</span></a></li>";
+						 $html .= "\t\t\t\t\t<li role=\"presentation\" class=\"" . ($urlArray[1]=='subscriptions'?'active':'') . "\"><a href=\"/settings/subscriptions/\" ><span class=\"glyphicon glyphicon-star\"></span>  <span>Subscriptions</span> </a></li>";
+					$html .= "\t\t\t\t</ul>\n";
+				$html .= "\t\t\t</div>\n";
 			$html .= "\t\t</div>\n";
 		$html .= "\t</div>\n";
 		
@@ -271,7 +264,7 @@ class PageView {
 
 			} elseif ($urlArray[0] == 'settings') {
 			
-				$html .= $this->getSettingsNav();
+				$html .= $this->getSettingsNav($urlArray);
 			
 				if ($urlArray[1] == 'profile') {
 				

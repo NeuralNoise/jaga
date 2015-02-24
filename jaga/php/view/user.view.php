@@ -60,6 +60,9 @@
 			$html .= "\n\n<!-- START row -->\n";
 			$html .= "<div class=\"row\">\n\n";
 			
+			$html .= "\n\n<!-- START row -->\n";
+			$html .= "<div class=\"col-md-12\">\n\n";
+			
 			$html .= "<!-- START jagaUser -->\n";
 			$html .= "<div id=\"jagaUser\">\n\n";
 			
@@ -69,7 +72,7 @@
 					
 					$html .= "<!-- START PANEL-HEADING -->\n";
 					$html .= "<div class=\"panel-heading jagaContentPanelHeading\">";
-						$html .= "<div class=\"panel-title\"><h4>" . $username . "</h4></div>";
+						$html .= "<div class=\"panel-title\"><h4>" . strtoupper($username) . "</h4></div>";
 					$html .= "</div>\n";
 					$html .= "<!-- END PANEL-HEADING -->\n\n";
 					
@@ -150,6 +153,9 @@
 				
 				$html .= "</div>\n";
 				$html .= "<!-- END jagaUser -->\n\n";
+			
+			$html .= "</div>\n";
+			$html .= "<!-- END col-md-12 -->\n\n";
 			
 			$html .= "</div>\n";
 			$html .= "<!-- END row -->\n\n";
