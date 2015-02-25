@@ -129,8 +129,6 @@ class ContentView {
 		$errorArray = array()
 	) {
 	
-		// print_r($contentCategoryKey);
-	
 		if (empty($inputArray)) {
 
 			$content = new Content($contentID);
@@ -185,43 +183,13 @@ class ContentView {
 
 		}
 
-		
-
-/*
-CREATE TABLE IF NOT EXISTS `jaga_Content` (
-  `contentID` int(8) NOT NULL AUTO_INCREMENT,
-  `channelID` int(8) NOT NULL,
-  `contentURL` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `contentCategoryKey` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `contentSubmittedByUserID` int(8) NOT NULL,
-  `contentSubmissionDateTime` datetime NOT NULL,
-  `contentPublishStartDate` date NOT NULL,
-  `contentPublishEndDate` date NOT NULL,
-  `contentLastModified` datetime NOT NULL,
-  `contentTitleEnglish` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `contentTitleJapanese` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `contentEnglish` text COLLATE utf8_unicode_ci NOT NULL,
-  `contentJapanese` text COLLATE utf8_unicode_ci NOT NULL,
-  `contentLinkURL` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `contentPublished` int(1) NOT NULL,
-  `contentViews` int(12) NOT NULL,
-  `contentIsEvent` int(1) NOT NULL,
-  `contentEventDate` date NOT NULL,
-  `contentEventStartTime` time NOT NULL,
-  `contentEventEndTime` time NOT NULL,
-  `contentHasLocation` int(1) NOT NULL,
-  `contentLatitude` decimal(9,6) NOT NULL,
-  `contentLongitude` decimal(9,6) NOT NULL,
-  PRIMARY KEY (`contentID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9999910 ;
-
-*/
-
 		if ($type == 'create') { $formURL = "/k/create/"; } elseif ($type == 'update') { $formURL = "/k/update/" . $contentID . "/"; }
 		
 		$html = "\n\t<!-- START CONTENT CONTAINER -->\n";
 		$html .= "\t<div class=\"container\">\n\n";
 		
+			$html .= "\t\t<div class=\"col-md-12\">\n\n";
+
 			$html .= "\t\t<!-- START jagaContent -->\n";
 			$html .= "\t\t<div id=\"jagaContent\" class=\"\">\n\n";
 
@@ -434,26 +402,9 @@ CREATE TABLE IF NOT EXISTS `jaga_Content` (
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							// START SUBMIT BUTTON
 							
-							
-							
-							
-							
 						$html .= "\t\t\t\t\t</form>\n";
 						$html .= "\t\t\t\t\t<!-- END jagaContentForm -->\n\n";
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
 					$html .= "\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t<!-- END PANEL-BODY -->\n\n";
 			
@@ -463,6 +414,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Content` (
 			$html .= "\t\t</div>\n";
 			$html .= "\t\t<!-- END jagaContent -->\n\n";
 
+			$html .= "\t\t</div>\n";
 		$html .= "\t</div>\n";
 		$html .= "\t<!-- END CONTENT CONTAINER -->\n\n";
 			
