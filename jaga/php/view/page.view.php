@@ -192,9 +192,9 @@ class PageView {
 				
 				$html .= MessageView::imo();
 				
-			} elseif ($urlArray[0] == 'home') {
+			} elseif ($urlArray[0] == 'home' && $_SESSION['channelID'] == 2006 && $_SESSION['userID'] != 0) {
 				
-				$html .= ContentView::displayRecentContentItems(0, '', 50);
+				$html .= ContentView::displayRecentContentItems(0, '', 50, $_SESSION['userID']);
 
 			} elseif ($urlArray[0] == 'register') {
 

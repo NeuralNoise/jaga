@@ -469,9 +469,13 @@ class ContentView {
 	
 	}
 	
-	public function displayRecentContentItems($channelID = 0, $contentCategoryKey = '', $numberOfItems = 50) {
+	public function displayRecentContentItems($channelID = 0, $contentCategoryKey = '', $numberOfItems = 50, $subscriptionUserID = 0) {
 		
-		$recentContentArray = Content::getRecentContentArray($channelID, $contentCategoryKey, $numberOfItems);
+		if ($subscriptionUserID == 0) {
+			$recentContentArray = Content::getRecentContentArray($channelID, $contentCategoryKey, $numberOfItems);
+		} else {
+			$recentContentArray = Subscription::getRecentSubscribedContentArray($subscriptionUserID);
+		}
 
 		$html = "\n\n";
 		$html .= "\t\t<div class=\"container\"> <!-- START CONTAINER -->\n";

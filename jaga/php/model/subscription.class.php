@@ -47,6 +47,34 @@ class Subscription {
 		return $userSubscriptionArray;
 	}
 	
+	public function getRecentSubscribedContentArray($subscriberUserID) {
+
+		$currentDate = date('Y-m-d');
+
+		$query = "
+			SELECT jaga_Content.contentID, jaga_Content.contentTitleEnglish, jaga_Content.channelID
+			FROM jaga_Subscription
+			INNER JOIN jaga_Content ON jaga_Content.channelID = jaga_Subscription.channelID
+			WHERE jaga_Content.contentPublished = 1 
+			AND jaga_Content.contentPublishStartDate <= '$currentDate' 
+			AND (jaga_Content.contentPublishEndDate >= '$currentDate' OR jaga_Content.contentPublishEndDate = '0000-00-00')
+			AND jaga_Subscription.userID = :subscriberUserID
+			ORDER BY jaga_Content.contentSubmissionDateTime DESC
+			LIMIT 50
+	";
+
+		$core = Core::getInstance();
+		$statement = $core->database->prepare($query);
+		
+		if ($subscriberUserID != 0) { $statement->bindParam(':subscriberUserID', $subscriberUserID, PDO::PARAM_INT, 12); }
+		$statement->execute();
+		
+		$recentSubscribedContentArray = array();
+		while ($row = $statement->fetch()) { $recentSubscribedContentArray[] = $row['contentID']; }
+		return $recentSubscribedContentArray;
+		
+	}
+	
 }
 
 ?>
