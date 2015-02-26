@@ -81,9 +81,19 @@ class ThemeView {
 		
 		$css .= "div.jagaContentPanelHeading > a {
 			color:#$contentPanelHeadingTextColor !important;
+			text-decoration:none;
+		}\n";
+		
+		$css .= "div.jagaContentPanelHeading > h4 > a {
+			color:#$contentPanelHeadingTextColor !important;
+			text-decoration:none;
 		}\n";
 		
 		$css .= "div.jagaContentPanelHeading > a:hover {
+			color:#$navbarBackgroundColor !important;
+		}\n\n";
+		
+		$css .= "div.jagaContentPanelHeading > h4 > a:hover {
 			color:#$navbarBackgroundColor !important;
 		}\n\n";
 		

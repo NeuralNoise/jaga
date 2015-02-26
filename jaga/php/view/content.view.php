@@ -504,8 +504,9 @@ class ContentView {
 						$html .= "\t\t\t\t\t<div class=\"panel panel-default\">\n";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n";
-								$html .= "<h4>" . strtoupper($contentTitle) . "</h4>";
-								$html .= "<a href=\"/u/" . $username . "/\" style=\"text-decoration:none;\">" . $username . "</a>";
+								$html .= "<h4><a href=\"http://" . $thisContentChannelKey . ".kutchannel.net/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\">" . strtoupper($contentTitle) . "</a></h4>";
+								$html .= "<a href=\"http://the.kutchannel.net/u/" . $username . "/\">" . $username . "</a> ";
+								$html .= "<a href=\"http://" . $thisContentChannelKey . ".kutchannel.net/\" class=\"pull-right\">" . $channelTitle . "</a>";
 							$html .= "\t\t\t\t\t\t</div>\n";
 
 							$html .= "\t\t\t\t\t\t\t<a href=\"http://" . $thisContentChannelKey . ".kutchannel.net/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";

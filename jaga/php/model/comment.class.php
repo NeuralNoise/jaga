@@ -31,7 +31,7 @@ class Comment extends ORM {
 
 	public function getComments($commentObject, $commentObjectID) {
 		$core = Core::getInstance();
-		$query = "SELECT commentID FROM jaga_Comment WHERE commentObject = :commentObject AND commentObjectID = :commentObjectID ORDER BY commentDateTime DESC";
+		$query = "SELECT commentID FROM jaga_Comment WHERE commentObject = :commentObject AND commentObjectID = :commentObjectID ORDER BY commentDateTime ASC";
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':commentObject' => $commentObject, ':commentObjectID' => $commentObjectID));
 		$commentArray = array();
