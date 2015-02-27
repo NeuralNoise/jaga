@@ -20,13 +20,13 @@ class MessageView {
 				$username = User::getUsername($userID);
 				$conversationMessageArray = Message::getConversationMessageArray($userID);
 				
-				$html .= "\t\t<div class=\"panel panel-info jagaMessagePanel\">\n";
+				$html .= "\t\t<div class=\"panel panel-default jagaMessagePanel\" style=\"margin-bottom:20px;\">\n";
 					$html .= "\t\t\t<div class=\"panel-heading jagaMessagePanelHeading\">";
 					
-						$html .= "<div style=\"float:left;\"><h3 style=\"text-align:right;\">$username</h3></div>";
+						$html .= "<div style=\"float:left;\"><strong>$username</strong></div>";
 						$html .= "<div style=\"float:right;\">";
-							$html .= "<a role=\"button\" href=\"/u/$username/\" class=\"btn btn-default btn-lg\"><span class=\"glyphicon glyphicon-user\"></span></a>";
-							$html .= "<button type=\"button\" class=\"btn btn-default btn-lg\" data-toggle=\"modal\" data-target=\".modal-$username\"><span class=\"glyphicon glyphicon-envelope\"></span></button>";
+							$html .= "<a role=\"button\" href=\"/u/$username/\" class=\"btn btn-default btn-sm\"><span class=\"glyphicon glyphicon-user\"></span></a>";
+							$html .= "<button type=\"button\" class=\"btn btn-default btn-sm\" data-toggle=\"modal\" data-target=\".modal-$username\"><span class=\"glyphicon glyphicon-envelope\"></span></button>";
 						$html .= "</div>";
 						$html .= "<div style=\"clear:both;\"></div>";
 						
@@ -80,9 +80,9 @@ class MessageView {
 										$html .= "\t\t\t\t\t<div class=\"panel panel-default\">\n";
 											$html .= "\t\t\t\t\t\t<div class=\"panel-heading\" role=\"tab\" id=\"heading$messageID\">\n";
 												$html .= "\t\t\t\t\t\t\t<h4 class=\"panel-title\">\n";
-													$html .= "\t\t\t\t\t\t\t\t<a ";
-														if ($messageReadByRecipient == 1) { $html .= "class=\"collapsed\" "; }
-													$html .= "data-toggle=\"collapse\" data-parent=\"#accordion$userID\" href=\"#collapse$messageID\" aria-expanded=\"$expand\" aria-controls=\"collapse$messageID\">\n";
+													$html .= "\t\t\t\t\t\t\t\t<a class=\"";
+														if ($messageReadByRecipient == 1) { $html .= "collapsed"; }
+													$html .= "\" data-toggle=\"collapse\" data-parent=\"#accordion$userID\" href=\"#collapse$messageID\" aria-expanded=\"$expand\" aria-controls=\"collapse$messageID\">\n";
 														if ($messageSenderUserID != $_SESSION['userID']) { $html .= "\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-left\"></span>\n"; }
 														$html .= "\t\t\t\t\t\t\t\t" . User::getUsername($messageSenderUserID) . "\n";
 														$html .= "\t\t\t\t\t\t\t\t<small>" . $messageDateTimeSent . "</small>\n";

@@ -186,6 +186,7 @@ class Controller {
 						if (Content::contentURLExists($content->contentURL)) {
 							$content->contentURL = Content::generateNonDuplicateContentURL($content->contentURL);
 						}
+						if (!isset($inputArray['contentPublished'])) { $content->contentPublished = 0; }
 						
 						$contentID = Content::insert($content);
 
@@ -228,10 +229,7 @@ class Controller {
 						}
 						
 						// modify values where required
-						$content->contentURL = Content::createContentURL($inputArray['contentTitleEnglish']);
-						if (Content::contentURLExists($content->contentURL)) {
-							$content->contentURL = Content::generateNonDuplicateContentURL($content->contentURL);
-						}
+						if (!isset($inputArray['contentPublished'])) { $content->contentPublished = 0; }
 						
 						// build conditions
 						$conditions = array();
@@ -285,6 +283,26 @@ class Controller {
 			
 		}
 		
+		if ($urlArray[0] == 'k' && $urlArray[1] == 'delete' && is_numeric($urlArray[2])) {
+
+		
+			if (isset($_POST['jagaDeleteContentConfirmation'])) {
+				
+				$contentID = $urlArray[2];
+				$content = new Content($contentID);
+				$contentCategoryKey = $content->contentCategoryKey;
+				$authorUserID = $content->contentSubmittedByUserID;
+				if ($authorUserID != $_SESSION['userID']) { die('"You cannot delete posts that do not belong to you." - Controller::getResource()'); }
+				$conditions = array('contentID' => $contentID);
+				ChannelCategory::delete($content, $conditions);
+				
+				$postSubmitURL = "/k/" . $contentCategoryKey . "/";
+				header("Location: $postSubmitURL");
+			
+			}
+			
+		}
+			
 		if ($urlArray[0] == 'settings') {
 		
 			// REDIRECT USERS WITHOUT CREDS TO LOGIN ROUTE

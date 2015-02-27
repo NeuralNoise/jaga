@@ -235,6 +235,11 @@ class PageView {
 					$html .= ContentView::getContentForm('create', 0, $contentCategoryKey, $inputArray, $errorArray);
 				} elseif ($urlArray[1] == 'comment') {
 					$html .= $urlArray[2];
+				} elseif ($urlArray[1] == 'delete' && is_numeric($urlArray[2])) {
+					
+					
+					$html .= ContentView::displayContentDeleteConfirmationForm($urlArray[2]);
+					
 				} else {
 					if ($urlArray[2] == '') { // /k/<contentCategoryKey>/
 						$html .= $this->getBreadcrumbs($urlArray);

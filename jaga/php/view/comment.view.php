@@ -13,7 +13,7 @@ class CommentView {
 			
 			$html .= "\n\t<!-- START COMMENT -->\n";
 			$html .= "\t<div class=\"container\">\n\n";
-				$html .= "\t\t<div class=\"panel panel-info\">\n";
+				$html .= "\t\t<div class=\"panel panel-default\">\n";
 					
 					$html .= "\t\t\t<div class=\"panel-heading jagaCommentPanelHeading\">\n";
 					

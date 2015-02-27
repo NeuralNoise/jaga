@@ -5,73 +5,80 @@ class ContentView {
 	public function displayContentView($contentID) {
 	
 		
-	
-		$core = Core::getInstance();
-		$query = "
-			SELECT contentEnglish AS content, contentTitleEnglish AS title
-			FROM jaga_Content 
-			WHERE contentID = :contentID 
-			LIMIT 1
-		";
+		$content = new Content($contentID);
+		$contentTitle = $content->contentTitleEnglish;
+		$contentContent = $content->contentEnglish;
+		$contentSubmissionDateTime = $content->contentSubmissionDateTime;
+		$contentPublished = $content->contentPublished;
+		$opID = $content->contentSubmittedByUserID;
+		$opUserName = User::getUserName($opID);
+
+		Content::contentViewsPlusOne($contentID);
+		$imageArray = Image::getObjectImageUrlArray('Content', $contentID);
+			
+		$html = "\n\t<!-- START CONTENT -->\n";
+		$html .= "\t<div class=\"container\">\n\n";
 		
-		$statement = $core->database->prepare($query);
-		$statement->execute(array(':contentID' => $contentID));
-		if ($row = $statement->fetch()) {
 		
-			Content::contentViewsPlusOne($contentID);
+			if ($contentPublished == 0) {
+				$html .= "\t<div class=\"alert alert-danger\">This post is not currently published.</div>";
+			}
 		
-			$html = "\n\t<!-- START CONTENT -->\n";
-			$html .= "\t<div class=\"container\">\n\n";
-				$html .= "\t<div class=\"panel panel-default\">\n";
-					$html .= "\t\t<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . $row['title'] . "</h4></div>\n";
-					$html .= "\t\t<div class=\"panel-body\">";
+		
+		
+			$html .= "\t<div class=\"panel panel-default\">\n";
+			
+				$html .= "\t\t<div class=\"panel-heading jagaContentPanelHeading\">";
+					$html .= "<div>";
+						$html .= "<strong>" . $contentTitle . "</strong> | ";
+						$html .= "<i><a href=\"http://the.kutchannel.net/u/" . $opUserName . "/\">" . $opUserName . "</a> at " . $contentSubmissionDateTime . "</i>";
+
+						if ($opID == $_SESSION['userID']) { $html .= "<a href=\"/k/update/" . $contentID . "/\" class=\"btn btn-default btn-sm pull-right\"><span class=\"glyphicon glyphicon-pencil\"></span></a>"; }
+					$html .= "</div>";
+				$html .= "</div>\n";
+				
+				$html .= "\t\t<div class=\"panel-body\">";
+					
+					$html .= "<div class=\"well\">" . $contentContent . "</div>";
+					
+					$html .= "<div id=\"list\" class=\"row\">";
 						
-						$html .= "<div class=\"well\">" . $row['content'] . "</div>";
-						
-						$html .= "<div id=\"list\" class=\"row\">";
-							$imageArray = Image::getObjectImageUrlArray('Content', $contentID);
-							foreach ($imageArray AS $imageID => $imageURL) {
-								
-								// IMAGE
-								$html .= "<div class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\" data-toggle=\"modal\" data-target=\"#" . $imageID . "\" style=\"margin-bottom:10px;\">";
-									$html .= "<img src=\"" . $imageURL . "\" class=\"img-responsive\">";
-								$html .= "</div>\n";
-								
-								// MODAL
-								$html .= "
-								<div class=\"modal fade\" id=\"" . $imageID . "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"deluxeNobileFirLabel\" aria-hidden=\"true\">
+						foreach ($imageArray AS $imageID => $imageURL) {
+							
+							// IMAGE
+							$html .= "<div class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\" data-toggle=\"modal\" data-target=\"#" . $imageID . "\" style=\"margin-bottom:10px;\">";
+								$html .= "<img src=\"" . $imageURL . "\" class=\"img-responsive jagaContentViewImage\">";
+							$html .= "</div>\n";
+							
+							// MODAL
+							$html .= "
+							<div class=\"modal fade\" id=\"" . $imageID . "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"deluxeNobileFirLabel\" aria-hidden=\"true\">
 								<div class=\"modal-dialog\">
 									<div class=\"modal-content\">
 										<div class=\"modal-header\">
 											<button type=\"button\" class=\"close\" data-dismiss=\"modal\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span></button>
-											<h4 class=\"modal-title\" id=\"" . $imageID . "\">" . $row['title'] ."</h4>
+											<h4 class=\"modal-title\" id=\"" . $imageID . "\">" . $contentTitle ."</h4>
 										</div>
 										<div class=\"modal-body text-center\"><img src=\"" . $imageURL . "\" class=\"img-responsive\" style=\"margin:0px auto 0px auto;\"></div>
 										<div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button></div>
 									</div>
 								</div>
-								</div>
-								";
-								
-							}
-						$html .= "</div>\n";
-						
+							</div>
+							";
+							
+						}
 					$html .= "</div>\n";
-				$html .= "\t</div>\n";
+					
+				$html .= "</div>\n";
 			$html .= "\t</div>\n";
-			$html .= "\t<!-- END CONTENT -->\n\n";
-		
-			return $html;
-
-		} else {
-		
-			die ("ContentView::displayContentView(\$contentURL) cannot find your content.");
-			
-		}
+		$html .= "\t</div>\n";
+		$html .= "\t<!-- END CONTENT -->\n\n";
 	
+		return $html;
+			
 	}
 
-	public function displayChannelContentList($channelID, $contentCategoryKey) {
+	public static function displayChannelContentList($channelID, $contentCategoryKey) {
 
 		$contentArray = Content::getContentListArray($channelID, $contentCategoryKey, 1);
 
@@ -107,10 +114,7 @@ class ContentView {
 					$html .= "</a>\n";
 					
 				$html .= "\t\t\t</ul>\n";
-				
-				
-				
-				
+
 			$html .= "\t\t</div>\n\n";
 			
 		$html .= "\t</div>\n";
@@ -118,10 +122,9 @@ class ContentView {
 		
 		return $html;	
 
-	
 	}
 	
-	public static function getContentForm(
+	public function getContentForm(
 		$type, 
 		$contentID = 0, 
 		$contentCategoryKey = '', 
@@ -199,15 +202,16 @@ class ContentView {
 					$html .= "\t\t\t\t<!-- START PANEL-HEADING -->\n";
 					$html .= "\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n\n";
 						
-						$html .= "\t\t\t\t\t<div class=\"panel-title\">" . strtoupper($type) . " POST</div>\n";
+						$html .= "\t\t\t\t\t<div class=\"panel-title\">";
+							$html .= strtoupper($type) . " POST";
+						$html .= "</div>\n";
 					
 					$html .= "\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t<!-- END PANEL-HEADING -->\n\n";
 					
 					$html .= "\t\t\t\t<!-- START PANEL-BODY -->\n";
 					$html .= "\t\t\t\t<div class=\"panel-body\">\n\n";
-					
-						
+
 						$html .= "\t\t\t\t\t<!-- START jagaContentForm -->\n";
 						
 						$html .= "\t\t\t\t\t<form role=\"form\" id=\"jagaContentForm\" name=\"jagaContentForm\" class=\"form-horizontal\"  method=\"post\" action=\"" . $formURL . "\"  enctype=\"multipart/form-data\">\n\n";
@@ -215,16 +219,22 @@ class ContentView {
 							if ($type == 'update') { $html .= "<input type=\"hidden\" name=\"contentID\" value=\"" . $contentID . "\">\n"; }
 
 							$html .= "\t\t\t\t\t\t<div class=\"row\">\n";
-								$html .= "\t\t\t\t\t\t\t<label class=\"col-sm-2 pull-right\">";
+								
+								$html .= "\t\t\t\t\t\t\t<div>\n";
+								
+									$html .= "\t\t\t\t\t\t\t<label class=\"col-sm-2 pull-right\">";
+										$html .= "\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"contentPublished\" value=\"1\"";
+											if ($contentPublished == 1) { $html .= " checked"; }
+										$html .= "> Published\n";
+									$html .= "\t\t\t\t\t\t\t</label>\n";
 									
-									$html .= "\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"contentPublished\" value=\"1\"";
-										if ($contentPublished == 1) { $html .= " checked"; }
-									$html .= "> Published\n";
+									$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-4 pull-right\">\n";
+										$html .= CategoryView::categoryDropdown($contentCategoryKey);
+									$html .= "\t\t\t\t\t\t\t</div>\n";
 									
-								$html .= "\t\t\t\t\t\t\t</label>\n";
-								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-4 pull-right\">\n";
-									$html .= CategoryView::categoryDropdown($contentCategoryKey);
-								$html .= "\t\t\t\t\t\t\t</div>\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n\n";
+								
+								
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "<hr />\n\n";
@@ -394,13 +404,20 @@ class ContentView {
 		
 							$html .= "<hr />\n\n";
 
-							// START SUBMIT BUTTON
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12\">\n";
-									$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaContentSubmit\" id=\"jagaContentSubmit\" class=\"btn btn-default jagaFormButton col-xs-8 col-sm-6 col-md-4 pull-right\" value=\"" . $type . "\">\n";
+									if ($type == 'update') {
+										$html .= "\t\t\t\t\t\t\t\t<a href=\"/k/delete/" . $contentID . "/\" class=\"btn btn-danger col-xs-2 col-sm-3 col-md-2\" style=\"color:#fff;\"><span class=\"glyphicon glyphicon-remove\"></span> <span class=\"hidden-xs\">DELETE</span></a>\n";
+									}
+									$html .= "\t\t\t\t\t\t\t\t<button type=\"submit\" name=\"jagaContentSubmit\" id=\"jagaContentSubmit\" ";
+									if ($type == 'update') {
+										$html .= "class=\"btn btn-primary col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-6\">";
+									} elseif ($type == 'create') {
+										$html .= "class=\"btn btn-primary col-xs-8 col-xs-offset-4 col-sm-6 col-sm-offset-6 col-md-4 col-md-offset-8\">";
+									}
+									$html .= "<span class=\"glyphicon glyphicon-ok\"></span> " . strtoupper($type) . "</button>\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
-							// START SUBMIT BUTTON
 							
 						$html .= "\t\t\t\t\t</form>\n";
 						$html .= "\t\t\t\t\t<!-- END jagaContentForm -->\n\n";
@@ -422,7 +439,7 @@ class ContentView {
 
 	}
 
-	public function displayUserContentList($username) {
+	public static function displayUserContentList($username) {
 
 		$userID = User::getUserIDwithUserNameOrEmail($username);
 		$userContentArray = Content::getUserContent($userID);
@@ -469,7 +486,7 @@ class ContentView {
 	
 	}
 	
-	public function displayRecentContentItems($channelID = 0, $contentCategoryKey = '', $numberOfItems = 50, $subscriptionUserID = 0) {
+	public static function displayRecentContentItems($channelID = 0, $contentCategoryKey = '', $numberOfItems = 50, $subscriptionUserID = 0) {
 		
 		if ($subscriptionUserID == 0) {
 			$recentContentArray = Content::getRecentContentArray($channelID, $contentCategoryKey, $numberOfItems);
@@ -531,6 +548,37 @@ class ContentView {
 		
 		return $html;
 	
+	}
+
+	public function displayContentDeleteConfirmationForm($contentID) {
+		
+		$content = new Content($contentID);
+		$contentTitle = $content->contentTitleEnglish;
+		$contentContent = $content->contentEnglish;
+		$authorUserID = $content->contentSubmittedByUserID;
+		
+		if ($authorUserID != $_SESSION['userID']) { die('You cannot delete posts that do not belong to you.'); }
+		
+		$html = "\n\n\t<!-- CONTENT DELTE CONFIRMATION FORM -->\n";
+		$html .= "\t<div class=\"container\">\n\n";
+			$html .= "\t\t<div class=\"panel panel-default\">\n";
+				$html .= "\t\t<div class=\"panel-heading\">Permanently delete <u>" . $contentTitle . "</u>?</div>\n";
+				$html .= "\t\t<div class=\"panel-body\">";
+					$html .= $contentContent;
+				$html .= "</div>\n";
+				$html .= "\t\t<div class=\"panel-footer text-right\">\n";
+					$html .= "\t\t\t<div>\n";
+						$html .= "\t\t\t<form method=\"post\" action=\"/k/delete/" . $contentID . "/\">\n";
+							$html .= "\t\t\t\t<input type=\"hidden\" name=\"contentID\" value =\"" . $contentID . "\">\n";
+							$html .= "<button type=\"submit\" name=\"jagaDeleteContentConfirmation\" id=\"jagaDeleteContentConfirmation\" ";
+							$html .= "class=\"btn btn-danger\" style=\"color:#fff;\">Yes. Delete this post. <span class=\"glyphicon glyphicon-remove\"></span></button>\n";
+						$html .= "</form>\n";
+					$html .= "\t\t\t</div>\n";
+				$html .= "\t\t</div>\n";
+			$html .= "\t\t<div>\n";
+		$html .= "\t<div>\n\n";
+		
+		return $html;
 	}
 
 }
