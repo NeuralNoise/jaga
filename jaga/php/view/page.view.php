@@ -10,15 +10,21 @@ class PageView {
 	
 		$channelID = Session::getSession('channelID');
 		$channel = new Channel($channelID);
-		$this->pageTitle = $channel->channelTitleEnglish;
-		$this->pageKeywords = $channel->channelKeywordsEnglish;
-		$this->pageDescription = $channel->channelDescriptionEnglish;
+		if ($_SESSION['lang'] == 'ja') {
+			$this->pageTitle = $channel->channelTitleJapanese;
+			$this->pageKeywords = $channel->channelKeywordsJapanese;
+			$this->pageDescription = $channel->channelDescriptionJapanese;
+		} else {
+			$this->pageTitle = $channel->channelTitleEnglish;
+			$this->pageKeywords = $channel->channelKeywordsEnglish;
+			$this->pageDescription = $channel->channelDescriptionEnglish;
+		}
 	}
 	
 	private function getHeader() {
 
 		$html = "<!DOCTYPE html>\n";
-		$html .= "<html lang=\"en\">\n\n";
+		$html .= "<html lang=\"" . $_SESSION['lang'] . "\">\n\n";
 		
 			$html .= "\t<head>\n\n";
 			
@@ -35,7 +41,7 @@ class PageView {
 				$html .= "\t\t<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\">\n\n";
 
 				$html .= "\t\t<meta name=\"author\" content=\"Chishiki\">\n";
-				$html .= "\t\t<meta name=\"generator\" content=\"The Kutchannel\">\n\n";
+				$html .= "\t\t<meta name=\"generator\" content=\"JAGA\">\n\n";
 				
 				$html .= "\t\t<link rel=\"icon\" type=\"image/x-icon\" href=\"/jaga/images/favicon.ico\"/>\n\n";
 
@@ -62,19 +68,21 @@ class PageView {
 	private function getFooter() {
 	
 				$html = "\n\n\t\t<div id=\"footer\">\n";
-					$html .= "\t\t\t\t<div class=\"col-sm-8 hidden-xs\" style=\"padding-bottom:3px;\">\n";
+					$html .= "\t\t\t\t<div class=\"col-sm-8 hidden-xs\">\n";
 						$html .= "\t\t\t\t\t<ul class=\"list-inline\">\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/about/\">About</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/tos/\">Terms of Service</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/privacy/\">Privacy Policy</a></li>\n";
-							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://github.com/chishiki/jaga/\">Source Code</a></li>\n";								
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/sitemap/\">Sitemap</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/about/\">" . Lang::getLang('about') . "</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/tos/\">" . Lang::getLang('tos') . "</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/privacy/\">" . Lang::getLang('privacyPolicy') . "</a></li>\n";								
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/sitemap/\">" . Lang::getLang('sitemap') . "</a></li>\n";
 							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/advertise/\">Advertise</a></li>\n";
 							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/contact/\">Contact</a></li>\n";
 						$html .= "\t\t\t\t\t</ul>\n";
 					$html .= "\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t<div class=\"col-sm-4\">\n";
-						$html .= "\t\t\t\t<div class=\"pull-right\">Powered by <a href=\"http://github.com/chishiki/jaga/\">JAGA</a></div>\n";
+						$html .= "\t\t\t\t\t<div class=\"pull-right\">";
+							if ($_SESSION['lang'] == 'ja') { $html .= "<a href=\"/lang/en/\">English</a> | "; } else { $html .= "<a href=\"/lang/ja/\">日本語</a> | "; }
+							$html .= "Powered by <a href=\"http://github.com/chishiki/jaga/\">JAGA</a>";
+						$html .= "</div>\n";
 					$html .= "\t\t\t\t</div>\n";
 				$html .= "\t\t</div>\n\n";
 			$html .= "\t</body>\n\n";
@@ -120,9 +128,9 @@ class PageView {
 			$html .= "\t\t<div class=\"row\" style=\"margin-bottom:10px;\">\n";
 				$html .= "\t\t\t<div class=\"col-md-12\">\n";
 					$html .= "\t\t\t\t<ul class=\"nav nav-tabs nav-justified\">\n";
-						 $html .= "\t\t\t\t\t<li role=\"presentation\" class=\"" . ($urlArray[1]=='profile'?'active':'') . "\"><a href=\"/settings/profile/\"><span class=\"glyphicon glyphicon-user\"></span> <span>Profile</span></a></li>";
-						 $html .= "\t\t\t\t\t<li role=\"presentation\" class=\"" . ($urlArray[1]=='channels'?'active':'') . "\"><a href=\"/settings/channels/\"><span class=\"glyphicon glyphicon-th-large\"></span>  <span>Channels</span></a></li>";
-						 $html .= "\t\t\t\t\t<li role=\"presentation\" class=\"" . ($urlArray[1]=='subscriptions'?'active':'') . "\"><a href=\"/settings/subscriptions/\" ><span class=\"glyphicon glyphicon-star\"></span>  <span>Subscriptions</span> </a></li>";
+						 $html .= "\t\t\t\t\t<li role=\"presentation\" class=\"" . ($urlArray[1]=='profile'?'active':'') . "\"><a href=\"/settings/profile/\"><span class=\"glyphicon glyphicon-user\"></span> <span>" . Lang::getLang('profile') . "</span></a></li>";
+						 $html .= "\t\t\t\t\t<li role=\"presentation\" class=\"" . ($urlArray[1]=='channels'?'active':'') . "\"><a href=\"/settings/channels/\"><span class=\"glyphicon glyphicon-th-large\"></span>  <span>" . Lang::getLang('channels') . "</span></a></li>";
+						 $html .= "\t\t\t\t\t<li role=\"presentation\" class=\"" . ($urlArray[1]=='subscriptions'?'active':'') . "\"><a href=\"/settings/subscriptions/\" ><span class=\"glyphicon glyphicon-star\"></span>  <span>" . Lang::getLang('subscriptions') . "</span> </a></li>";
 					$html .= "\t\t\t\t</ul>\n";
 				$html .= "\t\t\t</div>\n";
 			$html .= "\t\t</div>\n";
@@ -138,9 +146,9 @@ class PageView {
 			$html .= "\t\t<div class=\"row\" style=\"margin-bottom:10px;\">\n";
 				$html .= "
 					<div class=\"btn-group btn-group-lg\">
-						<a href=\"/u/" . $username . "/posts/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-user\"></span> Profile</a>
-						<a href=\"/u/" . $username . "/channels/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-th-large\"></span> Channels</a>
-						<a href=\"/u/" . $username . "/subscriptions/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-star\"></span> Subscriptions</a>
+						<a href=\"/u/" . $username . "/posts/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-user\"></span> " . Lang::getLang('profile') . "</a>
+						<a href=\"/u/" . $username . "/channels/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-th-large\"></span> " . Lang::getLang('channels') . "</a>
+						<a href=\"/u/" . $username . "/subscriptions/\" class=\"btn jagaFormButton\"><span class=\"glyphicon glyphicon-star\"></span> " . Lang::getLang('subscriptions') . "</a>
 					</div>
 				";
 			$html .= "\t\t</div>\n";
@@ -369,6 +377,9 @@ class PageView {
 		
 		$html .= $this->getFooter();
 		
+		$previousPage = trim(implode('/', $urlArray), '/');
+		if ($previousPage == 'lang/en' || $previousPage == 'lang/ja' || $previousPage == '') { $_SESSION['previousPage'] = '/'; } else { $_SESSION['previousPage'] = $previousPage; }
+
 		return $html;
 		
 	}

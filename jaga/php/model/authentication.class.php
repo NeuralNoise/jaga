@@ -8,7 +8,7 @@ class Authentication {
 		$errorArray = array();
 	
 		$core = Core::getInstance();
-		$query = "SELECT userID, username, userEmail, userPassword FROM jaga_User WHERE username = :username OR userEmail = :username LIMIT 1";
+		$query = "SELECT userID, username, userEmail, userPassword, userSelectedLanguage FROM jaga_User WHERE username = :username OR userEmail = :username LIMIT 1";
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':username' => $username));
 		
@@ -21,6 +21,8 @@ class Authentication {
 			$errorArray['login'][] = 'Authentication failed. Please try again or <a href="/account-recovery/">recover your account details</a> using your email address.';
 		}
 
+		if ($row['userSelectedLanguage'] == 'ja') { $_SESSION['lang'] = 'ja'; } else { $_SESSION['lang'] = 'en'; }
+		
 		return $errorArray;
 
 	}
