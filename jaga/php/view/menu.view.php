@@ -45,7 +45,7 @@ class MenuView {
 						$html .= "\t\t\t\t\t<ul class=\"nav navbar-nav\">\n";
 
 							// START "THIS CHANNEL" DROPDOWN //
-							if ($_SESSION['channelID'] != 2006) { // the.kutchannel.net categories are aggregate
+							if ($_SESSION['channelID'] != 2006) { // jaga.io categories are aggregate
 								$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"/\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">THIS CHANNEL <b class=\"caret\"></b></a>\n";
 									$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\">\n";
 									
@@ -89,13 +89,13 @@ class MenuView {
 
 							
 							if ($_SESSION['userID'] != 0) {
-								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/home/\"><span class=\"glyphicon glyphicon-home hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">HOME</span></a></li>\n";
+								$html .= "\t\t\t\t\t\t<li><a href=\"http://jaga.io/home/\"><span class=\"glyphicon glyphicon-home hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">HOME</span></a></li>\n";
 							}
 							
-							$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/channels/\"><span class=\"glyphicon glyphicon-th-large hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">CHANNELS</span></a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a href=\"http://jaga.io/channels/\"><span class=\"glyphicon glyphicon-th-large hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">CHANNELS</span></a></li>\n";
 							
 							if ($_SESSION['userID'] != 0) {
-								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/u/" .  $username . "/\"><span class=\"glyphicon glyphicon glyphicon-user hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">PROFILE</span></a></li>\n";
+								$html .= "\t\t\t\t\t\t<li><a href=\"http://jaga.io/u/" .  $username . "/\"><span class=\"glyphicon glyphicon glyphicon-user hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">PROFILE</span></a></li>\n";
 							}
 								
 							// START "YOUR CHANNELS" DROPDOWN //
@@ -108,8 +108,8 @@ class MenuView {
 								} else {
 									$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu jagaDrop\">\n";
 										$html .= self::navBarUserChannelDropdown();
-										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/u/" .  $username . "/channels/\"><em>YOUR CHANNELS...</em></a></li>\n";
-										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/u/" .  $username . "/subscriptions/\"><em>YOUR SUBSCRIPTIONS...</em></a></li>\n";
+										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://jaga.io/u/" .  $username . "/channels/\"><em>YOUR CHANNELS...</em></a></li>\n";
+										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://jaga.io/u/" .  $username . "/subscriptions/\"><em>YOUR SUBSCRIPTIONS...</em></a></li>\n";
 									$html .= "\t\t\t\t\t\t\t</ul>\n";
 								}
 							$html .= "\t\t\t\t\t\t</li>\n";
@@ -120,7 +120,7 @@ class MenuView {
 								$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu jagaDrop\">\n";
 									$html .= self::getNavBarExploreListItems();
 									$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
-									$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/channels/\">ALL CHANNELS...</a></li>\n";
+									$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://jaga.io/channels/\">ALL CHANNELS...</a></li>\n";
 								$html .= "\t\t\t\t\t\t\t</ul>\n";
 							$html .= "\t\t\t\t\t\t</li>\n";
 							// END "EXPLORE" DROPDOWN //
@@ -128,8 +128,8 @@ class MenuView {
 							if ($_SESSION['userID'] == 0) { // IF NOT LOGGED IN
 								$html .= "\t\t\t\t\t\t<li><a href=\"/login/\"><span class=\"glyphicon glyphicon-log-in hidden-xs\"></span><span class=\"visible-xs\">LOGIN</span></a></li>\n";
 							} else { // IF LOGGED IN
-								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/imo/\"><span class=\"glyphicon glyphicon-envelope hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">MESSAGES</span></a></li>\n";
-								$html .= "\t\t\t\t\t\t<li><a href=\"http://the.kutchannel.net/settings/profile/\"><span class=\"glyphicon glyphicon-cog hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">SETTINGS</span></a></li>\n";
+								$html .= "\t\t\t\t\t\t<li><a href=\"http://jaga.io/imo/\"><span class=\"glyphicon glyphicon-envelope hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">MESSAGES</span></a></li>\n";
+								$html .= "\t\t\t\t\t\t<li><a href=\"http://jaga.io/settings/profile/\"><span class=\"glyphicon glyphicon-cog hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">SETTINGS</span></a></li>\n";
 								$html .= "\t\t\t\t\t\t<li><a href=\"/logout/\"><span class=\"glyphicon glyphicon-log-out hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">LOGOUT</span></a></li>\n";
 							}
 								
@@ -182,7 +182,7 @@ class MenuView {
 			if ($j < 7) {
 				$html .= "\t\t\t\t\t\t\t\t<li";
 					if ($j >= 3) { $html .= " class=\"hidden-xs\""; }
-				$html .= "><a href=\"http://$channelKey.kutchannel.net/\">" . strtoupper($channelKey);
+				$html .= "><a href=\"http://$channelKey.jaga.io/\">" . strtoupper($channelKey);
 					$html .= " <span class=\"jagaBadge\">$postCount</span>";
 				$html .= "</a></li>\n";
 				$j++;
@@ -210,7 +210,7 @@ class MenuView {
 				if ($k < 14) {
 					$html .= "\t\t\t\t\t\t\t\t<li";
 						if ($k >= 3) { $html .= " class=\"hidden-xs\""; }
-					$html .= "><a href=\"http://$channelKey.kutchannel.net/\">";
+					$html .= "><a href=\"http://$channelKey.jaga.io/\">";
 						$html .= strtoupper($channelKey);
 						$html .= "<span class=\"jagaBadge\">$totalPosts</span>";
 					$html .= "</a></li>\n";

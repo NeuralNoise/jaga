@@ -4,7 +4,7 @@ class Controller {
 	
 	public function __construct() {
 	
-		if (!isset($_COOKIE['TheKutchannel'])) { $cookie = new Cookie(); }
+		if (!isset($_COOKIE['jaga'])) { $cookie = new Cookie(); }
 	
 		$channelID = Channel::getSelectedChannelID();
 		Session::setSession('channelID', $channelID);
@@ -12,8 +12,8 @@ class Controller {
 		Session::setSession('channelKey', $channelKey);
 		
 		$userID = 0;
-		if (isset($_COOKIE['TheKutchannel'])) {
-			$sessionID = $_COOKIE['TheKutchannel'];
+		if (isset($_COOKIE['jaga'])) {
+			$sessionID = $_COOKIE['jaga'];
 			$userID = Session::getAuthSessionUserID($sessionID);
 		}
 		
@@ -23,19 +23,25 @@ class Controller {
 
 	public function getResource($urlArray) {
 
-		if ($_SESSION['channelID'] == 0) {
+		
+		// if (!isset($_SESSION['lang'])) {
+			// $browserDefaultLanguage = Language::getBrowserDefaultLanguage();
+			// Language::setLanguage($browserDefaultLanguage);
+		// }
 
-			$reservedDomains = array('blog', 'db', 'dev', 'domains', 'dns', 'faq', 'ftp', 'groups', 'help', 'int', 'mail', 'prod', 'repo', 'sandbox', 'secure', 'support', 'qa', 'wiki', 'www');
+		if ($_SESSION['channelID'] == 0) {
 			
 			$domain = $_SERVER['HTTP_HOST'];
 			$tmp = explode('.', $domain);
 			$subdomain = current($tmp);
+
+			$reservedDomains = array('blog', 'db', 'dev', 'domains', 'dns', 'faq', 'ftp', 'groups', 'help', 'int', 'mail', 'news', 'prod', 'repo', 'sandbox', 'secure', 'support', 'the', 'qa', 'wiki', 'www');
 			
 			if (in_array($subdomain,$reservedDomains)) {
-				return '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><head><title>The Kutchannel: This subdomain is reserved.</title><META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"></head><body style="background-color:#FFFF99;padding-top:150px;"><div style="text-align:center;"><a href="http://the.kutchannel.net/"><img src="/jaga/images/banner.png" style="max-width:100%;border-style:none;"></a><br />This subdomain is reserved.</div></body></html>';
+				return '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><head><title>The Kutchannel: This subdomain is reserved.</title><META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"></head><body style="background-color:#FFFF99;padding-top:150px;"><div style="text-align:center;"><a href="http://jaga.io/"><img src="/jaga/images/banner.png" style="max-width:100%;border-style:none;"></a><br />This subdomain is reserved.</div></body></html>';
 				die();			
 			} else {
-				return '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><head><title>The Kutchannel: The "' . $subdomain . '" channel does not yet exist.</title><META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"></head><body style="background-color:#FFFF99;padding-top:150px;"><div style="text-align:center;"><a href="http://the.kutchannel.net/"><img src="/jaga/images/banner.png" style="max-width:100%;border-style:none;"></a><br />This channel has not yet been created. <a href="http://the.kutchannel.net/create-a-channel/' . $subdomain . '/" style="text-decoration:none;">Create it</a>!</div></body></html>';
+				return '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><head><title>The Kutchannel: The "' . $subdomain . '" channel does not yet exist.</title><META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"></head><body style="background-color:#FFFF99;padding-top:150px;"><div style="text-align:center;"><a href="http://jaga.io/"><img src="/jaga/images/banner.png" style="max-width:100%;border-style:none;"></a><br />This channel has not yet been created. <a href="http://jaga.io/create-a-channel/' . $subdomain . '/" style="text-decoration:none;">Create it</a>!</div></body></html>';
 				die();
 			}
 
@@ -534,8 +540,8 @@ class Controller {
 					$newAccountRecovery = new AccountRecovery($accountRecoveryID);
 					$accountRecoveryMash = $newAccountRecovery->accountRecoveryMash;
 					$userName = User::getUsername($accountRecovery->accountRecoveryUserID);
-					$mailMessage = "<html><body>Hello, <b>$userName</b>!<br /><br />You can use your username to reset your password at the following URL:<br /><br />http://the.kutchannel.net/reset-password/" . $accountRecoveryMash . "/<br /><br /><i>Only your most recent Account Recovery link is valid.<br />This Account Recovery link is only valid for 24 hours.</i><br /><hr />Thank you for using The Kutchannel!</body></html>";
-					Mail::sendEmail($userEmail, "The Kutchannel <noreply@kutchannel.net>", "Account Recovery", $mailMessage, $_SESSION['channelID'], $_SESSION['userID'], "html");
+					$mailMessage = "<html><body>Hello, <b>$userName</b>!<br /><br />You can use your username to reset your password at the following URL:<br /><br />http://jaga.io/reset-password/" . $accountRecoveryMash . "/<br /><br /><i>Only your most recent Account Recovery link is valid.<br />This Account Recovery link is only valid for 24 hours.</i></body></html>";
+					Mail::sendEmail($userEmail, "jaga.io <noreply@jaga.io>", "Account Recovery", $mailMessage, $_SESSION['channelID'], $_SESSION['userID'], "html");
 					
 					// forward
 					$postSubmitURL = "/account-recovery-mail-sent/";

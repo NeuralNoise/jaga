@@ -8,12 +8,12 @@ class Cookie {
 		$sessionExpiry = strtotime("+1 month", time());
 		
 		setcookie(
-			'TheKutchannel',
+			'jaga',
 			$sessionID,
 			// time() + (31 * 24 * 60 * 60), // one month
 			$sessionExpiry,
 			'/',
-			'.kutchannel.net',
+			'.jaga.io',
 			FALSE
 		);
 

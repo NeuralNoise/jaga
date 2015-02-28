@@ -13,7 +13,7 @@ class Session {
 
 	public function __construct() {
 
-		$this->sessionID = $_COOKIE['TheKutchannel'];
+		$this->sessionID = $_COOKIE['jaga'];
 		$this->userID = $_SESSION['userID'];
 		$this->sessionDateTimeSet = date('Y-m-d H:i:s');
 		$this->sessionDateTimeExpire = date("Y-m-d H:i:s", strtotime("+1 month"));

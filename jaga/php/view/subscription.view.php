@@ -32,7 +32,7 @@ class SubscriptionView {
 									
 									// $channelKey = Channel::getChannelKey($channelID);
 									
-									$html .= "\t\t\t\t\t\t\t<tr class=\"jagaClickableRow\" data-url=\"http://" . $channelKey . ".kutchannel.net/\">\n";
+									$html .= "\t\t\t\t\t\t\t<tr class=\"jagaClickableRow\" data-url=\"http://" . $channelKey . ".jaga.io/\">\n";
 										$html .= "\t\t\t\t\t\t\t\t<td>" . $channelKey . "</td>\n";
 										$html .= "\t\t\t\t\t\t\t\t<td>" . $channelTitle . "</td>\n";
 										$html .= "\t\t\t\t\t\t\t\t<td>" . $channelManager . "</td>\n";

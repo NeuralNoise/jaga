@@ -64,17 +64,17 @@ class PageView {
 				$html = "\n\n\t\t<div id=\"footer\">\n";
 					$html .= "\t\t\t\t<div class=\"col-sm-8 hidden-xs\" style=\"padding-bottom:3px;\">\n";
 						$html .= "\t\t\t\t\t<ul class=\"list-inline\">\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/about/\">About</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/tos/\">Terms of Service</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/privacy/\">Privacy Policy</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://github.com/chishiki/kutchannel/\">Source Code</a></li>\n";								
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/sitemap/\">Sitemap</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/advertise/\">Advertise</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://the.kutchannel.net/contact/\">Contact</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/about/\">About</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/tos/\">Terms of Service</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/privacy/\">Privacy Policy</a></li>\n";
+							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://github.com/chishiki/jaga/\">Source Code</a></li>\n";								
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/sitemap/\">Sitemap</a></li>\n";
+							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/advertise/\">Advertise</a></li>\n";
+							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/contact/\">Contact</a></li>\n";
 						$html .= "\t\t\t\t\t</ul>\n";
 					$html .= "\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t<div class=\"col-sm-4\">\n";
-						$html .= "\t\t\t\t<div class=\"pull-right\">&copy; The Kutchannel 2006-" . date('Y') . "</div>\n";
+						$html .= "\t\t\t\t<div class=\"pull-right\">Powered by <a href=\"http://github.com/chishiki/jaga/\">JAGA</a></div>\n";
 					$html .= "\t\t\t\t</div>\n";
 				$html .= "\t\t</div>\n\n";
 			$html .= "\t</body>\n\n";
@@ -91,16 +91,16 @@ class PageView {
 		$channelTitle = $channel->channelTitleEnglish;
 		
 		$html = "<div class=\"container\"><ol class=\"breadcrumb\">";
-			$html .= "<li><a href=\"http://the.kutchannel.net/\">THE KUTCHANNEL</a></li>";
+			$html .= "<li><a href=\"http://jaga.io/\">JAGA.IO</a></li>";
 			if ($urlArray[1] == '') {
 				$html .= "<li>" . strtoupper($channelTitle) . "</li>";
 			} else {
-				$html .= "<li><a href=\"http://" . $channelKey . ".kutchannel.net/\">" . strtoupper($channelTitle) . "</a></li>";
+				$html .= "<li><a href=\"http://" . $channelKey . ".jaga.io/\">" . strtoupper($channelTitle) . "</a></li>";
 			}
 			if ($urlArray[0] == 'k' && $urlArray[1] != '') { // /k/<contentCategoryKey>/
 				$categoryTitle = strtoupper(Category::getCategoryTitle($urlArray[1]));
 				if ($urlArray[2] != '') {
-					$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".kutchannel.net/k/" . $urlArray[1] . "/\">" . $categoryTitle . "</a></li>";
+					$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".jaga.io/k/" . $urlArray[1] . "/\">" . $categoryTitle . "</a></li>";
 				} else {
 					$html .= "<li class=\"active\">" . $categoryTitle . "</li>";
 				}

@@ -31,7 +31,7 @@ class RSS {
 		$rss .= "<rss version=\"2.0\">\n";
 			$rss .= "\t<channel>\n";
 				$rss .= "\t<title>". $channel->channelTitleEnglish . "</title>\n";
-				$rss .= "\t<link>http://" . $channel->channelKey . ".kutchannel.net/</link>\n";
+				$rss .= "\t<link>http://" . $channel->channelKey . ".jaga.io/</link>\n";
 				$rss .= "\t<description>". $channel->channelDescriptionEnglish . "</description>\n";
 				
 				// $rss .= "\t<language>". $row['language'] . "</language>\n";

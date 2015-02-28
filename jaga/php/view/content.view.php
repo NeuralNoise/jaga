@@ -31,7 +31,7 @@ class ContentView {
 				$html .= "\t\t<div class=\"panel-heading jagaContentPanelHeading\">";
 					$html .= "<div>";
 						$html .= "<strong>" . $contentTitle . "</strong> | ";
-						$html .= "<i><a href=\"http://the.kutchannel.net/u/" . $opUserName . "/\">" . $opUserName . "</a> at " . $contentSubmissionDateTime . "</i>";
+						$html .= "<i><a href=\"http://jaga.io/u/" . $opUserName . "/\">" . $opUserName . "</a> at " . $contentSubmissionDateTime . "</i>";
 
 						if ($opID == $_SESSION['userID']) { $html .= "<a href=\"/k/update/" . $contentID . "/\" class=\"btn btn-default btn-sm pull-right\"><span class=\"glyphicon glyphicon-pencil\"></span></a>"; }
 					$html .= "</div>";
@@ -521,12 +521,12 @@ class ContentView {
 						$html .= "\t\t\t\t\t<div class=\"panel panel-default\">\n";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n";
-								$html .= "<h4><a href=\"http://" . $thisContentChannelKey . ".kutchannel.net/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\">" . strtoupper($contentTitle) . "</a></h4>";
-								$html .= "<a href=\"http://the.kutchannel.net/u/" . $username . "/\">" . $username . "</a> ";
-								$html .= "<a href=\"http://" . $thisContentChannelKey . ".kutchannel.net/\" class=\"pull-right\">" . $channelTitle . "</a>";
+								$html .= "<h4><a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\">" . strtoupper($contentTitle) . "</a></h4>";
+								$html .= "<a href=\"http://jaga.io/u/" . $username . "/\">" . $username . "</a> ";
+								$html .= "<a href=\"http://" . $thisContentChannelKey . ".jaga.io/\" class=\"pull-right\">" . $channelTitle . "</a>";
 							$html .= "\t\t\t\t\t\t</div>\n";
 
-							$html .= "\t\t\t\t\t\t\t<a href=\"http://" . $thisContentChannelKey . ".kutchannel.net/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
+							$html .= "\t\t\t\t\t\t\t<a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
 								$html .= "<span class=\"jagaListGroup\">";
 									// $html .= "<span class=\"jagaListGroupBadge\">" . $contentViews . "</span>";
 									if (Image::objectHasImage('Content',$contentID)) {

@@ -34,7 +34,7 @@ class Sitemap {
 			$channelKey = Channel::getChannelKey($row['channelID']);
 			$contentCategoryKey = $row['contentCategoryKey'];
 			$contentURL = $row['contentURL'];
-			$this->xml .= "\t<url><loc>http://" . $channelKey . ".kutchannel.net/k/" . $contentCategoryKey . "/" . htmlspecialchars($contentURL) . "/</loc></url>\n";
+			$this->xml .= "\t<url><loc>http://" . $channelKey . ".jaga.io/k/" . $contentCategoryKey . "/" . htmlspecialchars($contentURL) . "/</loc></url>\n";
 			
 		}
 

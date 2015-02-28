@@ -32,7 +32,7 @@ class Authentication {
 		session_destroy();
 		
 		// kill jaga_session
-		$sessionID = $_COOKIE['TheKutchannel'];
+		$sessionID = $_COOKIE['jaga'];
 		$currentDateTime = date('Y-m-d H:i:s');
 		$core = Core::getInstance();
 		$query = "UPDATE jaga_session SET sessionDateTimeExpire = :currentDateTime WHERE sessionID = :sessionID LIMIT 1";
@@ -40,8 +40,8 @@ class Authentication {
 		$statement->execute(array(':currentDateTime' => $currentDateTime, ':sessionID' => $sessionID));
 		
 		// kill cookie
-		setcookie('TheKutchannel', 'loggedout', time()-3600, '/', '.kutchannel.net', FALSE);
-		unset($_COOKIE['TheKutchannel']);
+		setcookie('jaga', 'loggedout', time()-3600, '/', '.jaga.io', FALSE);
+		unset($_COOKIE['jaga']);
 		
 		
 		

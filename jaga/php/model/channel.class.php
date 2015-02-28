@@ -144,6 +144,7 @@ class Channel extends ORM {
 		
 		$domain = $_SERVER['HTTP_HOST'];
 		$tmp = explode('.', $domain);
+		if ($tmp[0] == 'jaga' && $tmp[1] == 'io') { array_unshift($tmp, "the"); }
 		$subdomain = current($tmp);
 		
 		$query = "SELECT channelID FROM jaga_Channel WHERE channelKey = '$subdomain' LIMIT 1";

@@ -264,7 +264,7 @@ class ChannelView {
 							$themeKey = $channel->themeKey;
 							$pagesServed = $channel->pagesServed;
 							$siteManagerUserID = $channel->siteManagerUserID;
-							$html .= "<tr class=\"jagaClickableRow\" data-url=\"http://" . $channelKey . ".kutchannel.net/settings/channels/update/" . $channelKey . "/\">";
+							$html .= "<tr class=\"jagaClickableRow\" data-url=\"http://" . $channelKey . ".jaga.io/settings/channels/update/" . $channelKey . "/\">";
 								$html .= "<td>" . strtoupper($channelKey) . "</td>\n";
 								$html .= "<td>" . $channelTitleEnglish . "</td>\n";
 								$html .= "<td>" . $themeKey . "</td>\n";
@@ -318,7 +318,7 @@ class ChannelView {
 							$channelTitleEnglish = $channel->channelTitleEnglish;
 							$siteManagerUserName = User::getUserName($channel->siteManagerUserID);
 							$pagesServed = $channel->pagesServed;
-							$html .= "<tr class=\"jagaClickableRow\" data-url=\"http://" . $channelKey . ".kutchannel.net/\">";
+							$html .= "<tr class=\"jagaClickableRow\" data-url=\"http://" . $channelKey . ".jaga.io/\">";
 								$html .= "<td>" . strtoupper($channelKey) . "</td>\n";
 								$html .= "<td>" . $channelTitleEnglish . "</td>\n";
 								$html .= "<td>" . $siteManagerUserName . "</td>\n";

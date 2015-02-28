@@ -3,6 +3,8 @@
 class AuthenticationView {
 
 	public static function getAuthForm($type, $inputArray, $errorArray = array()) {
+
+		if ($_SESSION['channelID'] == 2006) { $formBaseURL = 'http://jaga.io/'; } else { $formBaseURL = 'http://' . Channel::getChannelKey($_SESSION['channelID']) . '.jaga.io/';}
 	
 		$html = "\n\n\t<!-- START AUTH CONTAINER -->\n";
 		$html .= "\t<div class=\"container\">\n\n";
@@ -28,7 +30,7 @@ class AuthenticationView {
 
 						
 						$html .= "\t\t\t\t\t<!-- START jagaLoginForm -->\n";
-						$html .= "\t\t\t\t\t<form role=\"form\" id=\"jagaLoginForm\" name=\"login\" class=\"form-horizontal\" method=\"post\" action=\"/login/\">\n\n";
+						$html .= "\t\t\t\t\t<form role=\"form\" id=\"jagaLoginForm\" name=\"login\" class=\"form-horizontal\" method=\"post\" action=\"" . $formBaseURL . "login/\">\n\n";
 					
 							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom:25px;\" class=\"input-group\">\n";
 								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-user\"></i></span>\n";
@@ -95,7 +97,7 @@ class AuthenticationView {
 					
 					
 						$html .= "\t\t\t\t\t<!-- START jagaRegisterForm -->\n";
-						$html .= "\t\t\t\t\t<form name=\"jagaRegisterForm\" id=\"signupform\" class=\"form-horizontal\" role=\"form\" method=\"post\" action=\"/register/\">\n\n";
+						$html .= "\t\t\t\t\t<form name=\"jagaRegisterForm\" id=\"signupform\" class=\"form-horizontal\" role=\"form\" method=\"post\" action=\"" . $formBaseURL . "register/\">\n\n";
 						
 							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom:25px;\" class=\"input-group\">\n";
 								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-user\"></i></span>\n";

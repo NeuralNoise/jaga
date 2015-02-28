@@ -221,7 +221,7 @@
 												$channel = new Channel($content->channelID);
 												$channelKey = $channel->channelKey;
 												$channelTitle = $channel->channelTitleEnglish;
-												$contentViewURL = "http://" . $channelKey . ".kutchannel.net/k/" . $contentCategoryKey . "/" . $contentURL . "/";
+												$contentViewURL = "http://" . $channelKey . ".jaga.io/k/" . $contentCategoryKey . "/" . $contentURL . "/";
 
 												$html .= "<tr>";
 													$html .= "<td><a href=\"" . $contentViewURL . "\">" . $contentTitle . "</a></td>";
@@ -284,7 +284,7 @@
 														$content = new Content($comment->commentObjectID);
 														$contentCategoryKey = $content->contentCategoryKey;
 														$contentURL = $content->contentURL;
-														$contentViewURL = "http://" . $channelKey . ".kutchannel.net/k/" . $contentCategoryKey . "/" . $contentURL . "/";
+														$contentViewURL = "http://" . $channelKey . ".jaga.io/k/" . $contentCategoryKey . "/" . $contentURL . "/";
 													}
 													
 													$html .= "\t\t\t<tr>";

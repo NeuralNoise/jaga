@@ -51,7 +51,7 @@ class CategoryView {
 											$user = new User($contentSubmittedByUserID);
 											$username = $user->username;
 											
-											$html .= "\t\t\t\t\t\t\t<a href=\"http://" . $thisContentChannelKey . ".kutchannel.net/k/" . $contentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
+											$html .= "\t\t\t\t\t\t\t<a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $contentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
 												
 												
 												
