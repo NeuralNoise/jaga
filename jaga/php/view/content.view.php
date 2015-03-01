@@ -6,8 +6,16 @@ class ContentView {
 	
 		
 		$content = new Content($contentID);
-		$contentTitle = $content->contentTitleEnglish;
-		$contentContent = $content->contentEnglish;
+		
+		if ($_SESSION['lang'] == 'ja') {
+			if ($content->contentTitleJapanese != '') { $contentTitle = $content->contentTitleJapanese; } else { $contentTitle = $content->contentTitleEnglish; }
+			if ($content->contentJapanese != '') { $contentContent = $content->contentJapanese; } else { $contentContent = $content->contentEnglish; }
+		} else {
+			if ($content->contentTitleEnglish != '') { $contentTitle = $content->contentTitleEnglish; } else { $contentTitle = $content->contentTitleJapanese; }
+			if ($content->contentEnglish != '') { $contentContent = $content->contentEnglish; } else { $contentContent = $content->contentJapanese; }
+		}
+		
+		
 		$contentSubmissionDateTime = $content->contentSubmissionDateTime;
 		$contentPublished = $content->contentPublished;
 		$opID = $content->contentSubmittedByUserID;
@@ -41,7 +49,7 @@ class ContentView {
 				
 				$html .= "\t\t<div class=\"panel-body\">";
 					
-					$html .= "<div class=\"well\">" . $contentContent . "</div>";
+					$html .= "<div class=\"well\" style=\"white-space:pre-line;\">" . $contentContent . "</div>";
 					
 					$html .= "<div id=\"list\" class=\"row\">";
 						
@@ -530,11 +538,11 @@ class ContentView {
 					
 					if ($_SESSION['lang'] == 'ja') {
 						$contentTitle = $content->contentTitleJapanese;
-						$contentEnglish = $content->contentJapanese;
+						$contentContent = $content->contentJapanese;
 						$channelTitle = $channel->channelTitleJapanese;
 					} else {
 						$contentTitle = $content->contentTitleEnglish;
-						$contentEnglish = $content->contentEnglish;
+						$contentContent = $content->contentEnglish;
 						$channelTitle = $channel->channelTitleEnglish;
 					}
 					
@@ -558,7 +566,7 @@ class ContentView {
 										if ($imagePath == "") { $imagePath = Image::getObjectMainImagePath('Content',$contentID); }
 										if ($imagePath != "") { $html .= "<img class=\"img-responsive\" src=\"" . $imagePath . "\"><br />"; }
 									}			
-									$html .=  $contentEnglish;
+									$html .=  "<div style=\"white-space:pre-line;\">" . $contentContent . "</div>";
 								$html .= "</span>";
 							$html .= "</a>\n";
 							
