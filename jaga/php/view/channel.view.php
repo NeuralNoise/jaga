@@ -91,7 +91,7 @@ class ChannelView {
 						$html .= "\">\n\n";
 					
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelKey\" class=\"col-sm-4 control-label\">Channel</label>\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelKey\" class=\"col-sm-4 control-label\">" . Lang::getLang('channel') . "</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 								
 									if ($type == 'create') {
@@ -107,21 +107,21 @@ class ChannelView {
 							$html .= "<hr />";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelTitleEnglish\" class=\"col-sm-4 control-label\">Title (English)</label>\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelTitleEnglish\" class=\"col-sm-4 control-label\">" . Lang::getLang('channelTitleEnglish') . "</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelTitleEnglish\" name=\"channelTitleEnglish\" class=\"form-control\" placeholder=\"channelTitleEnglish\" value=\"" . $channelTitleEnglish . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelKeywordsEnglish\" class=\"col-sm-4 control-label\">Keywords (English)</label>\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelKeywordsEnglish\" class=\"col-sm-4 control-label\">" . Lang::getLang('channelKeywordsEnglish') . "</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelKeywordsEnglish\" name=\"channelKeywordsEnglish\" class=\"form-control\" placeholder=\"channelKeywordsEnglish\" value=\"" . $channelKeywordsEnglish . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelDescriptionEnglish\" class=\"col-sm-4 control-label\">Description (English)</label>\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelDescriptionEnglish\" class=\"col-sm-4 control-label\">" . Lang::getLang('channelDescriptionEnglish') . "</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelDescriptionEnglish\" name=\"channelDescriptionEnglish\" class=\"form-control\" placeholder=\"channelDescriptionEnglish\" value=\"" . $channelDescriptionEnglish . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
@@ -130,21 +130,21 @@ class ChannelView {
 							$html .= "<hr />";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelTitleJapanese\" class=\"col-sm-4 control-label\">Title (Japanese)</label>\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelTitleJapanese\" class=\"col-sm-4 control-label\">" . Lang::getLang('channelTitleJapanese') . "</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelTitleJapanese\" name=\"channelTitleJapanese\" class=\"form-control\" placeholder=\"channelTitleJapanese\" value=\"" . $channelTitleJapanese . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelKeywordsJapanese\" class=\"col-sm-4 control-label\">Keywords (Japanese)</label>\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelKeywordsJapanese\" class=\"col-sm-4 control-label\">" . Lang::getLang('channelKeywordsJapanese') . "</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelKeywordsJapanese\" name=\"channelKeywordsJapanese\" class=\"form-control\" placeholder=\"channelKeywordsJapanese\" value=\"" . $channelKeywordsJapanese . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelDescriptionJapanese\" class=\"col-sm-4 control-label\">Description (Japanese)</label>\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelDescriptionJapanese\" class=\"col-sm-4 control-label\">" . Lang::getLang('channelDescriptionJapanese') . "</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelDescriptionJapanese\" name=\"channelDescriptionJapanese\" class=\"form-control\" placeholder=\"channelDescriptionJapanese\" value=\"" . $channelDescriptionJapanese . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
@@ -153,7 +153,7 @@ class ChannelView {
 							$html .= "<hr />";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"themeKey\" class=\"col-sm-4 control-label\">Theme</label>\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"themeKey\" class=\"col-sm-4 control-label\">" . Lang::getLang('theme') . "</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-4\">\n";
 									$html .= ThemeView::getThemeDropdown($themeKey);
 								$html .= "\t\t\t\t\t\t\t</div>\n";
@@ -170,7 +170,7 @@ class ChannelView {
 							$checkboxColumnCount = ceil($categoryCount/2);
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"contentCategoryKey[]\" class=\"col-sm-4 control-label\">Categories</label>\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"contentCategoryKey[]\" class=\"col-sm-4 control-label\">" . Lang::getLang('categories') . "</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 
 									$html .= "<div class=\"row\">";
@@ -199,7 +199,7 @@ class ChannelView {
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12\">\n";
-									$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaChannelSubmit\" id=\"jagaChannelSubmit\" class=\"btn btn-default jagaFormButton col-xs-8 col-sm-6 col-md-4 pull-right\" value=\"" . $type . "\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaChannelSubmit\" id=\"jagaChannelSubmit\" class=\"btn btn-default jagaFormButton col-xs-8 col-sm-6 col-md-4 pull-right\" value=\"" . Lang::getLang($type) . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 								
 							$html .= "\t\t\t\t\t\t</div>\n\n";
@@ -240,16 +240,16 @@ class ChannelView {
 		
 			$html .= "<div class=\"panel panel-default\">\n";
 				
-				$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>YOUR CHANNELS</h4></div>\n";
+				$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . Lang::getLang('yourChannels') . "</h4></div>\n";
 				
 				$html .= "<div class=\"table-responsive\">\n";
 					$html .= "<table class=\"table table-hover table-striped\">\n";
 						$html .= "<tr>";
-							$html .= "<th>Key</th>\n";
-							$html .= "<th>Title</th>\n";
-							$html .= "<th>Theme</th>\n";
-							$html .= "<th class=\"text-right\">Total Posts</th>\n";
-							$html .= "<th class=\"text-right\">Pages Served</th>\n";
+							$html .= "<th>" . Lang::getLang('channelKey') . "</th>\n";
+							$html .= "<th>" . Lang::getLang('title') . "</th>\n";
+							$html .= "<th>" . Lang::getLang('theme') . "</th>\n";
+							$html .= "<th class=\"text-right\">" . Lang::getLang('totalPosts') . "</th>\n";
+							$html .= "<th class=\"text-right\">" . Lang::getLang('pageServed') . "</th>\n";
 						$html .= "</tr>";
 						foreach ($channelArray AS $channelKey => $totalPosts) {
 							$channelID = Channel::getChannelID($channelKey);
@@ -301,16 +301,16 @@ class ChannelView {
 			
 			$html .= "<div class=\"panel panel-default\">\n";
 				
-				$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>ALL CHANNELS</h4></div>\n";
+				$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . Lang::getLang('allChannels') . "</h4></div>\n";
 
 				$html .= "<div class=\"table-responsive\">\n";
 					$html .= "<table class=\"table table-striped table-hover table-condensed\">\n";
 						$html .= "<tr>";
-							$html .= "<th>Channel</th>\n";
-							$html .= "<th>Title</th>\n";
-							$html .= "<th>Manager</th>\n";
-							$html .= "<th class=\"text-right\">Total Posts</th>\n";
-							$html .= "<th class=\"text-right\">Pages Served</th>\n";
+							$html .= "<th>" . Lang::getLang('channel') . "</th>\n";
+							$html .= "<th>" . Lang::getLang('title') . "</th>\n";
+							$html .= "<th>" . Lang::getLang('manager') . "</th>\n";
+							$html .= "<th class=\"text-right\">" . Lang::getLang('totalPosts') . "</th>\n";
+							$html .= "<th class=\"text-right\">" . Lang::getLang('pagesServed') . "</th>\n";
 						$html .= "</tr>";
 						foreach ($channelArray AS $channelKey => $totalPosts) {
 							$channelID = Channel::getChannelID($channelKey);

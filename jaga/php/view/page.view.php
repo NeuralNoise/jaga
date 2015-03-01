@@ -96,10 +96,10 @@ class PageView {
 	
 		$channel = new Channel($_SESSION['channelID']);
 		$channelKey = $channel->channelKey;
-		$channelTitle = $channel->channelTitleEnglish;
+		if ($_SESSION['lang'] == 'ja') { $channelTitle = $channel->channelTitleJapanese; } else { $channelTitle = $channel->channelTitleEnglish; }
 		
 		$html = "<div class=\"container\"><ol class=\"breadcrumb\">";
-			$html .= "<li><a href=\"http://jaga.io/\">JAGA.IO</a></li>";
+			$html .= "<li><a href=\"http://jaga.io/\">" . Lang::getLang('jaga') . "</a></li>";
 			if ($urlArray[1] == '') {
 				$html .= "<li>" . strtoupper($channelTitle) . "</li>";
 			} else {
@@ -211,7 +211,17 @@ class PageView {
 			} elseif ($urlArray[0] == 'thank-you-for-registering') {
 
 				$html .= "\t\t<div class=\"container\">";
-					$html .= "<div class=\"col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2\" style=\"margin-bottom:10px;\">Thank you for registering for The Kutchannel!</div>";
+					$html .= "<div class=\"col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2\" style=\"margin-bottom:10px;\">";
+					
+					
+					if ($_SESSION['lang'] == 'ja') {
+						$html .= "ご登録をありがとうございました。よろしくお願い致します！";
+					} else {
+						$html .= "Thank you for registering for JAGA!";
+					}
+					
+					
+					$html .= "</div>";
 				$html .= "</div>\n\n";
 
 				$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);

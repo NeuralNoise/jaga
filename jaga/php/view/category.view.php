@@ -38,14 +38,22 @@ class CategoryView {
 										
 											$content = new Content($contentID);
 											$contentURL = $content->contentURL;
-											$contentTitle = $content->contentTitleEnglish;
+											// $contentTitle = $content->contentTitleEnglish;
 											$contentSubmittedByUserID = $content->contentSubmittedByUserID;
 											$contentSubmissionDateTime = $content->contentSubmissionDateTime;
 											
 											$thisChannelID = $content->channelID;
 											$channel = new Channel($thisChannelID);
 											$thisContentChannelKey = $channel->channelKey;
-											$channelTitle = $channel->channelTitleEnglish;
+											// $channelTitle = $channel->channelTitleEnglish;
+											
+											if ($_SESSION['lang'] == 'ja') {
+												$contentTitle = $content->contentTitleJapanese;
+												$channelTitle = $channel->channelTitleJapanese;
+											} else {
+												$contentTitle = $content->contentTitleEnglish;
+												$channelTitle = $channel->channelTitleEnglish;
+											}
 											
 											$contentViews = $content->contentViews;
 											$user = new User($contentSubmittedByUserID);
@@ -83,7 +91,7 @@ class CategoryView {
 									
 									if ($_SESSION['channelID'] != 2006) {
 										$html .= "\t\t\t\t\t\t\t<a href=\"/k/" . $contentCategoryKey . "/\" class=\"list-group-item jagaListGroupItemMore\">";
-											$html .= "MORE <span class=\"glyphicon glyphicon-arrow-right\"></span>";
+											$html .= Lang::getLang('more') . " <span class=\"glyphicon glyphicon-arrow-right\"></span>";
 										$html .= "</a>\n";
 									}
 									
@@ -106,25 +114,19 @@ class CategoryView {
 			
 			$html .= "\t\t<!-- START PANEL -->\n";
 			$html .= "\t\t<div class=\"panel panel-default\">\n\n";
-				$html .= "\t\t\t<div class=\"panel-heading jagaContentPanelHeading\"><h4>THIS CHANNEL'S CATEGORIES</h4></div>\n";
+				$html .= "\t\t\t<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . strtoupper(Lang::getLang('thisChannelsCategories')) . "</h4></div>\n";
 				$html .= "\t\t\t<div class=\"table-responsive\">\n";
 					$html .= "\t\t\t\t<table class=\"table table-hover\">\n";
-						$html .= "<thead>\n";
-							$html .= "<tr>";
-								$html .= "<th>contentCategoryKey</th>\n";
-								$html .= "<th>postCount</th>\n";
-							$html .= "</tr>";
-						$html .= "</thead>\n";
-						$html .= "<tbody>\n";
-						
-							foreach ($categoryArray AS $contentCategoryKey => $postCount) {
-								$html .= "\t\t\t\t<tr class=\"jagaClickableRow\" data-url=\"/k/" . $contentCategoryKey . "/\">\n";
-									$html .= "\t\t\t\t\t<td>" . $contentCategoryKey . "</td>\n";
-									$html .= "\t\t\t\t\t<td>" . $postCount . "</td>\n";
-								$html .= "\t\t\t\t</tr>\n";
-							}
-							
-						$html .= "</tbody>\n";
+						$html .= "<tr>";
+							$html .= "<th>" . Lang::getLang('contentCategoryKey') . "</th>\n";
+							$html .= "<th>" . Lang::getLang('postCount') . "</th>\n";
+						$html .= "</tr>";
+						foreach ($categoryArray AS $contentCategoryKey => $postCount) {
+							$html .= "\t\t\t\t<tr class=\"jagaClickableRow\" data-url=\"/k/" . $contentCategoryKey . "/\">\n";
+								$html .= "\t\t\t\t\t<td>" . $contentCategoryKey . "</td>\n";
+								$html .= "\t\t\t\t\t<td>" . $postCount . "</td>\n";
+							$html .= "\t\t\t\t</tr>\n";
+						}
 					$html .= "\t\t\t\t</table>\n";
 				$html .= "\t\t</div>\n\n";
 			$html .= "\t\t</div>\n";
@@ -142,9 +144,17 @@ class CategoryView {
 		
 		$html = "\n\t<select id=\"contentCategoryKey\" name=\"contentCategoryKey\" class=\"form-control\">\n";
 			foreach ($categoryArray AS $contentCategoryKey) {
+				
+				$category = new Category($contentCategoryKey);
+				if ($_SESSION['lang'] == 'ja') {
+					$contentCategory = $category->contentCategoryJapanese;
+				} else {
+					$contentCategory = $category->contentCategoryEnglish;
+				}
 				$html .= "\t\t<option value=\"" . $contentCategoryKey . "\"";
 					if ($contentCategoryKey == $selectedContentCategoryKey) { $html .= " selected"; }
-				$html .= ">" . strtoupper($contentCategoryKey) . "</option>\n";
+				$html .= ">" . strtoupper($contentCategory) . "</option>\n";
+				
 			}
 		$html .= "\t</select>\n\n";
 

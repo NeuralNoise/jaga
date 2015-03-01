@@ -11,7 +11,11 @@ class MessageView {
 			
 		if (empty($conversations)) {
 		
-			$html .= 'Welcome to IMO, The Kutchannel\'s private message service. You do not yet have any ongoing conversations.';
+			if ($_SESSION['lang'] == 'ja') {
+				$html .= 'JAGAのメッセージサービス「IMO」へようこそ。今現在、メッセージがありません。';
+			} else {
+				$html .= 'Welcome to JAGA\'s private message service, IMO. You do not yet have any ongoing conversations.';
+			}
 		
 		} else {
 
@@ -49,8 +53,8 @@ class MessageView {
 						  </div>
 					</div>
 					<div class=\"modal-footer\">
-						  <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancel</button>
-						  <button type=\"submit\" class=\"btn btn-default\">Send</button>
+						  <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">" . Lang::getLang('cancel') . "</button>
+						  <button type=\"submit\" class=\"btn btn-default\">" . Lang::getLang('send') . "</button>
 					</div>
 				</form>									
 

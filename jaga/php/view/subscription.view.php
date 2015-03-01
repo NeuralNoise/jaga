@@ -11,14 +11,14 @@ class SubscriptionView {
 			$html .= "\t\t<div class=\"row\">\n";
 				$html .= "\t\t\t<div class=\"col-md-12\">\n";
 					$html .= "\t\t\t\t<div class=\"panel panel-default\">\n";
-						$html .= "\t\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\"><h4>YOUR SUBSCRIPTIONS</h4></div>\n";
+						$html .= "\t\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . Lang::getLang('yourSubscriptions') . "</h4></div>\n";
 						$html .= "\t\t\t\t\t<div class=\"table-responsive\">\n";
 							$html .= "\t\t\t\t\t\t<table class=\"table table-hover table-striped\">\n";
 								$html .= "\t\t\t\t\t\t\t<tr>\n";
-									$html .= "\t\t\t\t\t\t\t\t<th>Channel</th>\n";
-									$html .= "\t\t\t\t\t\t\t\t<th>Title</th>\n";
-									$html .= "\t\t\t\t\t\t\t\t<th>Manager</th>\n";
-									$html .= "\t\t\t\t\t\t\t\t<th>Created</th>\n";
+									$html .= "\t\t\t\t\t\t\t\t<th>" . Lang::getLang('channel') . "</th>\n";
+									$html .= "\t\t\t\t\t\t\t\t<th>" . Lang::getLang('title') . "</th>\n";
+									$html .= "\t\t\t\t\t\t\t\t<th>" . Lang::getLang('manager') . "</th>\n";
+									$html .= "\t\t\t\t\t\t\t\t<th>" . Lang::getLang('created') . "</th>\n";
 								$html .= "\t\t\t\t\t\t\t</tr>\n";
 								foreach ($subscriptionArray AS $channelID) {
 									

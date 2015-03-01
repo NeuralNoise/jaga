@@ -21,7 +21,9 @@ class ContentView {
 		
 		
 			if ($contentPublished == 0) {
-				$html .= "\t<div class=\"alert alert-danger\">This post is not currently published.</div>";
+				$html .= "\t<div class=\"alert alert-danger\">";
+					if ($_SESSION['lang'] == 'ja') { $html .= "今現在、当ページの表示は出来ません。"; } else { $html .= "This post is not currently published."; }
+				$html .= "</div>";
 			}
 		
 		
@@ -56,11 +58,11 @@ class ContentView {
 								<div class=\"modal-dialog\">
 									<div class=\"modal-content\">
 										<div class=\"modal-header\">
-											<button type=\"button\" class=\"close\" data-dismiss=\"modal\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span></button>
+											<button type=\"button\" class=\"close\" data-dismiss=\"modal\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">" . Lang::getLang('close') . "</span></button>
 											<h4 class=\"modal-title\" id=\"" . $imageID . "\">" . $contentTitle ."</h4>
 										</div>
 										<div class=\"modal-body text-center\"><img src=\"" . $imageURL . "\" class=\"img-responsive\" style=\"margin:0px auto 0px auto;\"></div>
-										<div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button></div>
+										<div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">" . Lang::getLang('close') . "</button></div>
 									</div>
 								</div>
 							</div>
@@ -82,6 +84,9 @@ class ContentView {
 
 		$contentArray = Content::getContentListArray($channelID, $contentCategoryKey, 1);
 
+		$category = new Category($contentCategoryKey);
+		if ($_SESSION['lang'] == 'ja') { $contentCategoryTitle = $category->contentCategoryJapanese; } else { $contentCategoryTitle = $category->contentCategoryEnglish; }
+		
 		$html = "\t<!-- START CONTENT LIST -->\n";
 		$html .= "\t<div class=\"container\">\n\n";
 		
@@ -89,7 +94,7 @@ class ContentView {
 		
 				$html .= "\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n";
 					$html .= "\t\t\t\t<a href=\"/k/create/" . $contentCategoryKey . "/\"><span style=\"float:right;\" class=\"glyphicon glyphicon-plus\"></span></a>\n";
-					$html .= "\t\t\t\t<h4>" . strtoupper($contentCategoryKey) . "</h4>\n";
+					$html .= "\t\t\t\t<h4>" . strtoupper($contentCategoryTitle) . "</h4>\n";
 				$html .= "\t\t\t</div>\n";
 				
 				$html .= "\t\t\t<ul class=\"list-group\">\n";
@@ -97,7 +102,8 @@ class ContentView {
 					foreach ($contentArray as $contentID => $contentURL) {
 					
 						$content = new Content($contentID);
-						$contentTitle = $content->contentTitleEnglish;
+						
+						if ($_SESSION['lang'] == 'ja') { $contentTitle = $content->contentTitleJapanese; } else { $contentTitle = $content->contentTitleEnglish; }
 						$contentViews = $content->contentViews;
 
 						$html .= "\t\t\t\t<a href=\"/k/" . $contentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
@@ -203,7 +209,14 @@ class ContentView {
 					$html .= "\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n\n";
 						
 						$html .= "\t\t\t\t\t<div class=\"panel-title\">";
-							$html .= strtoupper($type) . " POST";
+							
+							if ($type == 'create') {
+								$html .= strtoupper(Lang::getLang('createPost'));
+							} elseif ($type == 'update') {
+								$html .= strtoupper(Lang::getLang('updatePost'));
+							}
+							
+							
 						$html .= "</div>\n";
 					
 					$html .= "\t\t\t\t</div>\n";
@@ -225,7 +238,7 @@ class ContentView {
 									$html .= "\t\t\t\t\t\t\t<label class=\"col-sm-2 pull-right\">";
 										$html .= "\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"contentPublished\" value=\"1\"";
 											if ($contentPublished == 1) { $html .= " checked"; }
-										$html .= "> Published\n";
+										$html .= "> " . Lang::getLang('publish') . "\n";
 									$html .= "\t\t\t\t\t\t\t</label>\n";
 									
 									$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-4 pull-right\">\n";
@@ -244,14 +257,14 @@ class ContentView {
 									$html .= "<div class=\"col-sm-6\">";
 								
 										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-											$html .= "\t\t\t\t\t\t\t<label for=\"contentTitleEnglish\" class=\"col-sm-4 control-label\">contentTitleEnglish</label>\n";
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentTitleEnglish\" class=\"col-sm-4 control-label\">" . Lang::getLang('contentTitleEnglish') . "</label>\n";
 											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 												$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentTitleEnglish\" name=\"contentTitleEnglish\" class=\"form-control\" placeholder=\"contentTitleEnglish\" value=\"" . $contentTitleEnglish . "\">\n";
 											$html .= "\t\t\t\t\t\t\t</div>\n";
 										$html .= "\t\t\t\t\t\t</div>\n\n";
 										
 										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-											$html .= "\t\t\t\t\t\t\t<label for=\"contentEnglish\" class=\"col-sm-4 control-label\">contentEnglish</label>\n";
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentEnglish\" class=\"col-sm-4 control-label\">" . Lang::getLang('contentEnglish') . "</label>\n";
 											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 												$html .= "\t\t\t\t\t\t\t\t<textarea rows=\"7\" id=\"contentEnglish\" name=\"contentEnglish\" class=\"form-control\" placeholder=\"contentEnglish\">" . $contentEnglish . "</textarea>\n";
 											$html .= "\t\t\t\t\t\t\t</div>\n";
@@ -263,14 +276,14 @@ class ContentView {
 									$html .= "<div class=\"col-sm-6\">";
 										
 										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";	
-											$html .= "\t\t\t\t\t\t\t<label for=\"contentTitleJapanese\" class=\"col-sm-4 control-label\">contentTitleJapanese</label>\n";
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentTitleJapanese\" class=\"col-sm-4 control-label\">" . Lang::getLang('contentTitleJapanese') . "</label>\n";
 											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 												$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentTitleJapanese\" name=\"contentTitleJapanese\" class=\"form-control\" placeholder=\"contentTitleJapanese\" value=\"" . $contentTitleJapanese . "\">\n";
 											$html .= "\t\t\t\t\t\t\t</div>\n";
 										$html .= "\t\t\t\t\t\t</div>\n\n";
 										
 										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";	
-											$html .= "\t\t\t\t\t\t\t<label for=\"contentJapanese\" class=\"col-sm-4 control-label\">contentJapanese</label>\n";
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentJapanese\" class=\"col-sm-4 control-label\">" . Lang::getLang('contentJapanese') . "</label>\n";
 											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 												$html .= "\t\t\t\t\t\t\t\t<textarea rows=\"7\" id=\"contentJapanese\" name=\"contentJapanese\" class=\"form-control\" placeholder=\"contentJapanese\">" . $contentJapanese . "</textarea>\n";
 											$html .= "\t\t\t\t\t\t\t</div>\n";
@@ -284,7 +297,7 @@ class ContentView {
 									
 										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
 										
-											$html .= "\t\t\t\t\t\t\t<label for=\"contentImages\" class=\"col-sm-2 control-label\">IMAGES</label>\n";
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentImages\" class=\"col-sm-2 control-label\">" . Lang::getLang('images') . "</label>\n";
 										
 											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-6\">\n";
 												$html .= "<div class=\"input-group\">";
@@ -300,7 +313,7 @@ class ContentView {
 									$html .= "<hr />";
 									
 										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-											$html .= "\t\t\t\t\t\t\t<label for=\"contentLinkURL\" class=\"col-sm-2 control-label\">LINK</label>\n";
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentLinkURL\" class=\"col-sm-2 control-label\">" . Lang::getLang('link') . "</label>\n";
 											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-6\">\n";
 
 												$html .= "<div class=\"input-group\">";
@@ -315,7 +328,7 @@ class ContentView {
 										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
 											$html .= "<label for=\"contentHasLocation\" class=\"col-sm-2 control-label\"><input type=\"checkbox\" name=\"contentHasLocation\" value=\"1\"";
 												if ($contentHasLocation == 1) { $html .= " checked=\"true\""; }
-											$html .= "> LOCATION</label>";
+											$html .= "> " . Lang::getLang('location') . "</label>";
 											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
 												$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentLocationNameInput\" name=\"contentLocationNameInput\" class=\"form-control\">\n";
 											$html .= "\t\t\t\t\t\t\t</div>\n";
@@ -331,12 +344,12 @@ class ContentView {
 										
 										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
 										
-											$html .= "\t\t\t\t\t\t\t<label for=\"contentLatitude\" class=\"col-sm-1 col-sm-offset-2\">LATITUDE</label>\n";
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentLatitude\" class=\"col-sm-1 col-sm-offset-2\">" . Lang::getLang('latitude') . "</label>\n";
 											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-2\">\n";
 												$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentLatitude\" name=\"contentLatitude\" class=\"form-control\" placeholder=\"0.000000\" value=\"" . $contentLatitude . "\">\n";
 											$html .= "\t\t\t\t\t\t\t</div>\n";
 											
-											$html .= "\t\t\t\t\t\t\t<label for=\"contentLongitude\" class=\"col-sm-1\">LONGITUDE</label>\n";
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentLongitude\" class=\"col-sm-1\">" . Lang::getLang('longitude') . "</label>\n";
 											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-2\">\n";
 												$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentLongitude\" name=\"contentLongitude\" class=\"form-control\" placeholder=\"0.000000\" value=\"" . $contentLongitude . "\">\n";
 											$html .= "\t\t\t\t\t\t\t</div>\n";
@@ -369,7 +382,7 @@ class ContentView {
 
 											$html .= "<label for=\"contentIsEvent\" class=\"col-sm-2 control-label\"><input type=\"checkbox\" name=\"contentIsEvent\" value=\"1\"";
 												if ($contentIsEvent == 1) { $html .= " checked=\"true\""; }
-											$html .= "> EVENT</label>";
+											$html .= "> " . Lang::getLang('event') . "</label>";
 
 											$html .= "<div class=\"col-sm-3\">";
 												$html .= "<div class=\"input-group\">";
@@ -379,7 +392,7 @@ class ContentView {
 											$html .= "</div>";
 
 											$html .= "<div class=\"col-sm-1\">";
-												$html .= "<label for=\"contentEventStartTime\">START TIME</label>";
+												$html .= "<label for=\"contentEventStartTime\">" . Lang::getLang('startTime') . "</label>";
 											$html .= "</div>";
 											
 											$html .= "<div class=\"col-sm-2\">";
@@ -390,7 +403,7 @@ class ContentView {
 											$html .= "</div>";		
 											
 											$html .= "<div class=\"col-sm-1\">";
-												$html .= "<label for=\"contentEventEndTime\">END TIME</label>";
+												$html .= "<label for=\"contentEventEndTime\">" . Lang::getLang('endTime') . "</label>";
 											$html .= "</div>";
 											
 											$html .= "<div class=\"col-sm-2\">";
@@ -407,7 +420,7 @@ class ContentView {
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12\">\n";
 									if ($type == 'update') {
-										$html .= "\t\t\t\t\t\t\t\t<a href=\"/k/delete/" . $contentID . "/\" class=\"btn btn-danger col-xs-2 col-sm-3 col-md-2\" style=\"color:#fff;\"><span class=\"glyphicon glyphicon-remove\"></span> <span class=\"hidden-xs\">DELETE</span></a>\n";
+										$html .= "\t\t\t\t\t\t\t\t<a href=\"/k/delete/" . $contentID . "/\" class=\"btn btn-danger col-xs-2 col-sm-3 col-md-2\" style=\"color:#fff;\"><span class=\"glyphicon glyphicon-remove\"></span> <span class=\"hidden-xs\">" . strtoupper(Lang::getLang('delete')) . "</span></a>\n";
 									}
 									$html .= "\t\t\t\t\t\t\t\t<button type=\"submit\" name=\"jagaContentSubmit\" id=\"jagaContentSubmit\" ";
 									if ($type == 'update') {
@@ -415,7 +428,7 @@ class ContentView {
 									} elseif ($type == 'create') {
 										$html .= "class=\"btn btn-primary col-xs-8 col-xs-offset-4 col-sm-6 col-sm-offset-6 col-md-4 col-md-offset-8\">";
 									}
-									$html .= "<span class=\"glyphicon glyphicon-ok\"></span> " . strtoupper($type) . "</button>\n";
+									$html .= "<span class=\"glyphicon glyphicon-ok\"></span> " . strtoupper(Lang::getLang($type)) . "</button>\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
@@ -457,7 +470,8 @@ class ContentView {
 					foreach ($userContentArray as $contentID => $contentURL) {
 					
 						$content = new Content($contentID);
-						$contentTitle = $content->contentTitleEnglish;
+						if ($_SESSION['lang'] == 'ja') { $contentTitle = $content->contentTitleJapanese; } else { $contentTitle = $content->contentTitleEnglish; }
+						
 						$contentViews = $content->contentViews;
 						$contentCategoryKey = $content->contentCategoryKey;
 
@@ -503,16 +517,26 @@ class ContentView {
 					$content = new Content($contentID);
 					$contentURL = $content->contentURL;
 					$thisContentCategoryKey = $content->contentCategoryKey;
-					$contentTitle = $content->contentTitleEnglish;
+					// $contentTitle = $content->contentTitleEnglish;
 					$contentSubmittedByUserID = $content->contentSubmittedByUserID;
 					$contentSubmissionDateTime = $content->contentSubmissionDateTime;
-					$contentEnglish = $content->contentEnglish;
+					// $contentEnglish = $content->contentEnglish;
 					$contentViews = $content->contentViews;
 					$thisChannelID = $content->channelID;
 					
 					$channel = new Channel($thisChannelID);
 					$thisContentChannelKey = $channel->channelKey;
-					$channelTitle = $channel->channelTitleEnglish;
+					// $channelTitle = $channel->channelTitleEnglish;
+					
+					if ($_SESSION['lang'] == 'ja') {
+						$contentTitle = $content->contentTitleJapanese;
+						$contentEnglish = $content->contentJapanese;
+						$channelTitle = $channel->channelTitleJapanese;
+					} else {
+						$contentTitle = $content->contentTitleEnglish;
+						$contentEnglish = $content->contentEnglish;
+						$channelTitle = $channel->channelTitleEnglish;
+					}
 					
 					$user = new User($contentSubmittedByUserID);
 					$username = $user->username;

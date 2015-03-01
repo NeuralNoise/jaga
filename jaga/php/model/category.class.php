@@ -85,11 +85,11 @@ class Category extends ORM {
 
 	public function getCategoryTitle($contentCategoryKey) {
 		$core = Core::getInstance();
-		$query = "SELECT contentCategoryEnglish FROM jaga_Category WHERE contentCategoryKey = :contentCategoryKey LIMIT 1";
+		$query = "SELECT contentCategoryJapanese, contentCategoryEnglish FROM jaga_Category WHERE contentCategoryKey = :contentCategoryKey LIMIT 1";
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':contentCategoryKey' => $contentCategoryKey));
 		if ($row = $statement->fetch()) {
-			return $row['contentCategoryEnglish'];
+			if ($_SESSION['lang'] == 'ja') { return $row['contentCategoryJapanese']; } else { return $row['contentCategoryEnglish']; }
 		} else {
 			die($contentCategoryKey);
 		}

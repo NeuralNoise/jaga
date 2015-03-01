@@ -133,7 +133,7 @@
 					
 								$html .= "<div style=\"margin-top:10px\" class=\"form-group\">\n";
 									$html .= "<div class=\"col-sm-12 controls\">\n";
-										$html .= "<input type=\"submit\" name=\"jagaUserUpdate\" id=\"jagaUserUpdate\" class=\"btn btn-default pull-right\" value=\"Update\">\n";
+										$html .= "<input type=\"submit\" name=\"jagaUserUpdate\" id=\"jagaUserUpdate\" class=\"btn btn-default pull-right\" value=\"" . Lang::getLang('update') . "\">\n";
 									$html .= "</div>\n";
 								$html .= "</div>\n\n";
 								
@@ -193,7 +193,7 @@
 							
 							$html .= "<!-- START PANEL-HEADING -->\n";
 							$html .= "<div class=\"panel-heading jagaContentPanelHeading\">";
-								$html .= "<div class=\"panel-title\"><h4>POSTS</h4></div>";
+								$html .= "<div class=\"panel-title\"><h4>" . Lang::getLang('posts') . "</h4></div>";
 							$html .= "</div>\n";
 							$html .= "<!-- END PANEL-HEADING -->\n\n";
 							
@@ -207,9 +207,9 @@
 										$html .= "<table class=\"table table-striped table-condensed table-bordered\">";
 											
 											$html .= "<tr>";
-												$html .= "<th class=\"col-xs-6 col-sm-8\">Content</th>";
-												$html .= "<th class=\"col-xs-3 col-sm-2\">Channel</th>";
-												$html .= "<th class=\"col-xs-3 col-sm-2\">Date</th>";
+												$html .= "<th class=\"col-xs-6 col-sm-8\">" . Lang::getLang('post') . "</th>";
+												$html .= "<th class=\"col-xs-3 col-sm-2\">" . Lang::getLang('channel') . "</th>";
+												$html .= "<th class=\"col-xs-3 col-sm-2\">" . Lang::getLang('date') . "</th>";
 											$html .= "</tr>";
 											
 											foreach ($userContentArray AS $contentID => $contentURL) {
@@ -246,7 +246,7 @@
 								
 								$html .= "<!-- START PANEL-HEADING -->\n";
 								$html .= "<div class=\"panel-heading jagaContentPanelHeading\">";
-									$html .= "<div class=\"panel-title\"><h4>COMMENTS</h4></div>";
+									$html .= "<div class=\"panel-title\"><h4>" . Lang::getLang('comments') . "</h4></div>";
 								$html .= "</div>\n";
 								$html .= "<!-- END PANEL-HEADING -->\n\n";
 								
@@ -260,9 +260,9 @@
 											$html .= "<table class=\"table table-striped table-condensed table-bordered\">";
 												
 												$html .= "<tr>";
-													$html .= "<th class=\"col-xs-8\">Comment</th>";
-													$html .= "<th class=\"col-xs-2\">Channel</th>";
-													$html .= "<th class=\"col-xs-2\">Date</th>";
+													$html .= "<th class=\"col-xs-8\">" . Lang::getLang('comment') . "</th>";
+													$html .= "<th class=\"col-xs-2\">" . Lang::getLang('channel') . "</th>";
+													$html .= "<th class=\"col-xs-2\">" . Lang::getLang('date') . "</th>";
 												$html .= "</tr>";
 												
 												foreach ($userCommentArray AS $commentID) {

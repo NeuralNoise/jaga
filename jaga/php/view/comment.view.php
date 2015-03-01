@@ -55,7 +55,7 @@ class CommentView {
 				
 				$html .= "\t\t\t<!-- START PANEL-HEADING -->\n";
 				$html .= "\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n\n";
-					$html .= "\t\t\t\t<div class=\"panel-title\">COMMENT</div>\n";
+					$html .= "\t\t\t\t<div class=\"panel-title\">" . strtoupper(Lang::getLang('comment')) . "</div>\n";
 				$html .= "\t\t\t</div>\n";
 				$html .= "\t\t\t<!-- END PANEL-HEADING -->\n\n";
 					
@@ -66,8 +66,8 @@ class CommentView {
 					
 						$html .= "\t\t\t\t\t\t<div class=\"row\">\n";
 							$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12\" style=\"margin-top:5px;\">\n";
-								$html .= "\t\t\t\t\t\t\t\t<a href=\"/login/\" name=\"jagaLogin\" id=\"jagaLogin\" class=\"btn btn-default jagaFormButton col-xs-6 col-sm-4 col-md-3 col-lg-2 pull-right\">LOGIN</a>\n";
-								$html .= "\t\t\t\t\t\t\t\t<a href=\"/register/\" name=\"jagaRegister\" id=\"jagaRegister\" class=\"btn btn-default jagaFormButton col-xs-6 col-sm-4 col-md-3 col-lg-2 pull-right\">REGISTER</a>\n";
+								$html .= "\t\t\t\t\t\t\t\t<a href=\"/login/\" name=\"jagaLogin\" id=\"jagaLogin\" class=\"btn btn-default jagaFormButton col-xs-6 col-sm-4 col-md-3 col-lg-2 pull-right\">" . Lang::getLang('login') . "</a>\n";
+								$html .= "\t\t\t\t\t\t\t\t<a href=\"/register/\" name=\"jagaRegister\" id=\"jagaRegister\" class=\"btn btn-default jagaFormButton col-xs-6 col-sm-4 col-md-3 col-lg-2 pull-right\">" . Lang::getLang('register') . "</a>\n";
 							$html .= "\t\t\t\t\t\t\t</div>\n";
 						$html .= "\t\t\t\t\t\t</div>";
 						
@@ -86,7 +86,7 @@ class CommentView {
 
 							$html .= "\t\t\t\t\t\t<div class=\"row\">\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12\" style=\"margin-top:5px;\">\n";
-									$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaContentCommentSubmit\" id=\"jagaContentCommentSubmit\" class=\"btn btn-default jagaFormButton col-xs-8 col-sm-6 col-md-4 pull-right\" value=\"Submit Comment\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaContentCommentSubmit\" id=\"jagaContentCommentSubmit\" class=\"btn btn-default jagaFormButton col-xs-8 col-sm-6 col-md-4 pull-right\" value=\"" . Lang::getLang('submitComment') . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>";
 

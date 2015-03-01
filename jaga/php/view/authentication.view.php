@@ -20,7 +20,7 @@ class AuthenticationView {
 					$html .= "\t\t\t\t<!-- START PANEL-HEADING -->\n";
 					$html .= "\t\t\t\t<div class=\"panel-heading\">\n\n";
 						
-						$html .= "\t\t\t\t\t<div class=\"panel-title\">LOGIN</div>\n";
+						$html .= "\t\t\t\t\t<div class=\"panel-title\">" . strtoupper(Lang::getLang('login')) . "</div>\n";
 					
 					$html .= "\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t<!-- END PANEL-HEADING -->\n\n";
@@ -50,14 +50,14 @@ class AuthenticationView {
 
 							$html .= "\t\t\t\t\t\t<div style=\"margin-top:10px\" class=\"form-group\">\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12 controls\">\n";
-									$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaLoginSubmit\" id=\"jagaLoginSubmit\" class=\"btn btn-default pull-right\" value=\"Login\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaLoginSubmit\" id=\"jagaLoginSubmit\" class=\"btn btn-default pull-right\" value=\"" . Lang::getLang('login') . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 			
 							$html .= "\t\t\t\t\t\t\t<div class=\"col-md-12 control\" style=\"border-top:1px solid #888;\">\n";
 								$html .= "\t\t\t\t\t\t\t\t<div style=\"padding-top:15px;font-size:85%;\" >
-									Don't have a Kutchannel account? <a href=\"/register/\">Register (FREE)</a><br />
-									Forget your username or password? <a href=\"/account-recovery/\">Account Recovery</a>
+									" . Lang::getLang('dontHaveAnAccount') . " <a href=\"/register/\">" . Lang::getLang('registerFree') . "</a><br />
+									" . Lang::getLang('forgetYourUsernameOrPassword') . " <a href=\"/account-recovery/\">" . Lang::getLang('accountRecovery') . "</a>
 								</div>\n";
 							$html .= "\t\t\t\t\t\t\t</div>\n";
 			
@@ -87,14 +87,13 @@ class AuthenticationView {
 					$html .= "\t\t\t\t<!-- START PANEL-HEADING -->\n";
 					$html .= "\t\t\t\t<div class=\"panel-heading\">\n\n";
 
-						$html .= "\t\t\t\t\t<div class=\"panel-title\">REGISTER</div>\n";
+						$html .= "\t\t\t\t\t<div class=\"panel-title\">" . strtoupper(Lang::getLang('register')) . "</div>\n";
 						
 					$html .= "\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t<!-- END PANEL-HEADING -->\n\n";
 					
 					$html .= "\t\t\t\t<!-- START PANEL-BODY -->\n";
 					$html .= "\t\t\t\t<div class=\"panel-body\">\n\n";
-					
 					
 						$html .= "\t\t\t\t\t<!-- START jagaRegisterForm -->\n";
 						$html .= "\t\t\t\t\t<form name=\"jagaRegisterForm\" id=\"signupform\" class=\"form-horizontal\" role=\"form\" method=\"post\" action=\"" . $formBaseURL . "register/\">\n\n";
@@ -140,7 +139,7 @@ class AuthenticationView {
 							
 							$html .= "\t\t\t\t\t\t<div style=\"margin-top:10px\" class=\"form-group\">\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12 controls\">\n";
-									$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaRegisterSubmit\" id=\"jagaRegisterSubmit\" class=\"btn btn-default pull-right\" value=\"Register\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaRegisterSubmit\" id=\"jagaRegisterSubmit\" class=\"btn btn-default pull-right\" value=\"" . Lang::getLang('register') . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 
@@ -177,7 +176,7 @@ class AuthenticationView {
 					
 					$html .= "\t\t\t\t<!-- START PANEL-HEADING -->\n";
 					$html .= "\t\t\t\t<div class=\"panel-heading\">\n\n";
-						$html .= "\t\t\t\t\t<div class=\"panel-title\">ACCOUNT RECOVERY</div>\n";
+						$html .= "\t\t\t\t\t<div class=\"panel-title\">" . strtoupper(Lang::getLang('accountRecovery')) . "</div>\n";
 					$html .= "\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t<!-- END PANEL-HEADING -->\n\n";
 						
@@ -200,17 +199,17 @@ class AuthenticationView {
 								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><img src=\"/jaga/lib/raptcha.php\"></span>\n";
 								$html .= "\t\t\t\t\t\t\t<input id=\"raptcha\" type=\"text\" class=\"form-control";
 									if (isset($errorArray['raptcha'])) { $html .= " jagaFormValidationError"; }
-								$html .= "\" name=\"raptcha\" placeholder=\"Enter Code\">\n";
+								$html .= "\" name=\"raptcha\" placeholder=\"" . Lang::getLang('enterCode') . "\">\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div style=\"margin-top:10px\" class=\"form-group\">\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12 controls\">\n";
-									$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaAccountRecoverySubmit\" id=\"jagaAccountRecoverySubmit\" class=\"btn btn-default pull-right\" value=\"Get Recovery Email\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"submit\" name=\"jagaAccountRecoverySubmit\" id=\"jagaAccountRecoverySubmit\" class=\"btn btn-default pull-right\" value=\"" . Lang::getLang('getRecoveryMail') . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 
 							$html .= "\t\t\t\t\t\t\t<div class=\"col-md-12 control\" style=\"border-top:1px solid #888;\">\n";
-								$html .= "\t\t\t\t\t\t\t\t<div style=\"padding-top:15px; font-size:85%\" >Don't have a Kutchannel account? <a href=\"/register/\">Register (FREE)</a></div>\n";
+								$html .= "\t\t\t\t\t\t\t\t<div style=\"padding-top:15px; font-size:85%\" >" . Lang::getLang('dontHaveAnAccount') . " <a href=\"/register/\">" . Lang::getLang('registerFree') . "</a></div>\n";
 							$html .= "\t\t\t\t\t\t\t</div>\n";
 			
 						$html .= "\t\t\t\t\t</form>\n";
@@ -333,7 +332,11 @@ class AuthenticationView {
 	
 		$html = "\n\n\t<!-- START RESET PASSWORD CONFIRMATION CONTAINER -->\n";
 		$html .= "\t<div class=\"container alert alert-success text-center\">\n\n";
-			$html .= "You have successfully reset your password.";
+			if ($_SESSION['lang'] == 'ja') {
+				$html .= "パスワードのリセットが出来ました。";
+			} else {
+				$html .= "You have successfully reset your password.";
+			}
 		$html .= "\n\n\t</div>\n";
 		$html .= "\t<!-- END RESET PASSWORD CONFIRMATION CONTAINER -->\n\n";
 		
