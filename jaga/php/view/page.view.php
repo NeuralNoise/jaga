@@ -31,7 +31,7 @@ class PageView {
 				$html .= "\t\t<title>" . $this->pageTitle . "</title>\n\n";
 				
 				$html .= "\t\t<meta charset=\"utf-8\">\n";
-				$html .= "\t\t<meta name=\"robots\" content=\"NOINDEX, NOFOLLOW\">\n\n";
+				$html .= "\t\t<meta name=\"robots\" content=\"INDEX, FOLLOW\">\n\n";
 				
 				$html .= "\t\t<meta name=\"keywords\" content=\"" . $this->pageKeywords . "\">\n";
 				$html .= "\t\t<meta name=\"description\" content=\"" . $this->pageDescription . "\">\n\n";
@@ -57,7 +57,19 @@ class PageView {
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/tooltip.js\"></script>\n";				
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/kutchannel.js\"></script>\n\n";
 
-			$html .= "\t</head>\n\n";
+				$html .= "\t\t\t<script>\n";
+				$html .= "
+				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+				ga('create', '" . Config::read('analytics.trackingID') . "', 'auto');
+				ga('send', 'pageview');
+				";
+				$html .= "\t\t\t</script>\n\n";
+				
+			$html .= "\n\t</head>\n\n";
 
 			$html .= "\t<body>\n\n";
 			
@@ -177,10 +189,12 @@ class PageView {
 		
 			if ($urlArray[0] == '') {
 			
-				if ($_SESSION['channelID'] == 2006) {
-				
+				if ($_SESSION['userID'] == 0 && ($_SESSION['channelID'] == 2006 || $_SESSION['channelID'] == 14)) {
 					$carousel = new CarouselView();
 					$html .= $carousel->getCarousel();
+				}
+			
+				if ($_SESSION['channelID'] == 2006) {
 
 					$html .= ContentView::displayRecentContentItems(0, '', 50);
 					

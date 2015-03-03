@@ -18,14 +18,14 @@ class CarouselView {
 				<!-- START SLIDES -->
 				
 				<div class=\"carousel-inner\">
+					<div class=\"item\">
+						<img src=\"/jaga/images/carousel-mountain.jpg\" alt=\"test0\" style=\"margin-left:auto;margin-right:auto;\">
+					</div>
+					<div class=\"item\">
+						<img src=\"/jaga/images/carousel-roll-tide.jpg\" alt=\"test2\" style=\"margin-left:auto;margin-right:auto;\">
+					</div>
 					<div class=\"item active\">
-						<img src=\"/jaga/images/test1.jpg\" alt=\"test1\" style=\"margin-left:auto;margin-right:auto;\">
-					</div>
-					<div class=\"item\">
-						<img src=\"/jaga/images/test2.jpg\" alt=\"test2\" style=\"margin-left:auto;margin-right:auto;\">
-					</div>
-					<div class=\"item\">
-						<img src=\"/jaga/images/test3.jpg\" alt=\"test3\" style=\"margin-left:auto;margin-right:auto;\">
+						<img src=\"/jaga/images/carousel-ballpit.jpg\" alt=\"test1\" style=\"margin-left:auto;margin-right:auto;\">
 					</div>
 				</div>
 

@@ -546,6 +546,9 @@ class ContentView {
 						$channelTitle = $channel->channelTitleEnglish;
 					}
 					
+					$contentContent = preg_replace('/\s+/', ' ', $contentContent);
+					$contentContent = Utilities::truncate($contentContent, 100, ' ', '...');
+					
 					$user = new User($contentSubmittedByUserID);
 					$username = $user->username;
 
@@ -566,7 +569,7 @@ class ContentView {
 										if ($imagePath == "") { $imagePath = Image::getObjectMainImagePath('Content',$contentID); }
 										if ($imagePath != "") { $html .= "<img class=\"img-responsive\" src=\"" . $imagePath . "\"><br />"; }
 									}			
-									$html .=  "<div style=\"white-space:pre-line;\">" . $contentContent . "</div>";
+									$html .=  "<div style=\"white-space:pre-line;overflow-y:hidden;\">" . $contentContent . "</div>";
 								$html .= "</span>";
 							$html .= "</a>\n";
 							
