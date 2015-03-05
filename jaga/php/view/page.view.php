@@ -67,7 +67,36 @@ class PageView {
 				ga('create', '" . Config::read('analytics.trackingID') . "', 'auto');
 				ga('send', 'pageview');
 				";
-				$html .= "\t\t\t</script>\n\n";
+				$html .= "\n\t\t\t</script>\n\n";
+				
+				$html .= "\t\t\t<script>\n";
+				$html .= "
+				var _prum = [['id', '" . Config::read('pingdom.rumID') . "'],['mark', 'firstbyte', (new Date()).getTime()]];
+				(function() {
+					var s = document.getElementsByTagName('script')[0]
+					  , p = document.createElement('script');
+					p.async = 'async';
+					p.src = '//rum-static.pingdom.net/prum.min.js';
+					s.parentNode.insertBefore(p, s);
+				})();
+				";
+				$html .= "\n\t\t\t</script>\n\n";
+				
+				$html .= "\t\t\t<script type=\"text/javascript\">\n";
+				$html .= "
+				_atrk_opts = { atrk_acct:\"" . Config::read('alexa.atrk_acct') . "\", domain:\"" . Config::read('site.url') . "\",dynamic: true};
+				(function() {
+					var as = document.createElement('script');
+					as.type = 'text/javascript';
+					as.async = true;
+					as.src = \"https://d31qbv1cthcecs.cloudfront.net/atrk.js\";
+					var s = document.getElementsByTagName('script')[0];
+					s.parentNode.insertBefore(as, s); 
+				})();
+				";
+				$html .= "\n\t\t\t</script>\n";
+				$html .= "\t\t\t<noscript><img src=\"https://d5nxst8fruw4z.cloudfront.net/atrk.gif?account=" . Config::read('alexa.atrk_acct') . "\" style=\"display:none\" height=\"1\" width=\"1\" alt=\"\" /></noscript>\n\n";
+				
 				
 			$html .= "\n\t</head>\n\n";
 
@@ -355,7 +384,7 @@ class PageView {
 				$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
 
 			} else {
-				$html .= "\n\n\t<!-- START 404 TEXT --><div class=\"container\">404: " . $urlArray[0] . "</div>\n\n";
+				$html .= "\n\n\t<div class=\"container\">We upgraded The Kutchannel to <a href=\"http://github.com/chishiki/jaga/\">JAGA</a> on 3rd March 2015 and some URLs have changed; apologies for the inconvenience. You should be able to find what you were looking for from <a href=\"http://jaga.io/\">here</a>. Thanks for using The Kutchannel!</div>\n\n";
 			}
 
 			if ($_SESSION['userID'] == 2) {

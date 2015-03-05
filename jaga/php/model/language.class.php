@@ -58,7 +58,11 @@ class Lang extends ORM {
 	}
 	
 	public static function getBrowserDefaultLanguage() {
-		$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+		if (!isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+			$lang = 'en';
+		} else {
+			$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+		}
 		if ($lang != 'ja') { $lang = 'en'; }
 		return $lang;
 	}

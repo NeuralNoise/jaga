@@ -49,14 +49,14 @@ class ContentView {
 				
 				$html .= "\t\t<div class=\"panel-body\">";
 					
-					$html .= "<div class=\"well\" style=\"white-space:pre-line;\">" . $contentContent . "</div>";
+					$html .= "<div style=\"white-space:pre-line;overflow-x:auto;margin-bottom:10px;\">" . $contentContent . "</div>";
 					
 					$html .= "<div id=\"list\" class=\"row\">";
 						
 						foreach ($imageArray AS $imageID => $imageURL) {
 							
 							// IMAGE
-							$html .= "<div class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\" data-toggle=\"modal\" data-target=\"#" . $imageID . "\" style=\"margin-bottom:10px;\">";
+							$html .= "<div class=\"item col-xs-6 col-sm-4 col-md-3 col-lg-2\" data-toggle=\"modal\" data-target=\"#" . $imageID . "\" style=\"margin-bottom:10px;\">";
 								$html .= "<img src=\"" . $imageURL . "\" class=\"img-responsive jagaContentViewImage\">";
 							$html .= "</div>\n";
 							
@@ -520,30 +520,28 @@ class ContentView {
 		$html .= "\t\t<div class=\"container\"> <!-- START CONTAINER -->\n";
 			$html .= "\t\t\t<div class=\"row\" id=\"list\"> <!-- START ROW -->\n";
 
+				$i = 0;
 				foreach ($recentContentArray AS $contentID) {
 				
 					$content = new Content($contentID);
 					$contentURL = $content->contentURL;
 					$thisContentCategoryKey = $content->contentCategoryKey;
-					// $contentTitle = $content->contentTitleEnglish;
 					$contentSubmittedByUserID = $content->contentSubmittedByUserID;
 					$contentSubmissionDateTime = $content->contentSubmissionDateTime;
-					// $contentEnglish = $content->contentEnglish;
 					$contentViews = $content->contentViews;
 					$thisChannelID = $content->channelID;
 					
 					$channel = new Channel($thisChannelID);
 					$thisContentChannelKey = $channel->channelKey;
-					// $channelTitle = $channel->channelTitleEnglish;
 					
 					if ($_SESSION['lang'] == 'ja') {
-						$contentTitle = $content->contentTitleJapanese;
-						$contentContent = $content->contentJapanese;
-						$channelTitle = $channel->channelTitleJapanese;
+						if ($content->contentTitleJapanese != '') { $contentTitle = $content->contentTitleJapanese; } else { $contentTitle = $content->contentTitleEnglish; }
+						if ($content->contentJapanese != '') { $contentContent = $content->contentJapanese; } else { $contentContent = $content->contentEnglish; }
+						if ($channel->channelTitleJapanese != '') { $channelTitle = $channel->channelTitleJapanese; } else { $channelTitle = $channel->channelTitleEnglish; }
 					} else {
-						$contentTitle = $content->contentTitleEnglish;
-						$contentContent = $content->contentEnglish;
-						$channelTitle = $channel->channelTitleEnglish;
+						if ($content->contentTitleEnglish != '') { $contentTitle = $content->contentTitleEnglish; } else { $contentTitle = $content->contentTitleJapanese; }
+						if ($content->contentEnglish != '') { $contentContent = $content->contentEnglish; } else { $contentContent = $content->contentJapanese; }
+						if ($channel->channelTitleEnglish != '') { $channelTitle = $channel->channelTitleEnglish; } else { $channelTitle = $channel->channelTitleJapanese; }
 					}
 					
 					$contentContent = preg_replace('/\s+/', ' ', $contentContent);
@@ -576,6 +574,26 @@ class ContentView {
 						$html .= "\t\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t</div>\n";
 
+					if ($i  == 10 || $i  == 30 || $i == ($numberOfItems - 10)) {
+						$html .= "\t\t\t\t<div class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\">\n";
+							$html .= "\t\t\t\t\t<div class=\"panel panel-default\" style=\"padding:3px;\">\n";
+								$html .= "
+								<script async src=\"//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js\"></script>
+								<!-- jaga.io -->
+								<ins class=\"adsbygoogle\"
+									 style=\"display:block\"
+									 data-ad-client=\"" . Config::read('adsense.data-ad-client') . "\"
+									 data-ad-slot=\"" . Config::read('adsense.data-ad-slot') . "\"
+									 data-ad-format=\"auto\"></ins>
+								<script>
+								(adsbygoogle = window.adsbygoogle || []).push({});
+								</script>
+								";
+							$html .= "\t\t\t\t\t</div>\n";
+						$html .= "\t\t\t\t</div>\n";
+					}
+					
+					$i++;
 				}
 				
 			$html .= "\t\t\t</div> <!-- END ROW -->\n";

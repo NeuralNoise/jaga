@@ -50,12 +50,17 @@
 	// DB: apply gitignore to taterbase.php
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/config/taterbase.php');
 
-	/* taterbase.php requires following 5 lines: */
+	/* taterbase.php */
 
-	// Config::write('db.host', 'localhost');
-	// Config::write('db.basename', 'dbname');
-	// Config::write('db.user', 'dbuser');
-	// Config::write('db.password', 'XXXXXXXX');
-	// Config::write('analytics.trackingID', 'UA-XXXXXXXX-X');
+	// Config::write('site.url', '');
+	// Config::write('db.host', '');
+	// Config::write('db.basename', '');
+	// Config::write('db.user', '');
+	// Config::write('db.password', '');
+	// Config::write('analytics.trackingID', '');
+	// Config::write('adsense.data-ad-client', '');
+	// Config::write('adsense.data-ad-slot', '');
+	// Config::write('pingdom.rumID', '');
+	// Config::write('alexa.atrk_acct', '');
 
 ?>

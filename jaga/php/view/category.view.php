@@ -42,11 +42,11 @@ class CategoryView {
 										$thisContentChannelKey = $channel->channelKey;
 										
 										if ($_SESSION['lang'] == 'ja') {
-											$contentTitle = $content->contentTitleJapanese;
-											$channelTitle = $channel->channelTitleJapanese;
+											if ($content->contentTitleJapanese != '') { $contentTitle = $content->contentTitleJapanese; } else { $contentTitle = $content->contentTitleEnglish; }
+											if ($channel->channelTitleJapanese != '') { $channelTitle = $channel->channelTitleJapanese; } else { $channelTitle = $channel->channelTitleEnglish; }
 										} else {
-											$contentTitle = $content->contentTitleEnglish;
-											$channelTitle = $channel->channelTitleEnglish;
+											if ($content->contentTitleEnglish != '') { $contentTitle = $content->contentTitleEnglish; } else { $contentTitle = $content->contentTitleJapanese; }
+											if ($channel->channelTitleEnglish != '') { $channelTitle = $channel->channelTitleEnglish; } else { $channelTitle = $channel->channelTitleJapanese; }
 										}
 										
 										$contentViews = $content->contentViews;
