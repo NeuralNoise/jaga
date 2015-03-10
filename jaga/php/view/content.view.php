@@ -111,7 +111,12 @@ class ContentView {
 					
 						$content = new Content($contentID);
 						
-						if ($_SESSION['lang'] == 'ja') { $contentTitle = $content->contentTitleJapanese; } else { $contentTitle = $content->contentTitleEnglish; }
+						if ($_SESSION['lang'] == 'ja') {
+							if ($content->contentTitleJapanese != '') { $contentTitle = $content->contentTitleJapanese; } else { $contentTitle = $content->contentTitleEnglish; }
+						} else {
+							if ($content->contentTitleEnglish != '') { $contentTitle = $content->contentTitleEnglish; } else { $contentTitle = $content->contentTitleJapanese; }
+						}
+						
 						$contentViews = $content->contentViews;
 
 						$html .= "\t\t\t\t<a href=\"/k/" . $contentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";

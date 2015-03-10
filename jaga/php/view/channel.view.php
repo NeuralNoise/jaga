@@ -15,7 +15,13 @@ class ChannelView {
 				$channelKeywordsJapanese = '';
 				$channelDescriptionEnglish = '';
 				$channelDescriptionJapanese = '';
-				$themeKey = '';
+				$themeKey = 'kutchannel';
+				$siteTwitter = '';
+				$pagesServed = 0;
+				$siteManagerUserID = $_SESSION['userID'];
+				$isPublic = 1;
+				$isCloaked = 0;
+				$isNSFW = 0;
 				$contentCategoryKeyArray = array('news', 'blog', 'forum');
 			
 			} elseif ($type == 'update') {
@@ -29,6 +35,12 @@ class ChannelView {
 				$channelDescriptionEnglish = $channel->channelDescriptionEnglish;
 				$channelDescriptionJapanese = $channel->channelDescriptionJapanese;
 				$themeKey = $channel->themeKey;
+				$siteTwitter = $channel->siteTwitter;
+				$pagesServed = $channel->pagesServed;
+				$siteManagerUserID = $channel->siteManagerUserID;
+				$isPublic = $channel->isPublic;
+				$isCloaked = $channel->isCloaked;
+				$isNSFW = $channel->isNSFW;
 				$contentCategoryKeyArray = array_keys(ChannelCategory::getChannelCategoryArray($channelID));
 
 			}
@@ -43,8 +55,14 @@ class ChannelView {
 			$channelDescriptionEnglish = $inputArray['channelDescriptionEnglish'];
 			$channelDescriptionJapanese = $inputArray['channelDescriptionJapanese'];
 			$themeKey = $inputArray['themeKey'];
-			
+			$siteTwitter = $inputArray['siteTwitter'];
+			$pagesServed = $inputArray['pagesServed'];
+			$siteManagerUserID = $inputArray['siteManagerUserID'];
+			$isPublic = $inputArray['isPublic'];
+			$isCloaked = $inputArray['isCloaked'];
+			$isNSFW = $inputArray['isNSFW'];
 			$contentCategoryKeyArray = array();
+			
 			if (isset($inputArray['contentCategoryKey'])) { $contentCategoryKeyArray = $inputArray['contentCategoryKey']; }
 			
 		}

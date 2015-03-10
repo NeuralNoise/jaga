@@ -173,8 +173,8 @@ class Controller {
 				$inputArray = $_POST;
 
 				// VALIDATION
-				if ($inputArray['contentTitleEnglish'] == '') { $errorArray['contentTitleEnglish'][] = 'Every post needs a title.'; }
-				if ($inputArray['contentEnglish'] == '') { $errorArray['contentEnglish'][] = 'Your post is empty.'; }
+				if ($inputArray['contentTitleEnglish'] == '' && $inputArray['contentTitleJapanese'] == '') { $errorArray['contentTitle'][] = 'Every post needs a title.'; }
+				if ($inputArray['contentEnglish'] == '' && $inputArray['contentJapanese'] == '') { $errorArray['content'][] = 'Your post is empty.'; }
 				if ($inputArray['contentCategoryKey'] == '') { $errorArray['contentCategoryKey'][] = 'A category must be selected.'; }
 				// is this category enabled for this channel? check it
 				
@@ -193,7 +193,7 @@ class Controller {
 						
 						// modify values where required
 						$content->contentURL = Content::createContentURL($inputArray['contentTitleEnglish']);
-						if (Content::contentURLExists($content->contentURL)) {
+						if ($content->contentURL == '' || Content::contentURLExists($content->contentURL)) {
 							$content->contentURL = Content::generateNonDuplicateContentURL($content->contentURL);
 						}
 						if (!isset($inputArray['contentPublished'])) { $content->contentPublished = 0; }

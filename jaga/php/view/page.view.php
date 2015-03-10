@@ -36,6 +36,9 @@ class PageView {
 				$html .= "\t\t<meta name=\"keywords\" content=\"" . $this->pageKeywords . "\">\n";
 				$html .= "\t\t<meta name=\"description\" content=\"" . $this->pageDescription . "\">\n\n";
 				
+				
+				$html .= "\t\t<meta name=\"p:domain_verify\" content=\"" . Config::read('pinterest.domain_verify') . "\"/>\n\n";
+				
 				$html .= "\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\">\n";
 				$html .= "\t\t<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">\n";
 				$html .= "\t\t<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\">\n\n";
@@ -218,7 +221,11 @@ class PageView {
 		
 			if ($urlArray[0] == '') {
 			
-				if ($_SESSION['userID'] == 0 && ($_SESSION['channelID'] == 2006 || $_SESSION['channelID'] == 14)) {
+				if ($_SESSION['userID'] == 0 && (
+					$_SESSION['channelID'] == 2006
+					|| $_SESSION['channelID'] == 14
+					|| $_SESSION['channelID'] == 21
+				)) {
 					$carousel = new CarouselView();
 					$html .= $carousel->getCarousel();
 				}
