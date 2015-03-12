@@ -281,7 +281,7 @@ class PageView {
 			} elseif ($urlArray[0] == 'about') {
 				$html .= "about";
 			} elseif ($urlArray[0] == 'tos') {
-				$html .= "tos";
+				$html .= ContentView::displayEasyContentView(1000021);
 			} elseif ($urlArray[0] == 'privacy') {
 				$html .= "privacy";
 			} elseif ($urlArray[0] == 'sponsor') {

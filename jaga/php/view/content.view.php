@@ -88,6 +88,20 @@ class ContentView {
 			
 	}
 
+	public function displayEasyContentView($contentID) {
+	
+		$content = new Content($contentID);
+		if ($_SESSION['lang'] == 'ja') {
+			if ($content->contentJapanese != '') { $contentContent = $content->contentJapanese; } else { $contentContent = $content->contentEnglish; }
+		} else {
+			if ($content->contentEnglish != '') { $contentContent = $content->contentEnglish; } else { $contentContent = $content->contentJapanese; }
+		}
+		Content::contentViewsPlusOne($contentID);
+		
+		return $contentContent;
+			
+	}
+	
 	public static function displayChannelContentList($channelID, $contentCategoryKey) {
 
 		$contentArray = Content::getContentListArray($channelID, $contentCategoryKey, 1);
