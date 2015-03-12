@@ -262,28 +262,23 @@ class PageView {
 
 				$html .= "\t\t<div class=\"container\">";
 					$html .= "<div class=\"col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2\" style=\"margin-bottom:10px;\">";
-					
-					
-					if ($_SESSION['lang'] == 'ja') {
-						$html .= "ご登録をありがとうございました。よろしくお願い致します！";
-					} else {
-						$html .= "Thank you for registering for JAGA!";
-					}
-					
-					
+						if ($_SESSION['lang'] == 'ja') {
+							$html .= "ご登録をありがとうございました。よろしくお願い致します！";
+						} else {
+							$html .= "Thank you for registering for JAGA!";
+						}
 					$html .= "</div>";
 				$html .= "</div>\n\n";
-
 				$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
 
 			} elseif ($urlArray[0] == 'login') {
 				$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
 			} elseif ($urlArray[0] == 'about') {
-				$html .= "about";
+				$html .= ContentView::displayEasyContentView(10008);
 			} elseif ($urlArray[0] == 'tos') {
 				$html .= ContentView::displayEasyContentView(1000021);
 			} elseif ($urlArray[0] == 'privacy') {
-				$html .= "privacy";
+				$html .= ContentView::displayEasyContentView(1000022);
 			} elseif ($urlArray[0] == 'sponsor') {
 				$html .= "sponsor";
 			} elseif ($urlArray[0] == 'sitemap') {
