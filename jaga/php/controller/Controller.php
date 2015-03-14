@@ -224,6 +224,18 @@ class Controller {
 						}
 	
 						$postSubmitURL = "/k/" . $inputArray['contentCategoryKey'] . "/";
+						
+						
+						Mail::sendEmail(
+							Config::read('admin.email'), 
+							'noreply@jaga.io', 
+							'[new jaga.io post]', 
+							$content->contentURL, 
+							$_SESSION['channelID'], 
+							$_SESSION['userID'], 
+							'plaintext'
+						);
+						
 						header("Location: $postSubmitURL");
 
 					} elseif ($urlArray[1] == 'update' && isset($urlArray[2])) {

@@ -53,6 +53,7 @@
 	/* taterbase.php */
 
 	// Config::write('site.url', '');
+	// Config::write('admin.email', 'admin@example.com');
 	// Config::write('db.host', '');
 	// Config::write('db.basename', '');
 	// Config::write('db.user', '');
