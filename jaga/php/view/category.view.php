@@ -66,7 +66,7 @@ class CategoryView {
 												
 												if (Image::objectHasImage('Content',$contentID)) {
 													$imagePath = Image::getLegacyObjectMainImagePath('Content',$contentID);
-													if ($imagePath == "") { $imagePath = Image::getObjectMainImagePath('Content',$contentID); }
+													if ($imagePath == "") { $imagePath = Image::getObjectMainImagePath('Content',$contentID,600); }
 													if ($imagePath != "") { $html .= "<br /><img class=\"img-responsive\" src=\"" . $imagePath . "\"><br />"; }
 												}
 												

@@ -145,7 +145,7 @@ class Image extends ORM {
 		return $objectImageArray;
 	}
 	
-	public function getObjectMainImagePath($imageObject, $imageObjectID) {
+	public function getObjectMainImagePath($imageObject, $imageObjectID, $thumbnailWidth = 0) {
 	
 		$core = Core::getInstance();
 		$query = "
@@ -159,7 +159,12 @@ class Image extends ORM {
 		$statement->execute(array(':imageObject' => $imageObject, ':imageObjectID' => $imageObjectID));
 	
 		if ($row = $statement->fetch()) {
-			$mainImagePath = "/" . $row['imagePath'] . $row['imageID'] . "." . $row['imageType'];
+			$mainImageThumbnailPath = $row['imagePath'] . $row['imageID'] . "-" . $thumbnailWidth . "px." . $row['imageType'];
+			if ($thumbnailWidth != 0 && file_exists($mainImageThumbnailPath) && $row['imageType'] == 'jpg') {
+				$mainImagePath = "/" . $row['imagePath'] . $row['imageID'] . "-" . $thumbnailWidth . "px." . $row['imageType'];
+			} else {
+				$mainImagePath = "/" . $row['imagePath'] . $row['imageID'] . "." . $row['imageType'];
+			}
 			return $mainImagePath;
 		} else { return ""; }
 	

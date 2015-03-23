@@ -583,7 +583,7 @@ class ContentView {
 									// $html .= "<span class=\"jagaListGroupBadge\">" . $contentViews . "</span>";
 									if (Image::objectHasImage('Content',$contentID)) {
 										$imagePath = Image::getLegacyObjectMainImagePath('Content',$contentID);
-										if ($imagePath == "") { $imagePath = Image::getObjectMainImagePath('Content',$contentID); }
+										if ($imagePath == "") { $imagePath = Image::getObjectMainImagePath('Content',$contentID,600); }
 										if ($imagePath != "") { $html .= "<img class=\"img-responsive\" src=\"" . $imagePath . "\"><br />"; }
 									}			
 									$html .=  "<div style=\"white-space:pre-line;overflow-y:hidden;\">" . $contentContent . "</div>";
