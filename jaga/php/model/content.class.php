@@ -72,8 +72,22 @@ class Content extends ORM {
 		
 	}
 	
-	public function getContent($contentID) {
+	public function getTitle() {
+		if ($_SESSION['lang'] == 'ja') {
+			if ($this->contentTitleJapanese != '') { $contentTitle = $this->contentTitleJapanese; } else { $contentTitle = $this->contentTitleEnglish; }
+		} else {
+			if ($this->contentTitleEnglish != '') { $contentTitle = $this->contentTitleEnglish; } else { $contentTitle = $this->contentTitleJapanese; }
+		}
+		return $contentTitle;
+	}
 	
+	public function getContent() {
+		if ($_SESSION['lang'] == 'ja') {
+			if ($this->contentJapanese != '') { $contentContent = $this->contentJapanese; } else { $contentContent = $this->contentEnglish; }
+		} else {
+			if ($this->contentEnglish != '') { $contentContent = $this->contentEnglish; } else { $contentContent = $this->contentJapanese; }
+		}
+		return $contentContent;
 	}
 	
 	public function getContentID($contentURL) {

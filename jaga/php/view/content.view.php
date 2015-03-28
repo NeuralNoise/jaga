@@ -6,16 +6,9 @@ class ContentView {
 	
 		
 		$content = new Content($contentID);
-		
-		if ($_SESSION['lang'] == 'ja') {
-			if ($content->contentTitleJapanese != '') { $contentTitle = $content->contentTitleJapanese; } else { $contentTitle = $content->contentTitleEnglish; }
-			if ($content->contentJapanese != '') { $contentContent = $content->contentJapanese; } else { $contentContent = $content->contentEnglish; }
-		} else {
-			if ($content->contentTitleEnglish != '') { $contentTitle = $content->contentTitleEnglish; } else { $contentTitle = $content->contentTitleJapanese; }
-			if ($content->contentEnglish != '') { $contentContent = $content->contentEnglish; } else { $contentContent = $content->contentJapanese; }
-		}
-		
-		
+		$contentTitle = $content->getTitle();
+		$contentContent = $content->getContent();
+
 		$contentSubmissionDateTime = $content->contentSubmissionDateTime;
 		$contentPublished = $content->contentPublished;
 		$opID = $content->contentSubmittedByUserID;
@@ -91,13 +84,8 @@ class ContentView {
 	public function displayEasyContentView($contentID) {
 	
 		$content = new Content($contentID);
-		if ($_SESSION['lang'] == 'ja') {
-			if ($content->contentJapanese != '') { $contentContent = $content->contentJapanese; } else { $contentContent = $content->contentEnglish; }
-		} else {
-			if ($content->contentEnglish != '') { $contentContent = $content->contentEnglish; } else { $contentContent = $content->contentJapanese; }
-		}
+		$contentContent = $content->getContent();
 		Content::contentViewsPlusOne($contentID);
-		
 		return $contentContent;
 			
 	}
@@ -124,13 +112,7 @@ class ContentView {
 					foreach ($contentArray as $contentID => $contentURL) {
 					
 						$content = new Content($contentID);
-						
-						if ($_SESSION['lang'] == 'ja') {
-							if ($content->contentTitleJapanese != '') { $contentTitle = $content->contentTitleJapanese; } else { $contentTitle = $content->contentTitleEnglish; }
-						} else {
-							if ($content->contentTitleEnglish != '') { $contentTitle = $content->contentTitleEnglish; } else { $contentTitle = $content->contentTitleJapanese; }
-						}
-						
+						$contentTitle = $content->getTitle();
 						$contentViews = $content->contentViews;
 
 						$html .= "\t\t\t\t<a href=\"/k/" . $contentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
@@ -497,8 +479,7 @@ class ContentView {
 					foreach ($userContentArray as $contentID => $contentURL) {
 					
 						$content = new Content($contentID);
-						if ($_SESSION['lang'] == 'ja') { $contentTitle = $content->contentTitleJapanese; } else { $contentTitle = $content->contentTitleEnglish; }
-						
+						$contentTitle = $content->getTitle();
 						$contentViews = $content->contentViews;
 						$contentCategoryKey = $content->contentCategoryKey;
 
@@ -543,6 +524,8 @@ class ContentView {
 				foreach ($recentContentArray AS $contentID) {
 				
 					$content = new Content($contentID);
+					$contentTitle = $content->getTitle();
+					$contentContent = $content->getContent();
 					$contentURL = $content->contentURL;
 					$thisContentCategoryKey = $content->contentCategoryKey;
 					$contentSubmittedByUserID = $content->contentSubmittedByUserID;
@@ -554,12 +537,8 @@ class ContentView {
 					$thisContentChannelKey = $channel->channelKey;
 					
 					if ($_SESSION['lang'] == 'ja') {
-						if ($content->contentTitleJapanese != '') { $contentTitle = $content->contentTitleJapanese; } else { $contentTitle = $content->contentTitleEnglish; }
-						if ($content->contentJapanese != '') { $contentContent = $content->contentJapanese; } else { $contentContent = $content->contentEnglish; }
 						if ($channel->channelTitleJapanese != '') { $channelTitle = $channel->channelTitleJapanese; } else { $channelTitle = $channel->channelTitleEnglish; }
 					} else {
-						if ($content->contentTitleEnglish != '') { $contentTitle = $content->contentTitleEnglish; } else { $contentTitle = $content->contentTitleJapanese; }
-						if ($content->contentEnglish != '') { $contentContent = $content->contentEnglish; } else { $contentContent = $content->contentJapanese; }
 						if ($channel->channelTitleEnglish != '') { $channelTitle = $channel->channelTitleEnglish; } else { $channelTitle = $channel->channelTitleJapanese; }
 					}
 					
@@ -625,8 +604,8 @@ class ContentView {
 	public function displayContentDeleteConfirmationForm($contentID) {
 		
 		$content = new Content($contentID);
-		$contentTitle = $content->contentTitleEnglish;
-		$contentContent = $content->contentEnglish;
+		$contentTitle = $content->getTitle();
+		$contentContent = $content->getContent();
 		$authorUserID = $content->contentSubmittedByUserID;
 		
 		if ($authorUserID != $_SESSION['userID']) { die('You cannot delete posts that do not belong to you.'); }
