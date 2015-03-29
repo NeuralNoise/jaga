@@ -535,12 +535,7 @@ class ContentView {
 					
 					$channel = new Channel($thisChannelID);
 					$thisContentChannelKey = $channel->channelKey;
-					
-					if ($_SESSION['lang'] == 'ja') {
-						if ($channel->channelTitleJapanese != '') { $channelTitle = $channel->channelTitleJapanese; } else { $channelTitle = $channel->channelTitleEnglish; }
-					} else {
-						if ($channel->channelTitleEnglish != '') { $channelTitle = $channel->channelTitleEnglish; } else { $channelTitle = $channel->channelTitleJapanese; }
-					}
+					$channelTitle = $channel->getTitle();
 					
 					$contentContent = preg_replace('/\s+/', ' ', $contentContent);
 					$contentContent = Utilities::truncate($contentContent, 100, ' ', '...');

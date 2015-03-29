@@ -54,6 +54,15 @@ class Channel extends ORM {
 		
 	}
 	
+	public function getTitle() {
+		if ($_SESSION['lang'] == 'ja') {
+			if ($this->channelTitleJapanese != '') { $channelTitle = $this->channelTitleJapanese; } else { $channelTitle = $this->channelTitleEnglish; }
+		} else {
+			if ($this->channelTitleEnglish != '') { $channelTitle = $this->channelTitleEnglish; } else { $channelTitle = $this->channelTitleJapanese; }
+		}
+		return $channelTitle;
+	}
+	
 	public function getChannelTitle() {
 		return $this->channelTitleEnglish;
 	}
