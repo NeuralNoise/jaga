@@ -32,10 +32,11 @@ class Sitemap {
 		while ($row = $statement->fetch()) {
 
 			$channelKey = Channel::getChannelKey($row['channelID']);
-			$contentCategoryKey = $row['contentCategoryKey'];
 			$contentURL = $row['contentURL'];
-			$this->xml .= "\t<url><loc>http://" . $channelKey . ".jaga.io/k/" . $contentCategoryKey . "/" . htmlspecialchars($contentURL) . "/</loc></url>\n";
-			
+			$contentCategoryKey = $row['contentCategoryKey'];
+			if (!empty($channelKey) && !empty($contentURL) && !empty($contentCategoryKey)) {
+				$this->xml .= "\t<url><loc>http://" . $channelKey . ".jaga.io/k/" . $contentCategoryKey . "/" . htmlspecialchars($contentURL) . "/</loc></url>\n";
+			}
 		}
 
 		$this->xml .= "</urlset>";
