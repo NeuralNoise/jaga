@@ -63,5 +63,6 @@
 	// Config::write('adsense.data-ad-slot', '');
 	// Config::write('pingdom.rumID', '');
 	// Config::write('alexa.atrk_acct', '');
+	// Config::write('ms.validate', '');
 
 ?>

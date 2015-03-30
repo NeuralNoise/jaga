@@ -36,7 +36,7 @@ class PageView {
 				$html .= "\t\t<meta name=\"keywords\" content=\"" . $this->pageKeywords . "\">\n";
 				$html .= "\t\t<meta name=\"description\" content=\"" . $this->pageDescription . "\">\n\n";
 				
-				
+				$html .= "\t\t<meta name=\"msvalidate.01\" content=\"" . Config::read('ms.validate') . "\" />\n";
 				$html .= "\t\t<meta name=\"p:domain_verify\" content=\"" . Config::read('pinterest.domain_verify') . "\"/>\n\n";
 				
 				$html .= "\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\">\n";
