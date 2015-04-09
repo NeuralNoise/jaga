@@ -15,7 +15,7 @@ class Utilities {
 	}
 	
 	public function generateMash() {
-		$natto = Self::generateNatto();
+		$natto = self::generateNatto();
 		$accountRecoveryMash = md5(time() . $natto);
 		return $accountRecoveryMash;
 	}

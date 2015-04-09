@@ -68,7 +68,7 @@ class AccountRecovery extends ORM {
 		
 		$errorArray = array();
 		$userID = User::getUserID($username);
-		$accountRecoveryID = Self::getAccountRecoveryID($accountRecoveryMash);
+		$accountRecoveryID = self::getAccountRecoveryID($accountRecoveryMash);
 		$accountRecovery = new AccountRecovery($accountRecoveryID);
 		$currentDateTime = date('Y-m-d H:i:s');
 		
@@ -82,7 +82,7 @@ class AccountRecovery extends ORM {
 		}
 		
 		// if user exists, is $accountRecoveryMash the most recent record for this user?
-		if ($userID != 0 && !Self::isMostRecentAccountRecoveryMash($accountRecoveryMash, $userID)) {
+		if ($userID != 0 && !self::isMostRecentAccountRecoveryMash($accountRecoveryMash, $userID)) {
 			$errorArray['error'][] = "This is not the most recent account recovery request for this user. Perhaps you submitted the account recovery form more than once? Please check your inbox for a newer Account Recovery email from The Kutchannel or <a href=\"/account-recovery/\">REQUEST ANOTHER</a>.";
 		}
 		
