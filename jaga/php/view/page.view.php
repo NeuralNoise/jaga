@@ -140,28 +140,66 @@ class PageView {
 	
 		$channel = new Channel($_SESSION['channelID']);
 		$channelKey = $channel->channelKey;
-		if ($_SESSION['lang'] == 'ja') { $channelTitle = $channel->channelTitleJapanese; } else { $channelTitle = $channel->channelTitleEnglish; }
+		$channelTitle = $channel->getTitle();
 		
-		$html = "<div class=\"container\"><ol class=\"breadcrumb\">";
-			$html .= "<li><a href=\"http://jaga.io/\">" . Lang::getLang('jaga') . "</a></li>";
-			if ($urlArray[1] == '') {
-				$html .= "<li>" . strtoupper($channelTitle) . "</li>";
+		$breadcrumbs = array();
+		$breadcrumbs[] = array('anchor' => Lang::getLang('jaga'), 'url' => 'http://jaga.io/', 'class' => '');
+
+		if ($urlArray[1] == '') {
+			$breadcrumbs[] = array('anchor' => strtoupper($channelTitle), 'url' => '', 'class' => '');
+		} else {
+			$breadcrumbs[] = array('anchor' => strtoupper($channelTitle), 'url' => 'http://' . $channelKey . '.jaga.io/', 'class' => '');
+		}
+				
+		if ($urlArray[0] == 'k' && $urlArray[1] != '') { // /k/<contentCategoryKey>/
+			$categoryTitle = strtoupper(Category::getCategoryTitle($urlArray[1]));
+			if ($urlArray[2] != '') {
+				$breadcrumbs[] = array('anchor' => $categoryTitle, 'url' => 'http://' . $channelKey . '.jaga.io/k/' . $urlArray[1] . '/', 'class' => 'active');
 			} else {
-				$html .= "<li><a href=\"http://" . $channelKey . ".jaga.io/\">" . strtoupper($channelTitle) . "</a></li>";
+				$breadcrumbs[] = array('anchor' => $categoryTitle, 'url' => '', 'class' => 'active');
 			}
-			if ($urlArray[0] == 'k' && $urlArray[1] != '') { // /k/<contentCategoryKey>/
-				$categoryTitle = strtoupper(Category::getCategoryTitle($urlArray[1]));
-				if ($urlArray[2] != '') {
-					$html .= "<li class=\"active\"><a href=\"http://" . $channelKey . ".jaga.io/k/" . $urlArray[1] . "/\">" . $categoryTitle . "</a></li>";
-				} else {
-					$html .= "<li class=\"active\">" . $categoryTitle . "</li>";
+		}
+
+		if ($urlArray[0] == 'k' && $urlArray[1] != '' && $urlArray[2] != '') { // /k/<contentCategoryKey>/<contentURL>/
+			$contentTitle = strtoupper(Content::getContentTitle($urlArray[2]));
+			$breadcrumbs[] = array('anchor' => $contentTitle, 'url' => '', 'class' => 'active');
+		}
+
+		$html = "<div class=\"container hidden-xs\">";
+			$html .= "<ol class=\"breadcrumb\">";
+				foreach($breadcrumbs AS $breadcrumb) {
+					if ($breadcrumb['url'] != '') { $isLink = true; $url = $breadcrumb['url']; } else { $isLink = false; }
+					$html .= "<li";
+						if ($breadcrumb['class'] != '') { $html .= ' class="' . $breadcrumb['class'] . '"'; }
+					$html .= ">";
+						if ($isLink) { $html .= '<a href="' . $url . '">'; }
+							$html .= $breadcrumb['anchor'];
+						if ($isLink) { $html .= '</a>'; }
+					$html .= "</li>";
 				}
-			}
-			if ($urlArray[0] == 'k' && $urlArray[1] != '' && $urlArray[2] != '') { // /k/<contentCategoryKey>/<contentURL>/
-				$contentTitle = strtoupper(Content::getContentTitle($urlArray[2]));
-				$html .= "<li class=\"active\">" . $contentTitle . "</li>";
-			}
-		$html .= "</ol></div>";
+			$html .= "</ol>";
+		$html .= "</div>";
+		
+		$html .= "<div class=\"container visible-xs-block\">";
+		
+		
+			$html .= '<ul class="list-group">';
+			
+				foreach($breadcrumbs AS $rice) {
+					
+					if ($rice['url'] != '') { $isLink = true; } else { $isLink = false; }
+					
+					if ($isLink) {
+						$html .= '<a class="list-group-item" href="' . $rice['url'] . '">' . $rice['anchor'] . '</a>';
+					} else {
+						$html .= '<li class="list-group-item active">' . $rice['anchor'] . '</li>';
+					}
+					
+				}
+			
+			$html .= '</ul>';
+		$html .= "</div>";
+		
 		return $html;
 		
 	}

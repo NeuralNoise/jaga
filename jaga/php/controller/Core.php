@@ -15,7 +15,7 @@ class Core {
 		try {
 			$this->database = new PDO($dsn, $user, $password, $options);
 		} catch (PDOException $Exception) {
-			throw new DatabaseException($Exception->getMessage(),(int)$s->getCode());
+			throw new JagaDatabaseException( $Exception->getMessage( ) , (int)$Exception->getCode( ) );
 		}
 
     }
