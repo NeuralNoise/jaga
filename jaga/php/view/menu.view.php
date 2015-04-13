@@ -108,8 +108,7 @@ class MenuView {
 								} else {
 									$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu jagaDrop\">\n";
 										$html .= self::navBarUserChannelDropdown();
-										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://jaga.io/u/" .  $username . "/channels/\"><em>" . Lang::getLang('yourChannels') . "...</em></a></li>\n";
-										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://jaga.io/u/" .  $username . "/subscriptions/\"><em>" . Lang::getLang('yourSubscriptions') . "...</em></a></li>\n";
+										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://jaga.io/settings/subscriptions/\"><em>" . Lang::getLang('yourSubscriptions') . "...</em></a></li>\n";
 									$html .= "\t\t\t\t\t\t\t</ul>\n";
 								}
 							$html .= "\t\t\t\t\t\t</li>\n";
@@ -174,33 +173,35 @@ class MenuView {
 	}
 
 	private function navBarUserChannelDropdown() {
-		$userOwnChannelArray = Channel::getUserOwnChannelArray($_SESSION['userID']);
+
 		$userSubscribedChannelArray = Channel::getUserSubscribedChannelArray($_SESSION['userID']);
-		$userChannels = $userOwnChannelArray + $userSubscribedChannelArray;
-		arsort($userChannels);
-		
+		arsort($userSubscribedChannelArray);
 		
 		$html = '';
+		
 		$j = 0;
-		foreach ($userChannels AS $channelKey => $postCount) {
+		foreach ($userSubscribedChannelArray AS $channelKey => $postCount) {
 			
 			$channelID = Channel::getChannelID($channelKey);
 			$channel = new Channel($channelID);
-			if ($_SESSION['lang'] == 'ja') { $channelTitle = $channel->channelTitleJapanese; } else { $channelTitle = $channel->channelTitleEnglish; }
+			$channelTitle = $channel->getTitle(); 
+			if ($postCount > 1000) { $postCount = round($postCount/1000, 1) . "K"; }
+
+			$html .= "<li class=\"";
+				if ($j >= 3) { $html .= "hidden-xs"; }
+				if ($j >= 10) { $html .= " hidden-sm"; }
+				if ($j >= 15) { $html .= " hidden-md"; }
+				if ($j >= 20) { $html .= " hidden-lg"; }
+			$html .= "\">";
+				$html .= "<a href=\"http://$channelKey.jaga.io/\">" . strtoupper($channelTitle) . " <span class=\"jagaBadge\">$postCount</span></a>";
+			$html .= "</li>";
+
+			$j++;
 			
-			if ($j < 7) {
-				$html .= "\t\t\t\t\t\t\t\t<li";
-					if ($j >= 3) { $html .= " class=\"hidden-xs\""; }
-				$html .= "><a href=\"http://$channelKey.jaga.io/\">" . strtoupper($channelTitle);
-					$html .= " <span class=\"jagaBadge\">$postCount</span>";
-				$html .= "</a></li>\n";
-				$j++;
-			}
 		}
 		return $html;
 		
 	}
-
 
 	private function getNavBarExploreListItems() {
 		
