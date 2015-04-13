@@ -107,7 +107,8 @@ class MenuView {
 									$html .= "\t\t\t\t\t\t\t</ul>\n";	
 								} else {
 									$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu jagaDrop\">\n";
-										$html .= self::navBarUserChannelDropdown();
+										$html .= self::navBarUserSubscriptionDropdown();
+										$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
 										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"http://jaga.io/settings/subscriptions/\"><em>" . Lang::getLang('yourSubscriptions') . "...</em></a></li>\n";
 									$html .= "\t\t\t\t\t\t\t</ul>\n";
 								}
@@ -172,7 +173,7 @@ class MenuView {
 		
 	}
 
-	private function navBarUserChannelDropdown() {
+	private function navBarUserSubscriptionDropdown() {
 
 		$userSubscribedChannelArray = Channel::getUserSubscribedChannelArray($_SESSION['userID']);
 		arsort($userSubscribedChannelArray);
@@ -190,8 +191,8 @@ class MenuView {
 			$html .= "<li class=\"";
 				if ($j >= 3) { $html .= "hidden-xs"; }
 				if ($j >= 10) { $html .= " hidden-sm"; }
-				if ($j >= 15) { $html .= " hidden-md"; }
-				if ($j >= 20) { $html .= " hidden-lg"; }
+				if ($j >= 20) { $html .= " hidden-md"; }
+				if ($j >= 30) { $html .= " hidden-lg"; }
 			$html .= "\">";
 				$html .= "<a href=\"http://$channelKey.jaga.io/\">" . strtoupper($channelTitle) . " <span class=\"jagaBadge\">$postCount</span></a>";
 			$html .= "</li>";
@@ -204,35 +205,35 @@ class MenuView {
 	}
 
 	private function getNavBarExploreListItems() {
-		
-		$userOwnChannelArray = Channel::getUserOwnChannelArray($_SESSION['userID']);
-		$userSubscribedChannelArray = Channel::getUserSubscribedChannelArray($_SESSION['userID']);
+
 		$channelArray = Channel::getChannelArray();
+		$userSubscribedChannelArray = Channel::getUserSubscribedChannelArray($_SESSION['userID']);
 		$html = '';
+		
 		$k = 0;
 		foreach ($channelArray AS $channelKey => $totalPosts) {
-			
-			$channelID = Channel::getChannelID($channelKey);
-			$channel = new Channel($channelID);
-			if ($_SESSION['lang'] == 'ja') { $channelTitle = $channel->channelTitleJapanese; } else { $channelTitle = $channel->channelTitleEnglish; }
-			
-			
-			
+
 			if (
-				!isset($userOwnChannelArray[$channelKey])
-				&& !isset($userSubscribedChannelArray[$channelKey])
-				&& $channelKey != ''
-				&& $channelKey != 'the'
+				!isset($userSubscribedChannelArray[$channelKey]) && 
+				$channelKey != '' && 
+				$channelKey != 'www'
 			) {
-				if ($k < 14) {
-					$html .= "\t\t\t\t\t\t\t\t<li";
-						if ($k >= 3) { $html .= " class=\"hidden-xs\""; }
-					$html .= "><a href=\"http://$channelKey.jaga.io/\">";
-						$html .= strtoupper($channelTitle);
-						$html .= "<span class=\"jagaBadge\">$totalPosts</span>";
-					$html .= "</a></li>\n";
-				}
+				
+				$channelID = Channel::getChannelID($channelKey);
+				$channel = new Channel($channelID);
+				$channelTitle = $channel->getTitle();
+
+				$html .= "<li class=\"";
+					if ($k >= 3) { $html .= "hidden-xs"; }
+					if ($k >= 10) { $html .= " hidden-sm"; }
+					if ($k >= 20) { $html .= " hidden-md"; }
+					if ($k >= 30) { $html .= " hidden-lg"; }
+				$html .= "\">";
+					$html .= "<a href=\"http://$channelKey.jaga.io/\">" . strtoupper($channelTitle) . " <span class=\"jagaBadge\">$totalPosts</span></a>";
+				$html .= "</li>";
+				
 				$k++;
+				
 			}
 		}
 		return $html;
