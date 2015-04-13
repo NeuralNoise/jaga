@@ -61,63 +61,52 @@ class ThemeView {
 		$contentPanelHeadingTextColor = $this->contentPanelHeadingTextColor;
 		$contentPanelHeadingBackgroundColor = $this->contentPanelHeadingBackgroundColor;
 		
-		$css = "/* WELCOME TO THE KUTCHANNEL */\n/* The " . strtoupper(Channel::getChannelKey($_SESSION['channelID'])) . " channel is using the " . strtoupper($themeKey) . " theme. */\n\n";
-		
-		$css .= "#footer {
-			color:#$contentPanelHeadingTextColor;
-			background-color:#$navbarBackgroundColor;
-
-		}\n\n";
-		
-		$css .= "#footer a {
-			text-decoration:none;
-			color:#$navbarTextColor !important;
-		}\n\n";
-		
-		$css .= "div.jagaContentPanelHeading {
-			color:#$contentPanelHeadingTextColor !important;
-			background-color:#$contentPanelHeadingBackgroundColor !important;
-		}\n\n";
-		
-		$css .= "div.jagaContentPanelHeading > a {
-			color:#$contentPanelHeadingTextColor !important;
-			text-decoration:none;
-		}\n";
-		
-		$css .= "div.jagaContentPanelHeading > h4 > a {
-			color:#$contentPanelHeadingTextColor !important;
-			text-decoration:none;
-		}\n";
-		
-		$css .= "div.jagaContentPanelHeading > a:hover {
-			color:#$navbarBackgroundColor !important;
-		}\n\n";
-		
-		$css .= "div.jagaContentPanelHeading > h4 > a:hover {
-			color:#$navbarBackgroundColor !important;
-		}\n\n";
-		
-		// $css .= "div.jagaCommentPanelHeading {
-			// color:#$navbarTextColor !important;
-			// background-color:#$navbarBackgroundColor !important;
-		// }\n\n";
-		
-		$css .= "div.jagaCommentPanelHeading {
-			background-color:#f5f5f5 !important;
-		}\n\n";
-
-		// $css .= "a.jagaListGroupItemMore {
-			// color:#$contentPanelHeadingTextColor;
-			// background-color:#$contentPanelHeadingBackgroundColor;
-		// }\n\n";		
-		
-
-		$css .= ".jagaFormButton {
-			color:#$navbarTextColor;
-			background-color:#$navbarBackgroundColor;
-		}\n\n";
+		$css = "/* WELCOME TO THE KUTCHANNEL */\n/* This channel is using the " . strtoupper($themeKey) . " theme. */\n";
 		
 		$css .= "
+
+			#footer {
+				color:#$contentPanelHeadingTextColor;
+				background-color:#$navbarBackgroundColor;
+
+			}
+			
+			#footer a {
+				text-decoration:none;
+				color:#$navbarTextColor !important;
+			}
+			
+			div.jagaContentPanelHeading {
+				color:#$contentPanelHeadingTextColor !important;
+				background-color:#$contentPanelHeadingBackgroundColor !important;
+			}
+			
+			div.jagaContentPanelHeading > a {
+				color:#$contentPanelHeadingTextColor !important;
+				text-decoration:none;
+			}
+			
+			div.jagaContentPanelHeading > h4 > a {
+				color:#$contentPanelHeadingTextColor !important;
+				text-decoration:none;
+			}
+			
+			div.jagaContentPanelHeading > a:hover {
+				color:#$navbarBackgroundColor !important;
+			}
+			
+			div.jagaContentPanelHeading > h4 > a:hover {
+				color:#$navbarBackgroundColor !important;
+			}
+			
+			div.jagaCommentPanelHeading {
+				background-color:#f5f5f5 !important;
+			}
+			
+			.jagaFormButton {
+				color:#$navbarTextColor;
+				background-color:#$navbarBackgroundColor;
+			}
 		
 			.navbar-default {
 				background-color: #$navbarBackgroundColor;
@@ -187,19 +176,19 @@ class ThemeView {
 					color: #$navbarTextColorHover;
 				}
 			}
-			
-		";
-		
-		$css .= "
+
 			.jagaClickableRow:hover {
 				cursor:pointer;
-				/*
-				color:#$contentPanelHeadingTextColor !important;
-				background-color:#$contentPanelHeadingBackgroundColor !important;
-				*/
 			}
-		";
 
+			li.list-group-item.active, li.list-group-item.active:hover {
+				color:#333;
+				background-color:#ccc;
+				border-color: #aaa;
+			}
+		
+		";
+		
 		return $css;
 	
 	}
