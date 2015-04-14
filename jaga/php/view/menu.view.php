@@ -52,13 +52,16 @@ class MenuView {
 										// IF UNSUBCRIBED TO CURRENT CHANNEL
 										if (!Subscription::userIsSubscribed($_SESSION['userID'], $_SESSION['channelID'])) {
 											$html .= "\t\t\t\t\t<li><a href=\"/subscribe/" . $_SESSION['channelKey'] . "/\"><span class=\"glyphicon glyphicon-star-empty\"> <span class=\"\">" . Lang::getLang('subscribe') . "</span></span></a></li>\n\n";
+											$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
 										}
 
 										$html .= self::getNavBarCategoryListItems();
-										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/k/\"><em>ALL CATEGORIES...</em></a></li>\n";
+										$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
+										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/k/\"><em>" . Lang::getLang('allCategories') . "...</em></a></li>\n";
 																				
 										// IF SUBCRIBED TO CURRENT CHANNEL
 										if (Subscription::userIsSubscribed($_SESSION['userID'], $_SESSION['channelID'])) {
+											$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
 											$html .= "\t\t\t\t\t<li><a href=\"/unsubscribe/" . $_SESSION['channelKey'] . "/\"><span class=\"glyphicon glyphicon-remove\"> <span class=\"\">" . Lang::getLang('unsubscribe') . "</span></span></a></li>\n\n";
 										}
 										
