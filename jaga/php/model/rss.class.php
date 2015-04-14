@@ -30,7 +30,7 @@ class RSS {
 		$rss = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
 		$rss .= "<rss version=\"2.0\">\n";
 			$rss .= "\t<channel>\n";
-				$rss .= "\t<title>". $channel->channelTitleEnglish . "</title>\n";
+				$rss .= "\t<title>". $channel->getTitle() . "</title>\n";
 				$rss .= "\t<link>http://" . $channel->channelKey . ".jaga.io/</link>\n";
 				$rss .= "\t<description>". $channel->channelDescriptionEnglish . "</description>\n";
 				
@@ -50,9 +50,13 @@ class RSS {
 					$contentEnglish = Utilities::remove_linebreaks($contentEnglish);
 					$contentEnglish = Utilities::truncate($contentEnglish, 100, $break = ' ');
 					
+					$thisChannelKey = Channel::getChannelKey($row['channelID']);
+					
+					$contentURL = 'http://' . $thisChannelKey . '.jaga.io/k/' . $row['contentCategoryKey'] . '/' . $row['contentURL'] . '/';
+					
 					$rss .= "\t<item>\n";
 						$rss .= "\t\t<title>" . $row['contentTitleEnglish'] . "</title>\n";
-						$rss .= "\t\t<link>" . $row['contentURL'] . "</link>\n";
+						$rss .= "\t\t<link>" . $contentURL . "</link>\n";
 						$rss .= "\t\t<description><![CDATA[" . $contentEnglish . "]]></description>\n";
 					$rss .= "\t</item>\n";
 				}

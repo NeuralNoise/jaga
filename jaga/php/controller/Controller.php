@@ -38,10 +38,10 @@ class Controller {
 			$reservedDomains = array('blog', 'db', 'dev', 'domains', 'dns', 'faq', 'ftp', 'groups', 'help', 'int', 'mail', 'news', 'prod', 'repo', 'sandbox', 'secure', 'support', 'the', 'qa', 'wiki', 'www');
 			
 			if (in_array($subdomain,$reservedDomains)) {
-				return '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><head><title>The Kutchannel: This subdomain is reserved.</title><META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"></head><body style="background-color:#FFFF99;padding-top:150px;"><div style="text-align:center;"><a href="http://jaga.io/"><img src="/jaga/images/banner.png" style="max-width:100%;border-style:none;"></a><br />This subdomain is reserved.</div></body></html>';
+				return '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><head><title>JAGA.IO: This channel is reserved.</title><META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"></head><body style="background-color:#555;color:#fff;padding-top:150px;"><div style="text-align:center;"><a href="http://jaga.io/"><img src="/jaga/images/banner.png" style="max-width:100%;border-style:none;"></a><br />This channel is reserved.</div></body></html>';
 				die();			
 			} else {
-				return '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><head><title>The Kutchannel: The "' . $subdomain . '" channel does not yet exist.</title><META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"></head><body style="background-color:#FFFF99;padding-top:150px;"><div style="text-align:center;"><a href="http://jaga.io/"><img src="/jaga/images/banner.png" style="max-width:100%;border-style:none;"></a><br />This channel has not yet been created. <a href="http://jaga.io/create-a-channel/' . $subdomain . '/" style="text-decoration:none;">Create it</a>!</div></body></html>';
+				return '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><head><title>JAGA.IO: This channel does not yet exist.</title><META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"></head><body style="background-color:#eee;color:#000;padding-top:150px;"><div style="text-align:center;"><a href="http://jaga.io/"><img src="/jaga/images/banner.png" style="max-width:100%;border-style:none;"></a><br />This channel has not yet been created. <a href="http://jaga.io/create-a-channel/' . $subdomain . '/" style="text-decoration:none;">Create it</a>!</div></body></html>';
 				die();
 			}
 
