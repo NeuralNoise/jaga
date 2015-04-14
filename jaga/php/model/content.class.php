@@ -90,6 +90,17 @@ class Content extends ORM {
 		return $contentContent;
 	}
 	
+	public function getDescription() {
+		
+		$contentDescription = $this->getContent();
+		$contentDescription = strip_tags($contentDescription);
+		$contentDescription = preg_replace('/"/', '\'', $contentDescription);
+		$contentDescription = htmlspecialchars($contentDescription);
+		$contentDescription = Utilities::truncate($contentDescription, 100);
+		return $contentDescription;
+		
+	}
+	
 	public function getContentID($contentURL) {
 		
 		$core = Core::getInstance();

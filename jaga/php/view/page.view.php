@@ -6,19 +6,33 @@ class PageView {
 	public $pageKeywords;
 	public $pageDescription;
 	
-	public function __construct() {
+	public function __construct($urlArray) {
 	
 		$channelID = Session::getSession('channelID');
 		$channel = new Channel($channelID);
-		if ($_SESSION['lang'] == 'ja') {
-			$this->pageTitle = $channel->channelTitleJapanese;
-			$this->pageKeywords = $channel->channelKeywordsJapanese;
-			$this->pageDescription = $channel->channelDescriptionJapanese;
+	
+		if ($urlArray[0] == 'k' && $urlArray[1] != '') {
+			$category = new Category($urlArray[1]);
+			if ($urlArray[2] != '') {
+				
+				$content = new Content(Content::getContentID($urlArray[2]));
+				$contentDescription = $content->getDescription();
+				
+				$this->pageTitle = $content->getTitle() . ' | ' . $category->getTitle() . ' | ' . $channel->getTitle();
+				$this->pageKeywords = $content->getTitle();
+				$this->pageDescription = $contentDescription;
+				
+			} else {
+				$this->pageTitle = $category->getTitle() . ' | ' . $channel->getTitle();
+				$this->pageKeywords = $category->getTitle();
+				$this->pageDescription = $category->getTitle();
+			}
 		} else {
-			$this->pageTitle = $channel->channelTitleEnglish;
-			$this->pageKeywords = $channel->channelKeywordsEnglish;
-			$this->pageDescription = $channel->channelDescriptionEnglish;
+			$this->pageTitle = $channel->getTitle();
+			$this->pageKeywords = $channel->getKeywords();
+			$this->pageDescription = $channel->getDescription();
 		}
+
 	}
 	
 	private function getHeader() {
@@ -45,6 +59,8 @@ class PageView {
 
 				$html .= "\t\t<meta name=\"author\" content=\"Chishiki\">\n";
 				$html .= "\t\t<meta name=\"generator\" content=\"JAGA\">\n\n";
+				
+				$html .= "\t\t<link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS\" href=\"/rss/\">\n\n";
 				
 				$html .= "\t\t<link rel=\"icon\" type=\"image/x-icon\" href=\"/jaga/images/favicon.ico\"/>\n\n";
 

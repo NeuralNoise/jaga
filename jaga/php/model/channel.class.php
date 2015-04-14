@@ -63,16 +63,22 @@ class Channel extends ORM {
 		return $channelTitle;
 	}
 	
-	public function getChannelTitle() {
-		return $this->channelTitleEnglish;
+	public function getKeywords() {
+		if ($_SESSION['lang'] == 'ja') {
+			if ($this->channelKeywordsJapanese != '') { $keywords = $this->channelKeywordsJapanese; } else { $keywords = $this->channelKeywordsEnglish; }
+		} else {
+			if ($this->channelKeywordsEnglish != '') { $keywords = $this->channelKeywordsEnglish; } else { $keywords = $this->channelKeywordsJapanese; }
+		}
+		return $keywords;
 	}
 	
-	public function getChannelKeywords() {
-		return $this->channelKeywordsEnglish;
-	}
-	
-	public function getChannelDescription() {
-		return $this->channelDescriptionEnglish;
+	public function getDescription() {
+		if ($_SESSION['lang'] == 'ja') {
+			if ($this->channelDescriptionJapanese != '') { $description = $this->channelDescriptionJapanese; } else { $description = $this->channelDescriptionEnglish; }
+		} else {
+			if ($this->channelDescriptionEnglish != '') { $description = $this->channelDescriptionEnglish; } else { $description = $this->channelDescriptionJapanese; }
+		}
+		return $description;
 	}
 	
 	public function getChannelArray() {

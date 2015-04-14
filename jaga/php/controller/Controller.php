@@ -667,7 +667,7 @@ class Controller {
 		}
 
 		if (!in_array($urlArray[0],$notHTML)) {
-			$page = new PageView();
+			$page = new PageView($urlArray);
 			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
 			return $html;
 		}

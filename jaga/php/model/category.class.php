@@ -27,6 +27,15 @@ class Category extends ORM {
 			
 		}
 	}
+	
+	public function getTitle() {
+		if ($_SESSION['lang'] == 'ja') {
+			if ($this->contentCategoryJapanese != '') { $title = $this->contentCategoryJapanese; } else { $title = $this->contentCategoryEnglish; }
+		} else {
+			if ($this->contentCategoryEnglish != '') { $title = $this->contentCategoryEnglish; } else { $title = $this->contentCategoryJapanese; }
+		}
+		return $title;
+	}
 
 	public function getCategoryContent($channelID, $contentCategoryKey) {
 	
