@@ -11,7 +11,7 @@ class PageView {
 		$channelID = Session::getSession('channelID');
 		$channel = new Channel($channelID);
 	
-		if ($urlArray[0] == 'k' && $urlArray[1] != '') {
+		if ($urlArray[0] == 'k' && $urlArray[1] != 'update' && $urlArray[1] != 'create' && $urlArray[1] != 'delete' && $urlArray[1] != '') {
 			$category = new Category($urlArray[1]);
 			if ($urlArray[2] != '') {
 				

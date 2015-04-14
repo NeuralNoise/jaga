@@ -15,7 +15,7 @@ class Category extends ORM {
 			$query = "SELECT * FROM jaga_Category WHERE contentCategoryKey = :contentCategoryKey LIMIT 1";
 			$statement = $core->database->prepare($query);
 			$statement->execute(array(':contentCategoryKey' => $contentCategoryKey));
-			if (!$row = $statement->fetch()) { die('Content does not exist.'); }
+			if (!$row = $statement->fetch()) { die('Category does not exist.'); }
 			foreach ($row AS $key => $value) { if (!is_int($key)) { $this->$key = $value; } }
 			
 		} else {
