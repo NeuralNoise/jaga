@@ -290,7 +290,8 @@ class PageView {
 					
 				} else {
 				
-					$html .= $this->getBreadcrumbs($urlArray);
+					// $html .= $this->getBreadcrumbs($urlArray);
+					// $html .= ContentView::displayRecentContentItems($_SESSION['channelID'], '', 50);
 					$categoryView = new CategoryView();
 					$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
 					
@@ -360,14 +361,18 @@ class PageView {
 				} else {
 					if ($urlArray[2] == '') { // /k/<contentCategoryKey>/
 						$html .= $this->getBreadcrumbs($urlArray);
-						$html .= ContentView::displayChannelContentList($_SESSION['channelID'],$urlArray[1]);
+						$html .= ContentView::displayRecentContentItems($_SESSION['channelID'], $urlArray[1], 50);
 					} else { // /k/<contentCategoryKey>/<contentURL>/
 						$contentURL = urldecode($urlArray[2]);
 						$contentID = Content::getContentID($contentURL);
-						$html .= $this->getBreadcrumbs($urlArray);
-						$html .= ContentView::displayContentView($contentID);
-						$html .= CommentView::displayCommentsView('Content', $contentID);
-						$html .= CommentView::displayCommentForm('Content', $contentID);
+						$content = new Content($contentID);
+						if ($content->contentPublished == 1) {
+							$html .= $this->getBreadcrumbs($urlArray);
+							$html .= ContentView::displayContentView($contentID);
+							$html .= CommentView::displayCommentsView('Content', $contentID);
+							$html .= CommentView::displayCommentForm('Content', $contentID);
+						}
+						 
 					}
 				}
 				

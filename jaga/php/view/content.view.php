@@ -525,7 +525,7 @@ class ContentView {
 				
 					$content = new Content($contentID);
 					$contentTitle = $content->getTitle();
-					$contentContent = $content->getContent();
+					
 					$contentURL = $content->contentURL;
 					$thisContentCategoryKey = $content->contentCategoryKey;
 					$contentSubmittedByUserID = $content->contentSubmittedByUserID;
@@ -537,6 +537,8 @@ class ContentView {
 					$thisContentChannelKey = $channel->channelKey;
 					$channelTitle = $channel->getTitle();
 					
+					$contentContent = $content->getContent();
+					$contentContent = strip_tags($contentContent);
 					$contentContent = preg_replace('/\s+/', ' ', $contentContent);
 					$contentContent = Utilities::truncate($contentContent, 100, ' ', '...');
 					
