@@ -11,6 +11,8 @@ class ChannelView {
 				$channelKey ='';
 				$channelTitleEnglish = '';
 				$channelTitleJapanese = '';
+				$channelTagLineEnglish = '';
+				$channelTagLineJapanese = '';
 				$channelKeywordsEnglish = '';
 				$channelKeywordsJapanese = '';
 				$channelDescriptionEnglish = '';
@@ -30,6 +32,8 @@ class ChannelView {
 				$channelKey = $channel->channelKey;
 				$channelTitleEnglish = $channel->channelTitleEnglish;
 				$channelTitleJapanese = $channel->channelTitleJapanese;
+				$channelTagLineEnglish = $channel->channelTagLineEnglish;
+				$channelTagLineJapanese = $channel->channelTagLineJapanese;
 				$channelKeywordsEnglish = $channel->channelKeywordsEnglish;
 				$channelKeywordsJapanese = $channel->channelKeywordsJapanese;
 				$channelDescriptionEnglish = $channel->channelDescriptionEnglish;
@@ -50,6 +54,8 @@ class ChannelView {
 			$channelKey = $inputArray['channelKey'];
 			$channelTitleEnglish = $inputArray['channelTitleEnglish'];
 			$channelTitleJapanese = $inputArray['channelTitleJapanese'];
+			$channelTagLineEnglish = $inputArray['channelTagLineEnglish'];
+			$channelTagLineJapanese = $inputArray['channelTagLineJapanese'];
 			$channelKeywordsEnglish = $inputArray['channelKeywordsEnglish'];
 			$channelKeywordsJapanese = $inputArray['channelKeywordsJapanese'];
 			$channelDescriptionEnglish = $inputArray['channelDescriptionEnglish'];
@@ -125,21 +131,28 @@ class ChannelView {
 							$html .= "<hr />";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelTitleEnglish\" class=\"col-sm-4 control-label\">" . Lang::getLang('channelTitleEnglish') . "</label>\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelTitleEnglish\" class=\"col-sm-4 control-label\">" . Lang::getLang('titleEnglish') . "</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelTitleEnglish\" name=\"channelTitleEnglish\" class=\"form-control\" placeholder=\"channelTitleEnglish\" value=\"" . $channelTitleEnglish . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelKeywordsEnglish\" class=\"col-sm-4 control-label\">" . Lang::getLang('channelKeywordsEnglish') . "</label>\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelTagLineEnglish\" class=\"col-sm-4 control-label\">" . Lang::getLang('tagLineEnglish') . "</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelTagLineEnglish\" name=\"channelTagLineEnglish\" class=\"form-control\" placeholder=\"channelTagLineEnglish\" value=\"" . $channelTagLineEnglish . "\">\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelKeywordsEnglish\" class=\"col-sm-4 control-label\">" . Lang::getLang('keywordsEnglish') . "</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelKeywordsEnglish\" name=\"channelKeywordsEnglish\" class=\"form-control\" placeholder=\"channelKeywordsEnglish\" value=\"" . $channelKeywordsEnglish . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelDescriptionEnglish\" class=\"col-sm-4 control-label\">" . Lang::getLang('channelDescriptionEnglish') . "</label>\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelDescriptionEnglish\" class=\"col-sm-4 control-label\">" . Lang::getLang('descriptionEnglish') . "</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelDescriptionEnglish\" name=\"channelDescriptionEnglish\" class=\"form-control\" placeholder=\"channelDescriptionEnglish\" value=\"" . $channelDescriptionEnglish . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
@@ -148,21 +161,28 @@ class ChannelView {
 							$html .= "<hr />";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelTitleJapanese\" class=\"col-sm-4 control-label\">" . Lang::getLang('channelTitleJapanese') . "</label>\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelTitleJapanese\" class=\"col-sm-4 control-label\">" . Lang::getLang('titleJapanese') . "</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelTitleJapanese\" name=\"channelTitleJapanese\" class=\"form-control\" placeholder=\"channelTitleJapanese\" value=\"" . $channelTitleJapanese . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelKeywordsJapanese\" class=\"col-sm-4 control-label\">" . Lang::getLang('channelKeywordsJapanese') . "</label>\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelTagLineJapanese\" class=\"col-sm-4 control-label\">" . Lang::getLang('tagLineJapanese') . "</label>\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
+									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelTagLineJapanese\" name=\"channelTagLineJapanese\" class=\"form-control\" placeholder=\"channelTagLineJapanese\" value=\"" . $channelTagLineJapanese . "\">\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelKeywordsJapanese\" class=\"col-sm-4 control-label\">" . Lang::getLang('keywordsJapanese') . "</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelKeywordsJapanese\" name=\"channelKeywordsJapanese\" class=\"form-control\" placeholder=\"channelKeywordsJapanese\" value=\"" . $channelKeywordsJapanese . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-								$html .= "\t\t\t\t\t\t\t<label for=\"channelDescriptionJapanese\" class=\"col-sm-4 control-label\">" . Lang::getLang('channelDescriptionJapanese') . "</label>\n";
+								$html .= "\t\t\t\t\t\t\t<label for=\"channelDescriptionJapanese\" class=\"col-sm-4 control-label\">" . Lang::getLang('descriptionJapanese') . "</label>\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
 									$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"channelDescriptionJapanese\" name=\"channelDescriptionJapanese\" class=\"form-control\" placeholder=\"channelDescriptionJapanese\" value=\"" . $channelDescriptionJapanese . "\">\n";
 								$html .= "\t\t\t\t\t\t\t</div>\n";

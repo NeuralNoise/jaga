@@ -28,9 +28,15 @@ class PageView {
 				$this->pageDescription = $category->getTitle();
 			}
 		} else {
-			$this->pageTitle = $channel->getTitle();
+			
+			$title = $channel->getTitle();
+			$tagline = $channel->getTagLine();
+			
+			$this->pageTitle = $title;
+			if ($title != $tagline) { $this->pageTitle .= ' | ' . $channel->getTagLine(); }
 			$this->pageKeywords = $channel->getKeywords();
 			$this->pageDescription = $channel->getDescription();
+			
 		}
 
 	}

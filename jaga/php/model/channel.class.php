@@ -8,6 +8,8 @@ class Channel extends ORM {
 	public $channelEnabled;
 	public $channelTitleEnglish;
 	public $channelTitleJapanese;
+	public $channelTagLineEnglish;
+	public $channelTagLineJapanese;
 	public $channelKeywordsEnglish;
 	public $channelKeywordsJapanese;
 	public $channelDescriptionEnglish;
@@ -42,6 +44,8 @@ class Channel extends ORM {
 			$this->channelEnabled = 1;
 			$this->channelTitleEnglish = '';
 			$this->channelTitleJapanese = '';
+			$this->channelTagLineEnglish = '';
+			$this->channelTagLineJapanese = '';
 			$this->channelKeywordsEnglish = '';
 			$this->channelKeywordsJapanese = '';
 			$this->channelDescriptionEnglish = '';
@@ -71,6 +75,15 @@ class Channel extends ORM {
 		}
 		return $keywords;
 	}
+
+	public function getTagLine() {
+		if ($_SESSION['lang'] == 'ja') {
+			if ($this->channelKeywordsJapanese != '') { $tagline = $this->channelTagLineJapanese; } else { $tagline = $this->channelTagLineEnglish; }
+		} else {
+			if ($this->channelTagLineEnglish != '') { $tagline = $this->channelTagLineEnglish; } else { $tagline = $this->channelTagLineJapanese; }
+		}
+		return $tagline;
+	}
 	
 	public function getDescription() {
 		if ($_SESSION['lang'] == 'ja') {
@@ -81,7 +94,7 @@ class Channel extends ORM {
 		return $description;
 	}
 	
-	public function getChannelArray() {
+	public static function getChannelArray() {
 
 		$core = Core::getInstance();
 		$query = "
@@ -106,7 +119,7 @@ class Channel extends ORM {
 		return $channelArray;
 	}
 	
-	public function getUserOwnChannelArray($userID) {
+	public static function getUserOwnChannelArray($userID) {
 		
 		$core = Core::getInstance();
 		$query = "
@@ -129,7 +142,7 @@ class Channel extends ORM {
 		
 	}
 	
-	public function getUserSubscribedChannelArray($userID) {
+	public static function getUserSubscribedChannelArray($userID) {
 		
 		$core = Core::getInstance();
 		$query = "
@@ -153,7 +166,7 @@ class Channel extends ORM {
 		
 	}
 	
-	public function getSelectedChannelID() {
+	public static function getSelectedChannelID() {
 	
 		$channelID = 0;
 		
@@ -172,7 +185,7 @@ class Channel extends ORM {
 		
 	}
 
-	public function getChannelID($channelKey) {
+	public static function getChannelID($channelKey) {
 	
 		$channelID = 0;
 		$query = "SELECT channelID FROM jaga_Channel WHERE channelKey = '$channelKey' LIMIT 1";
@@ -185,7 +198,7 @@ class Channel extends ORM {
 		
 	}
 	
-	public function getChannelKey($channelID) {
+	public static function getChannelKey($channelID) {
 	
 		$channelKey = '';
 		$query = "SELECT channelKey FROM jaga_Channel WHERE channelID = '$channelID' LIMIT 1";
@@ -198,7 +211,7 @@ class Channel extends ORM {
 		
 	}
 
-	public function getThemeKey($channelID) {
+	public static function getThemeKey($channelID) {
 	
 		$themeKey = '';
 		
