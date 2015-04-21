@@ -64,5 +64,7 @@
 	// Config::write('pingdom.rumID', '');
 	// Config::write('alexa.atrk_acct', '');
 	// Config::write('ms.validate', '');
+	// Config::write('googlemaps.embed-api-key', '');
+	// Config::write('pinterest.domain_verify', '');
 
 ?>

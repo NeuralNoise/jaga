@@ -343,15 +343,15 @@ class ChannelView {
 
 				$html .= "<div class=\"table-responsive\">\n";
 					$html .= "<table class=\"table table-striped table-hover table-condensed\">\n";
+					
 						$html .= "<tr>";
 							$html .= "<th>" . Lang::getLang('channel') . "</th>\n";
 							$html .= "<th>" . Lang::getLang('title') . "</th>\n";
 							$html .= "<th>" . Lang::getLang('manager') . "</th>\n";
 							$html .= "<th class=\"text-right\">" . Lang::getLang('totalPosts') . "</th>\n";
-							// $html .= "<th class=\"text-right\">" . Lang::getLang('pagesServed') . "</th>\n";
 						$html .= "</tr>";
+						
 						foreach ($channelArray AS $channelKey => $totalPosts) {
-							
 							
 							$channelID = Channel::getChannelID($channelKey);
 							$channel = new Channel($channelID);
@@ -360,7 +360,6 @@ class ChannelView {
 							$isPublic = $channel->isPublic;
 							$isCloaked = $channel->isCloaked;
 							$isNSFW = $channel->isNSFW;
-							
 							$siteManagerUserName = User::getUserName($channel->siteManagerUserID);
 							
 							if ($isPublic && !$isCloaked && !$isNSFW) {
@@ -370,13 +369,12 @@ class ChannelView {
 									$html .= "<td>" . $channelTitleEnglish . "</td>\n";
 									$html .= "<td>" . $siteManagerUserName . "</td>\n";
 									$html .= "<td class=\"text-right\">" . $totalPosts . "</td>\n";
-									// $html .= "<td class=\"text-right\">" . $pagesServed . "</td>\n";
 								$html .= "</tr>";
 							
 							}
-							
-							
+
 						}
+						
 					$html .= "</table>\n";
 				$html .= "</div>\n";
 				

@@ -11,6 +11,11 @@ class ContentView {
 
 		$contentSubmissionDateTime = $content->contentSubmissionDateTime;
 		$contentPublished = $content->contentPublished;
+		
+		$contentHasLocation = $content->contentHasLocation;
+		$contentLatitude = $content->contentLatitude;
+		$contentLongitude = $content->contentLongitude;
+		
 		$opID = $content->contentSubmittedByUserID;
 		$opUserName = User::getUserName($opID);
 
@@ -20,41 +25,42 @@ class ContentView {
 		$html = "\n\t<!-- START CONTENT -->\n";
 		$html .= "\t<div class=\"container\">\n\n";
 		
-		
 			if ($contentPublished == 0) {
 				$html .= "\t<div class=\"alert alert-danger\">";
 					if ($_SESSION['lang'] == 'ja') { $html .= "今現在、当ページの表示は出来ません。"; } else { $html .= "This post is not currently published."; }
 				$html .= "</div>";
 			}
 		
-		
-		
 			$html .= "\t<div class=\"panel panel-default\">\n";
 			
 				$html .= "\t\t<div class=\"panel-heading jagaContentPanelHeading\">";
 					$html .= "<div>";
 						$html .= "<strong>" . $contentTitle . "</strong> | ";
-						$html .= "<i><a href=\"http://jaga.io/u/" . $opUserName . "/\">" . $opUserName . "</a> at " . $contentSubmissionDateTime . "</i>";
-
+						$html .= "<i><a href=\"http://jaga.io/u/" . urlencode($opUserName) . "/\">" . $opUserName . "</a> at " . $contentSubmissionDateTime . "</i>";
 						if ($opID == $_SESSION['userID']) { $html .= "<a href=\"/k/update/" . $contentID . "/\" class=\"btn btn-default btn-sm pull-right\"><span class=\"glyphicon glyphicon-pencil\"></span></a>"; }
 					$html .= "</div>";
 				$html .= "</div>\n";
 				
 				$html .= "\t\t<div class=\"panel-body\">";
 					
-					$html .= "<div style=\"white-space:pre-line;overflow-x:auto;margin-bottom:10px;\">" . $contentContent . "</div>";
-					
-					$html .= "<div id=\"list\" class=\"row\">";
-						
+					$html .= "<div class=\"row\">";
+
+						$imageHtml = '';
 						foreach ($imageArray AS $imageID => $imageURL) {
-							
+
+							if ($contentHasLocation) {
+								$imageClasses = "col-xs-12 col-sm-6 col-md-4 col-lg-4";
+							} else {
+								$imageClasses = "col-xs-12 col-sm-4 col-md-4 col-lg-3";
+							}
+						
 							// IMAGE
-							$html .= "<div class=\"item col-xs-6 col-sm-4 col-md-3 col-lg-2\" data-toggle=\"modal\" data-target=\"#" . $imageID . "\" style=\"margin-bottom:10px;\">";
-								$html .= "<img src=\"" . $imageURL . "\" class=\"img-responsive jagaContentViewImage\">";
-							$html .= "</div>\n";
+							$imageHtml .= "<div class=\"item $imageClasses\" data-toggle=\"modal\" data-target=\"#" . $imageID . "\" style=\"margin-bottom:10px;\">";
+								$imageHtml .= "<img src=\"" . $imageURL . "\" class=\"img-responsive jagaContentViewImage\">";
+							$imageHtml .= "</div>\n";
 							
 							// MODAL
-							$html .= "
+							$imageHtml .= "
 							<div class=\"modal fade\" id=\"" . $imageID . "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"deluxeNobileFirLabel\" aria-hidden=\"true\">
 								<div class=\"modal-dialog\">
 									<div class=\"modal-content\">
@@ -70,8 +76,26 @@ class ContentView {
 							";
 							
 						}
-					$html .= "</div>\n";
-					
+						
+						if ($contentHasLocation) {
+							
+							$html .= "<div class=\"col-xs-12 col-sm-6 col-md-8 col-lg-9\">";
+								$html .= "<div  id=\"panelBodyContent\">" . $contentContent . "</div>";
+								$html .= $imageHtml;
+							$html .="</div>";
+							$html .= "<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\">";
+								$html .= "<div id=\"map-canvas\">";
+									$html .= "<iframe frameborder=\"0\" style=\"border:0;\" src=\"https://www.google.com/maps/embed/v1/place?key=" . Config::read('googlemaps.embed-api-key') . "&maptype=satellite&q=" . $contentLatitude . "," . $contentLongitude . "\"></iframe>";
+								$html .= "</div>";
+							$html .= "</div>";
+
+						} else {
+							$html .= "<div class=\"col-xs-12\" id=\"panelBodyContent\">" . $contentContent . "</div>";
+							$html .= $imageHtml;
+						}
+
+					$html .= "</div>";
+
 				$html .= "</div>\n";
 			$html .= "\t</div>\n";
 		$html .= "\t</div>\n";

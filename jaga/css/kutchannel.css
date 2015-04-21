@@ -139,6 +139,24 @@ span.jagaListGroup iframe { width:100%; height:100%; }
 .jagaMessagePanelGroup { margin-bottom:0px; }
 .jagaContentViewImage:hover { cursor:pointer; }
 
+div#panelBodyContent {
+	white-space:pre-line;
+	overflow-x:auto;
+	margin-bottom:10px;
+}
+
+div#map-canvas {
+	background-color:#ccc;
+	padding:10px;
+}
+
+div#map-canvas iframe {
+	display:block;
+	border:0px;
+	height:300px;
+	width:100%;
+}
+
 /*
 					 \++================================|                    _=_
 					  \_________________________________/              ___/==+++==\___

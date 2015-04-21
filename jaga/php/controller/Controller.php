@@ -174,7 +174,7 @@ class Controller {
 
 				// VALIDATION
 				if ($inputArray['contentTitleEnglish'] == '' && $inputArray['contentTitleJapanese'] == '') { $errorArray['contentTitle'][] = 'Every post needs a title.'; }
-				if ($inputArray['contentEnglish'] == '' && $inputArray['contentJapanese'] == '') { $errorArray['content'][] = 'Your post is empty.'; }
+				// if ($inputArray['contentEnglish'] == '' && $inputArray['contentJapanese'] == '') { $errorArray['content'][] = 'Your post is empty.'; }
 				if ($inputArray['contentCategoryKey'] == '') { $errorArray['contentCategoryKey'][] = 'A category must be selected.'; }
 				// is this category enabled for this channel? check it
 				
