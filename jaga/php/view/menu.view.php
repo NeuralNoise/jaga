@@ -222,20 +222,30 @@ class MenuView {
 				$channelKey != 'www'
 			) {
 				
+				if ($totalPosts > 1000) { $postCount = round($totalPosts/1000, 1) . "K"; } else { $postCount = $totalPosts; }
+				
 				$channelID = Channel::getChannelID($channelKey);
 				$channel = new Channel($channelID);
 				$channelTitle = $channel->getTitle();
 
-				$html .= "<li class=\"";
-					if ($k >= 3) { $html .= "hidden-xs"; }
-					if ($k >= 10) { $html .= " hidden-sm"; }
-					if ($k >= 20) { $html .= " hidden-md"; }
-					if ($k >= 30) { $html .= " hidden-lg"; }
-				$html .= "\">";
-					$html .= "<a href=\"http://$channelKey.jaga.io/\">" . strtoupper($channelTitle) . " <span class=\"jagaBadge\">$totalPosts</span></a>";
-				$html .= "</li>";
+				$isPublic = $channel->isPublic;
+				$isCloaked = $channel->isCloaked;
+				$isNSFW = $channel->isNSFW;
 				
-				$k++;
+				if ($isPublic && !$isCloaked && !$isNSFW) {
+				
+					$html .= "<li class=\"";
+						if ($k >= 3) { $html .= "hidden-xs"; }
+						if ($k >= 10) { $html .= " hidden-sm"; }
+						if ($k >= 20) { $html .= " hidden-md"; }
+						if ($k >= 30) { $html .= " hidden-lg"; }
+					$html .= "\">";
+						$html .= "<a href=\"http://$channelKey.jaga.io/\">" . strtoupper($channelTitle) . " <span class=\"jagaBadge\">$postCount</span></a>";
+					$html .= "</li>";
+					
+					$k++;
+				
+				}
 				
 			}
 		}

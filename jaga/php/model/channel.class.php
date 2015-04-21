@@ -17,6 +17,9 @@ class Channel extends ORM {
 	public $themeKey;
 	public $pagesServed;
 	public $siteManagerUserID;
+	public $isPublic;
+	public $isCloaked;
+	public $isNSFW;
 	
 	public function __construct($channelID) {
 		
