@@ -348,21 +348,34 @@ class ChannelView {
 							$html .= "<th>" . Lang::getLang('title') . "</th>\n";
 							$html .= "<th>" . Lang::getLang('manager') . "</th>\n";
 							$html .= "<th class=\"text-right\">" . Lang::getLang('totalPosts') . "</th>\n";
-							$html .= "<th class=\"text-right\">" . Lang::getLang('pagesServed') . "</th>\n";
+							// $html .= "<th class=\"text-right\">" . Lang::getLang('pagesServed') . "</th>\n";
 						$html .= "</tr>";
 						foreach ($channelArray AS $channelKey => $totalPosts) {
+							
+							
 							$channelID = Channel::getChannelID($channelKey);
 							$channel = new Channel($channelID);
 							$channelTitleEnglish = $channel->channelTitleEnglish;
-							$siteManagerUserName = User::getUserName($channel->siteManagerUserID);
 							$pagesServed = $channel->pagesServed;
-							$html .= "<tr class=\"jagaClickableRow\" data-url=\"http://" . $channelKey . ".jaga.io/\">";
-								$html .= "<td>" . strtoupper($channelKey) . "</td>\n";
-								$html .= "<td>" . $channelTitleEnglish . "</td>\n";
-								$html .= "<td>" . $siteManagerUserName . "</td>\n";
-								$html .= "<td class=\"text-right\">" . $totalPosts . "</td>\n";
-								$html .= "<td class=\"text-right\">" . $pagesServed . "</td>\n";
-							$html .= "</tr>";
+							$isPublic = $channel->isPublic;
+							$isCloaked = $channel->isCloaked;
+							$isNSFW = $channel->isNSFW;
+							
+							$siteManagerUserName = User::getUserName($channel->siteManagerUserID);
+							
+							if ($isPublic && !$isCloaked && !$isNSFW) {
+							
+								$html .= "<tr class=\"jagaClickableRow\" data-url=\"http://" . $channelKey . ".jaga.io/\">";
+									$html .= "<td>" . strtoupper($channelKey) . "</td>\n";
+									$html .= "<td>" . $channelTitleEnglish . "</td>\n";
+									$html .= "<td>" . $siteManagerUserName . "</td>\n";
+									$html .= "<td class=\"text-right\">" . $totalPosts . "</td>\n";
+									// $html .= "<td class=\"text-right\">" . $pagesServed . "</td>\n";
+								$html .= "</tr>";
+							
+							}
+							
+							
 						}
 					$html .= "</table>\n";
 				$html .= "</div>\n";
