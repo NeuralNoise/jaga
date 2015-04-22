@@ -171,6 +171,7 @@
 			$user = new User($userID);
 			$username = $user->username;
 			$userDisplayName = $user->userDisplayName;
+			if ($userDisplayName == '') { $userDisplayName = $username; }
 			$userEmail = $user->userEmail;
 		
 			$profileImageURL = Image::getObjectMainImagePath('User', $userID);
@@ -183,7 +184,8 @@
 				
 					$html .= "<div class=\"col-sm-3\">";
 						$html .= "<img src=\"" . $profileImageURL . "\" class=\"img-responsive\">";
-						$html .= "<h3 style=\"text-align:center;\">" . $username . "</h3>";
+						$html .= "<h3 style=\"text-align:left;margin:0px;\">" . $userDisplayName . "</h3>";
+						if ($_SESSION['userID'] == $userID) { $html .= "<a href=\"/settings/profile/\"><span class=\"glyphicon glyphicon-cog\"></span></a>"; }
 					$html .= "</div>\n\n";
 					
 					$html .= "<div class=\"col-sm-9\">\n\n";

@@ -384,7 +384,7 @@ class PageView {
 				
 			} elseif ($urlArray[0] == 'u') {
 			
-				$username = $urlArray[1];
+				$username = urldecode($urlArray[1]);
 				if (!User::usernameExists($username)) { die ('That username does not exist.'); }
 				$userID = User::getUserID($username);
 				$html .= UserView::displayUserProfile($userID);

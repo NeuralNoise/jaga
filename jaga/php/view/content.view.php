@@ -17,7 +17,9 @@ class ContentView {
 		$contentLongitude = $content->contentLongitude;
 		
 		$opID = $content->contentSubmittedByUserID;
-		$opUserName = User::getUserName($opID);
+		$op = new User($opID);
+		$opUserName = $op->username;
+		if ($op->userDisplayName != '') { $opUserDisplayName = $op->userDisplayName; } else { $opUserDisplayName = $opUserName; }
 
 		Content::contentViewsPlusOne($contentID);
 		$imageArray = Image::getObjectImageUrlArray('Content', $contentID);
@@ -36,7 +38,7 @@ class ContentView {
 				$html .= "\t\t<div class=\"panel-heading jagaContentPanelHeading\">";
 					$html .= "<div>";
 						$html .= "<strong>" . $contentTitle . "</strong> | ";
-						$html .= "<i><a href=\"http://jaga.io/u/" . urlencode($opUserName) . "/\">" . $opUserName . "</a> at " . $contentSubmissionDateTime . "</i>";
+						$html .= "<i><a href=\"http://jaga.io/u/" . urlencode($opUserName) . "/\">" . $opUserDisplayName . "</a> at " . $contentSubmissionDateTime . "</i>";
 						if ($opID == $_SESSION['userID']) { $html .= "<a href=\"/k/update/" . $contentID . "/\" class=\"btn btn-default btn-sm pull-right\"><span class=\"glyphicon glyphicon-pencil\"></span></a>"; }
 					$html .= "</div>";
 				$html .= "</div>\n";
@@ -55,6 +57,7 @@ class ContentView {
 							}
 						
 							// IMAGE
+							
 							$imageHtml .= "<div class=\"item $imageClasses\" data-toggle=\"modal\" data-target=\"#" . $imageID . "\" style=\"margin-bottom:10px;\">";
 								$imageHtml .= "<img src=\"" . $imageURL . "\" class=\"img-responsive jagaContentViewImage\">";
 							$imageHtml .= "</div>\n";
@@ -79,18 +82,23 @@ class ContentView {
 						
 						if ($contentHasLocation) {
 							
-							$html .= "<div class=\"col-xs-12 col-sm-6 col-md-8 col-lg-9\">";
-								$html .= "<div  id=\"panelBodyContent\">" . $contentContent . "</div>";
-								$html .= $imageHtml;
-							$html .="</div>";
+
+							$html .= "<div id=\"panelBodyContent\" class=\"col-xs-12 col-sm-6 col-md-8 col-lg-9\">";
+								$html .= $contentContent . '<br />';
+								$html .= "<div><div id=\"list\">" . $imageHtml . "</div></div>";
+								// $html .= $imageHtml;
+							$html .= "</div>";
+
 							$html .= "<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\">";
 								$html .= "<div id=\"map-canvas\">";
 									$html .= "<iframe frameborder=\"0\" style=\"border:0;\" src=\"https://www.google.com/maps/embed/v1/place?key=" . Config::read('googlemaps.embed-api-key') . "&maptype=satellite&q=" . $contentLatitude . "," . $contentLongitude . "\"></iframe>";
 								$html .= "</div>";
 							$html .= "</div>";
+							
 
 						} else {
 							$html .= "<div class=\"col-xs-12\" id=\"panelBodyContent\">" . $contentContent . "</div>";
+							// $html .= "<div id=\"list\">" . $imageHtml . "</div>";
 							$html .= $imageHtml;
 						}
 
@@ -568,13 +576,15 @@ class ContentView {
 					
 					$user = new User($contentSubmittedByUserID);
 					$username = $user->username;
+					$userDisplayName = $user->userDisplayName;
+					if ($userDisplayName == '') { $userDisplayName = $username;}
 
 					$html .= "\t\t\t\t<div class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\">\n";
 						$html .= "\t\t\t\t\t<div class=\"panel panel-default\">\n";
 							
 							$html .= "\t\t\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n";
 								$html .= "<h4><a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\">" . strtoupper($contentTitle) . "</a></h4>";
-								$html .= "<a href=\"http://jaga.io/u/" . $username . "/\">" . $username . "</a> ";
+								$html .= "<a href=\"http://jaga.io/u/" . urlencode($username) . "/\">" . $userDisplayName . "</a> ";
 								$html .= "<a href=\"http://" . $thisContentChannelKey . ".jaga.io/\" class=\"pull-right\">" . $channelTitle . "</a>";
 							$html .= "\t\t\t\t\t\t</div>\n";
 

@@ -8,6 +8,7 @@ class CategoryView {
 
 		$html = "\n\n";
 		$html .= "\t\t<div class=\"container\"> <!-- START CONTAINER -->\n";
+		
 			$html .= "\t\t\t<div class=\"row\" id=\"list\"> <!-- START ROW -->\n";
 				foreach ($categoryArray AS $contentCategoryKey => $postCount) {
 				
@@ -52,15 +53,12 @@ class CategoryView {
 										$contentViews = $content->contentViews;
 										$user = new User($contentSubmittedByUserID);
 										$username = $user->username;
+										$userDisplayName = $user->userDisplayName;
+										if ($userDisplayName == '') { $userDisplayName = $username; }
 										
 										$html .= "\t\t\t\t\t\t\t<a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $contentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
 											
-											
-											
-											
 											$html .= "<span class=\"jagaListGroup\">";
-												
-												$html .= "<span class=\"jagaListGroupBadge\">" . $contentViews . "</span>";
 												
 												if ($_SESSION['channelID'] == 2006) { $html .=  '<strong><small>' . strtoupper($channelTitle) . '</small></strong><br />'; }
 												
@@ -69,24 +67,25 @@ class CategoryView {
 													if ($imagePath == "") { $imagePath = Image::getObjectMainImagePath('Content',$contentID,600); }
 													if ($imagePath != "") { $html .= "<br /><img class=\"img-responsive\" src=\"" . $imagePath . "\"><br />"; }
 												}
-												
-												$html .=  $contentTitle;
-												
-												
+
+												$html .= "<span class=\"jagaListGroupBadge\" style=\"float:right;\">" . $contentViews . "</span><b>" . $userDisplayName . "</b> - " . $contentTitle;
+
 											$html .= "</span>";
-											
-											
-											
-											
+	
 										$html .= "</a>\n";
+										
 									}
+									
 									$i++;
+									
 								}
 								
 								if ($_SESSION['channelID'] != 2006) {
+									
 									$html .= "\t\t\t\t\t\t\t<a href=\"/k/" . $contentCategoryKey . "/\" class=\"list-group-item jagaListGroupItemMore\">";
 										$html .= Lang::getLang('more') . " <span class=\"glyphicon glyphicon-arrow-right\"></span>";
 									$html .= "</a>\n";
+									
 								}
 								
 							$html .= "\t\t\t\t\t\t</ul>\n";
@@ -95,7 +94,9 @@ class CategoryView {
 				}
 			$html .= "\t\t\t</div> <!-- END ROW -->\n";
 		$html .= "\t\t</div> <!-- END CONTAINER -->\n\n";
-		return $html;	
+		
+		return $html;
+		
 	}
 	
 	public function displayChannelCategoryList($channelID) {

@@ -232,7 +232,7 @@ class MenuView {
 				$isCloaked = $channel->isCloaked;
 				$isNSFW = $channel->isNSFW;
 				
-				if ($isPublic && !$isCloaked && !$isNSFW) {
+				if ($isPublic && !$isCloaked && !$isNSFW && $postCount != 0) {
 				
 					$html .= "<li class=\"";
 						if ($k >= 3) { $html .= "hidden-xs"; }
