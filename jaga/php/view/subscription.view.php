@@ -18,7 +18,7 @@ class SubscriptionView {
 									$html .= "\t\t\t\t\t\t\t\t<th>" . Lang::getLang('channel') . "</th>\n";
 									$html .= "\t\t\t\t\t\t\t\t<th>" . Lang::getLang('title') . "</th>\n";
 									$html .= "\t\t\t\t\t\t\t\t<th>" . Lang::getLang('manager') . "</th>\n";
-									$html .= "\t\t\t\t\t\t\t\t<th>" . Lang::getLang('created') . "</th>\n";
+									$html .= "\t\t\t\t\t\t\t\t<th>" . Lang::getLang('dateCreated') . "</th>\n";
 								$html .= "\t\t\t\t\t\t\t</tr>\n";
 								foreach ($subscriptionArray AS $channelID) {
 									

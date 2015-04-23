@@ -2,6 +2,8 @@
 
 	class UserView {
 
+		/*
+		
 		public function displayUserProfileContentList($username) {
 
 			$html = "<div class=\"container\">\n";
@@ -43,7 +45,9 @@
 			
 			return $html;
 		}
-
+		
+		*/
+		
 		public function displayUserForm($userID, $inputArray = array(), $errorArray = array()) {
 		
 			$user = new User($userID);

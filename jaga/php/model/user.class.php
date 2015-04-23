@@ -48,7 +48,13 @@ class User extends ORM {
 
 	}
 	
-	public function getUserIDwithUserNameOrEmail($username) {
+	public function getUserDisplayName() {
+		$username = $this->username;
+		$userDisplayName = $this->userDisplayName;
+		if ($userDisplayName != '') { return $userDisplayName; } else { return $username; }
+	}
+	
+	public static function getUserIDwithUserNameOrEmail($username) {
 	
 		$core = Core::getInstance();
 		$query = "SELECT userID FROM jaga_User WHERE username = :username OR userEmail = :username LIMIT 1";
@@ -59,7 +65,7 @@ class User extends ORM {
 	
 	}
 	
-	public function getUserID($username) {
+	public static function getUserID($username) {
 	
 		$core = Core::getInstance();
 		$query = "SELECT userID FROM jaga_User WHERE username = :username OR userEmail = :username LIMIT 1";
@@ -70,7 +76,7 @@ class User extends ORM {
 	
 	}
 
-	public function getUsername($userID) {
+	public static function getUsername($userID) {
 	
 		$core = Core::getInstance();
 		$query = "SELECT username FROM jaga_User WHERE userID = :userID LIMIT 1";
@@ -81,7 +87,7 @@ class User extends ORM {
 	
 	}
 	
-	public function usernameExists($username) {
+	public static function usernameExists($username) {
 	
 		$core = Core::getInstance();
 		$query = "SELECT userID FROM jaga_User WHERE username = :username LIMIT 1";
@@ -91,7 +97,7 @@ class User extends ORM {
 	
 	}
 	
-	public function userIDexists($userID) {
+	public static function userIDexists($userID) {
 	
 		$core = Core::getInstance();
 		$query = "SELECT userID FROM jaga_User WHERE userID = :userID LIMIT 1";
@@ -101,7 +107,7 @@ class User extends ORM {
 	
 	}
 	
-	public function emailInUse($userEmail) {
+	public static function emailInUse($userEmail) {
 	
 		$core = Core::getInstance($userEmail);
 		$query = "SELECT userEmail FROM jaga_User WHERE userEmail = :userEmail LIMIT 1";
@@ -111,7 +117,7 @@ class User extends ORM {
 	
 	}
 	
-	public function setUserLastVisitDateTime($userID) {
+	public static function setUserLastVisitDateTime($userID) {
 		$userLastVisitDateTime = date('Y-m-d H:i:s');
 		$core = Core::getInstance();
 		$query = "UPDATE jaga_User SET userLastVisitDateTime = '$userLastVisitDateTime' WHERE userID = :userID LIMIT 1";
@@ -119,7 +125,7 @@ class User extends ORM {
 		$statement->execute(array(':userID' => $userID));
 	}
 	
-	public function getUserSelectedLanguage($userID) {
+	public static function getUserSelectedLanguage($userID) {
 		$core = Core::getInstance();
 		$query = "SELECT userSelectedLanguage FROM jaga_User WHERE userID = :userID LIMIT 1";
 		$statement = $core->database->prepare($query);

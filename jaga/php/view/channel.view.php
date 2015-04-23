@@ -278,38 +278,43 @@ class ChannelView {
 		
 			$html .= "<div class=\"panel panel-default\">\n";
 				
-				$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . Lang::getLang('yourChannels') . "</h4></div>\n";
+				$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . Lang::getLang('channels') . "</h4></div>\n";
 				
 				$html .= "<div class=\"table-responsive\">\n";
 					$html .= "<table class=\"table table-hover table-striped\">\n";
+					
 						$html .= "<tr>";
-							$html .= "<th>" . Lang::getLang('channelKey') . "</th>\n";
+							$html .= "<th>" . Lang::getLang('channel') . "</th>\n";
 							$html .= "<th>" . Lang::getLang('title') . "</th>\n";
 							$html .= "<th>" . Lang::getLang('theme') . "</th>\n";
-							$html .= "<th class=\"text-right\">" . Lang::getLang('totalPosts') . "</th>\n";
-							$html .= "<th class=\"text-right\">" . Lang::getLang('pageServed') . "</th>\n";
+							// $html .= "<th class=\"text-right\">" . Lang::getLang('totalPosts') . "</th>\n";
+							// $html .= "<th class=\"text-right\">" . Lang::getLang('pagesServed') . "</th>\n";
 						$html .= "</tr>";
+						
 						foreach ($channelArray AS $channelKey => $totalPosts) {
+							
 							$channelID = Channel::getChannelID($channelKey);
 							$channel = new Channel($channelID);
 							$channelEnabled = $channel->channelEnabled;
-							$channelTitleEnglish = $channel->channelTitleEnglish;
-							$channelTitleJapanese = $channel->channelTitleJapanese;
-							$channelKeywordsEnglish = $channel->channelKeywordsEnglish;
-							$channelKeywordsJapanese = $channel->channelKeywordsJapanese;
-							$channelDescriptionEnglish = $channel->channelDescriptionEnglish;
-							$channelDescriptionJapanese = $channel->channelDescriptionJapanese;
+							
+							$channelTitle = $channel->getTitle();
+							$channelKeywords = $channel->getKeywords();
+							$channelDescription = $channel->getDescription();
+							
 							$themeKey = $channel->themeKey;
 							$pagesServed = $channel->pagesServed;
 							$siteManagerUserID = $channel->siteManagerUserID;
+							
 							$html .= "<tr class=\"jagaClickableRow\" data-url=\"http://" . $channelKey . ".jaga.io/settings/channels/update/" . $channelKey . "/\">";
 								$html .= "<td>" . strtoupper($channelKey) . "</td>\n";
-								$html .= "<td>" . $channelTitleEnglish . "</td>\n";
+								$html .= "<td>" . $channelTitle . "</td>\n";
 								$html .= "<td>" . $themeKey . "</td>\n";
-								$html .= "<td class=\"text-right\">" . $totalPosts . "</td>\n";
-								$html .= "<td class=\"text-right\">" . $pagesServed . "</td>\n";
+								// $html .= "<td class=\"text-right\">" . $totalPosts . "</td>\n";
+								// $html .= "<td class=\"text-right\">" . $pagesServed . "</td>\n";
 							$html .= "</tr>";
+							
 						}
+						
 					$html .= "</table>\n";
 				$html .= "</div>\n";
 
@@ -348,7 +353,7 @@ class ChannelView {
 							$html .= "<th>" . Lang::getLang('channel') . "</th>\n";
 							$html .= "<th>" . Lang::getLang('title') . "</th>\n";
 							$html .= "<th>" . Lang::getLang('manager') . "</th>\n";
-							$html .= "<th class=\"text-right\">" . Lang::getLang('totalPosts') . "</th>\n";
+							// $html .= "<th class=\"text-right\">" . Lang::getLang('totalPosts') . "</th>\n";
 						$html .= "</tr>";
 						
 						foreach ($channelArray AS $channelKey => $totalPosts) {
@@ -368,7 +373,7 @@ class ChannelView {
 									$html .= "<td>" . strtoupper($channelKey) . "</td>\n";
 									$html .= "<td>" . $channelTitleEnglish . "</td>\n";
 									$html .= "<td>" . $siteManagerUserName . "</td>\n";
-									$html .= "<td class=\"text-right\">" . $totalPosts . "</td>\n";
+									// $html .= "<td class=\"text-right\">" . $totalPosts . "</td>\n";
 								$html .= "</tr>";
 							
 							}

@@ -130,7 +130,13 @@ class Controller {
 					$user->userRegistrationDateTime = date('Y-m-d H:i:s');
 
 					$userID = Content::insert($user);
-
+					
+					if ($_SESSION['channelID'] != 2006) {
+						Subscription::subscribeUser($userID, $_SESSION['channelID']);
+					} else {
+						Subscription::subscribeUser($userID, 14);
+					}
+					
 					$forwardURL = '/thank-you-for-registering/';
 					header("Location: $forwardURL");
 					

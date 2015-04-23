@@ -83,7 +83,9 @@ class Authentication {
 	}
 	
 	public static function isLoggedIn() {
-	
+		
+		if (isset($_SESSION['userID']) && $_SESSION['userID'] != 0) { return true; } else { return false; }
+		
 	}
 
 }
