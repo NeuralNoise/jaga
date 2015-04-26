@@ -101,6 +101,8 @@ class CategoryView {
 	
 	public function displayChannelCategoryList($channelID) {
 		
+		// need to be able to set order
+		// set number of items to return
 		$categoryArray = ChannelCategory::getChannelCategoryArray($channelID);
 
 		$html = "\n\n\t<!-- START CATEGORY LIST -->\n";

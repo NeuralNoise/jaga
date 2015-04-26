@@ -10,7 +10,7 @@ class ChannelCategory extends ORM {
 		$this->contentCategoryKey = '';
 	}
 	
-	public function getChannelCategoryArray($channelID) {
+	public function getChannelCategoryArray($channelID, $orderBy = 'postCount') {
 		
 		// returns $array[contentCategoryKey][contentCategoryPostCount]
 		
@@ -24,11 +24,11 @@ class ChannelCategory extends ORM {
 			AND jaga_ChannelCategory.contentCategoryKey = jaga_Content.contentCategoryKey
 			$channelFilter
 			GROUP BY contentCategoryKey
-			ORDER BY postCount DESC 
+			ORDER BY :orderBy DESC 
 		";
 		
 		$statement = $core->database->prepare($query);
-		$statement->execute(array(':channelID' => $channelID));
+		$statement->execute(array(':channelID' => $channelID, ':orderBy' => $orderBy));
 		
 		$channelCategoryArray = array();
 		while ($row = $statement->fetch()) {

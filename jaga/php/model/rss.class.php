@@ -28,11 +28,14 @@ class RSS {
 		$statement->execute();
 
 		$rss = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
+		
 		$rss .= "<rss version=\"2.0\">\n";
+		
 			$rss .= "\t<channel>\n";
-				$rss .= "\t<title>". $channel->getTitle() . "</title>\n";
-				$rss .= "\t<link>http://" . $channel->channelKey . ".jaga.io/</link>\n";
-				$rss .= "\t<description>". $channel->channelDescriptionEnglish . "</description>\n";
+			
+				$rss .= "\t\t<title>". $channel->getTitle() . "</title>\n";
+				$rss .= "\t\t<link>http://" . $channel->channelKey . ".jaga.io/</link>\n";
+				$rss .= "\t\t<description>". $channel->channelDescriptionEnglish . "</description>\n";
 				
 				// $rss .= "\t<language>". $row['language'] . "</language>\n";
 				// $rss .= "\t<image>\n";
@@ -45,23 +48,29 @@ class RSS {
 				
 				while ($row = $statement->fetch()) {
 					
-					$contentEnglish = strip_tags($row['contentEnglish']);
-					$contentEnglish = Utilities::remove_urls($contentEnglish);
-					$contentEnglish = Utilities::remove_linebreaks($contentEnglish);
-					$contentEnglish = Utilities::truncate($contentEnglish, 100, $break = ' ');
-					
+					$title = $row['contentTitleEnglish'];
+					$pubDate = date('r', strtotime($row['contentSubmissionDateTime']));
+					$category = new Category($row['contentCategoryKey']);
+					$contentCategory = $category->contentCategoryEnglish;
+					$contentDescription = strip_tags($row['contentEnglish']);
+					$contentDescription = Utilities::remove_urls($contentDescription);
+					$contentDescription = Utilities::remove_linebreaks($contentDescription);
+					$contentDescription = Utilities::truncate($contentDescription, 100, $break = ' ');
 					$thisChannelKey = Channel::getChannelKey($row['channelID']);
-					
 					$contentURL = 'http://' . $thisChannelKey . '.jaga.io/k/' . $row['contentCategoryKey'] . '/' . $row['contentURL'] . '/';
 					
-					$rss .= "\t<item>\n";
-						$rss .= "\t\t<title>" . $row['contentTitleEnglish'] . "</title>\n";
-						$rss .= "\t\t<link>" . $contentURL . "</link>\n";
-						$rss .= "\t\t<description><![CDATA[" . $contentEnglish . "]]></description>\n";
-					$rss .= "\t</item>\n";
+					$rss .= "\t\t<item>\n";
+						$rss .= "\t\t\t<title>" . $title . "</title>\n";
+						$rss .= "\t\t\t<link>" . $contentURL . "</link>\n";
+						$rss .= "\t\t\t<pubDate>" . $pubDate . "</pubDate>\n";
+						$rss .= "\t\t\t<category>" . $contentCategory . "</category>\n";
+						$rss .= "\t\t\t<description><![CDATA[" . $contentDescription . "]]></description>\n";
+					$rss .= "\t\t</item>\n";
+					
 				}
 		
 			$rss .= "\t</channel>\n";
+			
 		$rss .= "</rss>";
 		
 		return $rss;
