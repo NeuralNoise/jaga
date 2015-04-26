@@ -179,6 +179,7 @@ class PageView {
 				$breadcrumbs[] = array('anchor' => $categoryTitle, 'url' => 'http://' . $channelKey . '.jaga.io/k/' . $urlArray[1] . '/', 'class' => 'active');
 			} else {
 				$breadcrumbs[] = array('anchor' => $categoryTitle, 'url' => '', 'class' => 'active');
+				$breadcrumbs[] = array('anchor' => '<span class="glyphicon glyphicon-plus"></span> Create a Post', 'url' => '/k/create/' . $urlArray[1] . '/', 'class' => '');
 			}
 		}
 

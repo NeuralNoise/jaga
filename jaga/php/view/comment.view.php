@@ -9,7 +9,11 @@ class CommentView {
 		foreach ($commentArray AS $commentKey => $commentID) {
 			
 			$comment = new Comment($commentID);
-			$username = User::getUsername($comment->userID);
+			$userID = $comment->userID;
+
+			$user = new User($userID);
+			$username = $user->username;
+			$userDisplayName = urlencode($user->getUserDisplayName());
 			
 			$html .= "\n\t<!-- START COMMENT -->\n";
 			$html .= "\t<div class=\"container\">\n\n";
@@ -20,11 +24,11 @@ class CommentView {
 						$html.= "\t\t\t\t<div class=\"row\">\n";
 						
 							$html .= "\t\t\t\t\t<div class=\"col-md-6\">";
-								$html .= "<b>" . $username . "</b> (<i>" . $comment->commentDateTime .= "</i>)";
+								$html .= "<b><a href=\"/u/" . $username . "/\">" . $userDisplayName . "</a></b> (<i>" . $comment->commentDateTime .= "</i>)";
 							$html .= "</div>\n";
 							
 							$html .= "\t\t\t\t\t<div class=\"col-md-6\">";						
-								if ($comment->userID == $_SESSION['userID']) {
+								if ($userID == $_SESSION['userID']) {
 									$html .= "<a href=\"/k/comment/delete/" . $commentID . "/\" class=\"btn btn-default btn-xs pull-right\"><span class=\"glyphicon glyphicon-remove\" style=\"color:#f00;\"></span> DELETE</a>";
 								}
 							$html .= "</div>\n";
