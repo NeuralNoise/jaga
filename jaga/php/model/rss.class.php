@@ -33,7 +33,7 @@ class RSS {
 		
 			$rss .= "\t<channel>\n";
 			
-				$rss .= "\t\t<title>". $channel->getTitle() . "</title>\n";
+				$rss .= "\t\t<title>". $channel->channelTitleEnglish . "</title>\n";
 				$rss .= "\t\t<link>http://" . $channel->channelKey . ".jaga.io/</link>\n";
 				$rss .= "\t\t<description>". $channel->channelDescriptionEnglish . "</description>\n";
 				
@@ -48,14 +48,17 @@ class RSS {
 				
 				while ($row = $statement->fetch()) {
 					
-					$title = $row['contentTitleEnglish'];
+					$title = htmlspecialchars($row['contentTitleEnglish']);
 					$pubDate = date('r', strtotime($row['contentSubmissionDateTime']));
 					$category = new Category($row['contentCategoryKey']);
 					$contentCategory = $category->contentCategoryEnglish;
+					
 					$contentDescription = strip_tags($row['contentEnglish']);
 					$contentDescription = Utilities::remove_urls($contentDescription);
 					$contentDescription = Utilities::remove_linebreaks($contentDescription);
 					$contentDescription = Utilities::truncate($contentDescription, 100, $break = ' ');
+					$contentDescription = htmlspecialchars($contentDescription);
+					
 					$thisChannelKey = Channel::getChannelKey($row['channelID']);
 					$contentURL = 'http://' . $thisChannelKey . '.jaga.io/k/' . $row['contentCategoryKey'] . '/' . $row['contentURL'] . '/';
 					

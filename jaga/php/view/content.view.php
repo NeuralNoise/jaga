@@ -43,27 +43,26 @@ class ContentView {
 					$html .= "</div>";
 				$html .= "</div>\n";
 				
-				$html .= "\t\t<div class=\"panel-body\">";
+				$html .= "\t\t<div class=\"panel-body\">\n";
 					
-					$html .= "<div class=\"row\">";
+					$html .= "\t\t\t<div class=\"row\">\n";
 
 						$imageHtml = '';
+						$imageModalHtml = '';
+						
 						foreach ($imageArray AS $imageID => $imageURL) {
 
-							if ($contentHasLocation) {
-								$imageClasses = "col-xs-12 col-sm-6 col-md-4 col-lg-4";
-							} else {
-								$imageClasses = "col-xs-12 col-sm-4 col-md-4 col-lg-3";
-							}
+							if ($contentHasLocation) { $imageClasses = "col-xs-12 col-sm-6 col-md-4 col-lg-4"; } else { $imageClasses = "col-xs-12 col-sm-4 col-md-4 col-lg-3"; }
 						
 							// IMAGE
-							
-							$imageHtml .= "<div class=\"item $imageClasses\" data-toggle=\"modal\" data-target=\"#" . $imageID . "\" style=\"margin-bottom:10px;\">";
-								$imageHtml .= "<img src=\"" . $imageURL . "\" class=\"img-responsive jagaContentViewImage\">";
-							$imageHtml .= "</div>\n";
+							$imageHtml .= "
+							<div class=\"$imageClasses item\" data-toggle=\"modal\" data-target=\"#" . $imageID . "\" style=\"margin-bottom:10px;\">
+								<img src=\"" . $imageURL . "\" class=\"img-responsive jagaContentViewImage\">
+							</div>
+							";
 							
 							// MODAL
-							$imageHtml .= "
+							$imageModalHtml .= "
 							<div class=\"modal fade\" id=\"" . $imageID . "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"deluxeNobileFirLabel\" aria-hidden=\"true\">
 								<div class=\"modal-dialog\">
 									<div class=\"modal-content\">
@@ -85,8 +84,7 @@ class ContentView {
 
 							$html .= "<div id=\"panelBodyContent\" class=\"col-xs-12 col-sm-6 col-md-8 col-lg-9\">";
 								$html .= $contentContent . '<br />';
-								$html .= "<div><div id=\"list\">" . $imageHtml . "</div></div>";
-								// $html .= $imageHtml;
+								$html .= "<div id=\"list\">" . $imageHtml . "</div>";
 							$html .= "</div>";
 
 							$html .= "<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\">";
@@ -97,9 +95,11 @@ class ContentView {
 							
 
 						} else {
-							$html .= "<div class=\"col-xs-12\" id=\"panelBodyContent\">" . $contentContent . "</div>";
-							// $html .= "<div id=\"list\">" . $imageHtml . "</div>";
-							$html .= $imageHtml;
+							
+							$html .= "<div id=\"panelBodyContent\" class=\"col-xs-12\">";
+								$html .= $contentContent . '<br />';
+								$html .= "<div id=\"list\">" . $imageHtml . "</div>";
+							$html .= "</div>";
 						}
 
 					$html .= "</div>";
@@ -108,6 +108,10 @@ class ContentView {
 			$html .= "\t</div>\n";
 		$html .= "\t</div>\n";
 		$html .= "\t<!-- END CONTENT -->\n\n";
+	
+		$html .= "\t<!-- START IMAGE MODALS -->\n\n";
+			$html .= $imageModalHtml;
+		$html .= "\n\t<!-- END IMAGE MODALS -->\n\n";
 	
 		return $html;
 			
