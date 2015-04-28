@@ -52,19 +52,20 @@
 
 	/* taterbase.php */
 
-	// Config::write('site.url', '');
 	// Config::write('admin.email', 'admin@example.com');
-	// Config::write('db.host', '');
-	// Config::write('db.basename', '');
-	// Config::write('db.user', '');
-	// Config::write('db.password', '');
-	// Config::write('analytics.trackingID', '');
+	// Config::write('admin.userIdArray', array());
 	// Config::write('adsense.data-ad-client', '');
 	// Config::write('adsense.data-ad-slot', '');
-	// Config::write('pingdom.rumID', '');
 	// Config::write('alexa.atrk_acct', '');
-	// Config::write('ms.validate', '');
+	// Config::write('analytics.trackingID', '');
+	// Config::write('db.basename', '');
+	// Config::write('db.host', '');
+	// Config::write('db.password', '');
 	// Config::write('googlemaps.embed-api-key', '');
+	// Config::write('ms.validate', '');
+	// Config::write('pingdom.rumID', '');
 	// Config::write('pinterest.domain_verify', '');
+	
+	// Config::write('site.url', '');
 
 ?>
