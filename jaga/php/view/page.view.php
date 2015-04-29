@@ -373,12 +373,13 @@ class PageView {
 						$contentURL = urldecode($urlArray[2]);
 						$contentID = Content::getContentID($contentURL);
 						$content = new Content($contentID);
-						if ($content->contentPublished == 1) {
+						
 							$html .= $this->getBreadcrumbs($urlArray);
 							$html .= ContentView::displayContentView($contentID);
-							$html .= CommentView::displayCommentsView('Content', $contentID);
-							$html .= CommentView::displayCommentForm('Content', $contentID);
-						}
+							if ($content->contentPublished == 1) {
+								$html .= CommentView::displayCommentsView('Content', $contentID);
+								$html .= CommentView::displayCommentForm('Content', $contentID);
+							}
 						 
 					}
 				}

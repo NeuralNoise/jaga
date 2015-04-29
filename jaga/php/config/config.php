@@ -50,9 +50,8 @@
 	// DB: apply gitignore to taterbase.php
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/config/taterbase.php');
 
-	/* taterbase.php */
-
-	// Config::write('admin.email', 'admin@example.com');
+	/* taterbase.php attributes */
+	// Config::write('admin.email', '');
 	// Config::write('admin.userIdArray', array());
 	// Config::write('adsense.data-ad-client', '');
 	// Config::write('adsense.data-ad-slot', '');
@@ -65,7 +64,8 @@
 	// Config::write('ms.validate', '');
 	// Config::write('pingdom.rumID', '');
 	// Config::write('pinterest.domain_verify', '');
-	
 	// Config::write('site.url', '');
+	// Config::write('system.email', '');
+	// Config::write('system.url', '');
 
 ?>

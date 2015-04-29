@@ -230,16 +230,12 @@ class Controller {
 	
 						$postSubmitURL = "/k/" . $inputArray['contentCategoryKey'] . "/";
 						
+						$addresseeEmail = Config::read('admin.email');
+						$senderEmail = Config::read('system.email');
+						$mailSubject = '[new jaga.io post by ' . User::getUserName($_SESSION['userID']) . '] => \'' . $content->getTitle() . '\'';
+						$mailContent = 'http://' . $_SESSION['channelKey'] . '.' . Config::read('system.url') . '/k/' . $inputArray['contentCategoryKey'] . '/' . $content->contentURL . '/';
 						
-						Mail::sendEmail(
-							Config::read('admin.email'), 
-							'noreply@jaga.io', 
-							'[new jaga.io post]', 
-							$content->contentURL, 
-							$_SESSION['channelID'], 
-							$_SESSION['userID'], 
-							'plaintext'
-						);
+						Mail::sendEmail($addresseeEmail, $senderEmail, $mailSubject, $mailContent, $_SESSION['channelID'], $_SESSION['userID'], 'plaintext');
 						
 						header("Location: $postSubmitURL");
 

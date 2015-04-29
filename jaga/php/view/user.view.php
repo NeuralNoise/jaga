@@ -224,10 +224,16 @@
 												$contentTitle = $content->contentTitleEnglish;
 												$contentCategoryKey = $content->contentCategoryKey;
 												$contentSubmissionDateTime = date('Y-m-d', strtotime($content->contentSubmissionDateTime));
+												
 												$channel = new Channel($content->channelID);
 												$channelKey = $channel->channelKey;
 												$channelTitle = $channel->channelTitleEnglish;
-												$contentViewURL = "http://" . $channelKey . ".jaga.io/k/" . $contentCategoryKey . "/" . $contentURL . "/";
+												
+												if ($content->contentPublished) {
+													$contentViewURL = "http://" . $channelKey . ".jaga.io/k/" . $contentCategoryKey . "/" . $contentURL . "/";
+												} else {
+													$contentViewURL = "http://" . $channelKey . ".jaga.io/k/update/" . $contentID . "/";
+												}
 
 												$html .= "<tr>";
 													$html .= "<td><a href=\"" . $contentViewURL . "\">" . $contentTitle . "</a></td>";
