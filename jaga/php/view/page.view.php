@@ -432,6 +432,10 @@ class PageView {
 				
 					$html .= SubscriptionView::displaySubscriptionSettingsList();
 				
+				} elseif ($urlArray[1] == 'admin') {
+				
+					$html .= 'admin';
+				
 				}
 
 			} elseif ($urlArray[0] == 'account-recovery') {
@@ -451,11 +455,20 @@ class PageView {
 				$html .= AuthenticationView::passwordResetConfirmation();
 				$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
 
+			} elseif ($urlArray[0] == '404') {
+			
+				header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+				$html .= "\n\n\t<div class=\"container text-center\"><img src=\"/jaga/images/101098.png\" class=\"img-responsive\" style=\"margin:0px auto;\"></div>\n\n";
+
 			} else {
-				$html .= "\n\n\t<div class=\"container\">We upgraded The Kutchannel to <a href=\"http://github.com/chishiki/jaga/\">JAGA</a> on 3rd March 2015 and some URLs have changed; apologies for the inconvenience. You should be able to find what you were looking for from <a href=\"http://jaga.io/\">here</a>. Thanks for using The Kutchannel!</div>\n\n";
+
+				header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+				$html .= "\n\n\t<div class=\"container text-center\"><img src=\"/jaga/images/101098.png\" class=\"img-responsive\" style=\"margin:0px auto;\"></div>\n\n";
+			
 			}
 
-			if ($_SESSION['userID'] == 2) {
+			
+			if (in_array($_SESSION['userID'], Config::read('admin.userIdArray'))) {
 			
 				$html .= "\t<div class=\"container\">\n";
 

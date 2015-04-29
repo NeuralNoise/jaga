@@ -23,7 +23,6 @@ class Controller {
 
 	public function getResource($urlArray) {
 
-		
 		// if (!isset($_SESSION['lang'])) {
 			// $browserDefaultLanguage = Lang::getBrowserDefaultLanguage();
 			// Lang::setLanguage($browserDefaultLanguage);
@@ -57,7 +56,7 @@ class Controller {
 		if (!isset($_SESSION['lang'])) { Session::setSession('lang', $lang); }
 
 		$i = 0; while ($i <= 3) { if (!isset($urlArray[$i])) { $urlArray[$i] = ''; } $i++; } // minimum 3 array pointers
-		$notHTML = array('rss','sitemap.xml','channel.css');
+		$notHTML = array('rss','sitemap.xml','channel.css','lang');
 		$inputArray = array();
 		$errorArray = array();
 		
@@ -331,22 +330,6 @@ class Controller {
 			
 		}
 		
-		if ($urlArray[0] == 'lang') {
-
-			if ($_SESSION['userID'] != 0) {
-				$userID = $_SESSION['userID'];
-				$user = new User($userID);
-				if ($urlArray[1] == 'ja') { $user->userSelectedLanguage = 'ja'; } else { $user->userSelectedLanguage = 'en'; }
-				$conditions = array(); $conditions['userID'] = $userID;
-				User::update($user, $conditions);	
-			}
-
-			if ($urlArray[1] == 'ja') { $_SESSION['lang'] = 'ja'; } else { $_SESSION['lang'] = 'en'; }
-			
-			header("Location: /");
-
-		}
-		
 		if ($urlArray[0] == 'settings') {
 		
 			// REDIRECT USERS WITHOUT CREDS TO LOGIN ROUTE
@@ -413,7 +396,9 @@ class Controller {
 					
 				}
 
-			} elseif ($urlArray[1] == 'channels') {
+			}
+			
+			if ($urlArray[1] == 'channels') {
 			
 				// LOGGED IN USERS ONLY
 				if ($_SESSION['userID'] == 0) { die('you are not logged in'); }
@@ -678,10 +663,28 @@ class Controller {
 			return $html;
 		}
 		
+		if ($urlArray[0] == 'lang') {
+
+			if ($_SESSION['userID'] != 0) {
+				$userID = $_SESSION['userID'];
+				$user = new User($userID);
+				if ($urlArray[1] == 'ja') { $user->userSelectedLanguage = 'ja'; } else { $user->userSelectedLanguage = 'en'; }
+				$conditions = array(); $conditions['userID'] = $userID;
+				User::update($user, $conditions);	
+			}
+
+			if ($urlArray[1] == 'ja') { $_SESSION['lang'] = 'ja'; } else { $_SESSION['lang'] = 'en'; }
+			
+			header("Location: /");
+
+		}
+		
 		if ($urlArray[0] == 'rss') {
 
 			$rss = new Rss();
 			$feed = $rss->getFeed($urlArray);
+			
+			header("Content-Type: application/xml; charset=utf-8");
 			return $feed;
 			
 		}

@@ -29,15 +29,18 @@ class RSS {
 
 		$rss = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
 		
-		$rss .= "<rss version=\"2.0\">\n";
+		$rss .= "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";
 		
 			$rss .= "\t<channel>\n";
-			
-				$rss .= "\t\t<title>". $channel->channelTitleEnglish . "</title>\n";
-				$rss .= "\t\t<link>http://" . $channel->channelKey . ".jaga.io/</link>\n";
-				$rss .= "\t\t<description>". $channel->channelDescriptionEnglish . "</description>\n";
 				
-				// $rss .= "\t<language>". $row['language'] . "</language>\n";
+				if ($channel->channelKey != 'www') { $channelKey = $channel->channelKey . '.'; } else { $channelKey = ''; }
+				
+				$rss .= "\t\t<atom:link href=\"http://" . $channelKey . "jaga.io/\" rel=\"self\" type=\"application/rss+xml\" />\n";
+				$rss .= "\t\t<title>". $channel->channelTitleEnglish . "</title>\n";
+				$rss .= "\t\t<link>http://" . $channelKey . "jaga.io/</link>\n";
+				$rss .= "\t\t<description>". $channel->channelDescriptionEnglish . "</description>\n";
+				$rss .= "\t\t<language>en</language>\n";
+				
 				// $rss .= "\t<image>\n";
 					// $rss .= "\t<title>". $row['image_title'] . "</title>\n";
 					// $rss .= "\t<url>". $row['image_url'] . "</url>\n";
@@ -65,6 +68,7 @@ class RSS {
 					$rss .= "\t\t<item>\n";
 						$rss .= "\t\t\t<title>" . $title . "</title>\n";
 						$rss .= "\t\t\t<link>" . $contentURL . "</link>\n";
+						$rss .= "\t\t\t<guid>" . $contentURL . "</guid>\n";
 						$rss .= "\t\t\t<pubDate>" . $pubDate . "</pubDate>\n";
 						$rss .= "\t\t\t<category>" . $contentCategory . "</category>\n";
 						$rss .= "\t\t\t<description><![CDATA[" . $contentDescription . "]]></description>\n";
