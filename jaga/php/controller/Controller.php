@@ -23,11 +23,6 @@ class Controller {
 
 	public function getResource($urlArray) {
 
-		// if (!isset($_SESSION['lang'])) {
-			// $browserDefaultLanguage = Lang::getBrowserDefaultLanguage();
-			// Lang::setLanguage($browserDefaultLanguage);
-		// }
-
 		if ($_SESSION['channelID'] == 0) {
 			
 			$domain = $_SERVER['HTTP_HOST'];
@@ -181,9 +176,7 @@ class Controller {
 
 				// VALIDATION
 				if ($inputArray['contentTitleEnglish'] == '' && $inputArray['contentTitleJapanese'] == '') { $errorArray['contentTitle'][] = 'Every post needs a title.'; }
-				// if ($inputArray['contentEnglish'] == '' && $inputArray['contentJapanese'] == '') { $errorArray['content'][] = 'Your post is empty.'; }
 				if ($inputArray['contentCategoryKey'] == '') { $errorArray['contentCategoryKey'][] = 'A category must be selected.'; }
-				// is this category enabled for this channel? check it
 				
 				
 				if (empty($errorArray)) {
@@ -204,6 +197,8 @@ class Controller {
 							$content->contentURL = Content::generateNonDuplicateContentURL($content->contentURL);
 						}
 						if (!isset($inputArray['contentPublished'])) { $content->contentPublished = 0; }
+						if (!isset($inputArray['contentHasLocation'])) { $content->contentHasLocation = 0; }
+						if (!isset($inputArray['contentIsEvent'])) { $content->contentIsEvent = 0; }
 						
 						$contentID = Content::insert($content);
 
@@ -255,6 +250,8 @@ class Controller {
 						
 						// modify values where required
 						if (!isset($inputArray['contentPublished'])) { $content->contentPublished = 0; }
+						if (!isset($inputArray['contentHasLocation'])) { $content->contentHasLocation = 0; }
+						if (!isset($inputArray['contentIsEvent'])) { $content->contentIsEvent = 0; }
 						
 						// build conditions
 						$conditions = array();
