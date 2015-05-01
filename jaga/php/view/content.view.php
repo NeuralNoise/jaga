@@ -253,279 +253,260 @@ class ContentView {
 		
 		if ($type == 'update' && $contentPublished == 0) {
 			$html .= "\n\t<div class=\"container\">";
-				// $html .= "<div class=\"row\">";
 					$html .= "<div class=\"alert alert-danger\">";
-						// alert alert-danger
 						if ($_SESSION['lang'] == 'ja') { $html .= "今現在、当ページは公表していません。"; } else { $html .= "This post is not currently published."; }
 					 $html .= "</div>";
-				// $html .= "</div>";
 			$html .= "</div>\n\n";
 		}
 		
 		$html .= "\n\t<!-- START CONTENT CONTAINER -->\n";
 		$html .= "\t<div class=\"container\">\n\n";
-		
-			// $html .= "<div class=\"row\">";
-			
-				// $html .= "\t\t<div class=\"col-md-12\">\n\n";
 
-				
-				
-				
-				
-				$html .= "\t\t<!-- START jagaContent -->\n";
-				$html .= "\t\t<div id=\"jagaContent\" class=\"\">\n\n";
+			$html .= "\t\t<!-- START jagaContent -->\n";
+			$html .= "\t\t<div id=\"jagaContent\" class=\"\">\n\n";
 
-					$html .= "\t\t\t<!-- START PANEL -->\n";
-					$html .= "\t\t\t<div class=\"panel panel-default\" >\n\n";
+				$html .= "\t\t\t<!-- START PANEL -->\n";
+				$html .= "\t\t\t<div class=\"panel panel-default\" >\n\n";
+					
+					$html .= "\t\t\t\t<!-- START PANEL-HEADING -->\n";
+					$html .= "\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n\n";
 						
-						$html .= "\t\t\t\t<!-- START PANEL-HEADING -->\n";
-						$html .= "\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n\n";
+						$html .= "\t\t\t\t\t<div class=\"panel-title\">";
 							
-							$html .= "\t\t\t\t\t<div class=\"panel-title\">";
-								
-								if ($type == 'create') {
-									$html .= strtoupper(Lang::getLang('createPost'));
-								} elseif ($type == 'update') {
-									$html .= strtoupper(Lang::getLang('updatePost'));
-								}
-								
-								
-							$html .= "</div>\n";
-						
-						$html .= "\t\t\t\t</div>\n";
-						$html .= "\t\t\t\t<!-- END PANEL-HEADING -->\n\n";
-						
-						$html .= "\t\t\t\t<!-- START PANEL-BODY -->\n";
-						$html .= "\t\t\t\t<div class=\"panel-body\">\n\n";
-
-							$html .= "\t\t\t\t\t<!-- START jagaContentForm -->\n";
+							if ($type == 'create') {
+								$html .= strtoupper(Lang::getLang('createPost'));
+							} elseif ($type == 'update') {
+								$html .= strtoupper(Lang::getLang('updatePost'));
+							}
 							
-							$html .= "\t\t\t\t\t<form role=\"form\" id=\"jagaContentForm\" name=\"jagaContentForm\" class=\"form-horizontal\"  method=\"post\" action=\"" . $formURL . "\"  enctype=\"multipart/form-data\">\n\n";
+							
+						$html .= "</div>\n";
+					
+					$html .= "\t\t\t\t</div>\n";
+					$html .= "\t\t\t\t<!-- END PANEL-HEADING -->\n\n";
+					
+					$html .= "\t\t\t\t<!-- START PANEL-BODY -->\n";
+					$html .= "\t\t\t\t<div class=\"panel-body\">\n\n";
+
+						$html .= "\t\t\t\t\t<!-- START jagaContentForm -->\n";
 						
-								if ($type == 'update') { $html .= "<input type=\"hidden\" name=\"contentID\" value=\"" . $contentID . "\">\n"; }
+						$html .= "\t\t\t\t\t<form role=\"form\" id=\"jagaContentForm\" name=\"jagaContentForm\" class=\"form-horizontal\"  method=\"post\" action=\"" . $formURL . "\"  enctype=\"multipart/form-data\">\n\n";
+					
+							if ($type == 'update') { $html .= "<input type=\"hidden\" name=\"contentID\" value=\"" . $contentID . "\">\n"; }
 
-								$html .= "\t\t\t\t\t\t<div class=\"row\">\n";
-									
-									$html .= "\t\t\t\t\t\t\t<div>\n";
-									
-										$html .= "\t\t\t\t\t\t\t<label class=\"col-sm-2 pull-right\">";
-											$html .= "\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"contentPublished\" value=\"1\"";
-												if ($contentPublished == 1) { $html .= " checked"; }
-											$html .= "> " . Lang::getLang('publish') . "\n";
-										$html .= "\t\t\t\t\t\t\t</label>\n";
-										
-										$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-4 pull-right\">\n";
-											$html .= CategoryView::categoryDropdown($contentCategoryKey);
-										$html .= "\t\t\t\t\t\t\t</div>\n";
-										
-									$html .= "\t\t\t\t\t\t\t</div>\n\n";
-									
-									
-								$html .= "\t\t\t\t\t\t</div>\n\n";
+							$html .= "\t\t\t\t\t\t<div class=\"row\">\n";
 								
-								$html .= "<hr />\n\n";
-
-								$html .= "\t\t\t\t\t\t<div class=\"row\">\n";
-										
-										$html .= "<div class=\"col-sm-6\">";
+								$html .= "\t\t\t\t\t\t\t<div>\n";
+								
+									$html .= "\t\t\t\t\t\t\t<label class=\"col-sm-2 pull-right\">";
+										$html .= "\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"contentPublished\" value=\"1\"";
+											if ($contentPublished == 1) { $html .= " checked"; }
+										$html .= "> " . Lang::getLang('publish') . "\n";
+									$html .= "\t\t\t\t\t\t\t</label>\n";
 									
-											$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-												$html .= "\t\t\t\t\t\t\t<label for=\"contentTitleEnglish\" class=\"col-sm-4 control-label\">" . Lang::getLang('contentTitleEnglish') . "</label>\n";
-												$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
-													$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentTitleEnglish\" name=\"contentTitleEnglish\" class=\"form-control\" placeholder=\"contentTitleEnglish\" value=\"" . $contentTitleEnglish . "\">\n";
-												$html .= "\t\t\t\t\t\t\t</div>\n";
-											$html .= "\t\t\t\t\t\t</div>\n\n";
-											
-											$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-												$html .= "\t\t\t\t\t\t\t<label for=\"contentEnglish\" class=\"col-sm-4 control-label\">" . Lang::getLang('contentEnglish') . "</label>\n";
-												$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
-													$html .= "\t\t\t\t\t\t\t\t<textarea rows=\"7\" id=\"contentEnglish\" name=\"contentEnglish\" class=\"form-control\" placeholder=\"contentEnglish\">" . $contentEnglish . "</textarea>\n";
-												$html .= "\t\t\t\t\t\t\t</div>\n";
-											$html .= "\t\t\t\t\t\t</div>\n\n";
-											
-										$html .= "</div>";
+									$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-4 pull-right\">\n";
+										$html .= CategoryView::categoryDropdown($contentCategoryKey);
+									$html .= "\t\t\t\t\t\t\t</div>\n";
+									
+								$html .= "\t\t\t\t\t\t\t</div>\n\n";
+								
+								
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+							$html .= "<hr />\n\n";
+
+							$html .= "\t\t\t\t\t\t<div class=\"row\">\n";
+									
+									$html .= "<div class=\"col-sm-6\">";
+								
+										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentTitleEnglish\" class=\"col-sm-4 control-label\">" . Lang::getLang('contentTitleEnglish') . "</label>\n";
+											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
+												$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentTitleEnglish\" name=\"contentTitleEnglish\" class=\"form-control\" placeholder=\"contentTitleEnglish\" value=\"" . $contentTitleEnglish . "\">\n";
+											$html .= "\t\t\t\t\t\t\t</div>\n";
+										$html .= "\t\t\t\t\t\t</div>\n\n";
 										
-
-										$html .= "<div class=\"col-sm-6\">";
-											
-											$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";	
-												$html .= "\t\t\t\t\t\t\t<label for=\"contentTitleJapanese\" class=\"col-sm-4 control-label\">" . Lang::getLang('contentTitleJapanese') . "</label>\n";
-												$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
-													$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentTitleJapanese\" name=\"contentTitleJapanese\" class=\"form-control\" placeholder=\"contentTitleJapanese\" value=\"" . $contentTitleJapanese . "\">\n";
-												$html .= "\t\t\t\t\t\t\t</div>\n";
-											$html .= "\t\t\t\t\t\t</div>\n\n";
-											
-											$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";	
-												$html .= "\t\t\t\t\t\t\t<label for=\"contentJapanese\" class=\"col-sm-4 control-label\">" . Lang::getLang('contentJapanese') . "</label>\n";
-												$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
-													$html .= "\t\t\t\t\t\t\t\t<textarea rows=\"7\" id=\"contentJapanese\" name=\"contentJapanese\" class=\"form-control\" placeholder=\"contentJapanese\">" . $contentJapanese . "</textarea>\n";
-												$html .= "\t\t\t\t\t\t\t</div>\n";
-											$html .= "\t\t\t\t\t\t</div>\n\n";
-
-										$html .= "</div>";
+										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentEnglish\" class=\"col-sm-4 control-label\">" . Lang::getLang('contentEnglish') . "</label>\n";
+											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
+												$html .= "\t\t\t\t\t\t\t\t<textarea rows=\"7\" id=\"contentEnglish\" name=\"contentEnglish\" class=\"form-control\" placeholder=\"contentEnglish\">" . $contentEnglish . "</textarea>\n";
+											$html .= "\t\t\t\t\t\t\t</div>\n";
+										$html .= "\t\t\t\t\t\t</div>\n\n";
 										
 									$html .= "</div>";
-
-									$html .= "<hr />";
-										
-											$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-											
-												$html .= "\t\t\t\t\t\t\t<label for=\"contentImages\" class=\"col-sm-2 control-label\">" . Lang::getLang('images') . "</label>\n";
-											
-												$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-6\">\n";
-													$html .= "<div class=\"input-group\">";
-														$html .= "<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-picture\"></i></span>";
-														$html .= "<input type=\"file\" name=\"contentImages[]\" accept=\"image/*\" class=\"form-control\"  multiple=\"multiple\">";
-													$html .= "</div>";
-												$html .= "</div>";
-												
-												
-												
-											$html .= "</div>";
-										
-										$html .= "<hr />";
-										
-											$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-												$html .= "\t\t\t\t\t\t\t<label for=\"contentLinkURL\" class=\"col-sm-2 control-label\">" . Lang::getLang('link') . "</label>\n";
-												$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-6\">\n";
-
-													$html .= "<div class=\"input-group\">";
-														$html .= "<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-link\"></i></span>";
-														$html .= "<input type=\"url\" name=\"contentLinkURL\" class=\"form-control\" placeholder=\"http://example.com/\" value=\"" . $contentLinkURL . "\">";
-													$html .= "</div>";
-												$html .= "</div>";
-											$html .= "</div>";
 									
-										$html .= "<hr />";
 
-											$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-												$html .= "<label for=\"contentHasLocation\" class=\"col-sm-2 control-label\"><input type=\"checkbox\" name=\"contentHasLocation\" value=\"1\"";
-													if ($contentHasLocation == 1) { $html .= " checked=\"true\""; }
-												$html .= "> " . Lang::getLang('location') . "</label>";
-												$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
-													$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentLocationNameInput\" name=\"contentLocationNameInput\" class=\"form-control\">\n";
-												$html .= "\t\t\t\t\t\t\t</div>\n";
-											$html .= "\t\t\t\t\t\t</div>\n\n";
-											
-											$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+									$html .= "<div class=\"col-sm-6\">";
+										
+										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";	
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentTitleJapanese\" class=\"col-sm-4 control-label\">" . Lang::getLang('contentTitleJapanese') . "</label>\n";
+											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
+												$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentTitleJapanese\" name=\"contentTitleJapanese\" class=\"form-control\" placeholder=\"contentTitleJapanese\" value=\"" . $contentTitleJapanese . "\">\n";
+											$html .= "\t\t\t\t\t\t\t</div>\n";
+										$html .= "\t\t\t\t\t\t</div>\n\n";
+										
+										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";	
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentJapanese\" class=\"col-sm-4 control-label\">" . Lang::getLang('contentJapanese') . "</label>\n";
+											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-8\">\n";
+												$html .= "\t\t\t\t\t\t\t\t<textarea rows=\"7\" id=\"contentJapanese\" name=\"contentJapanese\" class=\"form-control\" placeholder=\"contentJapanese\">" . $contentJapanese . "</textarea>\n";
+											$html .= "\t\t\t\t\t\t\t</div>\n";
+										$html .= "\t\t\t\t\t\t</div>\n\n";
 
-												$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10 col-sm-offset-2\">\n";
-													$html .= "\t\t<div id=\"contentCoordinatesMap\"></div>\n";
-												$html .= "\t\t\t\t\t\t\t</div>\n";
-												
-											$html .= "\t\t\t\t\t\t</div>\n\n";
-											
-											$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-											
-												$html .= "\t\t\t\t\t\t\t<label for=\"contentLatitude\" class=\"col-sm-1 col-sm-offset-2\">" . Lang::getLang('latitude') . "</label>\n";
-												$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-2\">\n";
-													$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentLatitude\" name=\"contentLatitude\" class=\"form-control\" placeholder=\"0.000000\" value=\"" . $contentLatitude . "\">\n";
-												$html .= "\t\t\t\t\t\t\t</div>\n";
-												
-												$html .= "\t\t\t\t\t\t\t<label for=\"contentLongitude\" class=\"col-sm-1\">" . Lang::getLang('longitude') . "</label>\n";
-												$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-2\">\n";
-													$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentLongitude\" name=\"contentLongitude\" class=\"form-control\" placeholder=\"0.000000\" value=\"" . $contentLongitude . "\">\n";
-												$html .= "\t\t\t\t\t\t\t</div>\n";
-												
-											$html .= "\t\t\t\t\t\t</div>\n\n";
-								
-											$html .= "
-											
-												<script>
-													$('#contentCoordinatesMap').locationpicker({
-														location: {
-															latitude: " . $contentLatitude . ",
-															longitude: " . $contentLongitude . "
-														},
-														radius: 100,
-														inputBinding: {
-															latitudeInput: $('#contentLatitude'),
-															longitudeInput: $('#contentLongitude'),
-															locationNameInput: $('#contentLocationNameInput')
-														},
-														enableAutocomplete: true
-													});
-												</script>
-												
-											";
-		
-										$html .= "<hr />";		
+									$html .= "</div>";
+									
+								$html .= "</div>";
 
-											$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-
-												$html .= "<label for=\"contentIsEvent\" class=\"col-sm-2 control-label\"><input type=\"checkbox\" name=\"contentIsEvent\" value=\"1\"";
-													if ($contentIsEvent == 1) { $html .= " checked=\"true\""; }
-												$html .= "> " . Lang::getLang('event') . "</label>";
-
-												$html .= "<div class=\"col-sm-3\">";
-													$html .= "<div class=\"input-group\">";
-														$html .= "<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-calendar\"></i></span>";
-														$html .= "<input type=\"date\" name=\"contentEventDate\" class=\"form-control\" value=\"" . $contentEventDate . "\">";
-													$html .= "</div>";
+								$html .= "<hr />";
+									
+										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+										
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentImages\" class=\"col-sm-2 control-label\">" . Lang::getLang('images') . "</label>\n";
+										
+											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-6\">\n";
+												$html .= "<div class=\"input-group\">";
+													$html .= "<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-picture\"></i></span>";
+													$html .= "<input type=\"file\" name=\"contentImages[]\" accept=\"image/*\" class=\"form-control\"  multiple=\"multiple\">";
 												$html .= "</div>";
-
-												$html .= "<div class=\"col-sm-1\">";
-													$html .= "<label for=\"contentEventStartTime\">" . Lang::getLang('startTime') . "</label>";
-												$html .= "</div>";
-												
-												$html .= "<div class=\"col-sm-2\">";
-													$html .= "<div class=\"input-group\">";
-														$html .= "<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-time\"></i></span>";
-														$html .= "<input type=\"time\" name=\"contentEventStartTime\" class=\"form-control\" value=\"" . $contentEventStartTime . "\">";
-													$html .= "</div>";
-												$html .= "</div>";		
-												
-												$html .= "<div class=\"col-sm-1\">";
-													$html .= "<label for=\"contentEventEndTime\">" . Lang::getLang('endTime') . "</label>";
-												$html .= "</div>";
-												
-												$html .= "<div class=\"col-sm-2\">";
-													$html .= "<div class=\"input-group\">";
-														$html .= "<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-time\"></i></span>";
-														$html .= "<input type=\"time\" name=\"contentEventEndTime\" class=\"form-control\" value=\"" . $contentEventEndTime . "\">";
-													$html .= "</div>";
-												$html .= "</div>";
-												
 											$html .= "</div>";
-			
-								$html .= "<hr />\n\n";
+											
+											
+											
+										$html .= "</div>";
+									
+									$html .= "<hr />";
+									
+										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentLinkURL\" class=\"col-sm-2 control-label\">" . Lang::getLang('link') . "</label>\n";
+											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-6\">\n";
 
-								$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
-									$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12\">\n";
-										if ($type == 'update') {
-											$html .= "\t\t\t\t\t\t\t\t<a href=\"/k/delete/" . $contentID . "/\" class=\"btn btn-danger col-xs-2 col-sm-3 col-md-2\" style=\"color:#fff;\"><span class=\"glyphicon glyphicon-remove\"></span> <span class=\"hidden-xs\">" . strtoupper(Lang::getLang('delete')) . "</span></a>\n";
-										}
-										$html .= "\t\t\t\t\t\t\t\t<button type=\"submit\" name=\"jagaContentSubmit\" id=\"jagaContentSubmit\" ";
-										if ($type == 'update') {
-											$html .= "class=\"btn btn-primary col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-6\">";
-										} elseif ($type == 'create') {
-											$html .= "class=\"btn btn-primary col-xs-8 col-xs-offset-4 col-sm-6 col-sm-offset-6 col-md-4 col-md-offset-8\">";
-										}
-										$html .= "<span class=\"glyphicon glyphicon-ok\"></span> " . strtoupper(Lang::getLang($type)) . "</button>\n";
-									$html .= "\t\t\t\t\t\t\t</div>\n";
-								$html .= "\t\t\t\t\t\t</div>\n\n";
+												$html .= "<div class=\"input-group\">";
+													$html .= "<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-link\"></i></span>";
+													$html .= "<input type=\"url\" name=\"contentLinkURL\" class=\"form-control\" placeholder=\"http://example.com/\" value=\"" . $contentLinkURL . "\">";
+												$html .= "</div>";
+											$html .= "</div>";
+										$html .= "</div>";
 								
-							$html .= "\t\t\t\t\t</form>\n";
-							$html .= "\t\t\t\t\t<!-- END jagaContentForm -->\n\n";
+									$html .= "<hr />";
 
-						$html .= "\t\t\t\t</div>\n";
-						$html .= "\t\t\t\t<!-- END PANEL-BODY -->\n\n";
-				
-					$html .= "\t\t\t</div>\n";
-					$html .= "\t\t\t<!-- END PANEL -->\n\n";
-				
-				$html .= "\t\t</div>\n";
-				$html .= "\t\t<!-- END jagaContent -->\n\n";
+										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+											$html .= "<label for=\"contentHasLocation\" class=\"col-sm-2 control-label\"><input type=\"checkbox\" name=\"contentHasLocation\" value=\"1\"";
+												if ($contentHasLocation == 1) { $html .= " checked=\"true\""; }
+											$html .= "> " . Lang::getLang('location') . "</label>";
+											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n";
+												$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentLocationNameInput\" name=\"contentLocationNameInput\" class=\"form-control\">\n";
+											$html .= "\t\t\t\t\t\t\t</div>\n";
+										$html .= "\t\t\t\t\t\t</div>\n\n";
+										
+										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
 
-				// $html .= "\t\t</div>\n"; // col-md-12
-				
-				
-				
-			// $html .= "\t</div>\n"; // row
+											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-10 col-sm-offset-2\">\n";
+												$html .= "\t\t<div id=\"contentCoordinatesMap\"></div>\n";
+											$html .= "\t\t\t\t\t\t\t</div>\n";
+											
+										$html .= "\t\t\t\t\t\t</div>\n\n";
+										
+										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+										
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentLatitude\" class=\"col-sm-1 col-sm-offset-2\">" . Lang::getLang('latitude') . "</label>\n";
+											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-2\">\n";
+												$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentLatitude\" name=\"contentLatitude\" class=\"form-control\" placeholder=\"0.000000\" value=\"" . $contentLatitude . "\">\n";
+											$html .= "\t\t\t\t\t\t\t</div>\n";
+											
+											$html .= "\t\t\t\t\t\t\t<label for=\"contentLongitude\" class=\"col-sm-1\">" . Lang::getLang('longitude') . "</label>\n";
+											$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-2\">\n";
+												$html .= "\t\t\t\t\t\t\t\t<input type=\"text\" id=\"contentLongitude\" name=\"contentLongitude\" class=\"form-control\" placeholder=\"0.000000\" value=\"" . $contentLongitude . "\">\n";
+											$html .= "\t\t\t\t\t\t\t</div>\n";
+											
+										$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+										$html .= "
+										
+											<script>
+												$('#contentCoordinatesMap').locationpicker({
+													location: {
+														latitude: " . $contentLatitude . ",
+														longitude: " . $contentLongitude . "
+													},
+													radius: 100,
+													inputBinding: {
+														latitudeInput: $('#contentLatitude'),
+														longitudeInput: $('#contentLongitude'),
+														locationNameInput: $('#contentLocationNameInput')
+													},
+													enableAutocomplete: true
+												});
+											</script>
+											
+										";
+	
+									$html .= "<hr />";		
+
+										$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+
+											$html .= "<label for=\"contentIsEvent\" class=\"col-sm-2 control-label\"><input type=\"checkbox\" name=\"contentIsEvent\" value=\"1\"";
+												if ($contentIsEvent == 1) { $html .= " checked=\"true\""; }
+											$html .= "> " . Lang::getLang('event') . "</label>";
+
+											$html .= "<div class=\"col-sm-3\">";
+												$html .= "<div class=\"input-group\">";
+													$html .= "<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-calendar\"></i></span>";
+													$html .= "<input type=\"date\" name=\"contentEventDate\" class=\"form-control\" value=\"" . $contentEventDate . "\">";
+												$html .= "</div>";
+											$html .= "</div>";
+
+											$html .= "<div class=\"col-sm-1\">";
+												$html .= "<label for=\"contentEventStartTime\">" . Lang::getLang('startTime') . "</label>";
+											$html .= "</div>";
+											
+											$html .= "<div class=\"col-sm-2\">";
+												$html .= "<div class=\"input-group\">";
+													$html .= "<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-time\"></i></span>";
+													$html .= "<input type=\"time\" name=\"contentEventStartTime\" class=\"form-control\" value=\"" . $contentEventStartTime . "\">";
+												$html .= "</div>";
+											$html .= "</div>";		
+											
+											$html .= "<div class=\"col-sm-1\">";
+												$html .= "<label for=\"contentEventEndTime\">" . Lang::getLang('endTime') . "</label>";
+											$html .= "</div>";
+											
+											$html .= "<div class=\"col-sm-2\">";
+												$html .= "<div class=\"input-group\">";
+													$html .= "<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-time\"></i></span>";
+													$html .= "<input type=\"time\" name=\"contentEventEndTime\" class=\"form-control\" value=\"" . $contentEventEndTime . "\">";
+												$html .= "</div>";
+											$html .= "</div>";
+											
+										$html .= "</div>";
+		
+							$html .= "<hr />\n\n";
+
+							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
+								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12\">\n";
+									if ($type == 'update') {
+										$html .= "\t\t\t\t\t\t\t\t<a href=\"/k/delete/" . $contentID . "/\" class=\"btn btn-danger col-xs-2 col-sm-3 col-md-2\" style=\"color:#fff;\"><span class=\"glyphicon glyphicon-remove\"></span> <span class=\"hidden-xs\">" . strtoupper(Lang::getLang('delete')) . "</span></a>\n";
+									}
+									$html .= "\t\t\t\t\t\t\t\t<button type=\"submit\" name=\"jagaContentSubmit\" id=\"jagaContentSubmit\" ";
+									if ($type == 'update') {
+										$html .= "class=\"btn btn-primary col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-6\">";
+									} elseif ($type == 'create') {
+										$html .= "class=\"btn btn-primary col-xs-8 col-xs-offset-4 col-sm-6 col-sm-offset-6 col-md-4 col-md-offset-8\">";
+									}
+									$html .= "<span class=\"glyphicon glyphicon-ok\"></span> " . strtoupper(Lang::getLang($type)) . "</button>\n";
+								$html .= "\t\t\t\t\t\t\t</div>\n";
+							$html .= "\t\t\t\t\t\t</div>\n\n";
+							
+						$html .= "\t\t\t\t\t</form>\n";
+						$html .= "\t\t\t\t\t<!-- END jagaContentForm -->\n\n";
+
+					$html .= "\t\t\t\t</div>\n";
+					$html .= "\t\t\t\t<!-- END PANEL-BODY -->\n\n";
 			
+				$html .= "\t\t\t</div>\n";
+				$html .= "\t\t\t<!-- END PANEL -->\n\n";
 			
-			
+			$html .= "\t\t</div>\n";
+			$html .= "\t\t<!-- END jagaContent -->\n\n";
+
 		$html .= "\t</div>\n";
 		$html .= "\t<!-- END CONTENT CONTAINER -->\n\n";
 			

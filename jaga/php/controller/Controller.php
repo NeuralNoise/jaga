@@ -50,16 +50,14 @@ class Controller {
 		$lang = Lang::getBrowserDefaultLanguage();
 		if ($_SESSION['userID'] != 0) { $lang = User::getUserSelectedLanguage($_SESSION['userID']); }
 		if (!in_array($lang, $arrayOfSupportedLanguages)) { $lang = 'en'; }
-		
-		
-		
+
 		if (!isset($_SESSION['lang'])) { Session::setSession('lang', $lang); }
 
 		$i = 0; while ($i <= 3) { if (!isset($urlArray[$i])) { $urlArray[$i] = ''; } $i++; } // minimum 3 array pointers
 		$notHTML = array('rss','sitemap.xml','channel.css','lang');
 		$inputArray = array();
 		$errorArray = array();
-		
+
 		if ($urlArray[0] == 'login') {
 			
 			if (isset($_POST['jagaLoginSubmit'])) {
@@ -92,6 +90,10 @@ class Controller {
 					} else {
 						$forwardURL = '/';
 					}
+					
+					// reset channel session view counter
+					Session::setSession('displayChannelWelcome', 1);
+					
 					header("Location: $forwardURL");
 					
 				}

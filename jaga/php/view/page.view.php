@@ -82,7 +82,7 @@ class PageView {
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/tooltip.js\"></script>\n";				
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/kutchannel.js\"></script>\n\n";
 
-				$html .= "\t\t\t<script>\n";
+				$html .= "\t\t<script>\n";
 				$html .= "
 				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -92,9 +92,9 @@ class PageView {
 				ga('create', '" . Config::read('analytics.trackingID') . "', 'auto');
 				ga('send', 'pageview');
 				";
-				$html .= "\n\t\t\t</script>\n\n";
+				$html .= "\n\t\t</script>\n\n";
 				
-				$html .= "\t\t\t<script>\n";
+				$html .= "\t\t<script>\n";
 				$html .= "
 				var _prum = [['id', '" . Config::read('pingdom.rumID') . "'],['mark', 'firstbyte', (new Date()).getTime()]];
 				(function() {
@@ -105,9 +105,9 @@ class PageView {
 					s.parentNode.insertBefore(p, s);
 				})();
 				";
-				$html .= "\n\t\t\t</script>\n\n";
+				$html .= "\n\t\t</script>\n\n";
 				
-				$html .= "\t\t\t<script type=\"text/javascript\">\n";
+				$html .= "\t\t<script type=\"text/javascript\">\n";
 				$html .= "
 				_atrk_opts = { atrk_acct:\"" . Config::read('alexa.atrk_acct') . "\", domain:\"" . Config::read('site.url') . "\",dynamic: true};
 				(function() {
@@ -119,8 +119,8 @@ class PageView {
 					s.parentNode.insertBefore(as, s); 
 				})();
 				";
-				$html .= "\n\t\t\t</script>\n";
-				$html .= "\t\t\t<noscript><img src=\"https://d5nxst8fruw4z.cloudfront.net/atrk.gif?account=" . Config::read('alexa.atrk_acct') . "\" style=\"display:none\" height=\"1\" width=\"1\" alt=\"\" /></noscript>\n\n";
+				$html .= "\n\t\t</script>\n";
+				$html .= "\t\t<noscript><img src=\"https://d5nxst8fruw4z.cloudfront.net/atrk.gif?account=" . Config::read('alexa.atrk_acct') . "\" style=\"display:none\" height=\"1\" width=\"1\" alt=\"\" /></noscript>\n\n";
 				
 				
 			$html .= "\n\t</head>\n\n";
@@ -265,10 +265,34 @@ class PageView {
 
 	public function buildPage($urlArray, $inputArray = array(), $errorArray = array()) {
 
+		
+	
+		$channel = new Channel($_SESSION['channelID']);
+		$channelTitle = $channel->getTitle();
+
 		$html = $this->getHeader();
 		
-			$navBar = new MenuView();
-			$html .= $navBar->getNavBar();
+		$navBar = new MenuView();
+		
+		
+		
+		$html .= $navBar->getNavBar();
+		
+		
+		
+			if ($_SESSION['userID'] != 0 && (!isset($_SESSION['displayChannelWelcome']) || $_SESSION['displayChannelWelcome'] == 1)) {
+				
+				$user = new User($_SESSION['userID']);
+				$userDisplayName = $user->getUserDisplayName();
+				if ($_SESSION['lang'] == 'ja') {
+					$greeting = $userDisplayName . "さん、「" . $channelTitle . "」へようこそ！";
+				} else {
+					$greeting = "Welcome to " . $channelTitle . ", " . $userDisplayName . "!";
+				}
+				$html .= "\n\t<div class=\"container\"><div class=\"alert alert-info text-right\">" . $greeting . "</div></div>\n\n";
+				$_SESSION['displayChannelWelcome'] = 0;
+				
+			}
 		
 			if (!empty($errorArray)) {
 				$html .= "\t<!-- START ERROR ARRAY -->\n";
@@ -279,8 +303,10 @@ class PageView {
 				$html .= "\t</div>\n";
 				$html .= "\t<!-- END ERROR ARRAY -->\n\n";
 			}
-		
+
 			if ($urlArray[0] == '') {
+			
+				
 			
 				if ($_SESSION['userID'] == 0 && (
 					$_SESSION['channelID'] == 2006
@@ -291,15 +317,22 @@ class PageView {
 					$html .= $carousel->getCarousel();
 				}
 			
-				if ($_SESSION['channelID'] == 2006) {
+				if ($_SESSION['channelKey'] == 'www') {
 
 					$html .= ContentView::displayRecentContentItems(0, '', 50);
 					
 				} else {
 				
+				
+					
+				
 					// $html .= $this->getBreadcrumbs($urlArray);
 					// $html .= ContentView::displayRecentContentItems($_SESSION['channelID'], '', 50);
+					
+							
+					
 					$categoryView = new CategoryView();
+					
 					$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
 					
 				}
@@ -366,10 +399,14 @@ class PageView {
 					$html .= ContentView::displayContentDeleteConfirmationForm($urlArray[2]);
 					
 				} else {
+					
 					if ($urlArray[2] == '') { // /k/<contentCategoryKey>/
+					
 						$html .= $this->getBreadcrumbs($urlArray);
 						$html .= ContentView::displayRecentContentItems($_SESSION['channelID'], $urlArray[1], 50);
+						
 					} else { // /k/<contentCategoryKey>/<contentURL>/
+					
 						$contentURL = urldecode($urlArray[2]);
 						$contentID = Content::getContentID($contentURL);
 						$content = new Content($contentID);
@@ -515,6 +552,8 @@ class PageView {
 		$previousPage = trim(implode('/', $urlArray), '/');
 		if ($previousPage == 'lang/en' || $previousPage == 'lang/ja' || $previousPage == '') { $_SESSION['previousPage'] = '/'; } else { $_SESSION['previousPage'] = $previousPage; }
 
+		if (!isset($_SESSION['pageViewCounter'])) { $_SESSION['pageViewCounter'] = 1; } else { $_SESSION['pageViewCounter']++; }
+		
 		return $html;
 		
 	}

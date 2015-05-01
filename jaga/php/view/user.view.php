@@ -2,52 +2,6 @@
 
 	class UserView {
 
-		/*
-		
-		public function displayUserProfileContentList($username) {
-
-			$html = "<div class=\"container\">\n";
-				$html .= "<div class=\"row\">\n";
-				
-				$html = "</div>\n";
-			$html .= "</div>\n";
-			
-			return $html;
-			
-		}
-		
-		public function displayUserProfileCommentList($username) {
-			$html = "<div class=\"container\">\n";
-				$html .= "<div class=\"row\">\n";
-				
-				$html = "</div>\n";
-			$html .= "</div>\n";
-			
-			return $html;
-		}
-		
-		public function displayUserProfileChannelList($username) {
-			$html = "<div class=\"container\">\n";
-				$html .= "<div class=\"row\">\n";
-				
-				$html = "</div>\n";
-			$html .= "</div>\n";
-			
-			return $html;
-		}
-		
-		public function displayUserProfileSubscriptionList($username) {
-			$html = "<div class=\"container\">\n";
-				$html .= "<div class=\"row\">\n";
-				
-				$html = "</div>\n";
-			$html .= "</div>\n";
-			
-			return $html;
-		}
-		
-		*/
-		
 		public function displayUserForm($userID, $inputArray = array(), $errorArray = array()) {
 		
 			$user = new User($userID);

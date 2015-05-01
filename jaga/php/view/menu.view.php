@@ -7,9 +7,14 @@ class MenuView {
 		$channel = new Channel($_SESSION['channelID']);
 		if ($_SESSION['lang'] == 'ja') { $channelTitle = $channel->channelTitleJapanese; } else { $channelTitle = $channel->channelTitleEnglish; }
 		
+		
+		
 		$user = new User($_SESSION['userID']);
 		$username = $user->username;
 
+		
+		
+		
 		$html = "\t<!-- START NAVIGATION DIV -->\n";
 		$html .= "\t<div class=\"navbar-wrapper\">\n\n";
 		
@@ -55,10 +60,14 @@ class MenuView {
 											$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
 										}
 
+										// if ($_SESSION['channelID'] == 76) { print_r($channel); die(); } // lkgjhdfkghadskghdckh,jfuckfuckfuckes.jfaewlgls.ghsekgh
+										
 										$html .= self::getNavBarCategoryListItems();
 										$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
 										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/k/\"><em>" . Lang::getLang('allCategories') . "...</em></a></li>\n";
-																				
+										
+
+										
 										// IF SUBCRIBED TO CURRENT CHANNEL
 										if (Subscription::userIsSubscribed($_SESSION['userID'], $_SESSION['channelID'])) {
 											$html .= "\t\t\t\t\t\t\t\t<li class=\"divider\"></li>\n";
@@ -73,6 +82,7 @@ class MenuView {
 							// END "THIS CHANNEL" DROPDOWN //
 						$html .= "\t\t\t\t\t</ul>\n";
 
+						
 						/*
 						$html .= "
 						<div class=\"col-sm-3 col-md-3\">
@@ -149,7 +159,7 @@ class MenuView {
 			
 		$html .= "\t</div>\n";
 		$html .= "\t<!-- END NAVIGATION DIV -->\n\n";
-		
+
 		return $html;
 		
 	}
@@ -157,10 +167,13 @@ class MenuView {
 	private function getNavBarCategoryListItems() {
 		
 		$categoryArray = ChannelCategory::getChannelCategoryArray($_SESSION['channelID']);
+		
 		$html = '';
 		$h = 0;
 		foreach ($categoryArray AS $key => $value) {
 
+			
+		
 			$category = new Category($key);
 			if ($_SESSION['lang'] == 'ja') { $contentCategory = $category->contentCategoryJapanese; } else { $contentCategory = $category->contentCategoryEnglish; }
 
