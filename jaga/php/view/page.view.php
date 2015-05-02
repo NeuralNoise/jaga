@@ -136,9 +136,10 @@ class PageView {
 				$html = "\n\n\t\t<div id=\"footer\">\n";
 					$html .= "\t\t\t\t<div class=\"col-sm-8 hidden-xs\">\n";
 						$html .= "\t\t\t\t\t<ul class=\"list-inline\">\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/about/\">" . Lang::getLang('about') . "</a></li>\n";
+							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/about/\">" . Lang::getLang('about') . "</a></li>\n";
 							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/tos/\">" . Lang::getLang('tos') . "</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/privacy/\">" . Lang::getLang('privacyPolicy') . "</a></li>\n";								
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/privacy/\">" . Lang::getLang('privacyPolicy') . "</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/credits/\">" . Lang::getLang('credits') . "</a></li>\n";
 							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/sitemap/\">" . Lang::getLang('sitemap') . "</a></li>\n";
 							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/advertise/\">Advertise</a></li>\n";
 							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/contact/\">Contact</a></li>\n";
@@ -311,11 +312,10 @@ class PageView {
 			
 				
 			
-				if ($_SESSION['userID'] == 0 && (
-					$_SESSION['channelID'] == 2006
-					|| $_SESSION['channelID'] == 14
-					|| $_SESSION['channelID'] == 21
-				)) {
+				if (
+					$_SESSION['userID'] == 0 &&
+					($_SESSION['channelID'] == 2006 || $_SESSION['channelID'] == 14 || $_SESSION['channelID'] == 21)
+				) {
 					$carousel = new CarouselView();
 					$html .= $carousel->getCarousel();
 				}
@@ -325,17 +325,10 @@ class PageView {
 					$html .= ContentView::displayRecentContentItems(0, '', 50);
 					
 				} else {
-				
-				
-					
-				
-					// $html .= $this->getBreadcrumbs($urlArray);
+
+					$html .= $this->getBreadcrumbs($urlArray);
 					// $html .= ContentView::displayRecentContentItems($_SESSION['channelID'], '', 50);
-					
-							
-					
 					$categoryView = new CategoryView();
-					
 					$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
 					
 				}
@@ -373,6 +366,8 @@ class PageView {
 				$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
 			} elseif ($urlArray[0] == 'about') {
 				$html .= ContentView::displayEasyContentView(10008);
+			} elseif ($urlArray[0] == 'credits') {
+				$html .= ContentView::displayEasyContentView(1005524);
 			} elseif ($urlArray[0] == 'tos') {
 				$html .= ContentView::displayEasyContentView(1000021);
 			} elseif ($urlArray[0] == 'privacy') {

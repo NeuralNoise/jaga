@@ -44,17 +44,39 @@ class AuditView {
 									
 									foreach ($auditTrailArray AS $entry) {
 										
-										if ($entry['auditUserID'] != 0) {
-											$user = new User($entry['auditUserID']);
+										$auditUserID = $entry['auditUserID'];
+										$auditDateTime = $entry['auditDateTime'];
+										$auditObject = $entry['auditObject'];
+										$auditObjectID = $entry['auditObjectID'];
+										$auditAction =  $entry['auditAction'];
+										
+										if ($auditUserID != 0) {
+											$user = new User($auditUserID);
 											$username = $user->getUserDisplayName();
-										} else { $username = 'System'; }
+											$iUser = "<a href=\"/u/" . urlencode($username) . "/\">" . $username . "</a> (" . $auditUserID . ")";
+										} else {
+											$iUser = 'System';
+										}
+
+										if ($auditObject == 'Content' && Content::contentExists($auditObjectID)) {
+											$content = new Content($auditObjectID);
+											$contentURL = $content->getURL();
+											$contentTitle = $content->getTitle();
+											$channelID = $content->channelID;
+											$channel = new Channel($channelID);
+											$channelKey = $channel->channelKey;
+											$iObject = "<a href=\"http://" . $channelKey . ".jaga.io" . $contentURL . "\">" . $contentTitle . "</a>";
+										} else {
+											$iObject = $auditObject . " (" . $auditObjectID . ")";
+										}
 										
 										$html .= "<tr>";
-											$html .= "<td>" . $entry['auditDateTime'] . "</td>";
-											$html .= "<td>" . $username . " (" . $entry['auditUserID'] . ")</td>";
-											$html .= "<td>" . $entry['auditAction'] . "</td>";
-											$html .= "<td>" . $entry['auditObject'] . " (" . $entry['auditObjectID'] . ")</td>";
+											$html .= "<td>" . $auditDateTime . "</td>";
+											$html .= "<td>" . $iUser . "</td>";
+											$html .= "<td>" . $auditAction . "</td>";
+											$html .= "<td>" . $iObject . "</td>";
 										$html .= "</tr>";
+										
 									}
 								
 								$html .= "</table>";

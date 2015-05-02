@@ -261,11 +261,10 @@ class Controller {
 						unset($content->contentID);
 						
 						// update object
-						// print_r($content);
 						Content::update($content, $conditions);
 
 						$postSubmitURL = "/k/" . $inputArray['contentCategoryKey'] . "/";
-						
+					
 						header("Location: $postSubmitURL");
 						
 					}

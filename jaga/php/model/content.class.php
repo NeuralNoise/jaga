@@ -35,7 +35,7 @@ class Content extends ORM {
 			$query = "SELECT * FROM jaga_Content WHERE contentID = :contentID LIMIT 1";
 			$statement = $core->database->prepare($query);
 			$statement->execute(array(':contentID' => $contentID));
-			if (!$row = $statement->fetch()) { die('Content does not exist.'); }
+			if (!$row = $statement->fetch()) { die("Content [$contentID] does not exist."); }
 			foreach ($row AS $key => $value) { if (!is_int($key)) { $this->$key = $value; } }
 			
 		} else {
@@ -99,6 +99,11 @@ class Content extends ORM {
 		$contentDescription = Utilities::truncate($contentDescription, 100);
 		return $contentDescription;
 		
+	}
+	
+	public function getURL() {
+		$contentURL = "/k/" . $this->contentCategoryKey . "/" . $this->contentURL . "/";
+		return $contentURL;
 	}
 	
 	public function getContentID($contentURL) {
@@ -241,6 +246,14 @@ class Content extends ORM {
 		$query = "SELECT contentURL FROM jaga_Content WHERE contentURL = :contentURL LIMIT 1";
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':contentURL' => $contentURL));
+		if ($row = $statement->fetch()) { return true; } else { return false; }
+	}
+	
+	public static function contentExists($contentID) {
+		$core = Core::getInstance();
+		$query = "SELECT contentID FROM jaga_Content WHERE contentID = :contentID LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':contentID' => $contentID));
 		if ($row = $statement->fetch()) { return true; } else { return false; }
 	}
 	
