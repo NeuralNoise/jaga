@@ -62,6 +62,18 @@ class Audit {
 		
 	}
 
+	public function getAuditTrailArray() {
+
+		$query = "SELECT * FROM jaga_Audit ORDER BY auditDateTime DESC LIMIT 500";
+		$core = Core::getInstance();
+		$statement = $core->database->query($query);
+		$auditTrailArray = array();
+		while ($row = $statement->fetch()) { $auditTrailArray[] = $row; }
+		return $auditTrailArray;
+
+	}
+
+	
 }
 
 ?>

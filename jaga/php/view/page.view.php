@@ -236,6 +236,9 @@ class PageView {
 						 $html .= "\t\t\t\t\t<li role=\"presentation\" class=\"" . ($urlArray[1]=='profile'?'active':'') . "\"><a href=\"/settings/profile/\"><span class=\"glyphicon glyphicon-user\"></span> <span>" . Lang::getLang('profile') . "</span></a></li>";
 						 $html .= "\t\t\t\t\t<li role=\"presentation\" class=\"" . ($urlArray[1]=='channels'?'active':'') . "\"><a href=\"/settings/channels/\"><span class=\"glyphicon glyphicon-th-large\"></span>  <span>" . Lang::getLang('channels') . "</span></a></li>";
 						 $html .= "\t\t\t\t\t<li role=\"presentation\" class=\"" . ($urlArray[1]=='subscriptions'?'active':'') . "\"><a href=\"/settings/subscriptions/\" ><span class=\"glyphicon glyphicon-star\"></span>  <span>" . Lang::getLang('subscriptions') . "</span> </a></li>";
+						 if (in_array($_SESSION['userID'],Config::read('admin.userIdArray'))) {
+							 $html .= "\t\t\t\t\t<li role=\"presentation\" class=\"" . ($urlArray[1]=='admin'?'active':'') . "\"><a href=\"/settings/admin/audit-trail/\" ><span class=\"glyphicon glyphicon-asterisk\"></span>  <span>" . Lang::getLang('admin') . "</span> </a></li>";
+						 }
 					$html .= "\t\t\t\t</ul>\n";
 				$html .= "\t\t\t</div>\n";
 			$html .= "\t\t</div>\n";
@@ -472,7 +475,9 @@ class PageView {
 				
 				} elseif ($urlArray[1] == 'admin') {
 				
-					$html .= 'admin';
+					if ($urlArray[2] == 'audit-trail') {
+						$html .= AuditView::auditTrailList();
+					}
 				
 				}
 

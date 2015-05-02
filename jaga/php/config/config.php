@@ -34,6 +34,7 @@
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/utilities.class.php');
 	
 	// VIEW
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/audit.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/authentication.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/carousel.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/category.view.php');
