@@ -4,18 +4,23 @@ class ContentView {
 
 	public function displayContentView($contentID) {
 	
-		
 		$content = new Content($contentID);
 		$contentTitle = $content->getTitle();
 		$contentContent = $content->getContent();
-
 		$contentSubmissionDateTime = $content->contentSubmissionDateTime;
 		$contentPublished = $content->contentPublished;
+		
+		$contentLinkURL = $content->contentLinkURL;
+		
+		$contentIsEvent = $content->contentIsEvent;
+		$contentEventDate = $content->contentEventDate;
+		$contentEventStartTime = $content->contentEventStartTime;
+		$contentEventEndTime = $content->contentEventEndTime;
 		
 		$contentHasLocation = $content->contentHasLocation;
 		$contentLatitude = $content->contentLatitude;
 		$contentLongitude = $content->contentLongitude;
-		
+ 
 		$opID = $content->contentSubmittedByUserID;
 		$op = new User($opID);
 		$opUserName = $op->username;
@@ -24,17 +29,89 @@ class ContentView {
 		Content::contentViewsPlusOne($contentID);
 		$imageArray = Image::getObjectImageUrlArray('Content', $contentID);
 		
+		// $alertHtml
+		if (!$contentPublished) {
+			$alertHtml = "\n\t<div class=\"container\">";
+				$alertHtml .= "<div class=\"alert alert-danger\">";
+					if ($_SESSION['lang'] == 'ja') { $alertHtml .= "今現在、当ページは公表していません。"; } else { $alertHtml .= "This post is not currently published."; }
+				$alertHtml .= "</div>";
+			$alertHtml .= "</div>\n\n";
+		}
+		
+		// $linkHtml
+		if ($contentLinkURL != '') {
+			
+			$contentLinkAnchor = preg_replace('#^https?://#', '', $contentLinkURL);
+			$contentLinkAnchor = preg_replace('#^www\.#', '', $contentLinkAnchor);
+			
+			$linkHtml = "<div style=\"word-wrap:break-word;overflow:hidden;margin-bottom:10px;\">";
+				$linkHtml .= "<a href=\"" . $contentLinkURL . "\" class=\"btn btn-default btn-block\"><span class=\"glyphicon glyphicon-link\"></span> " . $contentLinkAnchor . "</a>";
+			$linkHtml .= "</div>";
+		}
+		
+		// $imageHtml & $imageModalHtml
+		if (!empty($imageArray)) {
+			
+			if (!isset($imageModalHtml)) { $imageModalHtml = ''; }
+			
+			$imageHtml = "\n\t\t<div class=\"row\" id=\"list\">\n\n";
+
+			foreach ($imageArray AS $imageID => $imageURL) {
+
+				if (!isset($imageHtml)) { $imageHtml = ''; }
+
+				if ($contentLinkURL != '' || $contentHasLocation || $contentIsEvent) { $imageClasses = "col-xs-12 col-sm-6 col-md-4 col-lg-4"; } else { $imageClasses = "col-xs-12 col-sm-4 col-md-4 col-lg-3"; }
+			
+				// IMAGE
+				$imageHtml .= "
+				<div class=\"item " . $imageClasses . "\" data-toggle=\"modal\" data-target=\"#" . $imageID . "\" style=\"margin-bottom:10px;\">
+					<img src=\"" . $imageURL . "\" class=\"img-responsive jagaContentViewImage\">
+				</div>
+				";
+				
+				// MODAL
+				$imageModalHtml .= "
+				<div class=\"modal fade\" id=\"" . $imageID . "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"deluxeNobileFirLabel\" aria-hidden=\"true\">
+					<div class=\"modal-dialog\">
+						<div class=\"modal-content\">
+							<div class=\"modal-header\">
+								<button type=\"button\" class=\"close\" data-dismiss=\"modal\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">" . Lang::getLang('close') . "</span></button>
+								<h4 class=\"modal-title\" id=\"" . $imageID . "\">" . $contentTitle ."</h4>
+							</div>
+							<div class=\"modal-body text-center\"><img src=\"" . $imageURL . "\" class=\"img-responsive\" style=\"margin:0px auto 0px auto;\"></div>
+							<div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">" . Lang::getLang('close') . "</button></div>
+						</div>
+					</div>
+				</div>
+				";
+				
+			}
+			
+			$imageHtml .= "\n\t\t</div>\n\n";
+			
+		}
+
+		// $mapHtml
+		if ($contentHasLocation) {
+			$mapHtml = "<div id=\"map-canvas\" style=\"margin-bottom:10px;\">";
+				$mapHtml .= "<iframe frameborder=\"0\" style=\"border:0;\" src=\"https://www.google.com/maps/embed/v1/place?key=" . Config::read('googlemaps.embed-api-key') . "&maptype=satellite&q=" . $contentLatitude . "," . $contentLongitude . "\"></iframe>";
+			$mapHtml .= "</div>";
+		}
+		
+		// $eventHtml
+		if ($contentIsEvent) {
+			$eventHtml = "<div style=\"margin-bottom:10px;\">";
+				$eventHtml .= 'Date: ' . $contentEventDate = $content->contentEventDate . '<br />';
+				$eventHtml .= 'Start Time: ' . $contentEventStartTime = $content->contentEventStartTime . '<br />';
+				$eventHtml .= 'End Time: ' . $contentEventEndTime = $content->contentEventEndTime;
+			$eventHtml .= "</div>";
+		}
+		
 		$html = '';
 		
-		if ($contentPublished == 0) {
-			$html .= "\n\t<div class=\"container\">";
-				$html .= "<div class=\"alert alert-danger\">";
-					if ($_SESSION['lang'] == 'ja') { $html .= "今現在、当ページは公表していません。"; } else { $html .= "This post is not currently published."; }
-				$html .= "</div>";
-			$html .= "</div>\n\n";
-		}
-				
-		if ($contentPublished == 1 || $opID == $_SESSION['userID']) {
+		if (!$contentPublished) { $html .= $alert; }
+		
+		if ($contentPublished || $opID == $_SESSION['userID']) {
 		
 			$html .= "\n\t<!-- START CONTENT -->\n";
 			$html .= "\t<div class=\"container\">\n\n";
@@ -53,60 +130,16 @@ class ContentView {
 						
 						$html .= "\t\t\t<div class=\"row\">\n";
 
-							$imageHtml = '';
-							$imageModalHtml = '';
-							
-							foreach ($imageArray AS $imageID => $imageURL) {
+							$html .= "<div id=\"panelBodyContent\" class=\"col-xs-12 col-sm-6 col-md-8 col-lg-9\">";
+								if ($contentContent != '') { $html .= $contentContent; }
+								if (isset($imageHtml)) { $html .= $imageHtml; }
+							$html .= "</div>";
 
-								if ($contentHasLocation) { $imageClasses = "col-xs-12 col-sm-6 col-md-4 col-lg-4"; } else { $imageClasses = "col-xs-12 col-sm-4 col-md-4 col-lg-3"; }
-							
-								// IMAGE
-								$imageHtml .= "
-								<div class=\"$imageClasses item\" data-toggle=\"modal\" data-target=\"#" . $imageID . "\" style=\"margin-bottom:10px;\">
-									<img src=\"" . $imageURL . "\" class=\"img-responsive jagaContentViewImage\">
-								</div>
-								";
-								
-								// MODAL
-								$imageModalHtml .= "
-								<div class=\"modal fade\" id=\"" . $imageID . "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"deluxeNobileFirLabel\" aria-hidden=\"true\">
-									<div class=\"modal-dialog\">
-										<div class=\"modal-content\">
-											<div class=\"modal-header\">
-												<button type=\"button\" class=\"close\" data-dismiss=\"modal\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">" . Lang::getLang('close') . "</span></button>
-												<h4 class=\"modal-title\" id=\"" . $imageID . "\">" . $contentTitle ."</h4>
-											</div>
-											<div class=\"modal-body text-center\"><img src=\"" . $imageURL . "\" class=\"img-responsive\" style=\"margin:0px auto 0px auto;\"></div>
-											<div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">" . Lang::getLang('close') . "</button></div>
-										</div>
-									</div>
-								</div>
-								";
-								
-							}
-							
-							if ($contentHasLocation) {
-								
-
-								$html .= "<div id=\"panelBodyContent\" class=\"col-xs-12 col-sm-6 col-md-8 col-lg-9\">";
-									$html .= $contentContent . '<br />';
-									$html .= "<div id=\"list\">" . $imageHtml . "</div>";
-								$html .= "</div>";
-
-								$html .= "<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\">";
-									$html .= "<div id=\"map-canvas\">";
-										$html .= "<iframe frameborder=\"0\" style=\"border:0;\" src=\"https://www.google.com/maps/embed/v1/place?key=" . Config::read('googlemaps.embed-api-key') . "&maptype=satellite&q=" . $contentLatitude . "," . $contentLongitude . "\"></iframe>";
-									$html .= "</div>";
-								$html .= "</div>";
-								
-
-							} else {
-								
-								$html .= "<div id=\"panelBodyContent\" class=\"col-xs-12\">";
-									$html .= $contentContent . '<br />';
-									$html .= "<div id=\"list\">" . $imageHtml . "</div>";
-								$html .= "</div>";
-							}
+							$html .= "<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\">";
+								if (isset($linkHtml)) { $html .= $linkHtml; }
+								if (isset($mapHtml)) { $html .= $mapHtml; }
+								if (isset($eventHtml)) { $html .= $eventHtml; }
+							$html .= "</div>";
 
 						$html .= "</div>";
 
@@ -118,7 +151,7 @@ class ContentView {
 			$html .= "\t<!-- END CONTENT -->\n\n";
 		
 			$html .= "\t<!-- START IMAGE MODALS -->\n\n";
-				$html .= $imageModalHtml;
+				if (isset($imageModalHtml)) { $html .= $imageModalHtml; }
 			$html .= "\n\t<!-- END IMAGE MODALS -->\n\n";
 	
 		}

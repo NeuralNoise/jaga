@@ -27,7 +27,7 @@ class CarouselView {
 				if ($_SESSION['channelID'] == '14') { // The Kutchannel
 					$html .= "\t\t\t\t<div class=\"carousel-inner\">
 						<div class=\"item active\"><img src=\"/jaga/images/carousel-mountain.jpg\" alt=\"test0\" style=\"margin-left:auto;margin-right:auto;\"></div>
-						<div class=\"item\"><img src=\"/jaga/images/carousel-roll-tide.jpg\" alt=\"test1\" style=\"margin-left:auto;margin-right:auto;\"></div>
+						<div class=\"item\"><a href=\"http://www.lecochon-niseko.com/\"><img src=\"/jaga/images/carousel-roll-tide.jpg\" alt=\"test1\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 						<div class=\"item\"><img src=\"/jaga/images/carousel-ballpit.jpg\" alt=\"test2\" style=\"margin-left:auto;margin-right:auto;\"></div>
 					</div>\n\n";
 				}
@@ -53,6 +53,7 @@ class CarouselView {
 		";
 		return $html;
 	}
+
 }
 
 ?>

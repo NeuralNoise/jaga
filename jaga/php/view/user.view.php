@@ -246,19 +246,21 @@
 													$channelKey = $channel->channelKey;
 													$channelTitle = $channel->channelTitleEnglish;
 													
-													if ($comment->commentObject == 'Content') {
+													if ($comment->commentObject == 'Content' && Content::contentExists($comment->commentObjectID)) {
+														
 														$content = new Content($comment->commentObjectID);
 														$contentCategoryKey = $content->contentCategoryKey;
 														$contentURL = $content->contentURL;
 														$contentViewURL = "http://" . $channelKey . ".jaga.io/k/" . $contentCategoryKey . "/" . $contentURL . "/";
+
+														$html .= "\t\t\t<tr>";
+															if (isset($contentViewURL)) { $html .= "<td><a href=\"" . $contentViewURL . "\">" . $commentContent . "</a></td>";
+															} else { $html .= "<td>" . $commentContent . "</td>"; }
+															$html .= "<td>" . $channelTitle . "</td>";
+															$html .= "<td>" . $commentDateTime . "</td>";
+														$html .= "\t\t\t</tr>\n";
+														
 													}
-													
-													$html .= "\t\t\t<tr>";
-														if (isset($contentViewURL)) { $html .= "<td><a href=\"" . $contentViewURL . "\">" . $commentContent . "</a></td>";
-														} else { $html .= "<td>" . $commentContent . "</td>"; }
-														$html .= "<td>" . $channelTitle . "</td>";
-														$html .= "<td>" . $commentDateTime . "</td>";
-													$html .= "\t\t\t</tr>\n";
 
 												}
 												
