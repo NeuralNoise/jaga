@@ -185,8 +185,14 @@ class PageView {
 		}
 
 		if ($urlArray[0] == 'k' && $urlArray[1] != '' && $urlArray[2] != '') { // /k/<contentCategoryKey>/<contentURL>/
-			$contentTitle = strtoupper(Content::getContentTitle($urlArray[2]));
-			$breadcrumbs[] = array('anchor' => $contentTitle, 'url' => '', 'class' => 'active');
+			
+			if (Content::contentURLExists($urlArray[2])) {
+				$contentID = mb_strtoupper(Content::getContentID($urlArray[2]));
+				$content = new Content($contentID);
+				$contentTitle = $content->getTitle();
+				$breadcrumbs[] = array('anchor' => $contentTitle, 'url' => '', 'class' => 'active');
+			}
+			
 		}
 
 		$html = "<div class=\"container hidden-xs\">";
@@ -269,21 +275,14 @@ class PageView {
 
 	public function buildPage($urlArray, $inputArray = array(), $errorArray = array()) {
 
-		
-	
 		$channel = new Channel($_SESSION['channelID']);
 		$channelTitle = $channel->getTitle();
 
 		$html = $this->getHeader();
 		
 		$navBar = new MenuView();
-		
-		
-		
 		$html .= $navBar->getNavBar();
-		
-		
-		
+
 			if ($_SESSION['userID'] != 0 && (!isset($_SESSION['displayChannelWelcome']) || $_SESSION['displayChannelWelcome'] == 1)) {
 				
 				$user = new User($_SESSION['userID']);
@@ -322,7 +321,7 @@ class PageView {
 			
 				if ($_SESSION['channelKey'] == 'www') {
 
-					$html .= ContentView::displayRecentContentItems(0, '', 50);
+					$html .= ContentView::displayRecentContentItems(0, '', 75);
 					
 				} else {
 
@@ -343,7 +342,7 @@ class PageView {
 				
 			} elseif ($urlArray[0] == 'home' && $_SESSION['channelID'] == 2006 && $_SESSION['userID'] != 0) {
 				
-				$html .= ContentView::displayRecentContentItems(0, '', 50, $_SESSION['userID']);
+				$html .= ContentView::displayRecentContentItems(0, '', 75, $_SESSION['userID']);
 
 			} elseif ($urlArray[0] == 'register') {
 
@@ -444,7 +443,19 @@ class PageView {
 			
 			} elseif ($urlArray[0] == 'subscriptions') {
 
+			
+			
+			
+			
+			
+			
+			
 			} elseif ($urlArray[0] == 'settings') {
+			
+			
+			
+			
+			
 			
 				$html .= $this->getSettingsNav($urlArray);
 			
@@ -476,6 +487,30 @@ class PageView {
 				
 				}
 
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			} elseif ($urlArray[0] == 'account-recovery') {
 			
 				$html .= AuthenticationView::accountRecoveryForm($inputArray, $errorArray);
@@ -505,7 +540,6 @@ class PageView {
 			
 			}
 
-			
 			if (in_array($_SESSION['userID'], Config::read('admin.userIdArray'))) {
 			
 				$html .= "\t<div class=\"container\">\n";

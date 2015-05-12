@@ -175,7 +175,7 @@
 											foreach ($userContentArray AS $contentID => $contentURL) {
 												
 												$content = new Content($contentID);
-												$contentTitle = $content->contentTitleEnglish;
+												$contentTitle = $content->getTitle();
 												$contentCategoryKey = $content->contentCategoryKey;
 												$contentSubmissionDateTime = date('Y-m-d', strtotime($content->contentSubmissionDateTime));
 												

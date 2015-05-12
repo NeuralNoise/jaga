@@ -52,6 +52,20 @@ class ContentView {
 		// $imageHtml & $imageModalHtml
 		if (!empty($imageArray)) {
 			
+			$imageCount = count($imageArray);
+			
+			switch ($imageCount) {
+				case 1:
+					$imageClasses = "col-xs-12 col-sm-12 col-md-12 col-lg-6";
+					break;
+				case 2:
+					$imageClasses = "col-xs-12 col-sm-12 col-md-6 col-lg-6";
+					break;
+				case ($imageCount >= 3):
+					$imageClasses = "col-xs-12 col-sm-12 col-md-6 col-lg-4";
+					break;
+			}
+			
 			if (!isset($imageModalHtml)) { $imageModalHtml = ''; }
 			
 			$imageHtml = "\n\t\t<div class=\"row\" id=\"list\">\n\n";
@@ -60,7 +74,7 @@ class ContentView {
 
 				if (!isset($imageHtml)) { $imageHtml = ''; }
 
-				if ($contentLinkURL != '' || $contentHasLocation || $contentIsEvent) { $imageClasses = "col-xs-12 col-sm-6 col-md-4 col-lg-4"; } else { $imageClasses = "col-xs-12 col-sm-4 col-md-4 col-lg-3"; }
+				// $imageClasses = "col-xs-12 col-sm-6 col-md-6 col-lg-4";
 			
 				// IMAGE
 				$imageHtml .= "
@@ -120,8 +134,8 @@ class ContentView {
 				
 					$html .= "\t\t<div class=\"panel-heading jagaContentPanelHeading\">";
 						$html .= "<div>";
-							$html .= "<strong>" . $contentTitle . "</strong> | ";
-							$html .= "<i><a href=\"http://jaga.io/u/" . urlencode($opUserName) . "/\">" . $opUserDisplayName . "</a> at " . $contentSubmissionDateTime . "</i>";
+							// $html .= "<strong>" . $contentTitle . "</strong> | ";
+							$html .= "<strong><a href=\"http://jaga.io/u/" . urlencode($opUserName) . "/\">" . $opUserDisplayName . "</a></strong> <i>" . $contentSubmissionDateTime . "</i>";
 							if ($opID == $_SESSION['userID']) { $html .= "<a href=\"/k/update/" . $contentID . "/\" class=\"btn btn-default btn-sm pull-right\"><span class=\"glyphicon glyphicon-pencil\"></span></a>"; }
 						$html .= "</div>";
 					$html .= "</div>\n";

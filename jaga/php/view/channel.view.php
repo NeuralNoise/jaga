@@ -24,7 +24,7 @@ class ChannelView {
 				$isPublic = 1;
 				$isCloaked = 0;
 				$isNSFW = 0;
-				$contentCategoryKeyArray = array('news', 'blog', 'forum');
+				$contentCategoryKeyArray = array();
 			
 			} elseif ($type == 'update') {
 
@@ -278,7 +278,8 @@ class ChannelView {
 		
 			$html .= "<div class=\"panel panel-default\">\n";
 				
-				$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . Lang::getLang('channels') . "</h4></div>\n";
+				$html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . Lang::getLang('channels') . " <a href=\"/settings/channels/create/\" style=\"float:right;\"><span class=\"glyphicon glyphicon-plus\"></span></a></h4></div>\n";
+				// $html .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>" . Lang::getLang('channels') . "</h4></div>\n";
 				
 				$html .= "<div class=\"table-responsive\">\n";
 					$html .= "<table class=\"table table-hover table-striped\">\n";

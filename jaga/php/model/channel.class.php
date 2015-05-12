@@ -22,21 +22,15 @@ class Channel extends ORM {
 	public $isNSFW;
 	
 	public function __construct($channelID) {
-		
-		
-		
+
 		if ($channelID != 0) {
 		
 			$core = Core::getInstance();
 			$query = "SELECT * FROM jaga_Channel WHERE channelID = :channelID LIMIT 1";
 			$statement = $core->database->prepare($query);
 			$statement->execute(array(':channelID' => $channelID));
-			// before uncommenting this => existing channelIDs must be in all content
-			// if (!$row = $statement->fetch()) { die('Channel does not exist.'); } 
 			if ($row = $statement->fetch()) {
 				foreach ($row AS $key => $value) { if (!is_int($key)) { $this->$key = $value; } }
-			} else {
-				// this should never happen
 			}
 			
 		} else {
@@ -56,7 +50,10 @@ class Channel extends ORM {
 			$this->themeKey = 'kutchannel';
 			$this->pagesServed = 0;
 			$this->siteManagerUserID = $_SESSION['userID'];
-		
+			$this->isPublic = 1;
+			$this->isCloaked = 0;
+			$this->isNSFW = 0;
+
 		}
 		
 	}
