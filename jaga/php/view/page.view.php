@@ -136,13 +136,13 @@ class PageView {
 				$html = "\n\n\t\t<div id=\"footer\">\n";
 					$html .= "\t\t\t\t<div class=\"col-sm-8 hidden-xs\">\n";
 						$html .= "\t\t\t\t\t<ul class=\"list-inline\">\n";
-							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/about/\">" . Lang::getLang('about') . "</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/tos/\">" . Lang::getLang('tos') . "</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/privacy/\">" . Lang::getLang('privacyPolicy') . "</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/credits/\">" . Lang::getLang('credits') . "</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/sitemap/\">" . Lang::getLang('sitemap') . "</a></li>\n";
-							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/advertise/\">Advertise</a></li>\n";
-							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://jaga.io/contact/\">Contact</a></li>\n";
+							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/about/\">" . Lang::getLang('about') . "</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/tos/\">" . Lang::getLang('tos') . "</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/privacy/\">" . Lang::getLang('privacyPolicy') . "</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/credits/\">" . Lang::getLang('credits') . "</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/sitemap/\">" . Lang::getLang('sitemap') . "</a></li>\n";
+							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/advertise/\">Advertise</a></li>\n";
+							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/contact/\">Contact</a></li>\n";
 						$html .= "\t\t\t\t\t</ul>\n";
 					$html .= "\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t<div class=\"col-sm-4\">\n";
@@ -467,7 +467,9 @@ class PageView {
 				} elseif ($urlArray[1] == 'channels') {
 				
 					if ($urlArray[2] == 'create') {
-						$html .= ChannelView::getChannelForm('create', 0, $inputArray, $errorArray);
+						$initialKey = '';
+						if (isset($urlArray[3])) { $initialKey = $urlArray[3]; }
+						$html .= ChannelView::getChannelForm('create', 0, $inputArray, $errorArray, $initialKey);
 					} elseif ($urlArray[2] == 'update') {
 						$channelID = Channel::getChannelID($urlArray[3]);
 						$html .= ChannelView::getChannelForm('update', $channelID, $inputArray, $errorArray);
@@ -542,7 +544,7 @@ class PageView {
 
 			if (in_array($_SESSION['userID'], Config::read('admin.userIdArray'))) {
 			
-				$html .= "\t<div class=\"container\">\n";
+				$html .= "\t<div class=\"container\" style=\"margin-top:10px;\">\n";
 
 					if (!empty($_POST)) { 
 						$html .= "\t\t<div class=\"row\">\n";

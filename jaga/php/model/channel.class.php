@@ -225,6 +225,13 @@ class Channel extends ORM {
 		
 	}
 	
+	public static function getReservedChannelNameArray() {
+		
+		$reservedChannelNames = array('about', 'admin', 'blog', 'connect', 'console', 'contact', 'data', 'db', 'dev', 'domains', 'dns', 'faq', 'ftp', 'git', 'groups', 'help', 'hosting', 'images', 'imap', 'inbox', 'int', 'jaga', 'k', 'mail', 'member', 'mysql', 'news', 'pop', 'pop3', 'prod', 'qa', 'repo', 'sandbox', 'secure', 'smtp', 'sql', 'sports', 'support', 'tasks', 'the', 'users', 'wiki', 'www');
+		
+		return $reservedChannelNames;
+		
+	}
 }
 
 ?>
