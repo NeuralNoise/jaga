@@ -5,7 +5,7 @@ class Category extends ORM {
 	public $contentCategoryKey;
 	public $contentCategoryEnglish;
 	public $contentCategoryJapanese;
-	public $contentCategoryjapaneseReading;
+	public $contentCategoryJapaneseReading;
 	
 	public function __construct($contentCategoryKey = '') {
 		
@@ -23,7 +23,7 @@ class Category extends ORM {
 			$this->contentCategoryKey = '';
 			$this->contentCategoryEnglish = '';
 			$this->contentCategoryJapanese = '';
-			$this->contentCategoryjapaneseReading = '';
+			$this->contentCategoryJapaneseReading = '';
 			
 		}
 	}
@@ -102,6 +102,14 @@ class Category extends ORM {
 		} else {
 			die($contentCategoryKey);
 		}
+	}
+
+	public function categoryExists($contentCategoryKey) {
+		$core = Core::getInstance();
+		$query = "SELECT * FROM jaga_Category WHERE contentCategoryKey = :contentCategoryKey LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':contentCategoryKey' => $contentCategoryKey));
+		if ($row = $statement->fetch()) { return true; } else { return false; }
 	}
 	
 }

@@ -422,12 +422,13 @@ class Controller {
 
 					// VALIDATION
 					if (!preg_match('/^[a-zA-Z0-9-]+$/', $inputArray['channelKey'])) {
-						$errorArray[] = 'The Key can contain only letters, numbers, and hyphens.';
+						$errorArray['channelKey'] = 'The Key can contain only letters, numbers, and hyphens.';
 					}
+					
 					// check if channel key exists
-					if ($inputArray['channelTitleEnglish'] == '') { $errorArray[] = 'A title is required field.'; }
-					if ($inputArray['channelKeywordsEnglish'] == '') { $errorArray[] = 'Keywords are required.'; }
-					if ($inputArray['channelDescriptionEnglish'] == '') { $errorArray[] = 'A description is required.'; }
+					if ($inputArray['channelTitleEnglish'] == '') { $errorArray['channelTitleEnglish'] = 'A title is required field.'; }
+					if ($inputArray['channelKeywordsEnglish'] == '') { $errorArray['channelKeywordsEnglish'] = 'Keywords are required.'; }
+					if ($inputArray['channelDescriptionEnglish'] == '') { $errorArray['channelDescriptionEnglish'] = 'A description is required.'; }
 					// is at least one contentCategorySelected?
 					
 					if (empty($errorArray)) {
@@ -453,6 +454,29 @@ class Controller {
 							}
 							// END ChannelCategory //
 							
+							// START NewCategory //
+							foreach ($inputArray['newCategory'] AS $newCategory) {
+								
+								if ($newCategory != '') { // also check to see if category exists
+									$category = new Category();
+									$category->contentCategoryKey = $newCategory;
+									$category->contentCategoryEnglish = $newCategory;
+									$category->contentCategoryJapanese = $newCategory;
+									$category->contentCategoryJapaneseReading = $newCategory;
+									Category::insert($category);
+									
+									$channelCategory = new ChannelCategory();
+									$channelCategory->channelID = $channelID;
+									$channelCategory->contentCategoryKey = $newCategory;
+									ChannelCategory::insert($channelCategory);
+								
+								}
+								
+								
+
+							}
+							// END NewCategory //
+
 							header("Location: /channels/");
 							
 						} elseif ($urlArray[2] == 'update' && isset($urlArray[3])) {
@@ -500,6 +524,32 @@ class Controller {
 								}
 								
 								// END ChannelCategory //
+								
+								
+							// START NewCategory //
+							foreach ($inputArray['newCategory'] AS $newCategory) {
+								
+								if ($newCategory != '') { // also check to see if category exists
+								
+									$category = new Category();
+									$category->contentCategoryKey = $newCategory;
+									$category->contentCategoryEnglish = $newCategory;
+									$category->contentCategoryJapanese = $newCategory;
+									$category->contentCategoryJapaneseReading = $newCategory;
+									Category::insert($category);
+									
+									$channelCategory = new ChannelCategory();
+									$channelCategory->channelID = $channelID;
+									$channelCategory->contentCategoryKey = $newCategory;
+									ChannelCategory::insert($channelCategory);
+								
+								}
+								
+								
+
+							}
+							// END NewCategory //
+							
 
 							// die ();
 							header("Location: /settings/channels/");

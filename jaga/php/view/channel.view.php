@@ -74,7 +74,7 @@ class ChannelView {
 			$contentCategoryKeyArray = array();
 			
 			if (isset($inputArray['contentCategoryKey'])) { $contentCategoryKeyArray = $inputArray['contentCategoryKey']; }
-			
+
 		}
 
 		$html = "
@@ -170,11 +170,22 @@ class ChannelView {
 									</div>
 									
 									<hr />
+
+									<label for=\"contentCategoryKey[]\" class=\"control-label\">" . Lang::getLang('categories') . "</label>
 									
-									<div class=\"form-group\">
-										<label for=\"contentCategoryKey[]\" class=\"control-label\">" . Lang::getLang('categories') . "</label>
-										<div class=\"\">" . self::channelContentCategoryFormPartial($contentCategoryKeyArray) . "</div>
+									<div class=\"row\">
+										<div class=\"form-group col-sm-4\">
+											<input type=\"text\" name=\"newCategory[]\" class=\"form-control\" placeholder=\"" . Lang::getLang('newCategory') . "\" value=\"\">
+										</div>
+										<div class=\"form-group col-sm-4\">
+											<input type=\"text\" name=\"newCategory[]\" class=\"form-control\" placeholder=\"" . Lang::getLang('newCategory') . "\" value=\"\">
+										</div>
+										<div class=\"form-group col-sm-4\">
+											<input type=\"text\" name=\"newCategory[]\" class=\"form-control\" placeholder=\"" . Lang::getLang('newCategory') . "\" value=\"\">
+										</div>
 									</div>
+									
+									<div class=\"form-group\">" . self::channelContentCategoryFormPartial($contentCategoryKeyArray) . "</div>
 
 								<hr />
 
