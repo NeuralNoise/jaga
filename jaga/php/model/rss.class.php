@@ -18,7 +18,7 @@ class RSS {
 		if ($channelID != 2006) { $whereClause[] = "channelID = :channelID"; }
 		$whereClauseString = join(" AND ", $whereClause);
 
-		$query = "SELECT * FROM jaga_Content WHERE $whereClauseString ORDER BY contentPublishStartDate DESC LIMIT 25";
+		$query = "SELECT * FROM jaga_Content WHERE $whereClauseString ORDER BY contentSubmissionDateTime DESC LIMIT 25";
 		
 		$core = Core::getInstance();
 		$statement = $core->database->prepare($query);
@@ -35,7 +35,7 @@ class RSS {
 				
 				if ($channel->channelKey != 'www') { $channelKey = $channel->channelKey . '.'; } else { $channelKey = ''; }
 				
-				$rss .= "\t\t<atom:link href=\"http://" . $channelKey . "jaga.io/\" rel=\"self\" type=\"application/rss+xml\" />\n";
+				$rss .= "\t\t<atom:link href=\"http://" . $channelKey . "jaga.io/rss/\" rel=\"self\" type=\"application/rss+xml\" />\n";
 				$rss .= "\t\t<title>". $channel->channelTitleEnglish . "</title>\n";
 				$rss .= "\t\t<link>http://" . $channelKey . "jaga.io/</link>\n";
 				$rss .= "\t\t<description>". $channel->channelDescriptionEnglish . "</description>\n";
@@ -51,28 +51,31 @@ class RSS {
 				
 				while ($row = $statement->fetch()) {
 					
-					$title = htmlspecialchars($row['contentTitleEnglish']);
-					$pubDate = date('r', strtotime($row['contentSubmissionDateTime']));
-					$category = new Category($row['contentCategoryKey']);
-					$contentCategory = $category->contentCategoryEnglish;
+					$thisContent = new Content($row['contentID']);
+					$thisContentTitle = htmlspecialchars($thisContent->getTitle());
+					$thisPubDate = date('r', strtotime($thisContent->contentSubmissionDateTime));
+					$thisContentCategoryKey = $thisContent->contentCategoryKey;
+					$thisContentURL = $thisContent->contentURL;
+					$thisContentDescription = Utilities::feedificate($thisContent->getContent());
+					$thisChannelID = $thisContent->channelID;
 					
-					$contentDescription = strip_tags($row['contentEnglish']);
-					$contentDescription = Utilities::remove_urls($contentDescription);
-					$contentDescription = Utilities::remove_linebreaks($contentDescription);
-					$contentDescription = Utilities::truncate($contentDescription, 100, $break = ' ');
-					$contentDescription = htmlspecialchars($contentDescription);
+					$thisCategory = new Category($thisContentCategoryKey);
+					$thisContentCategory = $thisCategory->getTitle();
 					
-					$thisChannelKey = Channel::getChannelKey($row['channelID']);
-					$contentURL = 'http://' . $thisChannelKey . '.jaga.io/k/' . $row['contentCategoryKey'] . '/' . $row['contentURL'] . '/';
-					
-					$rss .= "\t\t<item>\n";
-						$rss .= "\t\t\t<title>" . $title . "</title>\n";
-						$rss .= "\t\t\t<link>" . $contentURL . "</link>\n";
-						$rss .= "\t\t\t<guid>" . $contentURL . "</guid>\n";
-						$rss .= "\t\t\t<pubDate>" . $pubDate . "</pubDate>\n";
-						$rss .= "\t\t\t<category>" . $contentCategory . "</category>\n";
-						$rss .= "\t\t\t<description><![CDATA[" . $contentDescription . "]]></description>\n";
-					$rss .= "\t\t</item>\n";
+					$thisChannel = new Channel($thisChannelID);
+					$thisChannelKey = $thisChannel->channelKey;
+
+					if ($thisChannelKey && $thisContentCategoryKey && $thisContentURL) {
+						$thisUrl = 'http://' . $thisChannelKey . '.jaga.io/k/' . $thisContentCategoryKey . '/' . $thisContentURL . '/';
+						$rss .= "\t\t<item>\n";
+							$rss .= "\t\t\t<title>" . $thisContentTitle . "</title>\n";
+							$rss .= "\t\t\t<link>" . $thisUrl . "</link>\n";
+							$rss .= "\t\t\t<guid>" . $thisUrl . "</guid>\n";
+							$rss .= "\t\t\t<pubDate>" . $thisPubDate . "</pubDate>\n";
+							$rss .= "\t\t\t<category>" . $thisContentCategory . "</category>\n";
+							$rss .= "\t\t\t<description><![CDATA[" . $thisContentDescription . "]]></description>\n";
+						$rss .= "\t\t</item>\n";
+					}
 					
 				}
 		

@@ -56,7 +56,7 @@ class ContentView {
 			
 			switch ($imageCount) {
 				case 1:
-					$imageClasses = "col-xs-12 col-sm-12 col-md-12 col-lg-6";
+					$imageClasses = "col-xs-12 col-sm-12 col-md-12 col-lg-12";
 					break;
 				case 2:
 					$imageClasses = "col-xs-12 col-sm-12 col-md-6 col-lg-6";

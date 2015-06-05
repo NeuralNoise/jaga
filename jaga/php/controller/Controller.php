@@ -458,12 +458,15 @@ class Controller {
 							foreach ($inputArray['newCategory'] AS $newCategory) {
 								
 								if ($newCategory != '') { // also check to see if category exists
-									$category = new Category();
-									$category->contentCategoryKey = $newCategory;
-									$category->contentCategoryEnglish = $newCategory;
-									$category->contentCategoryJapanese = $newCategory;
-									$category->contentCategoryJapaneseReading = $newCategory;
-									Category::insert($category);
+								
+									if (!Category::categoryExists($newCategory)) {
+										$category = new Category();
+										$category->contentCategoryKey = $newCategory;
+										$category->contentCategoryEnglish = $newCategory;
+										$category->contentCategoryJapanese = $newCategory;
+										$category->contentCategoryJapaneseReading = $newCategory;
+										Category::insert($category);
+									}
 									
 									$channelCategory = new ChannelCategory();
 									$channelCategory->channelID = $channelID;
