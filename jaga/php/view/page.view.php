@@ -170,6 +170,7 @@ class PageView {
 
 		if ($urlArray[1] == '') {
 			$breadcrumbs[] = array('anchor' => strtoupper($channelTitle), 'url' => '', 'class' => '');
+			$breadcrumbs[] = array('anchor' => '<span class="glyphicon glyphicon-plus"></span> Create a Post', 'url' => '/k/create/', 'class' => '');
 		} else {
 			$breadcrumbs[] = array('anchor' => strtoupper($channelTitle), 'url' => 'http://' . $channelKey . '.jaga.io/', 'class' => '');
 		}
@@ -326,9 +327,9 @@ class PageView {
 				} else {
 
 					$html .= $this->getBreadcrumbs($urlArray);
-					// $html .= ContentView::displayRecentContentItems($_SESSION['channelID'], '', 50);
-					$categoryView = new CategoryView();
-					$html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
+					$html .= ContentView::displayRecentContentItems($_SESSION['channelID'], '', 50);
+					// $categoryView = new CategoryView();
+					// $html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
 					
 				}
 				

@@ -151,6 +151,16 @@ class Controller {
 			
 		}
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		if ($urlArray[0] == 'k' && ($urlArray[1] == 'update' || $urlArray[1] == 'create')) {
 
 			// LOGGED IN USERS ONLY
@@ -265,6 +275,28 @@ class Controller {
 						// update object
 						Content::update($content, $conditions);
 
+						// image upload
+						if (!empty($_FILES)) {
+
+							$numberOfImages = count($_FILES['contentImages']['name']);
+							
+							for ($i = 0; $i < $numberOfImages; $i++) {
+
+								$imageArray = array();
+								$imageArray['name'] = $_FILES['contentImages']['name'][$i];
+								$imageArray['type'] = $_FILES['contentImages']['type'][$i];
+								$imageArray['tmp_name'] = $_FILES['contentImages']['tmp_name'][$i];
+								$imageArray['error'] = $_FILES['contentImages']['error'][$i];
+								$imageArray['size'] = $_FILES['contentImages']['size'][$i];
+								
+								$imageObject = 'Content';
+								$imageObjectID = $contentID;
+								Image::uploadImageFile($imageArray,$imageObject,$imageObjectID);
+
+							}
+
+						}
+						
 						$postSubmitURL = "/k/" . $inputArray['contentCategoryKey'] . "/";
 					
 						header("Location: $postSubmitURL");
@@ -276,6 +308,21 @@ class Controller {
 			}
 
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		if ($urlArray[0] == 'k' && $urlArray[1] == 'comment' && is_numeric($urlArray[2])) {
 			if ($_SESSION['userID'] == 0) { die('You must be logged in to comment.'); }
