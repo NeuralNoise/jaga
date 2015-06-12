@@ -123,7 +123,7 @@ class ContentView {
 		
 		$html = '';
 		
-		if (!$contentPublished) { $html .= $alert; }
+		if (!$contentPublished) { $html .= $alertHtml; }
 		
 		if ($contentPublished || $opID == $_SESSION['userID']) {
 		
