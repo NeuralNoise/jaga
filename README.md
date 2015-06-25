@@ -13,8 +13,12 @@ JAGA
     - users can **create channels**: `<channel>.jaga.io`
     - a **theme** must be selected for the channel.
     - at least one **category** must be assigned to the channel: `<channel>.jaga.io/k/<category>/`
+	- have an RSS feed showing all posts: `<channel>.jaga.io/rss/`
+	- have a channel-specific sitemap `<channel>.jaga.io/sitemap.xml`
 - CATEGORIES
     - users can select existing categories for their channels, or create new ones
+	- have a global RSS feed showing all corresponding posts: `jaga.io/rss/k/<category>/`
+	- have channel-specific RSS feeds showing all corresponding posts: `<channel>.jaga.io/rss/k/<category>/`
 - POSTS
     - posts exists in `jaga.io/k/`
     - users can **post** to any channel and any category on JAGA: `<channel>.jaga.io/k/<category>/<post/>`
@@ -27,8 +31,10 @@ JAGA
     - plaintext only and observe line breaks.
     - comments can be deleted.
 - USERS
-    - have individual profiles: `jaga.io/u/<username>/`
+    - have individual profiles showing posts, comments, and more: `jaga.io/u/<username>/`
     - can subscribe to channels; this personalizes HOME
+	- have a global RSS feed showing all of their posts: `jaga.io/rss/u/<username>/`
+	- have a channel-specific RSS feed showing their posts on that channel: `<channel>.jaga.io/rss/u/<username>/`
 - MESSAGING
     - users can send each other private messages `jaga.io/imo/`
 	
