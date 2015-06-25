@@ -41,7 +41,7 @@ class PageView {
 
 	}
 	
-	private function getHeader() {
+	private function getHeader($urlArray = array()) {
 
 		$html = "<!DOCTYPE html>\n";
 		$html .= "<html lang=\"" . $_SESSION['lang'] . "\">\n\n";
@@ -66,9 +66,17 @@ class PageView {
 				$html .= "\t\t<meta name=\"author\" content=\"Chishiki\">\n";
 				$html .= "\t\t<meta name=\"generator\" content=\"JAGA\">\n\n";
 				
-				$html .= "\t\t<link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS\" href=\"/rss/\">\n\n";
+				$html .= "\t\t<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Channel RSS\" href=\"/rss/\">\n";
+				if ($urlArray[0] == 'k' && $urlArray[1] != '') {
+					$contentCategoryKey = $urlArray[1];
+					$html .= "\t\t<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Category RSS\" href=\"/rss/k/" . $contentCategoryKey . "\">\n";
+				}
+				if ($urlArray[0] == 'u' && $urlArray[1] != '') {
+					$username = $urlArray[1];
+					$html .= "\t\t<link rel=\"alternate\" type=\"application/rss+xml\" title=\"User RSS\" href=\"/rss/u/" . $username . "/\">\n";
+				}
 				
-				$html .= "\t\t<link rel=\"icon\" type=\"image/x-icon\" href=\"/jaga/images/favicon.ico\"/>\n\n";
+				$html .= "\n\t\t<link rel=\"icon\" type=\"image/x-icon\" href=\"/jaga/images/favicon.ico\"/>\n\n";
 
 				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/jaga/lib/bootstrap/3.3.2/css/bootstrap.min.css\">\n";
 				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/jaga/css/kutchannel.css\" />\n";
@@ -279,7 +287,7 @@ class PageView {
 		$channel = new Channel($_SESSION['channelID']);
 		$channelTitle = $channel->getTitle();
 
-		$html = $this->getHeader();
+		$html = $this->getHeader($urlArray);
 		
 		$navBar = new MenuView();
 		$html .= $navBar->getNavBar();
