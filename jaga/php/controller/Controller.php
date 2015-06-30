@@ -112,8 +112,9 @@ class Controller {
 				$password = $_POST['password'];
 				$confirmPassword = $_POST['confirmPassword'];
 				$raptcha = $_POST['raptcha'];
+				$obFussyCat = isset($_POST[$_SESSION['obFussyCat']]);
 			
-				$errorArray = Authentication::register($username, $userEmail, $password, $confirmPassword, $raptcha);
+				$errorArray = Authentication::register($username, $userEmail, $password, $confirmPassword, $raptcha, $obFussyCat);
 				
 				if (empty($errorArray)) {
 

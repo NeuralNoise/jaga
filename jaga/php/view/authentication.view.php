@@ -76,6 +76,9 @@ class AuthenticationView {
 		}
 		
 		if ($type == 'register') {
+			
+			$obFussyCat = substr(str_shuffle(MD5(microtime())), 0, 10);
+			$_SESSION['obFussyCat'] = $obFussyCat;
 		
 			$html .= "\t\t<!-- START jagaRegister -->\n";
 			$html .= "\t\t<div id=\"jagaRegister\" class=\"mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2\">\n\n";
@@ -97,7 +100,9 @@ class AuthenticationView {
 					
 						$html .= "\t\t\t\t\t<!-- START jagaRegisterForm -->\n";
 						$html .= "\t\t\t\t\t<form name=\"jagaRegisterForm\" id=\"signupform\" class=\"form-horizontal\" role=\"form\" method=\"post\" action=\"" . $formBaseURL . "register/\">\n\n";
-						
+							
+							$html .= "\t\t\t\t\t\t<input type=\"hidden\" name=\"" . $obFussyCat . "\" value=\"KNOW the LEDGE\">\n\n";
+							
 							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom:25px;\" class=\"input-group\">\n";
 								$html .= "\t\t\t\t\t\t\t<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-user\"></i></span>\n";
 								$html .= "\t\t\t\t\t\t\t<input id=\"register-username\" type=\"text\" class=\"form-control";

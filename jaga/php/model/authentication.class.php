@@ -48,7 +48,7 @@ class Authentication {
 		
 	}
 	
-	public static function register($username, $userEmail, $password, $confirmPassword, $raptcha) {
+	public static function register($username, $userEmail, $password, $confirmPassword, $raptcha, $obFussyCat) {
 	
 		$errorArray = array();
 		
@@ -77,6 +77,8 @@ class Authentication {
 		}
 		
 		if ($raptcha != $_SESSION['raptcha']) { $errorArray['raptcha'][] = "The code did not match."; }
+		
+		if (!$obFussyCat) { $errorArray['obFussyCat'][] = "Fussy cat is fussy."; }
 
 		return $errorArray;
 		
