@@ -1,8 +1,7 @@
 JAGA
 ==============
-*JAGATAKUN FIGHTS FOR THE USER*
 
-Jaga is a social sharing and networking platform built to facilitate community-building online. Jaga grew out of a hyperlocal classified advertising site that has served the [Niseko](http://niseko.jaga.io/) alpine resort area in Hokkaido since 2006. The Kutchannel remains the most popular Jaga channel but new channels come into existence daily. Registered users can create channels and assign categories to it. User can post to any channel; posts can include images, event info, and geolocation data. Users can comment on any post on any channel. Jaga is fully responsive and works beautifully on most devices. [Try Jaga](http://jaga.io/register/)!
+Jaga is a social sharing and networking platform built to facilitate community-building online. Jaga grew out of a hyperlocal classified advertising site that has served the [Niseko](http://niseko.jaga.io/) alpine resort area in Hokkaido since 2006. The Kutchannel remains the most popular Jaga channel but new channels come into existence daily. Registered users can create channels and assign categories to them, post text, images, event info, and geolocation data to any channel, and comment on any post on any channel. Jaga is fully responsive and works beautifully on most devices. [TRY JAGA](http://jaga.io/register/)
 
 **FEATURES**
 - INDEX

@@ -19,28 +19,28 @@ class CarouselView {
 				if ($_SESSION['channelID'] == '2006') { // jaga.io
 					$html .= "\t\t\t\t<div class=\"carousel-inner\">
 						<div class=\"item active\"><a href=\"http://hakodate.jaga.io/\"><img src=\"/jaga/images/carousel-hakodate-goryokaku.jpg\" alt=\"test0\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
-						<div class=\"item\"><a href=\"http://niseko.jaga.io/\"><img src=\"/jaga/images/carousel-mountain.jpg\" alt=\"test1\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+						<div class=\"item\"><a href=\"http://kagi.io/\"><img src=\"/jaga/images/carousel-zenidev.jpg\" alt=\"test1\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 						<div class=\"item\"><a href=\"http://kids.jaga.io/\"><img src=\"/jaga/images/carousel-ballpit.jpg\" alt=\"test2\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 					</div>\n\n";
-				}
-				
-				if ($_SESSION['channelID'] == '14') { // The Kutchannel
+				} elseif ($_SESSION['channelID'] == '14') { // The Kutchannel
 					$html .= "\t\t\t\t<div class=\"carousel-inner\">
-						<div class=\"item active\"><img src=\"/jaga/images/carousel-mountain.jpg\" alt=\"test0\" style=\"margin-left:auto;margin-right:auto;\"></div>
-						<div class=\"item\"><a href=\"http://www.lecochon-niseko.com/\"><img src=\"/jaga/images/carousel-roll-tide.jpg\" alt=\"test1\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+						<div class=\"item active\"><img src=\"/jaga/images/carousel-zenidev.jpg\" alt=\"test0\" style=\"margin-left:auto;margin-right:auto;\"></div>
+						<div class=\"item\"><img src=\"/jaga/images/carousel-mountain.jpg\" alt=\"test1\" style=\"margin-left:auto;margin-right:auto;\"></div>
+						<div class=\"item\"><a href=\"http://www.lecochon-niseko.com/\"><img src=\"/jaga/images/carousel-roll-tide.jpg\" alt=\"test2\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+					</div>\n\n";
+				} elseif ($_SESSION['channelID'] == '21') { // Hakodate Guide
+					$html .= "\t\t\t\t<div class=\"carousel-inner\">
+						<div class=\"item active\"><img src=\"/jaga/images/carousel-hakodate-goryokaku.jpg\" alt=\"test0\" style=\"margin-left:auto;margin-right:auto;\"></div>
+						<div class=\"item\"><img src=\"/jaga/images/carousel-hakodate-ishikawa.jpg\" alt=\"test1\" style=\"margin-left:auto;margin-right:auto;\"></div>
 						<div class=\"item\"><img src=\"/jaga/images/carousel-ballpit.jpg\" alt=\"test2\" style=\"margin-left:auto;margin-right:auto;\"></div>
 					</div>\n\n";
-				}
-				
-				if ($_SESSION['channelID'] == '21') { // Hakodate Guide
+				} else {
 					$html .= "\t\t\t\t<div class=\"carousel-inner\">
-						<div class=\"item\"><img src=\"/jaga/images/carousel-hakodate-ishikawa.jpg\" alt=\"test0\" style=\"margin-left:auto;margin-right:auto;\"></div>
-						<div class=\"item\"><img src=\"/jaga/images/carousel-hakodate-goryokaku.jpg\" alt=\"test1\" style=\"margin-left:auto;margin-right:auto;\"></div>
-						<div class=\"item active\"><img src=\"/jaga/images/carousel-ballpit.jpg\" alt=\"test2\" style=\"margin-left:auto;margin-right:auto;\"></div>
+						<div class=\"item active\"><a href=\"http://kagi.io/\"><img src=\"/jaga/images/carousel-zenidev.jpg\" alt=\"test0\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+						<div class=\"item\"><a href=\"http://hakodate.jaga.io/\"><img src=\"/jaga/images/carousel-hakodate-goryokaku.jpg\" alt=\"test1\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+						<div class=\"item\"><a href=\"http://jaga.io/\"><img src=\"/jaga/images/carousel-ballpit.jpg\" alt=\"test2\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 					</div>\n\n";
 				}
-				
-				
 
 				$html .= "\t\t\t<!-- END SLIDES -->
 				

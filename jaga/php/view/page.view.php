@@ -63,8 +63,19 @@ class PageView {
 				$html .= "\t\t<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">\n";
 				$html .= "\t\t<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\">\n\n";
 
-				$html .= "\t\t<meta name=\"author\" content=\"Chishiki\">\n";
+				$html .= "\t\t<meta name=\"author\" content=\"Team Jaga\">\n";
 				$html .= "\t\t<meta name=\"generator\" content=\"JAGA\">\n\n";
+				
+				if ($urlArray[0] == 'k' && $urlArray[1] && $urlArray[2]) {
+					$reservedStrings = array('update', 'create', 'delete', 'comment');
+					if (!in_array($urlArray[1], $reservedStrings)) {
+						$contentID = Content::getContentID($urlArray[2]);
+						if ($contentID && Image::objectHasImage('Content', $contentID)) {
+							$imageURL = Image::getObjectMainImagePath('Content', $contentID);
+							$html .= "\t\t<meta property=\"og:image\" content=\"" . $imageURL . "\"/>\n\n";
+						}
+					}
+				}
 				
 				$html .= "\t\t<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Channel RSS\" href=\"/rss/\">\n";
 				if ($urlArray[0] == 'k' && $urlArray[1] != '') {
@@ -288,7 +299,7 @@ class PageView {
 		$channelTitle = $channel->getTitle();
 
 		$html = $this->getHeader($urlArray);
-		
+
 		$navBar = new MenuView();
 		$html .= $navBar->getNavBar();
 
@@ -320,10 +331,7 @@ class PageView {
 			
 				
 			
-				if (
-					$_SESSION['userID'] == 0 &&
-					($_SESSION['channelID'] == 2006 || $_SESSION['channelID'] == 14 || $_SESSION['channelID'] == 21)
-				) {
+				if ($_SESSION['userID'] == 0) {
 					$carousel = new CarouselView();
 					$html .= $carousel->getCarousel();
 				}

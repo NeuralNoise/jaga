@@ -87,6 +87,17 @@ class User extends ORM {
 	
 	}
 	
+	public static function getUserIdWithEmail($userEmail) {
+	
+		$core = Core::getInstance();
+		$query = "SELECT userID FROM jaga_User WHERE userEmail = :userEmail LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':userEmail' => $userEmail));
+		$row = $statement->fetch();
+		return $row['userID'];
+	
+	}
+	
 	public static function usernameExists($username) {
 	
 		$core = Core::getInstance();
@@ -101,6 +112,16 @@ class User extends ORM {
 	
 		$core = Core::getInstance();
 		$query = "SELECT userID FROM jaga_User WHERE userID = :userID LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':userID' => $userID));
+		if ($row = $statement->fetch()) { return true; } else { return false; }
+	
+	}
+	
+	public static function userBlacklisted($userID) {
+	
+		$core = Core::getInstance();
+		$query = "SELECT userID FROM jaga_User WHERE userBlacklist = 1 AND userID = :userID LIMIT 1";
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':userID' => $userID));
 		if ($row = $statement->fetch()) { return true; } else { return false; }

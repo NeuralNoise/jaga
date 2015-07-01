@@ -151,17 +151,7 @@ class Controller {
 			header("Location: /");
 			
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+			
 		if ($urlArray[0] == 'k' && ($urlArray[1] == 'update' || $urlArray[1] == 'create')) {
 
 			// LOGGED IN USERS ONLY
@@ -309,22 +299,7 @@ class Controller {
 			}
 
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		if ($urlArray[0] == 'k' && $urlArray[1] == 'comment' && is_numeric($urlArray[2])) {
 			if ($_SESSION['userID'] == 0) { die('You must be logged in to comment.'); }
 			$contentPath = Content::getContentURL($urlArray[2]);

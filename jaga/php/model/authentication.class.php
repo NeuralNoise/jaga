@@ -8,7 +8,7 @@ class Authentication {
 		$errorArray = array();
 	
 		$core = Core::getInstance();
-		$query = "SELECT userID, username, userEmail, userPassword, userSelectedLanguage FROM jaga_User WHERE username = :username OR userEmail = :username LIMIT 1";
+		$query = "SELECT userID, username, userEmail, userPassword, userSelectedLanguage FROM jaga_User WHERE userBlacklist = 0 AND username = :username OR userEmail = :username LIMIT 1";
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':username' => $username));
 		

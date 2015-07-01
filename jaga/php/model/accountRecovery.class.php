@@ -50,13 +50,15 @@ class AccountRecovery extends ORM {
 	public function accountRecoveryRequestValidation($userEmail, $raptcha) {
 		
 		$errorArray = array();
-		
+		$userID = User::getUserIdWithEmail($userEmail);
 		if ($userEmail == '') {
 			$errorArray['userEmail'][] = "The 'email' field is required.";
 		} elseif (!preg_match('/^\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b$/',$userEmail)) {
 			$errorArray['userEmail'][] = "That email address appears to be formatted incorrectly.";
 		} elseif (!User::emailInUse($userEmail)) {
 			$errorArray['userEmail'][] = "We do not seem to have an account for that email address.";
+		} elseif (User::userBlacklisted($userID)) {
+			$errorArray['userEmail'][] = "There seems to be a problem with your account. Please contact support@jaga.io.";
 		}
 
 		if ($raptcha != $_SESSION['raptcha']) { $errorArray['raptcha'][] = "The code did not match. Please try again."; }
