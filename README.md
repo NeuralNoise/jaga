@@ -39,8 +39,6 @@ Jaga is a social sharing and networking platform built to facilitate community-b
     - users can send each other private messages `jaga.io/imo/`
 	
 **LICENSE**
- - JAGA's codebase powers [jaga.io](http://jaga.io/) and is available for use on your domain under the copyleft [GNU Affero General Public License](license.txt).
- - Licensing JAGA under the AGPL was intended to encourage participation in the project and assure that the code remains non-commercial and non-proprietary.
- - The AGPL allows anyone to use the code while mandating that, where the code is redistributed or run on a network, any modifications to the code must be shared.
- - If this applies to you or your project, we request that you make your code available via a public GitHub repository.
+ - JAGA's codebase powers [jaga.io](http://jaga.io/) and is available for use on your domain under the [MIT License](license.txt).
+ - Licensing JAGA under The MIT License is intended to encourage adoption and assure that the code remains non-commercial and non-proprietary.
  - Please also consider submitting pull requests for inclusion in the master. JOIN TEAM JAGA.
