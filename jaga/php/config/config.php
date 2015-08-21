@@ -32,6 +32,7 @@
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/theme.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/user.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/utilities.class.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/video.class.php');
 	
 	// VIEW
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/audit.view.php');

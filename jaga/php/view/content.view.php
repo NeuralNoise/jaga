@@ -41,10 +41,19 @@ class ContentView {
 		// $linkHtml
 		if ($contentLinkURL != '') {
 			
+			$linkHtml = "";
+			$videoID = Video::isYouTubeVideo($contentLinkURL);
+			
+			if ($videoID) {
+				$linkHtml .= "<div style=\"word-wrap:break-word;overflow:hidden;margin-bottom:10px;\">";
+					$linkHtml .= "<a href=\"" . $contentLinkURL . "\" class=\"btn btn-default btn-block\"><img class=\"img-responsive\" src=\"http://img.youtube.com/vi/" . $videoID . "/hqdefault.jpg\"></a>";
+				$linkHtml .= "</div>";
+			}
+			
 			$contentLinkAnchor = preg_replace('#^https?://#', '', $contentLinkURL);
 			$contentLinkAnchor = preg_replace('#^www\.#', '', $contentLinkAnchor);
 			
-			$linkHtml = "<div style=\"word-wrap:break-word;overflow:hidden;margin-bottom:10px;\">";
+			$linkHtml .= "<div style=\"word-wrap:break-word;overflow:hidden;margin-bottom:10px;\">";
 				$linkHtml .= "<a href=\"" . $contentLinkURL . "\" class=\"btn btn-default btn-block\"><span class=\"glyphicon glyphicon-link\"></span> " . $contentLinkAnchor . "</a>";
 			$linkHtml .= "</div>";
 		}
@@ -633,6 +642,8 @@ class ContentView {
 					$contentViews = $content->contentViews;
 					$thisChannelID = $content->channelID;
 					
+					$contentLinkURL = $content->contentLinkURL;
+					
 					$channel = new Channel($thisChannelID);
 					$thisContentChannelKey = $channel->channelKey;
 					$channelTitle = $channel->getTitle();
@@ -659,15 +670,22 @@ class ContentView {
 							$html .= "\t\t\t\t\t\t\t<a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
 								$html .= "<span class=\"jagaListGroup\">";
 									// $html .= "<span class=\"jagaListGroupBadge\">" . $contentViews . "</span>";
+									
+									$videoID = Video::isYouTubeVideo($contentLinkURL);
+									if (!$videoID) { $videoID = Video::isYouTubeVideo($content->getContent()); }
+									
 									if (Image::objectHasImage('Content',$contentID)) {
 										$imagePath = Image::getLegacyObjectMainImagePath('Content',$contentID);
 										if ($imagePath == "") { $imagePath = Image::getObjectMainImagePath('Content',$contentID,600); }
 										if ($imagePath != "") { $html .= "<img class=\"img-responsive\" src=\"" . $imagePath . "\"><br />"; }
-									}			
+									} elseif ($videoID) {
+										$html .= "<img class=\"img-responsive\" src=\"http://img.youtube.com/vi/" . $videoID . "/hqdefault.jpg\"><br />";
+									}
+									
 									$html .=  "<div style=\"white-space:pre-line;overflow-y:hidden;\">" . $contentContent . "</div>";
 								$html .= "</span>";
 							$html .= "</a>\n";
-							
+
 						$html .= "\t\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t</div>\n";
 

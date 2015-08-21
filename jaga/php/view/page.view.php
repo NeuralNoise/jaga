@@ -69,11 +69,19 @@ class PageView {
 				if ($urlArray[0] == 'k' && $urlArray[1] && $urlArray[2]) {
 					$reservedStrings = array('update', 'create', 'delete', 'comment');
 					if (!in_array($urlArray[1], $reservedStrings)) {
+						
 						$contentID = Content::getContentID($urlArray[2]);
+						$content = new Content($contentID);
+						$videoID = Video::isYouTubeVideo($content->contentLinkURL);
+						if (!$videoID) { $videoID = Video::isYouTubeVideo($content->getContent()); }
+						
 						if ($contentID && Image::objectHasImage('Content', $contentID)) {
 							$imageURL = Image::getObjectMainImagePath('Content', $contentID);
-							$html .= "\t\t<meta property=\"og:image\" content=\"" . $imageURL . "\"/>\n\n";
+							$html .= "\t\t<meta property=\"og:image\" content=\"" . $imageURL . "\" />\n\n";
+						} elseif ($videoID) {
+							$html .= "\t\t<meta property=\"og:image\" content=\"http://img.youtube.com/vi/" . $videoID . "/hqdefault.jpg\" />\n\n";
 						}
+						
 					}
 				}
 				
