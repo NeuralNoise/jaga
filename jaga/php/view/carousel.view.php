@@ -7,20 +7,6 @@ class CarouselView {
 		$html = "\t\t<div class=\"container\" style=\"margin-bottom:20px;\">
 			<div id=\"kutchannel-carousel\" class=\"carousel slide\" data-ride=\"carousel\">\n";
 
-				/*
-				$html .= "
-				<!-- Indicators -->
-				<!--
-				<ol class=\"carousel-indicators\">
-					<li data-target=\"#kutchannel-carousel\" data-slide-to=\"0\" class=\"active\"></li>
-					<li data-target=\"#kutchannel-carousel\" data-slide-to=\"1\"></li>
-					<li data-target=\"#kutchannel-carousel\" data-slide-to=\"2\"></li>
-					<li data-target=\"#kutchannel-carousel\" data-slide-to=\"3\"></li>
-				</ol>
-				-->
-				";
-				*/
-				
 			$html .= "
 			
 				<!-- START SLIDES -->\n\n";
@@ -50,20 +36,14 @@ class CarouselView {
 						<div class=\"item\"><a href=\"https://nextdoor.com/invite/ysarxeamsfbznkkmzhut\" target=\"_blank\"><img src=\"/jaga/images/carousel-nextdoor.jpg\" alt=\"test1\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 						<div class=\"item\"><a href=\"http://kagi.io/\"><img src=\"/jaga/images/carousel-zenidev.jpg\" alt=\"test2\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 					</div>\n\n";
+				} elseif ($_SESSION['channelKey'] == 'redpill') { // Red Pill
+					$html .= "\t\t\t\t<div class=\"carousel-inner\">
+						<div class=\"item active\"><img src=\"/jaga/images/carousel-redpill.jpg\" alt=\"test0\" style=\"margin-left:auto;margin-right:auto;\"></div>
+					</div>\n\n";
 				}
 
 				$html .= "\t\t\t<!-- END SLIDES -->\n\n";
-				
-				/*
-				$html .= "
-					<!-- Controls -->
-					<!--
-					<a class=\"left carousel-control\" href=\"#kutchannel-carousel\" data-slide=\"prev\"><span class=\"glyphicon glyphicon-chevron-left\"></span></a>
-					<a class=\"right carousel-control\" href=\"#kutchannel-carousel\" data-slide=\"next\"><span class=\"glyphicon glyphicon-chevron-right\"></span></a>
-					-->
-				";
-				*/
-				
+
 				$html .= "\t\t\t</div>\n\t\t</div>";
 				
 		return $html;
