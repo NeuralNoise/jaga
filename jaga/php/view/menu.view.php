@@ -50,7 +50,7 @@ class MenuView {
 						$html .= "\t\t\t\t\t<ul class=\"nav navbar-nav\">\n";
 
 							// START "THIS CHANNEL" DROPDOWN //
-							if ($_SESSION['channelID'] != 2006) { // jaga.io categories are aggregate
+							if ($_SESSION['channelKey'] != 'www') { // jaga.io categories are aggregate
 								$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"/\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">" . Lang::getLang('thisChannel') . " <b class=\"caret\"></b></a>\n";
 									$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\">\n";
 									
@@ -167,7 +167,7 @@ class MenuView {
 	private function getNavBarCategoryListItems() {
 		
 		$categoryArray = ChannelCategory::getChannelCategoryArray($_SESSION['channelID']);
-		
+		arsort($categoryArray);
 		$html = '';
 		$h = 0;
 		foreach ($categoryArray AS $key => $value) {
@@ -180,7 +180,7 @@ class MenuView {
 			if ($key != '' && $h < 14) {
 				$html .= "\t\t\t\t\t\t\t\t<li";
 					if ($h >= 5) { $html .= " class=\"hidden-xs\""; }
-				$html .= "><a href=\"/k/$key/\">" . strtoupper($contentCategory) . "<span class=\"jagaBadge\">$value</span></a></li>\n";
+				$html .= "><a href=\"/k/$key/\" style=\"width:250px;\"><span>" . strtoupper($contentCategory) . "</span> <span class=\"jagaBadge\">$value</span></a></li>\n";
 			}
 			$h++;
 		}
@@ -253,7 +253,7 @@ class MenuView {
 						if ($k >= 20) { $html .= " hidden-md"; }
 						if ($k >= 30) { $html .= " hidden-lg"; }
 					$html .= "\">";
-						$html .= "<a href=\"http://$channelKey.jaga.io/\">" . strtoupper($channelTitle) . " <span class=\"jagaBadge\">$postCount</span></a>";
+						$html .= "<a href=\"http://$channelKey.jaga.io/\"><span>" . strtoupper($channelTitle) . "</span> <span class=\"jagaBadge\">$postCount</span></a>";
 					$html .= "</li>";
 					
 					$k++;
