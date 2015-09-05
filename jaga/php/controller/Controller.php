@@ -727,14 +727,15 @@ class Controller {
 
 		if ($urlArray[0] == 'first-snow-contest' && $_SESSION['channelID'] == 14) {
 			
-			if (!Authentication::isLoggedIn()) { $errorArray['auth'][] = 'You must be logged in to enter the Niseko First Snow Contest.'; }
-			
 			if (isset($_POST['jagaPredictionSubmit'])) {
 				
 				$inputArray = $_POST;
 				$date = $inputArray['date'];
 				$time = $inputArray['time'];
+				$dateTimePredicted = date('Y-m-d H:i:s', strtotime($date . " " . $time . ":00"));
 
+				if (!Authentication::isLoggedIn()) { $errorArray['auth'][] = 'You must be logged in to enter the Niseko First Snow Contest.'; }
+				
 				if ($date == '') { $errorArray['date'][] = 'Date is a required field.'; }
 				$dt = DateTime::createFromFormat("Y-m-d", $date);
 				if ($dt === false || array_sum($dt->getLastErrors())) { $errorArray['date'][] = 'Date does not appear to be formatted correctly.'; }
@@ -744,20 +745,27 @@ class Controller {
 				$td = DateTime::createFromFormat("Y-m-d H:i:s", "20-12-18 " . $time . ":00");
 				if ($td === false || array_sum($td->getLastErrors())) { $errorArray['time'][] = 'Time does not appear to be formatted correctly.'; }
 
-				// print_r($inputArray);
-				// die();
-				
 				if (empty($errorArray)) {
 					
-					// delete current years entries for current user
-					// add new entry
+					// delete current user's prediction(s) for current year
+					$userPredictions = Prediction::getUserPredictionArray($_SESSION['userID'],date('Y'));
+					foreach ($userPredictions as $predictionID) {
+						$prediction = new Prediction($predictionID);
+						if ($prediction->userID != $_SESSION['userID']) { die('[prediction] There was an unexpected error. Please try again.'); }
+						$conditions = array('predictionID' => $predictionID);
+						Prediction::delete($prediction, $conditions);
+					}
+
+					// add current user's new prediction
+					$prediction = new Prediction(0); // instantiate object
+					unset($prediction->predictionID); // unset key
+					$prediction->dateTimePredicted = $dateTimePredicted;
+					$predictionID = Prediction::insert($prediction);
+					
+					header("Location: /first-snow-contest/");
 					
 				}
 				
-				
-				
-				
-
 			}
 			
 		}

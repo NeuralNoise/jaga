@@ -41,13 +41,11 @@ class Prediction extends ORM {
 		
 	}
 	
-	public static function getPredictions($channelID, $year) {
+	public static function getPredictions($channelID, $year, $orderBy = '', $limit = 0) {
 		
-		$query = "
-			SELECT * FROM jaga_Prediction 
-			WHERE channelID = :channelID AND year = :year
-			ORDER BY dateTimePredicted DESC
-		";
+		$query = "SELECT * FROM jaga_Prediction WHERE channelID = :channelID AND year = :year";
+		if ($orderBy) { $query .= " ORDER BY " . $orderBy; }
+		if ($limit) { $query .= " LIMIT " . $limit; }
 
 		$core = Core::getInstance();
 		$statement = $core->database->prepare($query);
@@ -74,6 +72,43 @@ class Prediction extends ORM {
 		$years = array();
 		while ($row = $statement->fetch()) { $years[] = $row['year']; }
 		return $years;
+		
+	}
+	
+	public static function getUserPrediction($userID, $year) {
+		
+		$query = "
+			SELECT predictionID FROM jaga_Prediction 
+			WHERE userID = :userID AND year = :year
+			ORDER BY dateTimeSubmitted DESC
+			LIMIT 1
+		";
+
+		$core = Core::getInstance();
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':userID' => $userID, ':year' => $year));
+		
+		$predictionID = 0;
+		while ($row = $statement->fetch()) { $predictionID = $row['predictionID']; }
+		return $predictionID;
+		
+	}
+	
+	public static function getUserPredictionArray($userID, $year) {
+		
+		$query = "
+			SELECT predictionID FROM jaga_Prediction 
+			WHERE userID = :userID AND year = :year
+			ORDER BY dateTimeSubmitted DESC
+		";
+
+		$core = Core::getInstance();
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':userID' => $userID, ':year' => $year));
+		
+		$predictionArray = array();
+		while ($row = $statement->fetch()) { $predictionArray[] = $row['predictionID']; }
+		return $predictionArray;
 		
 	}
 	

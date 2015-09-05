@@ -629,6 +629,9 @@ class ContentView {
 		$html .= "\t\t<div class=\"container\"> <!-- START CONTAINER -->\n";
 			$html .= "\t\t\t<div class=\"row\" id=\"list\"> <!-- START ROW -->\n";
 
+			
+				if ($_SESSION['channelKey'] == 'niseko') { $html .= PredictionView::predictionContentWidget(); }
+
 				$i = 0;
 				foreach ($recentContentArray AS $contentID) {
 				
