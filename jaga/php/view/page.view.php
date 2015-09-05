@@ -335,13 +335,47 @@ class PageView {
 				$html .= "\t<!-- END ERROR ARRAY -->\n\n";
 			}
 
-			if ($urlArray[0] == '') {
 			
+			/*
+
+			switch($urlArray[0]) {
 				
+				case '':
+					if ($_SESSION['userID'] == 0) {
+						$carousel = new CarouselView();
+						$html .= $carousel->getCarousel($urlArray);
+					}
+					if ($_SESSION['channelKey'] == 'www') {
+						$html .= ContentView::displayRecentContentItems(0, '', 75);
+					} else {
+						$html .= $this->getBreadcrumbs($urlArray);
+						$html .= ContentView::displayRecentContentItems($_SESSION['channelID'], '', 50);
+					}
+					break;
 			
+				case ($urlArray[0] == 'channels' && $_SESSION['channelKey'] == 'www'):
+					$html .= ChannelView::displayChannelList();
+					break;
+			
+				case 'imo':
+					$html .= MessageView::imo();
+					break;
+
+				default
+					header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+					$html .= "\n\n\t<div class=\"container text-center\"><img src=\"/jaga/images/101098.png\" class=\"img-responsive\" style=\"margin:0px auto;\"></div>\n\n";
+					break;
+			}
+			
+			*/
+			
+			
+			
+			if ($urlArray[0] == '') {
+
 				if ($_SESSION['userID'] == 0) {
 					$carousel = new CarouselView();
-					$html .= $carousel->getCarousel();
+					$html .= $carousel->getCarousel($urlArray);
 				}
 			
 				if ($_SESSION['channelKey'] == 'www') {
@@ -352,12 +386,10 @@ class PageView {
 
 					$html .= $this->getBreadcrumbs($urlArray);
 					$html .= ContentView::displayRecentContentItems($_SESSION['channelID'], '', 50);
-					// $categoryView = new CategoryView();
-					// $html .= $categoryView->displayChannelCategories($_SESSION['channelID']);
 					
 				}
 				
-			} elseif ($urlArray[0] == 'channels' && $_SESSION['channelID'] == 2006) {
+			} elseif ($urlArray[0] == 'channels' && $_SESSION['channelKey'] == 'www') {
 				
 				$html .= ChannelView::displayChannelList();
 
@@ -377,11 +409,7 @@ class PageView {
 
 				$html .= "\t\t<div class=\"container\">";
 					$html .= "<div class=\"col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2\" style=\"margin-bottom:10px;\">";
-						if ($_SESSION['lang'] == 'ja') {
-							$html .= "ご登録をありがとうございました。よろしくお願い致します！";
-						} else {
-							$html .= "Thank you for registering for JAGA!";
-						}
+						if ($_SESSION['lang'] == 'ja') { $html .= "ご登録をありがとうございました。よろしくお願い致します！"; } else { $html .= "Thank you for registering for JAGA!"; }
 					$html .= "</div>";
 				$html .= "</div>\n\n";
 				$html .= AuthenticationView::getAuthForm('login', $inputArray, $errorArray);
@@ -476,12 +504,7 @@ class PageView {
 			
 			
 			} elseif ($urlArray[0] == 'settings') {
-			
-			
-			
-			
-			
-			
+
 				$html .= $this->getSettingsNav($urlArray);
 			
 				if ($urlArray[1] == 'profile') {
@@ -514,30 +537,13 @@ class PageView {
 				
 				}
 
+			} elseif ($urlArray[0] == 'first-snow-contest' && $_SESSION['channelID'] == 14) {
 				
+				$carousel = new CarouselView();
+				$html .= $carousel->getCarousel($urlArray);
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				$html .= PredictionView::displayPredictions($inputArray, $errorArray);
+
 			} elseif ($urlArray[0] == 'account-recovery') {
 			
 				$html .= AuthenticationView::accountRecoveryForm($inputArray, $errorArray);

@@ -27,8 +27,8 @@ h1,h2,h3,h4,h5,h6,h7 {
 .checkbox-inline {margin-top:0;margin-left:0px;margin-right:10px;}
 .checkbox-inline+.checkbox-inline {margin-top:0;margin-left:0px;margin-right:10px;}
 
-.jagaFormButton {
-
+.jagaFormButton:disabled {
+	background-color:#ff9;
 }
 
 .jagaFormValidationError {
@@ -157,6 +157,10 @@ div#map-canvas iframe {
 	border:0px;
 	height:300px;
 	width:100%;
+}
+
+.alternate-row {
+	background-color:#eee;
 }
 
 /*

@@ -2,7 +2,6 @@
 
 class User extends ORM {
 
-
 	public $userID;
 	public $username;
 	public $userDisplayName;

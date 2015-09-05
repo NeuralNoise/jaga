@@ -723,12 +723,45 @@ class Controller {
 		
 		if ($urlArray[0] == 'spudnik') {
 			
-			// $content = new Content(9999976);
-			// $conditions = array('contentID' => $content->contentID);
-			// Content::delete($content, $conditions);
-			
 		}
 
+		if ($urlArray[0] == 'first-snow-contest' && $_SESSION['channelID'] == 14) {
+			
+			if (!Authentication::isLoggedIn()) { $errorArray['auth'][] = 'You must be logged in to enter the Niseko First Snow Contest.'; }
+			
+			if (isset($_POST['jagaPredictionSubmit'])) {
+				
+				$inputArray = $_POST;
+				$date = $inputArray['date'];
+				$time = $inputArray['time'];
+
+				if ($date == '') { $errorArray['date'][] = 'Date is a required field.'; }
+				$dt = DateTime::createFromFormat("Y-m-d", $date);
+				if ($dt === false || array_sum($dt->getLastErrors())) { $errorArray['date'][] = 'Date does not appear to be formatted correctly.'; }
+				if (date("Y") != date("Y", strtotime($date))) { $errorArray['date'][] = 'Please select a date from the current year.'; }
+				
+				if ($time == '') { $errorArray['time'][] = 'Time is a required field.'; }
+				$td = DateTime::createFromFormat("Y-m-d H:i:s", "20-12-18 " . $time . ":00");
+				if ($td === false || array_sum($td->getLastErrors())) { $errorArray['time'][] = 'Time does not appear to be formatted correctly.'; }
+
+				// print_r($inputArray);
+				// die();
+				
+				if (empty($errorArray)) {
+					
+					// delete current years entries for current user
+					// add new entry
+					
+				}
+				
+				
+				
+				
+
+			}
+			
+		}
+		
 		if (!in_array($urlArray[0],$notHTML)) {
 			$page = new PageView($urlArray);
 			$html = $page->buildPage($urlArray, $inputArray, $errorArray);
