@@ -10,30 +10,38 @@ class PageView {
 	
 		$channelID = Session::getSession('channelID');
 		$channel = new Channel($channelID);
-	
+		$channelTitle = $channel->getTitle();
+		$channelTagline = $channel->getTagLine();
+				
 		if ($urlArray[0] == 'k' && $urlArray[1] != 'update' && $urlArray[1] != 'create' && $urlArray[1] != 'delete' && $urlArray[1] != '') {
+			
 			$category = new Category($urlArray[1]);
+			
 			if ($urlArray[2] != '') {
 				
 				$content = new Content(Content::getContentID($urlArray[2]));
 				$contentDescription = $content->getDescription();
-				
-				$this->pageTitle = $content->getTitle() . ' | ' . $category->getTitle() . ' | ' . $channel->getTitle();
+
+				$this->pageTitle = $content->getTitle() . ' | ' . $category->getTitle() . ' | ' . ($channelTitle==$channelTagline?$channelTitle:$channelTagline);
 				$this->pageKeywords = $content->getTitle();
 				$this->pageDescription = $contentDescription;
 				
 			} else {
-				$this->pageTitle = $category->getTitle() . ' | ' . $channel->getTitle();
+				$this->pageTitle = $category->getTitle() . ' | ' . ($channelTitle==$channelTagline?$channelTitle:$channelTagline);
 				$this->pageKeywords = $category->getTitle();
 				$this->pageDescription = $category->getTitle();
 			}
+			
+		} elseif ($urlArray[0] == 'first-snow-contest') {
+
+			$this->pageTitle = Lang::getLang('firstSnowContest') . ($channelTitle!=$channelTagline?" | ".$channelTagline:"") . ' | ' . $channelTitle;
+			$this->pageKeywords = Lang::getLang('firstSnowContestKeywords');
+			$this->pageDescription = Lang::getLang('firstSnowContestDescription');
+			
 		} else {
-			
-			$title = $channel->getTitle();
-			$tagline = $channel->getTagLine();
-			
-			$this->pageTitle = $title;
-			if ($title != $tagline) { $this->pageTitle .= ' | ' . $channel->getTagLine(); }
+
+			$this->pageTitle = $channelTitle;
+			if ($channelTitle != $channelTagline) { $this->pageTitle = $channelTagline . ' | ' . $channelTitle; }
 			$this->pageKeywords = $channel->getKeywords();
 			$this->pageDescription = $channel->getDescription();
 			

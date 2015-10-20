@@ -2,6 +2,8 @@
 
 class PredictionView {
 
+	private $contestState; // 'open','pending','closed'
+
 	public static function displayPredictions($inputArray, $errorArray) {
 		
 		$years = Prediction::getYears($_SESSION['channelID']);
@@ -60,7 +62,7 @@ class PredictionView {
 											$html .= "<div class=\"" . $trClass . "\"><p>";
 											
 												$imageURL = Image::getObjectMainImagePath('User', $userID, 50);
-												if ($imageURL) { $html .= "<a href=\"http://jaga.io/u/" . urlencode($username) . "/\"><img src=\"$imageURL\" style=\"margin:5px;\"></a>"; }
+												if ($imageURL) { $html .= "<a href=\"http://jaga.io/u/" . urlencode($username) . "/\"><img src=\"$imageURL\" style=\"margin:5px;width:50px;\"></a>"; }
 												if ($result != "" && $result != "-") { $html .=  "<strong>" . strtoupper($result) . "</strong><span class=\"hidden-xs\">: </span><br class=\"visible-xs-inline\"/>"; }
 												$html .= "<b><a href=\"http://jaga.io/u/" . urlencode($username) . "/\">" . ($userDisplayName?$userDisplayName:$username) . "</a></b><span class=\"hidden-xs\"> => </span><br class=\"visible-xs-inline\"/>";
 												$html .= date('M jS \a\t\ H:i a', strtotime($dateTimePredicted));
@@ -96,6 +98,9 @@ class PredictionView {
 		$html = "<div class=\"panel panel-default\">";
 			$html .= "<div class=\"panel-heading\"><div class=\"panel-title\">" . date('Y') . " " . Lang::getLang('firstSnowContest') . "</div></div>";
 			$html .= "<div class=\"panel-body\">";
+			
+				$html .= "Congratulations <a href=\"/u/RML/\">RML</a>, you are the winner of this year's first snow contest! You've won a dinner for 6 including drinks at <a href=\"https://www.facebook.com/lecochon.niseko\" target=\"_blank\">Bistrot le Cochon</a>.";
+				/*
 				$html .= "<form class=\"form-horizontal\" id=\"jagaPredictionForm\" name=\"jagaPredictionForm\"" . (Authentication::isLoggedIn()?" method=\"post\" action=\"/first-snow-contest/\"":"") . ">";
 					$html .= "<div class=\"form-group" . (isset($errorArray['date'])?"  has-error":"") . "\">";
 						$html .= "<label for=\"date\" class=\"control-label col-xs-3\">" . Lang::getLang('predictionDate') . "</label>";
@@ -113,6 +118,8 @@ class PredictionView {
 						$html .= "<a class=\"btn btn-default btn-block jagaFormButton\" href=\"/login/\" name=\"jagaPredictionSubmit\" id=\"jagaPredictionSubmit\">" . Lang::getLang('loginToEnter') . "</a>";
 					}
 				$html .= "</form>";
+				*/
+				
 			$html .= "</div>";
 		$html .= "</div>\n\n";
 
@@ -132,6 +139,19 @@ class PredictionView {
 
 				$html .= "<div class=\"panel-body\">";
 				
+					// $html .= "Snow has been forecast for Niseko-Hirafu. We will post results soon!<hr />";
+					
+					$html .= "<p><b>Congratulations <a href=\"/u/RML/\">RML</a>!</b> You are the winner of The Kutchannel's 8th Annual Niseko First Snow Contest!</p><hr />";
+					
+					$html .= "<p>You've won a dinner for 6 including drinks at <a href=\"https://www.facebook.com/lecochon.niseko\" target=\"_blank\">Bistrot le Cochon</a>.</p><hr />";
+					
+					$html .= "<p><small>THANK TO EVERYBODY for playing, THANKS TO <a href=\"http://360niseko.com/\" target=\"_blank\">360NISEKO.COM</a> for judging, ";
+					$html .= "THANKS TO <a href=\"https://www.facebook.com/lecochon.niseko\" target=\"_blank\">BISTROT LE COCHON</a> for sponsoring, ";
+					
+					if ($_SESSION['userID']) { $html .= "and THANK <a href=\"/u/" . User::getUserName($_SESSION['userID']) . "/\">YOU</a> for using The Kutchannel!</small></p>"; }
+					else { $html .= "and THANK YOU for using The Kutchannel!</i></p>"; }
+					
+					/*
 					$predictions = Prediction::getPredictions($_SESSION['channelID'], date('Y'), 'dateTimeSubmitted DESC', 5);
 					for ($i = 0; $i < count($predictions); $i++) {
 				
@@ -151,7 +171,7 @@ class PredictionView {
 						
 							$html .= "<div style=\"float:left;\">";
 								$imageURL = Image::getObjectMainImagePath('User', $userID, 50);
-								if ($imageURL) { $html .= "<a href=\"http://jaga.io/u/" . urlencode($username) . "/\"><img src=\"$imageURL\" style=\"margin:5px;\"></a>"; }
+								if ($imageURL) { $html .= "<a href=\"http://jaga.io/u/" . urlencode($username) . "/\"><img src=\"$imageURL\" style=\"width:50px;margin:5px;\"></a>"; }
 							$html .= "</div>";
 							
 							$html .= "<div style=\"float:left;\">";
@@ -164,8 +184,9 @@ class PredictionView {
 						$html .= "</div>";
 
 					}
+					*/
 					
-					if (empty(Prediction::getUserPredictionArray($_SESSION['userID'],date('Y')))) { $html .= self::predictionForm(); }
+					// if (empty(Prediction::getUserPredictionArray($_SESSION['userID'],date('Y')))) { $html .= self::predictionForm(); }
 				
 				$html .= "</div>";
 

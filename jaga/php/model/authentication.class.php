@@ -51,34 +51,43 @@ class Authentication {
 	public static function register($username, $userEmail, $password, $confirmPassword, $raptcha, $obFussyCat) {
 	
 		$errorArray = array();
+		$domainBlacklist = array('\.pl','\.ru','yandex\.com'); //  add zones here
 		
-		if ($username == '') {
-			$errorArray['username'][] = "The username field is required.";
+		if (preg_match('/('.implode('|', $domainBlacklist).')$/i', $userEmail)) {
+			
+			$errorArray['spam'][] = "We are experiencing technical diffuculty. Please try again later.";
+			
 		} else {
-			if (User::usernameExists($username)) { $errorArray['username'][] = "That username is already taken."; }
-			if (!preg_match('/^[A-Za-z0-9_-]+$/',$username)) {
-				$errorArray['username'][] = "Your username can contain only letters, numbers, hyphens, and underscores.";
-			}
-		}
-		
-		if ($userEmail == '') {
-			$errorArray['userEmail'][] = "The 'email' field is required.";
-		} else {
-			if (!preg_match('/^\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b$/',$userEmail)) {
-				$errorArray['userEmail'][] = "That email address appears to be formatted incorrectly.";
-			}
-			if (User::emailInUse($userEmail)) { $errorArray['userEmail'][] = "That email address is already in use."; }		
-		}
 
-		if ($password == '') { $errorArray['password'][] = "The password field is required."; }
-		if ($confirmPassword == '') { $errorArray['confirmPassword'][] = "The confirm password field is required."; }
-		if ($password != '' && $confirmPassword != '' && $password != $confirmPassword) {
-			$errorArray['passwords'][] = "The passwords you entered did not match.";
+			if ($username == '') {
+				$errorArray['username'][] = "The username field is required.";
+			} else {
+				if (User::usernameExists($username)) { $errorArray['username'][] = "That username is already taken."; }
+				if (!preg_match('/^[A-Za-z0-9_-]+$/',$username)) {
+					$errorArray['username'][] = "Your username can contain only letters, numbers, hyphens, and underscores.";
+				}
+			}
+			
+			if ($userEmail == '') {
+				$errorArray['userEmail'][] = "The 'email' field is required.";
+			} else {
+				if (!preg_match('/^\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b$/',$userEmail)) {
+					$errorArray['userEmail'][] = "That email address appears to be formatted incorrectly.";
+				}
+				if (User::emailInUse($userEmail)) { $errorArray['userEmail'][] = "That email address is already in use."; }		
+			}
+
+			if ($password == '') { $errorArray['password'][] = "The password field is required."; }
+			if ($confirmPassword == '') { $errorArray['confirmPassword'][] = "The confirm password field is required."; }
+			if ($password != '' && $confirmPassword != '' && $password != $confirmPassword) {
+				$errorArray['passwords'][] = "The passwords you entered did not match.";
+			}
+			
+			if ($raptcha != $_SESSION['raptcha']) { $errorArray['raptcha'][] = "The code did not match."; }
+			
+			if (!$obFussyCat) { $errorArray['obFussyCat'][] = "Fussy cat is fussy."; }
+		
 		}
-		
-		if ($raptcha != $_SESSION['raptcha']) { $errorArray['raptcha'][] = "The code did not match."; }
-		
-		if (!$obFussyCat) { $errorArray['obFussyCat'][] = "Fussy cat is fussy."; }
 
 		return $errorArray;
 		
