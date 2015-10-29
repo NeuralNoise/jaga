@@ -11,7 +11,12 @@ class Authentication {
 		$query = "SELECT userID, username, userEmail, userPassword, userSelectedLanguage FROM jaga_User WHERE userBlacklist = 0 AND username = :username OR userEmail = :username LIMIT 1";
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':username' => $username));
-		
+
+		$ipBlacklist = BlacklistIP::getIpBlacklist();
+		if (in_array($_SERVER['REMOTE_ADDR'],$ipBlacklist)) {
+			$errorArray['spam'][] = "We are experiencing technical difficulty. Please try again later.";
+			BlacklistIP::plusone($_SERVER['REMOTE_ADDR']);
+		}
 
 		if (
 			(!$row = $statement->fetch()) || 
@@ -51,11 +56,19 @@ class Authentication {
 	public static function register($username, $userEmail, $password, $confirmPassword, $raptcha, $obFussyCat) {
 	
 		$errorArray = array();
-		$domainBlacklist = array('\.pl','\.ru','yandex\.com'); //  add zones here
+		
+		$ipBlacklist = BlacklistIP::getIpBlacklist();
+		if (in_array($_SERVER['REMOTE_ADDR'],$ipBlacklist)) {
+			$errorArray['spam'][] = "We are experiencing technical difficulty. Please try again later.";
+			BlacklistIP::plusone($_SERVER['REMOTE_ADDR']);
+		}
+		
+		$domainBlacklist = BlacklistDomain::getDomainBlacklist();
 		
 		if (preg_match('/('.implode('|', $domainBlacklist).')$/i', $userEmail)) {
 			
-			$errorArray['spam'][] = "We are experiencing technical diffuculty. Please try again later.";
+			$errorArray['spam'][] = "We are experiencing technical difficulty. Please try again later.";
+			// BlacklistDomain::plusone($domain);
 			
 		} else {
 
