@@ -9,14 +9,11 @@ class ContentView {
 		$contentContent = $content->getContent();
 		$contentSubmissionDateTime = $content->contentSubmissionDateTime;
 		$contentPublished = $content->contentPublished;
-		
 		$contentLinkURL = $content->contentLinkURL;
-		
 		$contentIsEvent = $content->contentIsEvent;
 		$contentEventDate = $content->contentEventDate;
 		$contentEventStartTime = $content->contentEventStartTime;
 		$contentEventEndTime = $content->contentEventEndTime;
-		
 		$contentHasLocation = $content->contentHasLocation;
 		$contentLatitude = $content->contentLatitude;
 		$contentLongitude = $content->contentLongitude;
@@ -28,6 +25,13 @@ class ContentView {
 
 		Content::contentViewsPlusOne($contentID);
 		$imageArray = Image::getObjectImageUrlArray('Content', $contentID);
+		
+		// $contentHtml
+		if ($contentContent != '') {
+			$contentHtml = "<div id=\"panelBodyContent\" class=\"row\">";
+				$contentHtml .= "<div class=\"col-xs-12\">" . $contentContent . "</div>";
+			$contentHtml .= "</div>";
+		}
 		
 		// $alertHtml
 		if (!$contentPublished) {
@@ -58,11 +62,10 @@ class ContentView {
 			$linkHtml .= "</div>";
 		}
 		
-		// $imageHtml & $imageModalHtml
+		// $imageHtml
 		if (!empty($imageArray)) {
 			
 			$imageCount = count($imageArray);
-			
 			switch ($imageCount) {
 				case 1:
 					$imageClasses = "col-xs-12 col-sm-12 col-md-12 col-lg-12";
@@ -75,42 +78,14 @@ class ContentView {
 					break;
 			}
 			
-			if (!isset($imageModalHtml)) { $imageModalHtml = ''; }
-			
-			$imageHtml = "\n\t\t<div class=\"row\" id=\"list\">\n\n";
-
-			foreach ($imageArray AS $imageID => $imageURL) {
-
-				if (!isset($imageHtml)) { $imageHtml = ''; }
-
-				// $imageClasses = "col-xs-12 col-sm-6 col-md-6 col-lg-4";
-			
-				// IMAGE
-				$imageHtml .= "
-				<div class=\"item " . $imageClasses . "\" data-toggle=\"modal\" data-target=\"#" . $imageID . "\" style=\"margin-bottom:10px;\">
-					<img src=\"" . $imageURL . "\" class=\"img-responsive jagaContentViewImage\">
-				</div>
-				";
-				
-				// MODAL
-				$imageModalHtml .= "
-				<div class=\"modal fade\" id=\"" . $imageID . "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"deluxeNobileFirLabel\" aria-hidden=\"true\">
-					<div class=\"modal-dialog\">
-						<div class=\"modal-content\">
-							<div class=\"modal-header\">
-								<button type=\"button\" class=\"close\" data-dismiss=\"modal\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">" . Lang::getLang('close') . "</span></button>
-								<h4 class=\"modal-title\" id=\"" . $imageID . "\">" . $contentTitle ."</h4>
-							</div>
-							<div class=\"modal-body text-center\"><img src=\"" . $imageURL . "\" class=\"img-responsive\" style=\"margin:0px auto 0px auto;\"></div>
-							<div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">" . Lang::getLang('close') . "</button></div>
-						</div>
-					</div>
-				</div>
-				";
-				
-			}
-			
-			$imageHtml .= "\n\t\t</div>\n\n";
+			$imageHtml = "<div class=\"row\" id=\"list\">";
+				foreach ($imageArray AS $imageID => $imageURL) {
+					if (!isset($imageHtml)) { $imageHtml = ''; }
+					$imageHtml .= "<div class=\"" . $imageClasses . " item\">";
+						$imageHtml .= "<img src=\"" . $imageURL . "\" class=\"img-responsive img-thumbnail jagaContentViewImage\">";
+					$imageHtml .= "</div>";
+				}
+			$imageHtml .= "</div>";
 			
 		}
 
@@ -124,9 +99,16 @@ class ContentView {
 		// $eventHtml
 		if ($contentIsEvent) {
 			$eventHtml = "<div style=\"margin-bottom:10px;\">";
-				$eventHtml .= 'Date: ' . $contentEventDate = $content->contentEventDate . '<br />';
-				$eventHtml .= 'Start Time: ' . $contentEventStartTime = $content->contentEventStartTime . '<br />';
-				$eventHtml .= 'End Time: ' . $contentEventEndTime = $content->contentEventEndTime;
+				$eventHtml .= "<div class=\"panel panel-default\">";
+					$eventHtml .= "<div class=\"panel-heading jagaContentPanelHeading\">";
+						$eventHtml .= Lang::getLang('event') . "<span class=\"glyphicon glyphicon-calendar pull-right\"></span>";
+					$eventHtml .= "</div>";
+					$eventHtml .= "\t\t<div class=\"panel-body\">";
+						$eventHtml .= 'Date: ' . $contentEventDate;
+						if ($contentEventStartTime && $contentEventStartTime != '00:00:00') { $eventHtml .= '<br />Start Time: ' . $contentEventStartTime; }
+						if ($contentEventEndTime && $contentEventEndTime != '00:00:00') { $eventHtml .= '<br />End Time: ' . $contentEventEndTime; }
+					$eventHtml .= "</div>";
+				$eventHtml .= "</div>";
 			$eventHtml .= "</div>";
 		}
 		
@@ -143,7 +125,6 @@ class ContentView {
 				
 					$html .= "\t\t<div class=\"panel-heading jagaContentPanelHeading\">";
 						$html .= "<div>";
-							// $html .= "<strong>" . $contentTitle . "</strong> | ";
 							$html .= "<strong><a href=\"http://jaga.io/u/" . urlencode($opUserName) . "/\">" . $opUserDisplayName . "</a></strong> <i>" . $contentSubmissionDateTime . "</i>";
 							if ($opID == $_SESSION['userID']) { $html .= "<a href=\"/k/update/" . $contentID . "/\" class=\"btn btn-default btn-sm pull-right\"><span class=\"glyphicon glyphicon-pencil\"></span></a>"; }
 						$html .= "</div>";
@@ -153,15 +134,15 @@ class ContentView {
 						
 						$html .= "\t\t\t<div class=\"row\">\n";
 
-							$html .= "<div id=\"panelBodyContent\" class=\"col-xs-12 col-sm-6 col-md-8 col-lg-9\">";
-								if ($contentContent != '') { $html .= $contentContent; }
+							$html .= "<div class=\"col-xs-12 col-sm-6 col-md-8 col-lg-9\">";
+								if (isset($contentHtml)) { $html .= $contentHtml; }
 								if (isset($imageHtml)) { $html .= $imageHtml; }
 							$html .= "</div>";
 
 							$html .= "<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\">";
-								if (isset($linkHtml)) { $html .= $linkHtml; }
-								if (isset($mapHtml)) { $html .= $mapHtml; }
 								if (isset($eventHtml)) { $html .= $eventHtml; }
+								if (isset($mapHtml)) { $html .= $mapHtml; }
+								if (isset($linkHtml)) { $html .= $linkHtml; }
 							$html .= "</div>";
 
 						$html .= "</div>";
@@ -172,11 +153,7 @@ class ContentView {
 
 			$html .= "\t</div>\n";
 			$html .= "\t<!-- END CONTENT -->\n\n";
-		
-			$html .= "\t<!-- START IMAGE MODALS -->\n\n";
-				if (isset($imageModalHtml)) { $html .= $imageModalHtml; }
-			$html .= "\n\t<!-- END IMAGE MODALS -->\n\n";
-	
+
 		}
 		
 		return $html;

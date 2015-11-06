@@ -137,13 +137,15 @@ span.jagaListGroup iframe { width:100%; height:100%; }
 .jagaMessagePanel { margin-bottom:0px; }
 .jagaMessagePanelBody { padding-bottom:0px; padding-top:8px; }
 .jagaMessagePanelGroup { margin-bottom:0px; }
-.jagaContentViewImage:hover { cursor:pointer; }
+
+.jagaContentViewImage {
+	margin-bottom:10px;
+}
 
 div#panelBodyContent {
 	white-space:pre-line;
 	overflow-x:auto;
 	overflow-y:hidden;
-	/* margin-top:10px; */
 	margin-bottom:10px;
 }
 
