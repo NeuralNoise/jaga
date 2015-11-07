@@ -107,9 +107,8 @@ class MenuView {
 							
 							$html .= "\t\t\t\t\t\t<li><a href=\"http://jaga.io/channels/\"><span class=\"glyphicon glyphicon-th-large hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">" . Lang::getLang('channels') . "</span></a></li>\n";
 							
-							if ($_SESSION['channelKey'] != 'www') {
-								$html .= "\t\t\t\t\t\t<li><a href=\"/map/\"><span class=\"glyphicon glyphicon-globe hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">" . Lang::getLang('map') . "</span></a></li>\n";
-							}
+							
+							$html .= "\t\t\t\t\t\t<li><a href=\"/map/\"><span class=\"glyphicon glyphicon-globe hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">" . Lang::getLang('map') . "</span></a></li>\n";
 							
 							if ($_SESSION['userID'] != 0) {
 								$html .= "\t\t\t\t\t\t<li><a href=\"http://jaga.io/u/" .  $username . "/\"><span class=\"glyphicon glyphicon glyphicon-user hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">" . Lang::getLang('profile') . "</span></a></li>\n";

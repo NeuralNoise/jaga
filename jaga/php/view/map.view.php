@@ -6,12 +6,14 @@ class MapView {
 
 	public function __construct($channelID, $urlArray) {
 		
+		if ($_SESSION['channelKey'] == 'www') { $channelID = 0; }
+
 		if ($urlArray[1] == 'k' && $urlArray[2] != '') { // => /map/k/<category>/
 			$locations = Map::getContentMapArray($channelID, $urlArray[2], 100);
 		} else {
 			$locations = Map::getContentMapArray($channelID, '', 100); // => /map/
 		}
-		
+
 		$channel = new Channel($channelID);
 		$channelLatitude = 0;
 		$channelLongitude = 0;

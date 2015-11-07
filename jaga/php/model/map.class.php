@@ -10,7 +10,7 @@
 				if ($contentCategoryKey) { $queryWhereArray[] = "contentCategoryKey = :contentCategoryKey"; }
 				$queryWhereArray[] = "contentPublishStartDate <= '$currentDate'";
 				$queryWhereArray[] = "(contentPublishEndDate >= '$currentDate' OR contentPublishEndDate = '0000-00-00')";
-				$queryWhereArray[] = "channelID = :channelID";
+				if ($channelID) { $queryWhereArray[] = "channelID = :channelID"; }
 				$queryWhereArray[] = "contentHasLocation = 1";
 				$whereClause = join(' AND ',$queryWhereArray);
 				
@@ -20,7 +20,7 @@
 				
 				$core = Core::getInstance();
 				$statement = $core->database->prepare($query);
-				$statement->bindParam(':channelID', $channelID);
+				if ($channelID) { $statement->bindParam(':channelID', $channelID); }
 				if ($contentCategoryKey) { $statement->bindParam(':contentCategoryKey', $contentCategoryKey); }
 				$statement->execute();
 				
