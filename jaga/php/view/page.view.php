@@ -409,6 +409,11 @@ class PageView {
 				
 				$html .= ContentView::displayRecentContentItems(0, '', 75, $_SESSION['userID']);
 
+			} elseif ($urlArray[0] == 'map') {
+				
+				$mapView = new MapView($_SESSION['channelID'], $urlArray);
+				$html .= $mapView->html;
+				
 			} elseif ($urlArray[0] == 'register') {
 
 				$html .= AuthenticationView::getAuthForm('register', $inputArray, $errorArray);

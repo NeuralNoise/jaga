@@ -25,6 +25,7 @@
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/image.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/language.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/mail.class.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/map.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/message.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/prediction.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/rss.class.php');
@@ -45,6 +46,7 @@
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/channel.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/comment.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/content.view.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/map.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/menu.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/message.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/page.view.php');
