@@ -28,7 +28,7 @@ class User extends ORM {
 			$this->userAcceptsEmail = 1;
 			$this->userPassword = '';
 			$this->userRegistrationChannelID = Channel::getSelectedChannelID();
-			$this->userRegistrationDateTime = '0000-00-00 00:00:00';
+			$this->userRegistrationDateTime = date('Y-m-d H:i:s');
 			$this->userLastVisitDateTime = '0000-00-00 00:00:00';
 			$this->userTestMode = 0;
 			$this->userBlackList = 0;

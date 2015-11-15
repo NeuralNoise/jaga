@@ -102,35 +102,27 @@ class Controller {
 		
 		if ($urlArray[0] == 'register') {
 
-			if (isset($_POST['jagaRegisterSubmit'])) {
+			if (!empty($_POST)) {
 			
-				$inputArray['username'] = $_POST['username'];
-				$inputArray['userEmail'] = $_POST['userEmail'];
-				
-				$username = $_POST['username'];
-				$userEmail = $_POST['userEmail'];
-				$password = $_POST['password'];
-				$confirmPassword = $_POST['confirmPassword'];
-				$raptcha = $_POST['raptcha'];
-				$obFussyCat = isset($_POST[$_SESSION['obFussyCat']]);
-			
+				$inputArray = $_POST;
+				$username = $inputArray['username'];
+				$userEmail = $inputArray['userEmail'];
+				$password = $inputArray['password'];
+				$confirmPassword = $inputArray['confirmPassword'];
+				$raptcha = $inputArray['raptcha'];
+				$obFussyCat = isset($inputArray[$_SESSION['obFussyCat']]);
 				$errorArray = Authentication::register($username, $userEmail, $password, $confirmPassword, $raptcha, $obFussyCat);
 				
 				if (empty($errorArray)) {
 
 					$user = new User(0);
-				
-					unset($user->userID);
-					
 					$user->username = $username;
 					$user->userDisplayName = $username;
 					$user->userEmail = $userEmail;
 					$user->userPassword = md5($password);
-					$user->userRegistrationDateTime = date('Y-m-d H:i:s');
-
 					$userID = Content::insert($user);
 					
-					if ($_SESSION['channelID'] != 2006) {
+					if ($_SESSION['channelKey'] != 'www') {
 						Subscription::subscribeUser($userID, $_SESSION['channelID']);
 					} else {
 						Subscription::subscribeUser($userID, 14);
@@ -301,16 +293,43 @@ class Controller {
 		}
 
 		if ($urlArray[0] == 'k' && $urlArray[1] == 'comment' && is_numeric($urlArray[2])) {
+			
 			if ($_SESSION['userID'] == 0) { die('You must be logged in to comment.'); }
 			$contentPath = Content::getContentURL($urlArray[2]);
 			if (!empty($_POST)) { $inputArray = $_POST; } else { header("Location: $contentPath"); }
+			
 			$comment = new Comment(0);
 			unset($comment->commentID);
 			foreach ($inputArray AS $property => $value) { if (isset($comment->$property)) { $comment->$property = $value; } }
 			$comment->commentObject = 'Content';
 			$comment->commentObjectID = $urlArray[2];
 			$commentID = Comment::insert($comment);
+
+			if ($_SERVER['REMOTE_ADDR'] == '76.104.192.202') {
+				
+				
+				$content = new Content($urlArray[2]);
+				$channel = new Channel($content->channelID);
+				$commenter = new User($_SESSION['userID']);
+				
+				$mailSender = 'JagaBot <noreply@jaga.io>';
+				$mailSubject = $commenter->getUserDisplayName() . ' has commented on [' . $content->getTitle() . ']';
+				$mailMessage = 'http://' . $channel->channelKey . '.jaga.io/k/' . $content->contentCategoryKey . '/' . $content->contentURL . '/';
+					
+				$usersToNotify = $content->usersToNotifyOfComments();
+				
+				foreach ($usersToNotify AS $userID) {
+					$recipient = new User($userID);
+					$mailRecipient = $recipient->getUserDisplayName() . ' <' . $recipient->userEmail . '>';
+					Mail::sendEmail($mailRecipient, $mailSender, $mailSubject, $mailMessage, $_SESSION['channelKey'], $_SESSION['userID']);
+				}
+				
+				Mail::sendEmail('JagaAdmin <' . Config::read('admin.email') . '>', $mailSender, $mailSubject, $mailMessage, $_SESSION['channelKey'], $_SESSION['userID']);
+				
+			}
+			
 			header("Location: $contentPath");
+			
 		}
 		
 		if ($urlArray[0] == 'k' && $urlArray[1] == 'comment' && $urlArray[2] == 'delete' && is_numeric($urlArray[3])) {

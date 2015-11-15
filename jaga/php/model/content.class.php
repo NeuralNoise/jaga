@@ -106,6 +106,30 @@ class Content extends ORM {
 		return $contentURL;
 	}
 	
+	public function usersToNotifyOfComments() {
+		
+		$query = "
+			SELECT contentSubmittedByUserID AS userID FROM jaga_Content WHERE contentID = :contentID
+			UNION DISTINCT
+			SELECT userID FROM jaga_Comment WHERE commentObject = 'Content' AND commentObjectID = :contentID;
+		";
+
+		$core = Core::getInstance();
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':contentID' => $this->contentID));
+		
+		$usersToNotify = array();
+		while ($row = $statement->fetch()) {
+			if ($_SESSION['userID'] != $row['userID']) {
+				$user = new User($row['userID']);	
+				if ($user->userAcceptsEmail) { $usersToNotify[] = $user->userID; }
+			}
+		}
+		
+		return $usersToNotify;
+		
+	}
+	
 	public function getContentID($contentURL) {
 		
 		$core = Core::getInstance();

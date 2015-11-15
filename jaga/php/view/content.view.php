@@ -516,7 +516,7 @@ class ContentView {
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12\">\n";
 									if ($type == 'update') {
-										$html .= "\t\t\t\t\t\t\t\t<a href=\"/k/delete/" . $contentID . "/\" class=\"btn btn-danger col-xs-2 col-sm-3 col-md-2\" style=\"color:#fff;\"><span class=\"glyphicon glyphicon-remove\"></span> <span class=\"hidden-xs\">" . strtoupper(Lang::getLang('delete')) . "</span></a>\n";
+										$html .= "\t\t\t\t\t\t\t\t<a href=\"/k/delete/" . $contentID . "/\" class=\"btn btn-danger col-xs-2 col-sm-3 col-md-2\" style=\"color:#fff;\"><span class=\"glyphicon glyphicon-trash\"></span> <span class=\"hidden-xs\">" . strtoupper(Lang::getLang('delete')) . "</span></a>\n";
 									}
 									$html .= "\t\t\t\t\t\t\t\t<button type=\"submit\" name=\"jagaContentSubmit\" id=\"jagaContentSubmit\" ";
 									if ($type == 'update') {
