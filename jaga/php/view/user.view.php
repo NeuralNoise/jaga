@@ -133,35 +133,32 @@
 			$userEmail = $user->userEmail;
 		
 			$profileImageURL = Image::getObjectMainImagePath('User', $userID);
-		
-			$html = "\n\n<!-- START container -->\n";
-			$html .= "<div class=\"container\">\n\n";
-			
-				$html .= "\n\n<!-- START row -->\n";
-				$html .= "<div class=\"row\">\n\n";
+			if (!$profileImageURL) {
+				if ($user->userRegistrationChannelID == 14) {
+					$profileImageURL = "/jaga/images/101704-768px.jpg";
+				} else {
+					$profileImageURL = "/jaga/images/101703-768px.jpg";
+				}
+			}
+
+			$html = "<div class=\"container\">\n";
+				$html .= "<div class=\"row\">\n";
 				
 					$html .= "<div class=\"col-sm-3\">";
-						$html .= "<img src=\"" . $profileImageURL . "\" class=\"img-responsive\">";
+						$html .= "<img src=\"" . $profileImageURL . "\" class=\"img-responsive\" style=\"margin-bottom:10px;\">";
 						$html .= "<h3 style=\"text-align:left;margin:0px;\">" . $userDisplayName . "</h3>";
 						if ($_SESSION['userID'] == $userID) { $html .= "<a href=\"/settings/profile/\"><span class=\"glyphicon glyphicon-cog\"></span></a>"; }
 					$html .= "</div>\n\n";
 					
 					$html .= "<div class=\"col-sm-9\">\n\n";
-
-						$html .= "<!-- START PANEL -->\n";
+					
 						$html .= "<div class=\"panel panel-default\" >\n\n";
-							
-							$html .= "<!-- START PANEL-HEADING -->\n";
 							$html .= "<div class=\"panel-heading jagaContentPanelHeading\">";
 								$html .= "<div class=\"panel-title\"><h4>" . Lang::getLang('posts') . "</h4></div>";
 							$html .= "</div>\n";
-							$html .= "<!-- END PANEL-HEADING -->\n\n";
 							
-							$html .= "<!-- START PANEL-BODY -->\n";
 							$html .= "<div class=\"panel-body\">\n\n";
-
 								$userContentArray = Content::getUserContent($userID);
-								
 								$html .= "<div style=\"height:300px;overflow:auto;\">";
 									$html .= "<div class=\"table-responsive\">";
 										$html .= "<table class=\"table table-striped table-condensed table-bordered\">";
@@ -200,14 +197,15 @@
 										$html .= "</table>";
 									$html .= "</div>";
 								$html .= "</div>";
-
 							$html .= "</div>\n";
-							$html .= "<!-- END PANEL-BODY -->\n\n";
-							
-						$html .= "</div>\n";
-						$html .= "<!-- END PANEL -->\n\n";
 
-						$html .= "<!-- START PANEL -->\n";
+						$html .= "</div>\n";
+
+
+						$userCommentArray = Comment::getUserComments($userID);
+						if (!empty($userCommentArray) && $userID == $_SESSION['userID']) {
+							
+							$html .= "<!-- START PANEL -->\n";
 							$html .= "<div class=\"panel panel-default\" >\n\n";
 								
 								$html .= "<!-- START PANEL-HEADING -->\n";
@@ -218,9 +216,6 @@
 								
 								$html .= "<!-- START PANEL-BODY -->\n";
 								$html .= "<div class=\"panel-body\">\n\n";
-
-									$userCommentArray = Comment::getUserComments($userID);
-									
 									$html .= "<div style=\"height:300px;overflow:auto;\">";
 										$html .= "<div class=\"table-responsive\">";
 											$html .= "<table class=\"table table-striped table-condensed table-bordered\">";
@@ -267,22 +262,15 @@
 											$html .= "</table>";
 										$html .= "</div>";
 									$html .= "</div>";
-							
 								$html .= "</div>\n";
-								$html .= "<!-- END PANEL-BODY -->\n\n";
-								
-							$html .= "</div>\n";
-							$html .= "<!-- END PANEL -->\n\n";
-						
-						$html .= "</div>\n\n";
-						
-					$html .= "</div>\n\n";
+							
+							}
+					
+						// $html .= "</div>\n\n";
 
+					$html .= "</div>\n\n";
 				$html .= "</div>\n";
-				$html .= "<!-- END row -->\n\n";
-			
 			$html .= "</div>\n";
-			$html .= "<!-- END container -->\n\n";
 				
 			return $html;
 		

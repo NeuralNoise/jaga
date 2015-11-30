@@ -305,28 +305,23 @@ class Controller {
 			$comment->commentObjectID = $urlArray[2];
 			$commentID = Comment::insert($comment);
 
-			if ($_SERVER['REMOTE_ADDR'] == '76.104.192.202') {
+			$content = new Content($urlArray[2]);
+			$channel = new Channel($content->channelID);
+			$commenter = new User($_SESSION['userID']);
+			
+			$mailSender = 'JagaBot <noreply@jaga.io>';
+			$mailSubject = $commenter->getUserDisplayName() . ' has commented on [' . $content->getTitle() . ']';
+			$mailMessage = 'http://' . $channel->channelKey . '.jaga.io/k/' . $content->contentCategoryKey . '/' . $content->contentURL . '/';
 				
-				
-				$content = new Content($urlArray[2]);
-				$channel = new Channel($content->channelID);
-				$commenter = new User($_SESSION['userID']);
-				
-				$mailSender = 'JagaBot <noreply@jaga.io>';
-				$mailSubject = $commenter->getUserDisplayName() . ' has commented on [' . $content->getTitle() . ']';
-				$mailMessage = 'http://' . $channel->channelKey . '.jaga.io/k/' . $content->contentCategoryKey . '/' . $content->contentURL . '/';
-					
-				$usersToNotify = $content->usersToNotifyOfComments();
-				
-				foreach ($usersToNotify AS $userID) {
-					$recipient = new User($userID);
-					$mailRecipient = $recipient->getUserDisplayName() . ' <' . $recipient->userEmail . '>';
-					Mail::sendEmail($mailRecipient, $mailSender, $mailSubject, $mailMessage, $_SESSION['channelKey'], $_SESSION['userID']);
-				}
-				
-				Mail::sendEmail('JagaAdmin <' . Config::read('admin.email') . '>', $mailSender, $mailSubject, $mailMessage, $_SESSION['channelKey'], $_SESSION['userID']);
-				
+			$usersToNotify = $content->usersToNotifyOfComments();
+			
+			foreach ($usersToNotify AS $userID) {
+				$recipient = new User($userID);
+				$mailRecipient = $recipient->getUserDisplayName() . ' <' . $recipient->userEmail . '>';
+				Mail::sendEmail($mailRecipient, $mailSender, $mailSubject, $mailMessage, $_SESSION['channelKey'], $_SESSION['userID']);
 			}
+			
+			Mail::sendEmail('JagaAdmin <' . Config::read('admin.email') . '>', $mailSender, $mailSubject, $mailMessage, $_SESSION['channelKey'], $_SESSION['userID']);
 			
 			header("Location: $contentPath");
 			
