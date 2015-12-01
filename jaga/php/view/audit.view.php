@@ -36,16 +36,20 @@ class AuditView {
 								$html .= "<table class=\"table table-striped table-condensed\">";
 								
 									$html .= "<tr>";
-										$html .= "<th>Timestamp</th>";
 										$html .= "<th>User</th>";
+										
+										$html .= "<th>IP</th>";
 										$html .= "<th>Action</th>";
 										$html .= "<th>Object</th>";
+										$html .= "<th>Timestamp</th>";
 									$html .= "</tr>";
 									
 									foreach ($auditTrailArray AS $entry) {
 										
+										$auditID = $entry['auditID'];
 										$auditUserID = $entry['auditUserID'];
-										$auditDateTime = $entry['auditDateTime'];
+										$auditDateTime = date('M jS g:i',strtotime($entry['auditDateTime']));
+										$auditIP = $entry['auditIP'];
 										$auditObject = $entry['auditObject'];
 										$auditObjectID = $entry['auditObjectID'];
 										$auditAction =  $entry['auditAction'];
@@ -71,10 +75,11 @@ class AuditView {
 										}
 										
 										$html .= "<tr>";
-											$html .= "<td>" . $auditDateTime . "</td>";
 											$html .= "<td>" . $iUser . "</td>";
+											$html .= "<td><a href=\"https://freegeoip.net/xml/" . $auditIP . "\" target=\"freegeoip\">" . $auditIP . "</a><span id=\"audit" . $auditID . "\" class=\"auditCountry\"></span></td>";
 											$html .= "<td>" . $auditAction . "</td>";
 											$html .= "<td>" . $iObject . "</td>";
+											$html .= "<td><span style=\"white-space:nowrap;\">" . $auditDateTime . "</span></td>";
 										$html .= "</tr>";
 										
 									}
