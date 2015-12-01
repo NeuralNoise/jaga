@@ -111,6 +111,12 @@ class Authentication {
 		if (isset($_SESSION['userID']) && $_SESSION['userID'] != 0) { return true; } else { return false; }
 		
 	}
+	
+	public static function isAdmin() {
+
+		if (in_array($_SESSION['userID'],Config::read('admin.userIdArray'))) { return true; } else { return false; }
+		
+	}
 
 }
 

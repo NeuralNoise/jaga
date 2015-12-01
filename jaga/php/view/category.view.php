@@ -5,7 +5,8 @@ class CategoryView {
 	public function displayChannelCategories($channelID) {
 	
 		$categoryArray = ChannelCategory::getChannelCategoryArray($channelID);
-
+		// ksort($categoryArray);
+		
 		$html = "\n\n";
 		$html .= "\t\t<div class=\"container\"> <!-- START CONTAINER -->\n";
 		
@@ -104,7 +105,8 @@ class CategoryView {
 		// need to be able to set order
 		// set number of items to return
 		$categoryArray = ChannelCategory::getChannelCategoryArray($channelID);
-
+		ksort($categoryArray);
+		
 		$html = "\n\n\t<!-- START CATEGORY LIST -->\n";
 		$html .= "\t<div class=\"container\">\n";
 			
@@ -115,12 +117,12 @@ class CategoryView {
 					$html .= "\t\t\t\t<table class=\"table table-hover\">\n";
 						$html .= "<tr>";
 							$html .= "<th>" . Lang::getLang('contentCategoryKey') . "</th>\n";
-							$html .= "<th>" . Lang::getLang('postCount') . "</th>\n";
+							$html .= "<th class=\"text-right\">" . Lang::getLang('postCount') . "</th>\n";
 						$html .= "</tr>";
 						foreach ($categoryArray AS $contentCategoryKey => $postCount) {
 							$html .= "\t\t\t\t<tr class=\"jagaClickableRow\" data-url=\"/k/" . $contentCategoryKey . "/\">\n";
 								$html .= "\t\t\t\t\t<td>" . $contentCategoryKey . "</td>\n";
-								$html .= "\t\t\t\t\t<td>" . $postCount . "</td>\n";
+								$html .= "\t\t\t\t\t<td class=\"text-right\">" . $postCount . "</td>\n";
 							$html .= "\t\t\t\t</tr>\n";
 						}
 					$html .= "\t\t\t\t</table>\n";

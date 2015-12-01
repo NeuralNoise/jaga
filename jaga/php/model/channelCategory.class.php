@@ -5,12 +5,12 @@ class ChannelCategory extends ORM {
 	public $channelID;
 	public $contentCategoryKey;
 	
-	public function __construct() {
-		$this->channelID = 0;
-		$this->contentCategoryKey = '';
+	public function __construct($channelID = 0, $contentCategoryKey = '') {
+		$this->channelID = $channelID;
+		$this->contentCategoryKey = $contentCategoryKey;
 	}
 	
-	public function getChannelCategoryArray($channelID, $orderBy = 'postCount') {
+	public static function getChannelCategoryArray($channelID, $orderBy = 'postCount') {
 		
 		// returns $array[contentCategoryKey][contentCategoryPostCount]
 		
@@ -39,7 +39,7 @@ class ChannelCategory extends ORM {
 		
 		return $channelCategoryArray;
 	}
-	
+		
 }
 
 ?>

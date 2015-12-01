@@ -116,7 +116,7 @@ class ContentView {
 		
 		if (!$contentPublished) { $html .= $alertHtml; }
 		
-		if ($contentPublished || $opID == $_SESSION['userID']) {
+		if ($contentPublished || $opID == $_SESSION['userID'] || Authentication::isAdmin()) {
 		
 			$html .= "\n\t<!-- START CONTENT -->\n";
 			$html .= "\t<div class=\"container\">\n\n";
@@ -126,7 +126,9 @@ class ContentView {
 					$html .= "\t\t<div class=\"panel-heading jagaContentPanelHeading\">";
 						$html .= "<div>";
 							$html .= "<strong><a href=\"http://jaga.io/u/" . urlencode($opUserName) . "/\">" . $opUserDisplayName . "</a></strong> <i>" . $contentSubmissionDateTime . "</i>";
-							if ($opID == $_SESSION['userID']) { $html .= "<a href=\"/k/update/" . $contentID . "/\" class=\"btn btn-default btn-sm pull-right\"><span class=\"glyphicon glyphicon-pencil\"></span></a>"; }
+							if ($opID == $_SESSION['userID'] || Authentication::isAdmin()) {
+								$html .= "<a href=\"/k/update/" . $contentID . "/\" class=\"btn btn-default btn-sm pull-right\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+							}
 						$html .= "</div>";
 					$html .= "</div>\n";
 					

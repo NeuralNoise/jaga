@@ -160,7 +160,7 @@ class Controller {
 					$contentID = $urlArray[2];
 					$content = new Content($contentID);
 					$contentSubmittedByUserID = $content->contentSubmittedByUserID;
-					if ($_SESSION['userID'] != $contentSubmittedByUserID) { die ('You can only edit your own content.'); }
+					if ($_SESSION['userID'] != $contentSubmittedByUserID && !Authentication::isAdmin()) { die ('You can only edit your own content.'); }
 				}
 			}
 			
