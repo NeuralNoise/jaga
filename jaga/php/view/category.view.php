@@ -138,20 +138,17 @@ class CategoryView {
 	
 	public function categoryDropdown($selectedContentCategoryKey) {
 	
-		$categoryArray = array_keys(ChannelCategory::getChannelCategoryArray($_SESSION['channelID']));
+		$categoryArray = ChannelCategory::getChannelCategoryArray($_SESSION['channelID']);
+		ksort($categoryArray);
+		$categoryKeys = array_keys($categoryArray);
 		
 		$html = "\n\t<select id=\"contentCategoryKey\" name=\"contentCategoryKey\" class=\"form-control\">\n";
-			foreach ($categoryArray AS $contentCategoryKey) {
+			foreach ($categoryKeys AS $contentCategoryKey) {
 				
 				$category = new Category($contentCategoryKey);
-				if ($_SESSION['lang'] == 'ja') {
-					$contentCategory = $category->contentCategoryJapanese;
-				} else {
-					$contentCategory = $category->contentCategoryEnglish;
-				}
 				$html .= "\t\t<option value=\"" . $contentCategoryKey . "\"";
 					if ($contentCategoryKey == $selectedContentCategoryKey) { $html .= " selected"; }
-				$html .= ">" . strtoupper($contentCategory) . "</option>\n";
+				$html .= ">" . strtoupper($category->getTitle()) . "</option>\n";
 				
 			}
 		$html .= "\t</select>\n\n";

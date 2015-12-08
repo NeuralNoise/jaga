@@ -610,7 +610,7 @@ class ContentView {
 
 				
 				$i = 0;
-				if ($_SESSION['channelKey'] == 'niseko') { $html .= PredictionView::predictionContentWidget(); $i++; }
+				// if ($_SESSION['channelKey'] == 'niseko') { $html .= PredictionView::predictionContentWidget(); $i++; }
 
 				foreach ($recentContentArray AS $contentID) {
 				
@@ -635,6 +635,9 @@ class ContentView {
 					$contentContent = preg_replace('/\s+/', ' ', $contentContent);
 					$contentContent = Utilities::truncate($contentContent, 100, ' ', '...');
 					
+					$category = new Category($thisContentCategoryKey);
+					$categoryTitle = $category->getTitle();
+					
 					$user = new User($contentSubmittedByUserID);
 					$username = $user->username;
 					$userDisplayName = $user->userDisplayName;
@@ -646,7 +649,14 @@ class ContentView {
 							$html .= "\t\t\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n";
 								$html .= "<h4><a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\">" . strtoupper($contentTitle) . "</a></h4>";
 								$html .= "<a href=\"http://jaga.io/u/" . urlencode($username) . "/\">" . $userDisplayName . "</a> ";
-								$html .= "<a href=\"http://" . $thisContentChannelKey . ".jaga.io/\" class=\"pull-right\">" . $channelTitle . "</a>";
+								
+								if ($thisContentChannelKey == $_SESSION['channelKey']) {
+									$html .= "<a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/\" class=\"pull-right\">" . $categoryTitle . "</a>";
+								} else {
+									$html .= "<a href=\"http://" . $thisContentChannelKey . ".jaga.io/\" class=\"pull-right\">" . $channelTitle . "</a>";
+								}
+								
+								
 							$html .= "\t\t\t\t\t\t</div>\n";
 
 							$html .= "\t\t\t\t\t\t\t<a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
