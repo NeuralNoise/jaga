@@ -53,6 +53,31 @@ class User extends ORM {
 		if ($userDisplayName != '') { return $userDisplayName; } else { return $username; }
 	}
 	
+	public function recentPosts($limit = '100') {
+		
+		
+		$currentDate = date('Y-m-d H:i:s');
+		
+		$query = "
+			SELECT * FROM jaga_Content 
+			WHERE contentPublished = 1 
+			AND contentPublishStartDate <= '$currentDate' 
+			AND (contentPublishEndDate >= '$currentDate' OR contentPublishEndDate = '0000-00-00')
+			AND contentSubmittedByUserID = :userID
+			ORDER BY contentLastModified DESC
+			LIMIT $limit
+		";
+		
+		$core = Core::getInstance();
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':userID' => $this->userID));
+		
+		$recentPosts = array();
+		while ($row = $statement->fetch()) { $recentPosts[] = $row['contentID']; }
+		return $recentPosts;
+			
+	}
+	
 	public static function getUserIDwithUserNameOrEmail($username) {
 	
 		$core = Core::getInstance();
@@ -154,6 +179,7 @@ class User extends ORM {
 		if ($row['userSelectedLanguage'] == '') { return 'en'; } else { return $row['userSelectedLanguage']; }
 	}
 	
+
 }
 
 ?>
