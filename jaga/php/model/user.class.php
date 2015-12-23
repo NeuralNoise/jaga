@@ -53,6 +53,10 @@ class User extends ORM {
 		if ($userDisplayName != '') { return $userDisplayName; } else { return $username; }
 	}
 	
+	public function profileImage($width = 50) {
+		return Image::getObjectMainImagePath('User', $this->userID, $width);
+	}
+	
 	public function recentPosts($limit = '100') {
 		
 		

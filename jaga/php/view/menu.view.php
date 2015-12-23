@@ -101,7 +101,7 @@ class MenuView {
 						$html .= "\t\t\t\t\t<ul class=\"nav navbar-nav navbar-right\">\n";
 
 							
-							if ($_SESSION['userID'] != 0) {
+							if (Authentication::isLoggedIn()) {
 								$html .= "\t\t\t\t\t\t<li><a href=\"http://jaga.io/home/\"><span class=\"glyphicon glyphicon-home hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">" . Lang::getLang('home') . "</span></a></li>\n";
 							}
 							
@@ -110,13 +110,13 @@ class MenuView {
 							
 							$html .= "\t\t\t\t\t\t<li><a href=\"/map/\"><span class=\"glyphicon glyphicon-globe hidden-xs hidden-sm\"></span><span class=\"visible-xs visible-sm\">" . Lang::getLang('map') . "</span></a></li>\n";
 							
-							if ($_SESSION['userID'] != 0) {
+							if (Authentication::isLoggedIn()) {
 								$html .= "\t\t\t\t\t\t<li><a href=\"http://jaga.io/u/" .  $username . "/\"><span class=\"glyphicon glyphicon glyphicon-user hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">" . Lang::getLang('profile') . "</span></a></li>\n";
 							}
 								
 							// START "YOUR CHANNELS" DROPDOWN //
 							$html .= "\t\t\t\t\t\t<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">" . Lang::getLang('yourChannels') . " <b class=\"caret\"></b></a>\n";
-								if ($_SESSION['userID'] == 0) {
+								if (!Authentication::isLoggedIn()) {
 									$html .= "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\">\n";
 										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/login/\">" . Lang::getLang('login') . "</a></li>\n";
 										$html .= "\t\t\t\t\t\t\t\t<li><a href=\"/register/\">" . Lang::getLang('register') . "</a></li>\n";
@@ -141,10 +141,10 @@ class MenuView {
 							$html .= "\t\t\t\t\t\t</li>\n";
 							// END "EXPLORE" DROPDOWN //
 							
-							if ($_SESSION['userID'] == 0) { // IF NOT LOGGED IN
+							if (!Authentication::isLoggedIn()) { // IF NOT LOGGED IN
 								$html .= "\t\t\t\t\t\t<li><a href=\"/login/\"><span class=\"glyphicon glyphicon-log-in hidden-xs\"></span><span class=\"visible-xs\">" . Lang::getLang('login') . "</span></a></li>\n";
 							} else { // IF LOGGED IN
-								$html .= "\t\t\t\t\t\t<li><a href=\"http://jaga.io/imo/\"><span class=\"glyphicon glyphicon-envelope hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">" . Lang::getLang('messages') . "</span></a></li>\n";
+								// $html .= "\t\t\t\t\t\t<li><a href=\"http://jaga.io/imo/\"><span class=\"glyphicon glyphicon-envelope hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">" . Lang::getLang('messages') . "</span></a></li>\n";
 								$html .= "\t\t\t\t\t\t<li><a href=\"http://jaga.io/settings/profile/\"><span class=\"glyphicon glyphicon-cog hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">" . Lang::getLang('settings') . "</span></a></li>\n";
 								$html .= "\t\t\t\t\t\t<li><a href=\"/logout/\"><span class=\"glyphicon glyphicon-log-out hidden-xs hidden-sm\"></span><span class=\"visible-xs-block visible-sm-block\">" . Lang::getLang('logout') . "</span></a></li>\n";
 							}

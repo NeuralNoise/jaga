@@ -11,30 +11,34 @@ class MapView {
 		if ($urlArray[1] == 'k' && $urlArray[2] != '') { // => /map/k/<category>/
 			$locations = Map::getContentMapArray($channelID, $urlArray[2], 100);
 		} else {
-			$locations = Map::getContentMapArray($channelID, '', 100); // => /map/
+			$locations = Map::getContentMapArray($channelID, '', 250); // => /map/
 		}
 
 		$channel = new Channel($channelID);
 		$channelLatitude = 0;
 		$channelLongitude = 0;
 		
-		$html = "<div class=\"container\">";
-			$html .= "<div class=\"row\">";
-				$html .= "<div class=\"col-xs-12\">";
-					$html .= "<div id=\"map-canvas\" class=\"jaga-map-canvas\" style=\"height:500px;\"></div>";
+		$h = "<div class=\"container\">";
+			$h .= "<div class=\"row\">";
+				$h .= "<div class=\"col-xs-12\">";
+					$h .= "<div id=\"map-canvas\" class=\"jaga-map-canvas\" style=\"height:500px;\"></div>";
 				
-					$html .= "
+					$h .= "
 					<script type=\"text/javascript\">
-						var locations = [";
+						var locations = [\n";
 					
 					foreach ($locations AS $contentID) {
 						$content = new Content($contentID);
-						$html .= "\t\t\t\t\t\t['<div class=\"googleMapMarkerContainer\">";
-						$html .= "<a href=\"/k/" . $content->contentCategoryKey . "/" . $content->contentURL . "/\">" . addslashes($content->getTitle()) . "</a>";
-						$html .= "</div>', " . $content->contentLatitude . ", " . $content->contentLongitude . "],\n";
+						$domain = "";
+						$channel = new Channel($content->channelID);
+						if ($content->channelID != $_SESSION['channelID']) { $domain = "http://" . $channel->channelKey . ".jaga.io"; }
+						
+						$h .= "\t['<div class=\"googleMapMarkerContainer\">";
+						$h .= "<a href=\"" . $domain . "/k/" . $content->contentCategoryKey . "/" . $content->contentURL . "/\">" . addslashes($content->getTitle()) . "</a>";
+						$h .= "</div>', " . $content->contentLatitude . ", " . $content->contentLongitude . "],\n";
 					}
 					
-					$html .= "
+					$h .= "
 						];
 
 						var mapOptions = {
@@ -68,11 +72,11 @@ class MapView {
 					</script>
 					";
 					
-				$html .= "</div>";
-			$html .= "</div>";
-		$html .= "</div>";
+				$h .= "</div>";
+			$h .= "</div>";
+		$h .= "</div>";
 		
-		$this->html = $html;
+		$this->html = $h;
 
 	}
 

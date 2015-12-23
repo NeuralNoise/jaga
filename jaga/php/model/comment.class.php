@@ -29,6 +29,16 @@ class Comment extends ORM {
 		}
 	}
 
+	public function blurb($char = 50) {
+		
+			$blurb = strip_tags($this->commentContent);
+			$blurb = Utilities::remove_bbcode($blurb);
+			$blurb = Utilities::remove_urls($blurb);
+			$blurb = Utilities::truncate($blurb, $char, " ");
+			return $blurb;
+			
+	}
+	
 	public function getComments($commentObject, $commentObjectID) {
 		$core = Core::getInstance();
 		$query = "SELECT commentID FROM jaga_Comment WHERE commentObject = :commentObject AND commentObjectID = :commentObjectID ORDER BY commentDateTime ASC";

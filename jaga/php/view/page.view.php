@@ -403,7 +403,10 @@ class PageView {
 
 			} elseif ($urlArray[0] == 'imo') {
 				
-				$html .= MessageView::imo();
+				$messageView = new MessageView();
+				$messageView->imo();
+				$html .= $messageView->html;
+				
 				
 			} elseif ($urlArray[0] == 'home' && $_SESSION['channelID'] == 2006 && $_SESSION['userID'] != 0) {
 				
@@ -489,7 +492,10 @@ class PageView {
 				$username = urldecode($urlArray[1]);
 				if (!User::usernameExists($username)) { die ('That username does not exist.'); }
 				$userID = User::getUserID($username);
-				$html .= UserView::displayUserProfile($userID);
+				
+				$userView = new UserView();
+				$userView->displayUserProfile($userID);
+				$html .= $userView->html;
 
 			} elseif ($urlArray[0] == 'subscribe') {
 			
@@ -523,7 +529,9 @@ class PageView {
 				if ($urlArray[1] == 'profile') {
 				
 					$userID = $_SESSION['userID'];
-					$html .= UserView::displayUserForm($userID, $inputArray, $errorArray);
+					$userView = new UserView();
+					$userView->displayUserForm($userID, $inputArray, $errorArray);
+					$html .= $userView->html;
 
 				} elseif ($urlArray[1] == 'channels') {
 				
