@@ -12,8 +12,7 @@ class Authentication {
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':username' => $username));
 
-		$ipBlacklist = BlacklistIP::getIpBlacklist();
-		if (in_array($_SERVER['REMOTE_ADDR'],$ipBlacklist)) {
+		if (BlacklistIP::isBlacklisted($_SERVER['REMOTE_ADDR'])) {
 			$errorArray['spam'][] = "We are experiencing technical difficulty. Please try again later.";
 			BlacklistIP::plusone($_SERVER['REMOTE_ADDR']);
 		}
@@ -56,15 +55,13 @@ class Authentication {
 	public static function register($username, $userEmail, $password, $confirmPassword, $raptcha, $obFussyCat) {
 	
 		$errorArray = array();
-		
-		$ipBlacklist = BlacklistIP::getIpBlacklist();
-		if (in_array($_SERVER['REMOTE_ADDR'],$ipBlacklist)) {
+
+		if (BlacklistIP::isBlacklisted($_SERVER['REMOTE_ADDR'])) {
 			$errorArray['spam'][] = "We are experiencing technical difficulty. Please try again later.";
 			BlacklistIP::plusone($_SERVER['REMOTE_ADDR']);
 		}
 		
 		$domainBlacklist = BlacklistDomain::getDomainBlacklist();
-		
 		if (preg_match('/('.implode('|', $domainBlacklist).')$/i', $userEmail)) {
 			
 			$errorArray['spam'][] = "We are experiencing technical difficulty. Please try again later.";

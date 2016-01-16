@@ -52,7 +52,7 @@ class BlacklistIP extends ORM {
 		return $errorArray;
 		
 	}
-	
+
 	public static function plusone($ip) {
 		
 		$core = Core::getInstance();
@@ -60,6 +60,26 @@ class BlacklistIP extends ORM {
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':ip' => $ip));
 
+	}
+	
+	public static function isBlacklisted($ip) {
+		
+		$flags = array();
+		
+		$core = Core::getInstance();
+		$query = "SELECT ip FROM jaga_BlacklistIP WHERE ip = :ip LIMIT 1";
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':ip' => $ip));
+		while ($row = $statement->fetch()) { $flags[] = $row['ip']; }
+		
+		// if ($_SERVER['REMOTE_ADDR'] == '76.104.192.202') {
+			// $x = substr($ip, 0, strrpos($ip,'.'));
+			// print_r($x);
+			// die();
+		// }
+		
+		if (!empty($flags)) { return true; } else { return false; }
+		
 	}
 	
 }
