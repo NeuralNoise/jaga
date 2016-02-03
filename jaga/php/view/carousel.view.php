@@ -51,6 +51,12 @@ class CarouselView {
 					$html .= "\t\t\t\t<div class=\"carousel-inner\">
 						<div class=\"item active\"><img src=\"/jaga/images/carousel-redpill.jpg\" alt=\"test0\" style=\"margin-left:auto;margin-right:auto;\"></div>
 						</div>\n\n";
+				} elseif ($_SESSION['channelKey'] == 'starwars') { // Red Pill
+					$html .= "\t\t\t\t<div class=\"carousel-inner\">
+						<div class=\"item active\"><img src=\"/jaga/images/carousel-starwars.jpg\" alt=\"test0\" style=\"margin-left:auto;margin-right:auto;\"></div>
+						<div class=\"item\"><a href=\"http://redpill.jaga.io/\"><img src=\"/jaga/images/carousel-redpill.jpg\" alt=\"test0\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+						<div class=\"item \"><a href=\"http://gojoule.com/\" target=\"_blank\"><img src=\"/jaga/images/carousel-joule.png\" alt=\"Joule Inc.\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+						</div>\n\n";
 				} else {
 					$html .= "\t\t\t\t<div class=\"carousel-inner\">
 						<div class=\"item active\"><a href=\"http://gojoule.com/\" target=\"_blank\"><img src=\"/jaga/images/carousel-joule.png\" alt=\"Joule Inc.\" style=\"margin-left:auto;margin-right:auto;\"></a></div>

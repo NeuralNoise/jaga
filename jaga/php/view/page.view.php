@@ -83,9 +83,20 @@ class PageView {
 						$videoID = Video::isYouTubeVideo($content->contentLinkURL);
 						if (!$videoID) { $videoID = Video::isYouTubeVideo($content->getContent()); }
 						
-						if ($contentID && Image::objectHasImage('Content', $contentID)) {
-							$imageURL = Image::getObjectMainImagePath('Content', $contentID);
-							$html .= "\t\t<meta property=\"og:image\" content=\"" . $imageURL . "\" />\n\n";
+						if ($contentID) {
+							if (Image::objectHasImage('Content', $contentID)) {
+								$imageURL = Image::getObjectMainImagePath('Content', $contentID);
+								$html .= "\t\t<meta property=\"og:image\" content=\"" . $imageURL . "\" />\n\n";
+							} else {
+								
+								if ($_SESSION['channelKey']=='niseko') {
+									$html .= "\t\t<meta property=\"og:image\" content=\"/jaga/images/maru-niseko.jpg\" />\n\n";
+								} elseif ($_SESSION['channelKey']=='hakodate') {
+									$html .= "\t\t<meta property=\"og:image\" content=\"/jaga/images/maru-hakodate.jpg\" />\n\n";
+								} else {
+									$html .= "\t\t<meta property=\"og:image\" content=\"/jaga/images/maru-jaga.jpg\" />\n\n";
+								}
+							}
 						} elseif ($videoID) {
 							$html .= "\t\t<meta property=\"og:image\" content=\"http://img.youtube.com/vi/" . $videoID . "/hqdefault.jpg\" />\n\n";
 						}
@@ -109,13 +120,13 @@ class PageView {
 				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/jaga/css/kutchannel.css\" />\n";
 				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/channel.css\" />\n\n";
 
-				$html .= "\t\t<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js\"></script>\n";
+				$html .= "\t\t<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js\"></script>\n";
 				$html .= "\t\t<script type=\"text/javascript\" src=\"http://maps.google.com/maps/api/js?sensor=false&libraries=places\"></script>\n";
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/lib/bootstrap/3.3.2/js/bootstrap.min.js\"></script>\n";
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/lib/masonry/masonry.pkgd.min.js\"></script>\n";
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/lib/locationpicker/locationpicker.jquery.js\"></script>\n";
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/tooltip.js\"></script>\n";				
-				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/kutchannel.js\"></script>\n\n";
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/jaga.js\"></script>\n\n";
 
 				$html .= "\t\t<script>\n";
 				$html .= "
