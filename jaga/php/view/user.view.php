@@ -246,6 +246,7 @@
 				foreach ($recentPosts AS $contentID) {
 				
 					$content = new Content($contentID);
+					
 					$contentTitle = $content->getTitle();
 					$contentURL = $content->contentURL;
 					$thisContentCategoryKey = $content->contentCategoryKey;
@@ -272,47 +273,41 @@
 					$userDisplayName = $user->userDisplayName;
 					if ($userDisplayName == '') { $userDisplayName = $username;}
 
-					$h .= "<div class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-4\">"; // start ITEM
-						$h .= "<div class=\"panel panel-default\">"; // start PANEL
-							
-							$h .= "<div class=\"panel-heading jagaContentPanelHeading\">";
-								$h .= "<h4><a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\">" . strtoupper($contentTitle) . "</a></h4>";
-								
-
-								// $h .= "<a href=\"http://jaga.io/u/" . urlencode($username) . "/\">" . $userDisplayName . "</a> ";
-								$h .= date('Y-m-d',strtotime($contentSubmissionDateTime));
-								
-								if ($thisContentChannelKey == $_SESSION['channelKey']) {
-									$h .= "<a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/\" class=\"pull-right\">" . $categoryTitle . "</a>";
-								} else {
-									$h .= "<a href=\"http://" . $thisContentChannelKey . ".jaga.io/\" class=\"pull-right\">" . $channelTitle . "</a>";
-								}
-							$h .= "</div>"; // end jagaContentPanelHeading
-
-							$h .= "<a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
-								$h .= "<span class=\"jagaListGroup\">";
-
-									$videoID = Video::isYouTubeVideo($contentLinkURL);
-									if (!$videoID) { $videoID = Video::isYouTubeVideo($content->getContent()); }
-									
-									if (Image::objectHasImage('Content',$contentID)) {
-										$imagePath = Image::getLegacyObjectMainImagePath('Content',$contentID);
-										if ($imagePath == "") { $imagePath = Image::getObjectMainImagePath('Content',$contentID,600); }
-										if ($imagePath != "") { $h .= "<img class=\"img-responsive\" src=\"" . $imagePath . "\"><br />"; }
-									} elseif ($videoID) {
-										$h .= "<img class=\"img-responsive\" src=\"http://img.youtube.com/vi/" . $videoID . "/hqdefault.jpg\"><br />";
+					if ($content->contentPublished || $userID == $_SESSION['userID'] || Authentication::isAdmin()) {
+						$h .= "<div class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-4\">";
+							$h .= "<div class=\"panel panel-default\">";
+								$h .= "<div class=\"panel-heading jagaContentPanelHeading\">";
+									$h .= "<h4><a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\">" . strtoupper($contentTitle) . "</a></h4>";
+									$h .= date('Y-m-d',strtotime($contentSubmissionDateTime));
+									if ($thisContentChannelKey == $_SESSION['channelKey']) {
+										$h .= "<a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/\" class=\"pull-right\">" . $categoryTitle . "</a>";
+									} else {
+										$h .= "<a href=\"http://" . $thisContentChannelKey . ".jaga.io/\" class=\"pull-right\">" . $channelTitle . "</a>";
 									}
-									
-									$h .=  "<div style=\"white-space:pre-line;overflow-y:hidden;\">" . $contentContent . "</div>";
-								$h .= "</span>";
-							$h .= "</a>";
-
-						$h .= "</div>"; // end PANEL
-					$h .= "</div>"; // end ITEM
-
+								$h .= "</div>";
+								$h .= "<div class=\"panel-body" . (!$content->contentPublished?" bg-danger":"") . "\">";
+									$h .= "<a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
+										$h .= "<span class=\"jagaListGroup\">";
+											$videoID = Video::isYouTubeVideo($contentLinkURL);
+											if (!$videoID) { $videoID = Video::isYouTubeVideo($content->getContent()); }
+											if (Image::objectHasImage('Content',$contentID)) {
+												$imagePath = Image::getLegacyObjectMainImagePath('Content',$contentID);
+												if ($imagePath == "") { $imagePath = Image::getObjectMainImagePath('Content',$contentID,600); }
+												if ($imagePath != "") { $h .= "<img class=\"img-responsive\" src=\"" . $imagePath . "\"><br />"; }
+											} elseif ($videoID) {
+												$h .= "<img class=\"img-responsive\" src=\"http://img.youtube.com/vi/" . $videoID . "/hqdefault.jpg\"><br />";
+											}
+											$h .=  "<div style=\"white-space:pre-line;overflow-y:hidden;\">" . $contentContent . "</div>";
+										$h .= "</span>";
+									$h .= "</a>";
+								$h .= "</div>";
+							$h .= "</div>";
+						$h .= "</div>";
+					}
+				
 				}
 
-			$h .= "</div>"; // end ROW
+			$h .= "</div>";
 		
 			$this->html = $h;
 		

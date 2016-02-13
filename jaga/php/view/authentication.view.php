@@ -4,7 +4,11 @@ class AuthenticationView {
 
 	public static function getAuthForm($type, $inputArray, $errorArray = array()) {
 
-		if ($_SESSION['channelID'] == 2006) { $formBaseURL = 'http://jaga.io/'; } else { $formBaseURL = 'http://' . Channel::getChannelKey($_SESSION['channelID']) . '.jaga.io/';}
+		if ($_SESSION['channelKey'] == 'www') {
+			$formBaseURL = 'http://jaga.io/';
+		} else {
+			$formBaseURL = 'http://' . Channel::getChannelKey($_SESSION['channelID']) . '.jaga.io/';
+		}
 	
 		$html = "\n\n\t<!-- START AUTH CONTAINER -->\n";
 		$html .= "\t<div class=\"container\">\n\n";

@@ -64,9 +64,7 @@ class User extends ORM {
 		
 		$query = "
 			SELECT * FROM jaga_Content 
-			WHERE contentPublished = 1 
-			AND contentPublishStartDate <= '$currentDate' 
-			AND (contentPublishEndDate >= '$currentDate' OR contentPublishEndDate = '0000-00-00')
+			WHERE contentPublishStartDate <= '$currentDate' AND (contentPublishEndDate >= '$currentDate' OR contentPublishEndDate = '0000-00-00')
 			AND contentSubmittedByUserID = :userID
 			ORDER BY contentLastModified DESC
 			LIMIT $limit

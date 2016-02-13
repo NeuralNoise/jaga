@@ -57,6 +57,8 @@ class Controller {
 
 		if ($urlArray[0] == 'login') {
 			
+			if (Authentication::isLoggedIn()) { header("Location: /"); };
+			
 			if (isset($_POST['jagaLoginSubmit'])) {
 			
 				$inputArray['username'] = $_POST['username'];

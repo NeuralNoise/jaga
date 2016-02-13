@@ -1,5 +1,4 @@
 
-
 var j = jQuery.noConflict();			
 
 j(document).ready( // DOM is ready
@@ -22,3 +21,8 @@ j(window).load( // assets are loaded
 	}
 );
 
+j(document).keyup(function(e) { 
+    if (e.keyCode == 27) { // 'Esc'
+        window.location.replace('/login/');
+    }
+});

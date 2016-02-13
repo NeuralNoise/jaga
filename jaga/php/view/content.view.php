@@ -457,16 +457,16 @@ class ContentView {
 										$html .= "
 										
 											<script>
-												$('#contentCoordinatesMap').locationpicker({
+												j('#contentCoordinatesMap').locationpicker({
 													location: {
 														latitude: " . $contentLatitude . ",
 														longitude: " . $contentLongitude . "
 													},
 													radius: 100,
 													inputBinding: {
-														latitudeInput: $('#contentLatitude'),
-														longitudeInput: $('#contentLongitude'),
-														locationNameInput: $('#contentLocationNameInput')
+														latitudeInput: j('#contentLatitude'),
+														longitudeInput: j('#contentLongitude'),
+														locationNameInput: j('#contentLocationNameInput')
 													},
 													enableAutocomplete: true
 												});

@@ -4,6 +4,7 @@ class Channel extends ORM {
 
 	public $channelID;
 	public $channelKey;
+	public $channelDomain;
 	public $channelCreationDateTime;
 	public $channelEnabled;
 	public $channelTitleEnglish;
@@ -37,6 +38,7 @@ class Channel extends ORM {
 		
 			$this->channelID = 0;
 			$this->channelKey = '';
+			$this->channelDomain = '';
 			$this->channelCreationDateTime = date('Y-m-d H:i:s');
 			$this->channelEnabled = 1;
 			$this->channelTitleEnglish = '';
@@ -172,13 +174,27 @@ class Channel extends ORM {
 		
 		$domain = $_SERVER['HTTP_HOST'];
 		$tmp = explode('.', $domain);
+		
 		if ($tmp[0] == 'jaga' && $tmp[1] == 'io') { array_unshift($tmp, "www"); }
-		$subdomain = current($tmp);
+		$channelKey = current($tmp);
+		$channelDomain = '';
 		
-		$query = "SELECT channelID FROM jaga_Channel WHERE channelKey = '$subdomain' LIMIT 1";
+		if ($tmp[1] != 'jaga' || $tmp[2] != 'io') {
+			if (isset($tmp[2])) { array_shift($tmp); }
+			$channelKey = '';
+			$channelDomain = $tmp[0] . '.' . $tmp[1];
+		}
+
+		$query = "
+			SELECT channelID FROM jaga_Channel 
+			WHERE channelKey = :channelKey OR (channelDomain != '' AND channelDomain = :channelDomain) 
+			LIMIT 1
+		";
+		
 		$core = Core::getInstance();
-		$statement = $core->database->query($query);
-		
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':channelKey' => $channelKey, ':channelDomain' => $channelDomain));
+
 		if ($row = $statement->fetch()) { $channelID = $row['channelID']; }
 		
 		return $channelID;

@@ -12,8 +12,8 @@ class CommentView {
 			$userID = $comment->userID;
 
 			$user = new User($userID);
-			$username = $user->username;
-			$userDisplayName = urlencode($user->getUserDisplayName());
+			$username = urlencode($user->username);
+			$userDisplayName = $user->getUserDisplayName();
 			
 			$html .= "\n\t<!-- START COMMENT -->\n";
 			$html .= "\t<div class=\"container\">\n\n";
