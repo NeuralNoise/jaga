@@ -71,13 +71,15 @@ class RSS {
 					$thisContentDescription = Utilities::feedificate($thisContent->getContent());
 					$thisChannelID = $thisContent->channelID;
 					
+					$thisUser = new User($thisContent->contentSubmittedByUserID);
+					
 					$thisCategory = new Category($thisContentCategoryKey);
 					$thisContentCategory = Utilities::feedificate($thisCategory->getTitle());
 					
 					$thisChannel = new Channel($thisChannelID);
 					$thisChannelKey = $thisChannel->channelKey;
 
-					if ($thisChannelKey && $thisContentCategoryKey && $thisContentURL) {
+					if ($thisChannelKey && $thisContentCategoryKey && $thisContentURL && !$thisUser->userShadowBan) {
 						$thisUrl = 'http://' . $thisChannelKey . '.jaga.io/k/' . $thisContentCategoryKey . '/' . $thisContentURL . '/';
 						$rss .= "\t\t<item>\n";
 							$rss .= "\t\t\t<title>" . $thisContentTitle . "</title>\n";

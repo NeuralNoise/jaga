@@ -15,6 +15,7 @@ class User extends ORM {
 	public $userTestMode;
 	public $userBlackList;
 	public $userSelectedLanguage;
+	public $userShadowBan;
 	
 	public function __construct($userID = 0) {
 
@@ -33,6 +34,7 @@ class User extends ORM {
 			$this->userTestMode = 0;
 			$this->userBlackList = 0;
 			$this->userSelectedLanguage = 'en';
+			$this->userShadowBan = 0;
 			
 		} else {
 			

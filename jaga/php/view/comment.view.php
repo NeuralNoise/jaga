@@ -37,7 +37,7 @@ class CommentView {
 						
 					$html .= "\t\t\t</div>\n";
 					
-					$html .= "\t\t\t<div class=\"panel-body\">" . $comment->commentContent . "</div>\n";
+					$html .= "\t\t\t<div class=\"panel-body\">" . nl2br($comment->commentContent) . "</div>\n";
 					
 				$html .= "\t\t</div>\n";
 			$html .= "\n\t</div>\n";

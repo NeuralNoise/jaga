@@ -643,45 +643,49 @@ class ContentView {
 					$userDisplayName = $user->userDisplayName;
 					if ($userDisplayName == '') { $userDisplayName = $username;}
 
-					$html .= "\t\t\t\t<div class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\">\n";
-						$html .= "\t\t\t\t\t<div class=\"panel panel-default\">\n";
-							
-							$html .= "\t\t\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n";
-								$html .= "<h4><a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\">" . strtoupper($contentTitle) . "</a></h4>";
-								$html .= "<a href=\"http://jaga.io/u/" . urlencode($username) . "/\">" . $userDisplayName . "</a> ";
+					if ($_SESSION['userID'] == $contentSubmittedByUserID || !$user->userShadowBan) {
+						
+						$html .= "\t\t\t\t<div class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\">\n";
+							$html .= "\t\t\t\t\t<div class=\"panel panel-default\">\n";
 								
-								if ($thisContentChannelKey == $_SESSION['channelKey']) {
-									$html .= "<a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/\" class=\"pull-right\">" . $categoryTitle . "</a>";
-								} else {
-									$html .= "<a href=\"http://" . $thisContentChannelKey . ".jaga.io/\" class=\"pull-right\">" . $channelTitle . "</a>";
-								}
-								
-								
-							$html .= "\t\t\t\t\t\t</div>\n";
-
-							$html .= "\t\t\t\t\t\t\t<a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
-								$html .= "<span class=\"jagaListGroup\">";
-									// $html .= "<span class=\"jagaListGroupBadge\">" . $contentViews . "</span>";
+								$html .= "\t\t\t\t\t\t<div class=\"panel-heading jagaContentPanelHeading\">\n";
+									$html .= "<h4><a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\">" . strtoupper($contentTitle) . "</a></h4>";
+									$html .= "<a href=\"http://jaga.io/u/" . urlencode($username) . "/\">" . $userDisplayName . "</a> ";
 									
-									$videoID = Video::isYouTubeVideo($contentLinkURL);
-									if (!$videoID) { $videoID = Video::isYouTubeVideo($content->getContent()); }
-									
-									if (Image::objectHasImage('Content',$contentID)) {
-										$imagePath = Image::getLegacyObjectMainImagePath('Content',$contentID);
-										if ($imagePath == "") { $imagePath = Image::getObjectMainImagePath('Content',$contentID,600); }
-										if ($imagePath != "") { $html .= "<img class=\"img-responsive\" src=\"" . $imagePath . "\"><br />"; }
-									} elseif ($videoID) {
-										$html .= "<img class=\"img-responsive\" src=\"http://img.youtube.com/vi/" . $videoID . "/hqdefault.jpg\"><br />";
+									if ($thisContentChannelKey == $_SESSION['channelKey']) {
+										$html .= "<a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/\" class=\"pull-right\">" . $categoryTitle . "</a>";
+									} else {
+										$html .= "<a href=\"http://" . $thisContentChannelKey . ".jaga.io/\" class=\"pull-right\">" . $channelTitle . "</a>";
 									}
 									
-									$html .=  "<div style=\"white-space:pre-line;overflow-y:hidden;\">" . $contentContent . "</div>";
-								$html .= "</span>";
-							$html .= "</a>\n";
+									
+								$html .= "\t\t\t\t\t\t</div>\n";
 
-						$html .= "\t\t\t\t\t</div>\n";
-					$html .= "\t\t\t\t</div>\n";
+								$html .= "\t\t\t\t\t\t\t<a href=\"http://" . $thisContentChannelKey . ".jaga.io/k/" . $thisContentCategoryKey . "/" . $contentURL . "/\" class=\"list-group-item jagaListGroupItem\">";
+									$html .= "<span class=\"jagaListGroup\">";
+										// $html .= "<span class=\"jagaListGroupBadge\">" . $contentViews . "</span>";
+										
+										$videoID = Video::isYouTubeVideo($contentLinkURL);
+										if (!$videoID) { $videoID = Video::isYouTubeVideo($content->getContent()); }
+										
+										if (Image::objectHasImage('Content',$contentID)) {
+											$imagePath = Image::getLegacyObjectMainImagePath('Content',$contentID);
+											if ($imagePath == "") { $imagePath = Image::getObjectMainImagePath('Content',$contentID,600); }
+											if ($imagePath != "") { $html .= "<img class=\"img-responsive\" src=\"" . $imagePath . "\"><br />"; }
+										} elseif ($videoID) {
+											$html .= "<img class=\"img-responsive\" src=\"http://img.youtube.com/vi/" . $videoID . "/hqdefault.jpg\"><br />";
+										}
+										
+										$html .=  "<div style=\"white-space:pre-line;overflow-y:hidden;\">" . $contentContent . "</div>";
+									$html .= "</span>";
+								$html .= "</a>\n";
 
-					$i++;
+							$html .= "\t\t\t\t\t</div>\n";
+						$html .= "\t\t\t\t</div>\n";
+
+						$i++;
+						
+					}
 					
 					if ($i == 3) {
 						$html .= "\t\t\t\t<div class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\">\n";
