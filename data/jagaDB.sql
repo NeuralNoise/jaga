@@ -1,5 +1,5 @@
 -- --------------------------------------------------------
--- Host:                         jagadb.ctw889irlw4h.us-west-2.rds.amazonaws.com
+-- Host:                         zenilistdb.co2dst0led4r.us-west-2.rds.amazonaws.com
 -- Server version:               5.6.22-log - MySQL Community Server (GPL)
 -- Server OS:                    Linux
 -- HeidiSQL Version:             9.3.0.4984
@@ -10,12 +10,12 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Dumping database structure for kutchannelDB
-CREATE DATABASE IF NOT EXISTS `kutchannelDB` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `kutchannelDB`;
+-- Dumping database structure for jagaDB
+CREATE DATABASE IF NOT EXISTS `jagaDB` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `jagaDB`;
 
 
--- Dumping structure for table kutchannelDB.jaga_AccountRecovery
+-- Dumping structure for table jagaDB.jaga_AccountRecovery
 CREATE TABLE IF NOT EXISTS `jaga_AccountRecovery` (
   `accountRecoveryID` int(8) NOT NULL AUTO_INCREMENT,
   `accountRecoveryEmail` varchar(255) NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `jaga_AccountRecovery` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_Audit
+-- Dumping structure for table jagaDB.jaga_Audit
 CREATE TABLE IF NOT EXISTS `jaga_Audit` (
   `auditID` int(12) NOT NULL AUTO_INCREMENT,
   `channelID` int(8) NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Audit` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_BlacklistDomain
+-- Dumping structure for table jagaDB.jaga_BlacklistDomain
 CREATE TABLE IF NOT EXISTS `jaga_BlacklistDomain` (
   `domain` varchar(100) CHARACTER SET utf8 NOT NULL,
   `channelID` int(8) DEFAULT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `jaga_BlacklistDomain` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_BlacklistIP
+-- Dumping structure for table jagaDB.jaga_BlacklistIP
 CREATE TABLE IF NOT EXISTS `jaga_BlacklistIP` (
   `ip` varchar(50) CHARACTER SET utf8 NOT NULL,
   `channelID` int(8) DEFAULT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `jaga_BlacklistIP` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_Category
+-- Dumping structure for table jagaDB.jaga_Category
 CREATE TABLE IF NOT EXISTS `jaga_Category` (
   `contentCategoryKey` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `contentCategoryEnglish` varchar(255) CHARACTER SET utf8 NOT NULL,
@@ -90,10 +90,11 @@ CREATE TABLE IF NOT EXISTS `jaga_Category` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_Channel
+-- Dumping structure for table jagaDB.jaga_Channel
 CREATE TABLE IF NOT EXISTS `jaga_Channel` (
   `channelID` int(8) NOT NULL AUTO_INCREMENT,
   `channelKey` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `channelDomain` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `channelCreationDateTime` datetime NOT NULL,
   `channelEnabled` int(1) NOT NULL,
   `channelTitleEnglish` varchar(255) CHARACTER SET utf8 NOT NULL,
@@ -117,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Channel` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_ChannelCategory
+-- Dumping structure for table jagaDB.jaga_ChannelCategory
 CREATE TABLE IF NOT EXISTS `jaga_ChannelCategory` (
   `channelID` int(8) NOT NULL,
   `contentCategoryKey` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -129,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `jaga_ChannelCategory` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_Comment
+-- Dumping structure for table jagaDB.jaga_Comment
 CREATE TABLE IF NOT EXISTS `jaga_Comment` (
   `commentID` int(12) NOT NULL AUTO_INCREMENT,
   `channelID` int(12) NOT NULL,
@@ -144,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Comment` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_Content
+-- Dumping structure for table jagaDB.jaga_Content
 CREATE TABLE IF NOT EXISTS `jaga_Content` (
   `contentID` int(8) NOT NULL AUTO_INCREMENT,
   `channelID` int(8) NOT NULL,
@@ -175,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Content` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_Family
+-- Dumping structure for table jagaDB.jaga_Family
 CREATE TABLE IF NOT EXISTS `jaga_Family` (
   `famKey` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `famEnglish` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -186,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Family` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_FamilyChannel
+-- Dumping structure for table jagaDB.jaga_FamilyChannel
 CREATE TABLE IF NOT EXISTS `jaga_FamilyChannel` (
   `famKey` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `channelID` int(12) NOT NULL,
@@ -197,7 +198,7 @@ CREATE TABLE IF NOT EXISTS `jaga_FamilyChannel` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_Image
+-- Dumping structure for table jagaDB.jaga_Image
 CREATE TABLE IF NOT EXISTS `jaga_Image` (
   `imageID` int(12) NOT NULL AUTO_INCREMENT,
   `imageDisplayOrder` int(4) NOT NULL,
@@ -221,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Image` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_Language
+-- Dumping structure for table jagaDB.jaga_Language
 CREATE TABLE IF NOT EXISTS `jaga_Language` (
   `langKey` varchar(255) CHARACTER SET utf8 NOT NULL,
   `enLang` varchar(255) CHARACTER SET utf8 NOT NULL,
@@ -235,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Language` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_Mail
+-- Dumping structure for table jagaDB.jaga_Mail
 CREATE TABLE IF NOT EXISTS `jaga_Mail` (
   `mailID` int(8) NOT NULL AUTO_INCREMENT,
   `channelID` int(8) NOT NULL,
@@ -251,7 +252,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Mail` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_Message
+-- Dumping structure for table jagaDB.jaga_Message
 CREATE TABLE IF NOT EXISTS `jaga_Message` (
   `messageID` int(12) NOT NULL AUTO_INCREMENT,
   `messageSenderUserID` int(8) NOT NULL,
@@ -266,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Message` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_Prediction
+-- Dumping structure for table jagaDB.jaga_Prediction
 CREATE TABLE IF NOT EXISTS `jaga_Prediction` (
   `predictionID` int(8) NOT NULL AUTO_INCREMENT,
   `userID` int(8) NOT NULL,
@@ -284,7 +285,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Prediction` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_session
+-- Dumping structure for table jagaDB.jaga_session
 CREATE TABLE IF NOT EXISTS `jaga_session` (
   `sessionID` varchar(32) CHARACTER SET utf8 NOT NULL,
   `userID` int(8) NOT NULL,
@@ -298,7 +299,7 @@ CREATE TABLE IF NOT EXISTS `jaga_session` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_Subscription
+-- Dumping structure for table jagaDB.jaga_Subscription
 CREATE TABLE IF NOT EXISTS `jaga_Subscription` (
   `userID` int(8) NOT NULL,
   `channelID` int(8) NOT NULL,
@@ -309,7 +310,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Subscription` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_theme
+-- Dumping structure for table jagaDB.jaga_theme
 CREATE TABLE IF NOT EXISTS `jaga_theme` (
   `themeKey` varchar(50) CHARACTER SET utf8 NOT NULL,
   `themeEnabled` int(1) NOT NULL,
@@ -330,7 +331,7 @@ CREATE TABLE IF NOT EXISTS `jaga_theme` (
 -- Data exporting was unselected.
 
 
--- Dumping structure for table kutchannelDB.jaga_User
+-- Dumping structure for table jagaDB.jaga_User
 CREATE TABLE IF NOT EXISTS `jaga_User` (
   `userID` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
@@ -347,6 +348,7 @@ CREATE TABLE IF NOT EXISTS `jaga_User` (
   `userSelectedLanguage` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
   `userTimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userChannelAllocation` int(3) NOT NULL DEFAULT '7',
+  `userShadowBan` int(1) NOT NULL,
   PRIMARY KEY (`userID`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `userEmail` (`userEmail`)
