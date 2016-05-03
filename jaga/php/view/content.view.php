@@ -145,6 +145,20 @@ class ContentView {
 								if (isset($eventHtml)) { $html .= $eventHtml; }
 								if (isset($mapHtml)) { $html .= $mapHtml; }
 								if (isset($linkHtml)) { $html .= $linkHtml; }
+
+								$html .= "
+									<script async src=\"//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js\"></script>
+									<!-- jaga.io -->
+									<ins class=\"adsbygoogle\"
+										 style=\"display:block\"
+										 data-ad-client=\"" . Config::read('adsense.data-ad-client') . "\"
+										 data-ad-slot=\"" . Config::read('adsense.data-ad-slot') . "\"
+										 data-ad-format=\"auto\"></ins>
+									<script>
+									(adsbygoogle = window.adsbygoogle || []).push({});
+									</script>
+								";
+								
 							$html .= "</div>";
 
 						$html .= "</div>";
