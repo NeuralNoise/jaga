@@ -85,8 +85,25 @@ class PageView {
 						
 						if ($contentID) {
 							if (Image::objectHasImage('Content', $contentID)) {
+								
 								$imageURL = Image::getObjectMainImagePath('Content', $contentID);
 								$html .= "\t\t<meta property=\"og:image\" content=\"" . $imageURL . "\" />\n\n";
+
+								$siteTwitter = "@jagadotio";
+								$userTwitter = "@jagadotio";
+								
+								if ($_SESSION['channelID'] == 14) {
+									$siteTwitter = "@kutchannel";
+									$userTwitter = "@kutchannel";
+								}
+								
+								$html .= "\t\t<meta name=\"twitter:card\" content=\"summary_large_image\">\n";
+								$html .= "\t\t<meta name=\"twitter:site\" content=\"" . $siteTwitter . "\">\n";
+								$html .= "\t\t<meta name=\"twitter:creator\" content=\"" . $userTwitter . "\">\n";
+								$html .= "\t\t<meta name=\"twitter:title\" content=\"" . $content->getTitle() . "\">\n";
+								$html .= "\t\t<meta name=\"twitter:description\" content=\"" . Utilities::feedificate($content->getContent()) . "\">\n";
+								$html .= "\t\t<meta name=\"twitter:image\" content=\"" . $imageURL . "\">\n\n";
+
 							} else {
 								
 								if ($_SESSION['channelKey']=='niseko') {
@@ -392,10 +409,10 @@ class PageView {
 			
 			if ($urlArray[0] == '') {
 
-				if ($_SESSION['userID'] == 0) {
+				// if ($_SESSION['userID'] == 0) {
 					$carousel = new CarouselView();
 					$html .= $carousel->getCarousel($urlArray);
-				}
+				// }
 			
 				if ($_SESSION['channelKey'] == 'www') {
 

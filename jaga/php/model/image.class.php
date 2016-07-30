@@ -41,7 +41,7 @@ class Image extends ORM {
 				$imageType == "image/gif" || 
 				$imageType == "image/ico"
 			)
-			&& ($imageArray["size"] < 2097152)
+			&& ($imageArray["size"] < 5242880)
 			&& in_array($extension, $allowedExts)
 		) {
 
@@ -93,7 +93,7 @@ class Image extends ORM {
 			}
 			
 		} else {
-			return 'IMAGE UPLOAD ERROR: Your image must be a JPG or PNG less than 2MB.';
+			return 'IMAGE UPLOAD ERROR: Your image must be a GIF, JPG  or PNG and be less than 2MB.';
 		}
 
 	}
