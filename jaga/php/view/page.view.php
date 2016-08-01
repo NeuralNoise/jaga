@@ -102,7 +102,9 @@ class PageView {
 								$html .= "\t\t<meta name=\"twitter:creator\" content=\"" . $userTwitter . "\">\n";
 								$html .= "\t\t<meta name=\"twitter:title\" content=\"" . $content->getTitle() . "\">\n";
 								$html .= "\t\t<meta name=\"twitter:description\" content=\"" . Utilities::feedificate($content->getContent()) . "\">\n";
-								$html .= "\t\t<meta name=\"twitter:image\" content=\"" . $imageURL . "\">\n\n";
+								
+								$imageFullURL = "http://" . $_SESSION['channelKey'] . ".jaga.io" . $imageURL;
+								$html .= "\t\t<meta name=\"twitter:image\" content=\"" . $imageFullURL . "\">\n\n";
 
 							} else {
 								
