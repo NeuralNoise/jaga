@@ -33,11 +33,12 @@ class CarouselView {
 						</div>";
 					} else {
 						$html .= "\t\t\t\t<div class=\"carousel-inner\">
-						<div class=\"item active\"><img src=\"/jaga/images/carousel-lowrider.jpg\" alt=\"A Niseko lowrider in its natural habitat.\" style=\"margin-left:auto;margin-right:auto;\"></div>
+						
+						
+						<div class=\"item active\"><a href=\"/first-snow-contest/\"><img src=\"/jaga/images/carousel-bistrot-le-cochon-first-snow-contest.jpg\" alt=\"Niseko First Snow Contest\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 						<div class=\"item\"><a href=\"http://www.lecochon-niseko.com/\" target=\"_blank\"><img src=\"/jaga/images/carousel-roll-tide.jpg\" alt=\"Niseko Restaurant\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
-						<div class=\"item\"><a href=\"http://kagi.io/\" target=\"_blank\"><img src=\"/jaga/images/carousel-zenidev.jpg\" alt=\"Property Management Systems\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
-						<div class=\"item\"><a href=\"http://holidayniseko.com/\" target=\"_blank\"><img src=\"/jaga/images/carousel-holidayniseko.jpg\" alt=\"Niseko Accommodation\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
-						<div class=\"item\"><a href=\"http://360niseko.com/blog/the-flying-fish/\" target=\"_blank\"><img src=\"/jaga/images/carousel-flying-fish.jpg\" alt=\"Niseko Flying Fish\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+						<div class=\"item\"><a href=\"http://kagi.io/\" target=\"_blank\"><img src=\"/jaga/images/carousel-zenidev.jpg\" alt=\"Websites for Property Professionals\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+						<div class=\"item\"><a href=\"http://360niseko.com/the-flying-fish/\" target=\"_blank\"><img src=\"/jaga/images/carousel-flying-fish.jpg\" alt=\"Niseko Flying Fish\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 						</div>\n\n";
 					}
 
