@@ -42,8 +42,8 @@ Jaga is a social sharing and networking platform built to facilitate community-b
 - JAGA's codebase powers [jaga.io](http://jaga.io/) and is available for use on your domain(s) under the [MIT License](license.txt).
  
 **TEAM**
-- @chishiki is the The Jaga Project's creator and maintainer and will give timely consideration to any pull requests. JOIN TEAM JAGA.
+- [Christopher Webb](http://github.com/chishiki/) is the The Jaga Project's creator and maintainer, provide deployment support, and gives timely consideration to any pull requests.
 
 **FUNDING**
 - Sponsors: [Zenidev LLC](http://kagi.io/) pays for the lion's share of Team Jaga's AWS fees.
-- Advertisers: [[Zenidev LLC](http://kagi.io/), [Bistrot le Cochon](http://www.lecochon-niseko.com/)
+- Advertisers: [Zenidev LLC](http://kagi.io/), [Bistrot le Cochon](http://www.lecochon-niseko.com/)
