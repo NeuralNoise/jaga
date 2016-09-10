@@ -1,7 +1,7 @@
 JAGA
 ==============
 
-Jaga is a social sharing and networking platform built to facilitate community-building online. Jaga grew out of a hyperlocal classified advertising site that has served the [Niseko](http://niseko.jaga.io/) alpine resort area in Hokkaido since 2006. The Kutchannel remains the most popular Jaga channel but new channels come into existence daily. Registered users can create channels and assign categories to them, post text, images, event info, and geolocation data to any channel, and comment on any post on any channel. Jaga is fully responsive and works beautifully on most devices. [TRY JAGA](http://jaga.io/register/)
+Jaga is a social sharing and networking platform built to facilitate community-building online. Jaga grew out of a hyperlocal classified advertising site that has served the [Niseko](http://niseko.jaga.io/) alpine resort area in Hokkaido since 2006. The Kutchannel remains the most popular Jaga channel but registered users can also create channels and create categories to them. User can post text, images, event info, and geolocation data to any channel, and comment on any post on any channel. Jaga is fully responsive and works beautifully on most any device. [TRY JAGA](http://jaga.io/register/)
 
 **FEATURES**
 - INDEX
@@ -32,13 +32,18 @@ Jaga is a social sharing and networking platform built to facilitate community-b
     - comments can be deleted.
 - USERS
     - have individual profiles showing posts, comments, and more: `jaga.io/u/<username>/`
-    - can subscribe to channels; this personalizes HOME
+    - can create channels and create categories for them: `<yourchannel>.jaga.io/`
 	- have a global RSS feed showing all of their posts: `jaga.io/rss/u/<username>/`
 	- have a channel-specific RSS feed showing their posts on that channel: `<channel>.jaga.io/rss/u/<username>/`
 - MESSAGING
     - users can send each other private messages `jaga.io/imo/`
 	
 **LICENSE**
- - JAGA's codebase powers [jaga.io](http://jaga.io/) and is available for use on your domain under the [MIT License](license.txt).
- - Licensing JAGA under The MIT License is intended to encourage adoption and assure that the code remains non-commercial and non-proprietary.
- - Please also consider submitting pull requests for inclusion in the master. JOIN TEAM JAGA.
+- JAGA's codebase powers [jaga.io](http://jaga.io/) and is available for use on your domain(s) under the [MIT License](license.txt).
+ 
+**TEAM**
+- @chishiki is the The Jaga Project's creator and maintainer and will give timely consideration to any pull requests. JOIN TEAM JAGA.
+
+**FUNDING**
+- Sponsors: [Zenidev LLC](http://kagi.io/) pays for the lion's share of Team Jaga's AWS fees.
+- Advertisers: [[Zenidev LLC](http://kagi.io/), [Bistrot le Cochon](http://www.lecochon-niseko.com/)
