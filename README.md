@@ -45,5 +45,5 @@ Jaga is a social sharing and networking platform built to facilitate community-b
 - [Christopher Webb](http://github.com/chishiki/) is the The Jaga Project's creator and maintainer, provide deployment support, and gives timely consideration to any pull requests.
 
 **FUNDING**
-- Sponsors: [Zenidev LLC](http://kagi.io/) pays for the lion's share of Team Jaga's AWS fees.
-- Advertisers: [Zenidev LLC](http://kagi.io/), [Bistrot le Cochon](http://www.lecochon-niseko.com/)
+- Sponsors: [Zenidev LLC](http://kagi.io/) pays Team Jaga's AWS fees.
+- Advertisers: [kagi.io](http://kagi.io/) & [Bistrot le Cochon](http://www.lecochon-niseko.com/)
