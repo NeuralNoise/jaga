@@ -133,7 +133,16 @@ class PageView {
 					$html .= "\t\t<link rel=\"alternate\" type=\"application/rss+xml\" title=\"User RSS\" href=\"/rss/u/" . $username . "/\">\n";
 				}
 				
-				$html .= "\n\t\t<link rel=\"icon\" type=\"image/x-icon\" href=\"/jaga/images/favicon.ico\"/>\n\n";
+				switch ($_SESSION['channelKey']) {
+					case ("niseko"):
+						$html .= "\n\t\t<link rel=\"icon\" type=\"image/x-icon\" href=\"/jaga/images/favicon-14.ico\"/>\n\n";
+						break;
+					default:
+						$html .= "\n\t\t<link rel=\"icon\" type=\"image/x-icon\" href=\"/jaga/images/favicon.ico\"/>\n\n";
+				}
+				
+				
+				
 
 				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/jaga/lib/bootstrap/3.3.2/css/bootstrap.min.css\">\n";
 				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/jaga/css/kutchannel.css\" />\n";
