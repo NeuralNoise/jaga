@@ -96,13 +96,26 @@ class PredictionView {
 		if (isset($inputArray['time'])) { $time = $inputArray['time']; } else { $time = date('H:i', strtotime($dateTimePredicted)); }
 
 		$html = "<div class=\"panel panel-default\">";
-			$html .= "<div class=\"panel-heading\"><div class=\"panel-title\">" . Lang::getLang('makeYourPrediction') . "</div></div>";
+			$html .= "<div class=\"panel-heading\"><div class=\"panel-title\">";
+			
+			// $html .= Lang::getLang('makeYourPrediction');
+			$html .= Lang::getLang('Closed to New Entries');
+			
+			$html .= "</div></div>";
 			$html .= "<div class=\"panel-body\">";
 			
+				// SNOW HAS BEENFORECAST
+				$html .= "Snow has been forecast for Niseko-Hirafu.";
+				$html .= "The winner will be decided by unanimous agreement of the judges at ";
+				$html .= "<a href=\"http://360niseko.com/\">360Niseko</a> and ";
+				$html .= "event sponsor <a href=\"http://www.lecochon-niseko.com/\">Bistrot le Cochon</a>. ";
+				$html .= "We will post results soon!";
+					
 				// WINNER IS ANNOUNCED
 				// $html .= "Congratulations <a href=\"/u/xxxxxxx/\">xxxxxxx</a>, you are the winner of this year's first snow contest! You've won a dinner for 6 including drinks at <a href=\"https://www.facebook.com/lecochon.niseko\" target=\"_blank\">Bistrot le Cochon</a>.";
 				
 				// CONTEST IS UNDERWAY
+				/*
 				$html .= "<form class=\"form-horizontal\" id=\"jagaPredictionForm\" name=\"jagaPredictionForm\"" . (Authentication::isLoggedIn()?" method=\"post\" action=\"/first-snow-contest/\"":"") . ">";
 					$html .= "<div class=\"form-group" . (isset($errorArray['date'])?"  has-error":"") . "\">";
 						$html .= "<label for=\"date\" class=\"control-label col-xs-2\">" . Lang::getLang('predictionDate') . "</label>";
@@ -120,6 +133,7 @@ class PredictionView {
 						$html .= "<a class=\"btn btn-default btn-block jagaFormButton\" href=\"/login/\" name=\"jagaPredictionSubmit\" id=\"jagaPredictionSubmit\">" . Lang::getLang('loginToEnter') . "</a>";
 					}
 				$html .= "</form>";
+				*/
 				// END CONTEST IS UNDERWAY
 				
 			$html .= "</div>";
@@ -142,7 +156,7 @@ class PredictionView {
 				$html .= "<div class=\"panel-body\">";
 				
 					// SNOW HAS BEENFORECAST
-					// $html .= "Snow has been forecast for Niseko-Hirafu. We will post results soon!<hr />";
+					$html .= "Snow has been forecast for Niseko-Hirafu. We will post results soon! <a href=\"/first-snow-contest/\">View Entries</a>";
 					
 					// WINNER ANNOUNCEMENT
 					// $html .= "<p><b>Congratulations <a href=\"/u/xxxxxxx/\">xxxxxxx</a>!</b> You are the winner of The Kutchannel's 8th Annual Niseko First Snow Contest!</p><hr />";
@@ -153,6 +167,7 @@ class PredictionView {
 					// else { $html .= "and THANK YOU for using The Kutchannel!</i></p>"; }
 					
 					// CONTEST IS UNDERWAY
+					/*
 					$predictions = Prediction::getPredictions($_SESSION['channelID'], date('Y'), 'dateTimeSubmitted DESC', 5);
 					for ($i = 0; $i < count($predictions); $i++) {
 				
@@ -186,6 +201,7 @@ class PredictionView {
 
 					}
 					if (empty(Prediction::getUserPredictionArray($_SESSION['userID'],date('Y')))) { $html .= self::predictionForm(); }
+					*/
 					// END CONTEST IS UNDERWAY
 					
 				$html .= "</div>";
