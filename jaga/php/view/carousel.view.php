@@ -12,7 +12,7 @@ class CarouselView {
 				if ($_SESSION['channelKey'] == 'www') { // jaga.io
 					$html .= "\t\t\t\t<div class=\"carousel-inner\">
 						<div class=\"item active\"><a href=\"http://hakodate.jaga.io/\"><img src=\"/jaga/images/carousel-hakodate-goryokaku.jpg\" alt=\"Hakodate\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
-						<div class=\"item\"><a href=\"http://kagi.io/\"><img src=\"/jaga/images/carousel-zenidev.jpg\" alt=\"Real Estate Websites\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+						<div class=\"item\"><a href=\"http://kagi.io/" . Lang::urlPrefix() . "contact/\"><img src=\"/jaga/images/carousel-kagidotio.jpg\" alt=\"Real Estate Websites\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 						<div class=\"item\"><a href=\"http://kids.jaga.io/\"><img src=\"/jaga/images/carousel-ballpit.jpg\" alt=\"Jaga Kids\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 						<div class=\"item\"><a href=\"http://niseko.jaga.io/\"><img src=\"/jaga/images/carousel-mountain.jpg\" alt=\"Niseko Hirafu\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 					</div>\n\n";
@@ -32,27 +32,31 @@ class CarouselView {
 						<div class=\"item active\"><a href=\"http://www.lecochon-niseko.com/\" target=\"_blank\"><img src=\"/jaga/images/carousel-bistrot-le-cochon-first-snow-contest.jpg\" alt=\"Niseko Restaurant\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 						</div>";
 					} else {
-						$html .= "\t\t\t\t<div class=\"carousel-inner\">
+						$html .= "
 						
+						<div class=\"carousel-inner\">
+							<!--
+							<div class=\"item active\"><a href=\"/first-snow-contest/\"><img src=\"/jaga/images/carousel-bistrot-le-cochon-first-snow-contest.jpg\" alt=\"Niseko First Snow Contest\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+							-->
+							<div class=\"item active\"><a href=\"http://www.lecochon-niseko.com/\" target=\"_blank\"><img src=\"/jaga/images/carousel-roll-tide.jpg\" alt=\"Niseko Restaurant\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+							<div class=\"item\"><a href=\"http://kagi.io/" . Lang::urlPrefix() . "contact/\" target=\"_blank\"><img src=\"/jaga/images/carousel-kagidotio.jpg\" alt=\"Real Estate Websites\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+							<div class=\"item\"><a href=\"http://360niseko.com/the-flying-fish/\" target=\"_blank\"><img src=\"/jaga/images/carousel-flying-fish.jpg\" alt=\"Niseko Flying Fish\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+						</div>
 						
-						<div class=\"item active\"><a href=\"/first-snow-contest/\"><img src=\"/jaga/images/carousel-bistrot-le-cochon-first-snow-contest.jpg\" alt=\"Niseko First Snow Contest\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
-						<div class=\"item\"><a href=\"http://www.lecochon-niseko.com/\" target=\"_blank\"><img src=\"/jaga/images/carousel-roll-tide.jpg\" alt=\"Niseko Restaurant\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
-						<div class=\"item\"><a href=\"http://kagi.io/\" target=\"_blank\"><img src=\"/jaga/images/carousel-zenidev.jpg\" alt=\"Websites for Property Professionals\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
-						<div class=\"item\"><a href=\"http://360niseko.com/the-flying-fish/\" target=\"_blank\"><img src=\"/jaga/images/carousel-flying-fish.jpg\" alt=\"Niseko Flying Fish\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
-						</div>\n\n";
+						";
 					}
 
 				} elseif ($_SESSION['channelKey'] == 'hakodate') { // Hakodate Guide
 					$html .= "\t\t\t\t<div class=\"carousel-inner\">
 						<div class=\"item active\"><img src=\"/jaga/images/carousel-hakodate-goryokaku.jpg\" alt=\"Goryokaku Park in Hakodate\" style=\"margin-left:auto;margin-right:auto;\"></div>
 						<div class=\"item\"><img src=\"/jaga/images/carousel-hakodate-ishikawa.jpg\" alt=\"Ishikawa Takuboku statue in Hakodate\" style=\"margin-left:auto;margin-right:auto;\"></div>
-						<div class=\"item\"><a href=\"http://kagi.io/\"><img src=\"/jaga/images/carousel-zenidev.jpg\" alt=\"Accommodation Systems\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+						<div class=\"item\"><a href=\"http://kagi.io/" . Lang::urlPrefix() . "contact/\"><img src=\"/jaga/images/carousel-kagidotio.jpg\" alt=\"Real Estate Websites\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 						</div>\n\n";
 				} elseif ($_SESSION['channelKey'] == 'shoreline' || $_SESSION['channelKey'] == 'seattle') { // Local
 					$html .= "\t\t\t\t<div class=\"carousel-inner\">
 						<div class=\"item  active\"><a href=\"http://refer.vonage.com/v2/share/6185926949894533561\" target=\"_blank\"><img src=\"/jaga/images/carousel-vonage.jpg\" alt=\"Vonage\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 						<div class=\"item\"><a href=\"https://nextdoor.com/invite/ysarxeamsfbznkkmzhut\" target=\"_blank\"><img src=\"/jaga/images/carousel-nextdoor.jpg\" alt=\"Nextdoor\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
-						<div class=\"item\"><a href=\"http://kagi.io/\"><img src=\"/jaga/images/carousel-zenidev.jpg\" alt=\"Zenidev\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+						<div class=\"item\"><a href=\"http://kagi.io/" . Lang::urlPrefix() . "contact/\"><img src=\"/jaga/images/carousel-kagidotio.jpg\" alt=\"Real Estate Websites\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 						</div>\n\n";
 				} elseif ($_SESSION['channelKey'] == 'redpill') { // Red Pill
 					$html .= "\t\t\t\t<div class=\"carousel-inner\">
@@ -67,7 +71,7 @@ class CarouselView {
 					";
 				} else {
 					$html .= "\t\t\t\t<div class=\"carousel-inner\">
-						<div class=\"item active\"><a href=\"http://kagi.io/\"><img src=\"/jaga/images/carousel-zenidev.jpg\" alt=\"Zenidev\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+						<div class=\"item active\"><a href=\"http://kagi.io/" . Lang::urlPrefix() . "contact/\"><img src=\"/jaga/images/carousel-kagidotio.jpg\" alt=\"Real Estate Websites\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 						</div>\n\n";
 				}
 

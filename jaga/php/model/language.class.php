@@ -66,6 +66,14 @@ class Lang extends ORM {
 		return $lang;
 	}
 	
+	public static function urlPrefix() {
+
+		$prefix = '';
+		if ($_SESSION['lang'] != 'en') { $prefix = $_SESSION['lang'] . '/'; }
+		return $prefix;
+		
+	}
+	
 }
 
 ?>
