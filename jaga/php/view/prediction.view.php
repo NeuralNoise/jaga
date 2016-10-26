@@ -99,20 +99,21 @@ class PredictionView {
 			$html .= "<div class=\"panel-heading\"><div class=\"panel-title\">";
 			
 			// $html .= Lang::getLang('makeYourPrediction');
-			$html .= Lang::getLang('Closed to New Entries');
+			// $html .= Lang::getLang('Closed to New Entries');
+			$html .= Lang::getLang('Congratulations!');
 			
 			$html .= "</div></div>";
 			$html .= "<div class=\"panel-body\">";
 			
 				// SNOW HAS BEENFORECAST
-				$html .= "Snow has been forecast for Niseko-Hirafu.";
-				$html .= "The winner will be decided by unanimous agreement of the judges at ";
-				$html .= "<a href=\"http://360niseko.com/\">360Niseko</a> and ";
-				$html .= "event sponsor <a href=\"http://www.lecochon-niseko.com/\">Bistrot le Cochon</a>. ";
-				$html .= "We will post results soon!";
+				// $html .= "Snow has been forecast for Niseko-Hirafu.";
+				// $html .= "The winner will be decided by unanimous agreement of the judges at ";
+				// $html .= "<a href=\"http://360niseko.com/\">360Niseko</a> and ";
+				// $html .= "event sponsor <a href=\"http://www.lecochon-niseko.com/\">Bistrot le Cochon</a>. ";
+				// $html .= "We will post results soon!";
 					
 				// WINNER IS ANNOUNCED
-				// $html .= "Congratulations <a href=\"/u/xxxxxxx/\">xxxxxxx</a>, you are the winner of this year's first snow contest! You've won a dinner for 6 including drinks at <a href=\"https://www.facebook.com/lecochon.niseko\" target=\"_blank\">Bistrot le Cochon</a>.";
+				$html .= "<a href=\"/u/ThisIsMySeriousFace/\">ThisIsMySeriousFace</a> is the winner of this year's first snow contest! A dinner for 6 including drinks awaits you at <a href=\"https://www.facebook.com/lecochon.niseko\" target=\"_blank\">Bistrot le Cochon</a>.";
 				
 				// CONTEST IS UNDERWAY
 				/*
@@ -156,15 +157,17 @@ class PredictionView {
 				$html .= "<div class=\"panel-body\">";
 				
 					// SNOW HAS BEENFORECAST
-					$html .= "Snow has been forecast for Niseko-Hirafu. We will post results soon! <a href=\"/first-snow-contest/\">View Entries</a>";
+					// $html .= "Snow has been forecast for Niseko-Hirafu. We will post results soon! <a href=\"/first-snow-contest/\">View Entries</a>";
 					
 					// WINNER ANNOUNCEMENT
-					// $html .= "<p><b>Congratulations <a href=\"/u/xxxxxxx/\">xxxxxxx</a>!</b> You are the winner of The Kutchannel's 8th Annual Niseko First Snow Contest!</p><hr />";
-					// $html .= "<p>You've won a dinner for 6 including drinks at <a href=\"https://www.facebook.com/lecochon.niseko\" target=\"_blank\">Bistrot le Cochon</a>.</p><hr />";
-					// $html .= "<p><small>THANK TO EVERYBODY for playing, THANKS TO <a href=\"http://360niseko.com/\" target=\"_blank\">360NISEKO.COM</a> for judging, ";
-					// $html .= "THANKS TO <a href=\"https://www.facebook.com/lecochon.niseko\" target=\"_blank\">BISTROT LE COCHON</a> for sponsoring, ";
-					// if ($_SESSION['userID']) { $html .= "and THANK <a href=\"/u/" . User::getUserName($_SESSION['userID']) . "/\">YOU</a> for using The Kutchannel!</small></p>"; }
-					// else { $html .= "and THANK YOU for using The Kutchannel!</i></p>"; }
+					$html .= "<b>Congratulations <a href=\"/u/ThisIsMySeriousFace/\">ThisIsMySeriousFace</a>!</b><hr />";
+					$html .= "You are the winner of The Kutchannel's 9th Annual <a href=\"/first-snow-contest/\">Niseko First Snow</a> Contest!<hr />";
+					$html .= "<p>You've won a dinner for 6 including drinks at <a href=\"https://www.facebook.com/lecochon.niseko\" target=\"_blank\">Bistrot le Cochon</a>.</p><hr />";
+					$html .= "<p><small>THANK TO EVERYBODY for playing, THANKS TO <a href=\"http://360niseko.com/\" target=\"_blank\">360NISEKO.COM</a> for judging, ";
+					$html .= "THANKS TO <a href=\"https://www.facebook.com/lecochon.niseko\" target=\"_blank\">BISTROT LE COCHON</a> for sponsoring, ";
+					$html .= "a special mention of our snow-savvy friends at <a href=\"http://www.niseko-wow.com/\" target=\"_blank\">Niseko Wow</a> from whose ranks the winner emerged, ";
+					if ($_SESSION['userID']) { $html .= "and THANK <a href=\"/u/" . User::getUserName($_SESSION['userID']) . "/\">YOU</a> for using The Kutchannel!</small></p>"; }
+					else { $html .= "and THANK YOU for using The Kutchannel!</i></p>"; }
 					
 					// CONTEST IS UNDERWAY
 					/*
