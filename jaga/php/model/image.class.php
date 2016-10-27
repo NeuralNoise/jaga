@@ -72,19 +72,70 @@ class Image extends ORM {
 				unset($image->imageID);
 				$imageID = self::insert($image);
 			
+				// AWS S3
+				/*
+				$sharedConfig = [
+					'region'  => 'us-west-2',
+					'version' => 'latest',
+					'credentials' => [
+						'key'    => 'my-access-key-id',
+						'secret' => 'my-secret-access-key',
+					]
+				];
+				
+				$sdk = new Aws\Sdk($sharedConfig);
+				$s3Client = new S3Client([
+					'version'     => 'latest',
+					'region'      => 'us-west-2',
+					'credentials' => [
+						'key'    => 'my-access-key-id',
+						'secret' => 'my-secret-access-key',
+					],
+				]);
+				$client = $sdk->createS3();
+				*/
+			
 				// need new imageID
 				$newImage = $image->imagePath . $imageID . '.' . $image->imageType;
 				
-				move_uploaded_file($imageArray['tmp_name'], $newImage) or die ('move_uploaded_file() ERROR');
-				
-				if ($image->imageType == 'jpg') {
-					
-					$thumbnailSizeArray = array(50, 90, 150, 210, 330, 600, 768, 992, 1200);
-					foreach ($thumbnailSizeArray AS $width) {
-						$newImageThumbnail = $image->imagePath . $imageID . '-' . $width . 'px.' . $image->imageType;
-						self::createThumbnail($newImage,$image->imageType,$newImageThumbnail,$width);
+				// ensure correct orientation
+				$imageTmpName = $imageArray['tmp_name'];
+				$sandboxImage = imagecreatefromstring(file_get_contents($imageTmpName));
+				$exif = exif_read_data($imageTmpName);
+				if(!empty($exif['Orientation'])) {
+					switch($exif['Orientation']) {
+						case 8:
+							$sandboxImage = imagerotate($sandboxImage,90,0);
+							break;
+						case 3:
+							$sandboxImage = imagerotate($sandboxImage,180,0);
+							break;
+						case 6:
+							$sandboxImage = imagerotate($sandboxImage,-90,0);
+							break;
 					}
+				}
+
+				// upload image and create thumbnails
+				switch ($image->imageType) {
 					
+					case ('jpg'):
+						
+						imagejpeg($sandboxImage, $newImage);
+						$thumbnailSizeArray = array(50, 90, 150, 210, 330, 600, 768, 992, 1200);
+						foreach ($thumbnailSizeArray AS $width) {
+							$newImageThumbnail = $image->imagePath . $imageID . '-' . $width . 'px.' . $image->imageType;
+							self::createThumbnail($newImage,$image->imageType,$newImageThumbnail,$width);
+						}
+						break;
+						
+					case ('png'):
+					
+						imagepng($sandboxImage, $newImage);
+						break;
+
+					default:
+						move_uploaded_file($imageTmpName, $newImage) or die ('move_uploaded_file() ERROR');
 					
 				}
 

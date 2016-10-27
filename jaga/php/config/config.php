@@ -1,5 +1,8 @@
 <?php
 
+	// AWS SDK
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/lib/aws/aws-autoloader.php');
+
 	// CONTROLLER
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/controller/Config.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/controller/Controller.php');

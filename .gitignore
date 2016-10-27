@@ -4,3 +4,5 @@ jaga/images/legacy/
 nbproject/
 spudnik.php
 jaga/sql/backup*
+jaga/lib/aws/
+data/jagaDB-*
