@@ -14,6 +14,15 @@ h1,h2,h3,h4,h5,h6,h7 {
 	font-weight:bold;
 }
 
+h1#pageTitle {
+	display:inline-block;
+	margin:0px;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #333;
+}
+
 .jagaBadge {
 	position:absolute;
 	right:10px;
@@ -164,6 +173,43 @@ div#map-canvas iframe {
 .alternate-row {
 	background-color:#eee;
 }
+
+
+@media screen and (max-width:767px) {
+
+	ol.breacrumb {
+	
+	}
+
+	ol.breadcrumb > li {
+		display:block;
+		box-sizing:border-box;
+		padding:2px;;
+		margin:5px 0;
+	}
+	
+	ol.breadcrumb > li > a {
+		display:block;
+		padding:0;
+		border:1px solid #fff;
+		background-color:#fff;
+	}
+	
+	ol.breadcrumb > li > h1 {
+		display:block;
+		content:none;
+		padding:0;
+	}
+	
+	ol.breadcrumb > li + li:before {
+		content:none;
+	}
+	ol.breadcrumb > li + li.active:before {
+		content:none;
+	}
+
+}
+
 
 /*
 					 \++================================|                    _=_

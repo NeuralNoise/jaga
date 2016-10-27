@@ -51,6 +51,9 @@ class PageView {
 	
 	private function getHeader($urlArray = array()) {
 
+		$strippers = array("\r","\n","\t");
+		$pageDescription = preg_replace( '/\s+/', ' ', str_replace($strippers, ' ', $this->pageDescription));
+	
 		$html = "<!DOCTYPE html>\n";
 		$html .= "<html lang=\"" . $_SESSION['lang'] . "\">\n\n";
 		
@@ -62,7 +65,7 @@ class PageView {
 				$html .= "\t\t<meta name=\"robots\" content=\"INDEX, FOLLOW\">\n\n";
 				
 				$html .= "\t\t<meta name=\"keywords\" content=\"" . $this->pageKeywords . "\">\n";
-				$html .= "\t\t<meta name=\"description\" content=\"" . $this->pageDescription . "\">\n\n";
+				$html .= "\t\t<meta name=\"description\" content=\"" . $pageDescription . "\">\n\n";
 				
 				$html .= "\t\t<meta name=\"msvalidate.01\" content=\"" . Config::read('ms.validate') . "\" />\n";
 				$html .= "\t\t<meta name=\"p:domain_verify\" content=\"" . Config::read('pinterest.domain_verify') . "\"/>\n\n";
@@ -222,7 +225,8 @@ class PageView {
 					$html .= "\t\t\t\t<div class=\"col-sm-4\">\n";
 						$html .= "\t\t\t\t\t<div class=\"pull-right\">";
 							if ($_SESSION['lang'] == 'ja') { $html .= "<a href=\"/lang/en/\">English</a> | "; } else { $html .= "<a href=\"/lang/ja/\">日本語</a> | "; }
-							$html .= "Powered by <a href=\"http://github.com/chishiki/jaga/\">JAGA</a>";
+							$html .= "<a href=\"http://github.com/jagadotio/jaga/\">Code</a> | ";
+							$html .= "<a href=\"http://kagi.io/\">Tech</a>";
 						$html .= "</div>\n";
 					$html .= "\t\t\t\t</div>\n";
 				$html .= "\t\t</div>\n\n";
@@ -243,7 +247,7 @@ class PageView {
 		$breadcrumbs[] = array('anchor' => Lang::getLang('jaga'), 'url' => 'http://jaga.io/', 'class' => '');
 
 		if ($urlArray[1] == '') {
-			$breadcrumbs[] = array('anchor' => strtoupper($channelTitle), 'url' => '', 'class' => '');
+			$breadcrumbs[] = array('anchor' => "<h1 id=\"pageTitle\">" . strtoupper($channelTitle) . "</h1>", 'url' => '', 'class' => '');
 			$breadcrumbs[] = array('anchor' => '<span class="glyphicon glyphicon-plus"></span> Create a Post', 'url' => '/k/create/', 'class' => '');
 		} else {
 			$breadcrumbs[] = array('anchor' => strtoupper($channelTitle), 'url' => 'http://' . $channelKey . '.jaga.io/', 'class' => '');
@@ -252,9 +256,9 @@ class PageView {
 		if ($urlArray[0] == 'k' && $urlArray[1] != '') { // /k/<contentCategoryKey>/
 			$categoryTitle = strtoupper(Category::getCategoryTitle($urlArray[1]));
 			if ($urlArray[2] != '') {
-				$breadcrumbs[] = array('anchor' => $categoryTitle, 'url' => 'http://' . $channelKey . '.jaga.io/k/' . $urlArray[1] . '/', 'class' => 'active');
+				$breadcrumbs[] = array('anchor' => $categoryTitle, 'url' => 'http://' . $channelKey . '.jaga.io/k/' . $urlArray[1] . '/', 'class' => '');
 			} else {
-				$breadcrumbs[] = array('anchor' => $categoryTitle, 'url' => '', 'class' => 'active');
+				$breadcrumbs[] = array('anchor' => $categoryTitle, 'url' => '', 'class' => '');
 				$breadcrumbs[] = array('anchor' => '<span class="glyphicon glyphicon-plus"></span> Create a Post', 'url' => '/k/create/' . $urlArray[1] . '/', 'class' => '');
 			}
 		}
@@ -264,13 +268,13 @@ class PageView {
 			if (Content::contentURLExists($urlArray[2])) {
 				$contentID = mb_strtoupper(Content::getContentID($urlArray[2]));
 				$content = new Content($contentID);
-				$contentTitle = $content->getTitle();
-				$breadcrumbs[] = array('anchor' => $contentTitle, 'url' => '', 'class' => 'active');
+				$contentTitle = '<h1 id="pageTitle">' . $content->getTitle() . '</h1>';
+				$breadcrumbs[] = array('anchor' => $contentTitle, 'url' => '', 'class' => '');
 			}
 			
 		}
 
-		$html = "<div class=\"container hidden-xs\">";
+		$html = "<div class=\"container\">";
 			$html .= "<ol class=\"breadcrumb\">";
 				foreach($breadcrumbs AS $breadcrumb) {
 					if ($breadcrumb['url'] != '') { $isLink = true; $url = $breadcrumb['url']; } else { $isLink = false; }
@@ -285,7 +289,7 @@ class PageView {
 			$html .= "</ol>";
 		$html .= "</div>";
 		
-		$html .= "<div class=\"container visible-xs-block\">";
+		/* $html .= "<div class=\"container visible-xs-block\">";
 		
 		
 			$html .= '<ul class="list-group">';
@@ -304,6 +308,7 @@ class PageView {
 			
 			$html .= '</ul>';
 		$html .= "</div>";
+		*/
 		
 		return $html;
 		
