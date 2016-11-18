@@ -624,7 +624,7 @@ class ContentView {
 
 				
 				$i = 0;
-				if ($_SESSION['channelKey'] == 'niseko') { $html .= PredictionView::predictionContentWidget(); $i++; }
+				// if ($_SESSION['channelKey'] == 'niseko') { $html .= PredictionView::predictionContentWidget(); $i++; }
 
 				foreach ($recentContentArray AS $contentID) {
 				
