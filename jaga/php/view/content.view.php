@@ -141,7 +141,7 @@ class ContentView {
 								if (isset($imageHtml)) { $html .= $imageHtml; }
 							$html .= "</div>";
 
-							$html .= "<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\">";
+							$html .= "<aside class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\">";
 								if (isset($eventHtml)) { $html .= $eventHtml; }
 								if (isset($mapHtml)) { $html .= $mapHtml; }
 								if (isset($linkHtml)) { $html .= $linkHtml; }
@@ -159,7 +159,7 @@ class ContentView {
 									</script>
 								";
 								
-							$html .= "</div>";
+							$html .= "</aside>";
 
 						$html .= "</div>";
 
@@ -702,7 +702,7 @@ class ContentView {
 					}
 					
 					if ($i == 3) {
-						$html .= "\t\t\t\t<div class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\">\n";
+						$html .= "\t\t\t\t<aside class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\">\n";
 							$html .= "\t\t\t\t\t<div class=\"panel panel-default\" style=\"padding:3px;\">\n";
 								$html .= "
 								<script async src=\"//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js\"></script>
@@ -717,7 +717,7 @@ class ContentView {
 								</script>
 								";
 							$html .= "\t\t\t\t\t</div>\n";
-						$html .= "\t\t\t\t</div>\n";
+						$html .= "\t\t\t\t</aside>\n";
 					}
 					
 				}

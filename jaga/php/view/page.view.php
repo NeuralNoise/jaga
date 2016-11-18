@@ -140,6 +140,9 @@ class PageView {
 					case ("niseko"):
 						$html .= "\n\t\t<link rel=\"icon\" type=\"image/x-icon\" href=\"/jaga/images/favicon-14.ico\"/>\n\n";
 						break;
+					case ("starwars"):
+						$html .= "\n\t\t<link rel=\"icon\" type=\"image/x-icon\" href=\"/jaga/images/favicon-100034.ico\"/>\n\n";
+						break;
 					default:
 						$html .= "\n\t\t<link rel=\"icon\" type=\"image/x-icon\" href=\"/jaga/images/favicon.ico\"/>\n\n";
 				}
@@ -217,7 +220,7 @@ class PageView {
 							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/tos/\">" . Lang::getLang('tos') . "</a></li>\n";
 							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/privacy/\">" . Lang::getLang('privacyPolicy') . "</a></li>\n";
 							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/credits/\">" . Lang::getLang('credits') . "</a></li>\n";
-							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/sitemap/\">" . Lang::getLang('sitemap') . "</a></li>\n";
+							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . $_SESSION['channelKey'] . "." . Config::read('site.url') . "/sitemap.xml\">" . Lang::getLang('sitemap') . "</a></li>\n";
 							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/advertise/\">Advertise</a></li>\n";
 							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/contact/\">Contact</a></li>\n";
 						$html .= "\t\t\t\t\t</ul>\n";
@@ -258,7 +261,7 @@ class PageView {
 			if ($urlArray[2] != '') {
 				$breadcrumbs[] = array('anchor' => $categoryTitle, 'url' => 'http://' . $channelKey . '.jaga.io/k/' . $urlArray[1] . '/', 'class' => '');
 			} else {
-				$breadcrumbs[] = array('anchor' => $categoryTitle, 'url' => '', 'class' => '');
+				$breadcrumbs[] = array('anchor' => "<h1 id=\"pageTitle\">" . $categoryTitle . "</h1>", 'url' => '', 'class' => '');
 				$breadcrumbs[] = array('anchor' => '<span class="glyphicon glyphicon-plus"></span> Create a Post', 'url' => '/k/create/' . $urlArray[1] . '/', 'class' => '');
 			}
 		}
