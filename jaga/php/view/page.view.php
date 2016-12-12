@@ -233,6 +233,9 @@ class PageView {
 						$html .= "</div>\n";
 					$html .= "\t\t\t\t</div>\n";
 				$html .= "\t\t</div>\n\n";
+				
+				$html .= "\t\t<script type=\"text/javascript\" src=\"//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-584e15eba1c6e5ec\"></script>\n\n";
+				
 			$html .= "\t</body>\n\n";
 		$html .= "</html>";
 		
@@ -514,6 +517,11 @@ class PageView {
 				} else {
 					
 					if ($urlArray[2] == '') { // /k/<contentCategoryKey>/
+					
+						if ($urlArray[1] == 'property') {
+							$carousel = new CarouselView();
+							$html .= $carousel->getCarousel($urlArray);
+						}
 					
 						$html .= $this->getBreadcrumbs($urlArray);
 						$html .= ContentView::displayRecentContentItems($_SESSION['channelID'], $urlArray[1], 50);
