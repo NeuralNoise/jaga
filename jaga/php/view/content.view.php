@@ -720,6 +720,46 @@ class ContentView {
 						$html .= "\t\t\t\t</aside>\n";
 					}
 					
+					if ($i == 10) {
+						
+						if ($_SESSION['channelKey'] == 'niseko') {
+							switch($contentCategoryKey) {
+								case('jobs'):
+									$fbpagename = 'nisekojobs';
+									$fbpagetitle = 'Niseko Jobs';
+									break;
+								case('accommodation'):
+									$fbpagename = 'nisekoaccomm';
+									$fbpagetitle = 'Nisko Accommodation';
+									break;
+								case('property'):
+									$fbpagename = 'nisekorealestate';
+									$fbpagetitle = 'Niseko Real Estate';
+									break;
+								default:
+									$fbpagename = 'kutchannel';
+									$fbpagetitle = 'The Kutchannel';
+							}
+						}
+					
+						$html .= "\t\t\t\t<aside class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\">\n";
+							$html .= "\t\t\t\t\t<div class=\"panel panel-default\" style=\"padding:3px;height:510px;text-align:center;\">\n";
+								
+								$html .= "\n
+							
+								<div class=\"fb-page\" data-href=\"https://www.facebook.com/" . $fbpagename . "/\" data-tabs=\"timeline\" data-height=\"500\" data-small-header=\"false\" data-adapt-container-width=\"true\" data-hide-cover=\"false\" data-show-facepile=\"true\">
+								<blockquote cite=\"https://www.facebook.com/" . $fbpagename . "/\" class=\"fb-xfbml-parse-ignore\">
+								<a href=\"https://www.facebook.com/" . $fbpagename . "/\">" . $fbpagetitle . "</a>
+								</blockquote>
+								</div>
+							
+							\n";
+							
+							$html .= "\t\t\t\t\t</div>\n";
+						$html .= "\t\t\t\t</aside>\n";
+						
+					}
+					
 				}
 				
 			$html .= "\t\t\t</div> <!-- END ROW -->\n";
