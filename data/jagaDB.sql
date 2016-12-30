@@ -2,18 +2,19 @@
 -- Host:                         zenilistdb.co2dst0led4r.us-west-2.rds.amazonaws.com
 -- Server version:               5.6.22-log - MySQL Community Server (GPL)
 -- Server OS:                    Linux
--- HeidiSQL Version:             9.3.0.4984
+-- HeidiSQL Version:             9.4.0.5125
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
 
 -- Dumping database structure for jagaDB
 CREATE DATABASE IF NOT EXISTS `jagaDB` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `jagaDB`;
-
 
 -- Dumping structure for table jagaDB.jaga_AccountRecovery
 CREATE TABLE IF NOT EXISTS `jaga_AccountRecovery` (
@@ -28,8 +29,6 @@ CREATE TABLE IF NOT EXISTS `jaga_AccountRecovery` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_Audit
 CREATE TABLE IF NOT EXISTS `jaga_Audit` (
   `auditID` int(12) NOT NULL AUTO_INCREMENT,
@@ -48,8 +47,6 @@ CREATE TABLE IF NOT EXISTS `jaga_Audit` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_BlacklistDomain
 CREATE TABLE IF NOT EXISTS `jaga_BlacklistDomain` (
   `domain` varchar(100) CHARACTER SET utf8 NOT NULL,
@@ -62,8 +59,6 @@ CREATE TABLE IF NOT EXISTS `jaga_BlacklistDomain` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_BlacklistIP
 CREATE TABLE IF NOT EXISTS `jaga_BlacklistIP` (
   `ip` varchar(50) CHARACTER SET utf8 NOT NULL,
@@ -76,8 +71,6 @@ CREATE TABLE IF NOT EXISTS `jaga_BlacklistIP` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_Category
 CREATE TABLE IF NOT EXISTS `jaga_Category` (
   `contentCategoryKey` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -88,8 +81,6 @@ CREATE TABLE IF NOT EXISTS `jaga_Category` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_Channel
 CREATE TABLE IF NOT EXISTS `jaga_Channel` (
   `channelID` int(8) NOT NULL AUTO_INCREMENT,
@@ -116,8 +107,6 @@ CREATE TABLE IF NOT EXISTS `jaga_Channel` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_ChannelCategory
 CREATE TABLE IF NOT EXISTS `jaga_ChannelCategory` (
   `channelID` int(8) NOT NULL,
@@ -128,8 +117,6 @@ CREATE TABLE IF NOT EXISTS `jaga_ChannelCategory` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_Comment
 CREATE TABLE IF NOT EXISTS `jaga_Comment` (
   `commentID` int(12) NOT NULL AUTO_INCREMENT,
@@ -143,8 +130,6 @@ CREATE TABLE IF NOT EXISTS `jaga_Comment` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_Content
 CREATE TABLE IF NOT EXISTS `jaga_Content` (
   `contentID` int(8) NOT NULL AUTO_INCREMENT,
@@ -174,8 +159,6 @@ CREATE TABLE IF NOT EXISTS `jaga_Content` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_Family
 CREATE TABLE IF NOT EXISTS `jaga_Family` (
   `famKey` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -185,8 +168,6 @@ CREATE TABLE IF NOT EXISTS `jaga_Family` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_FamilyChannel
 CREATE TABLE IF NOT EXISTS `jaga_FamilyChannel` (
   `famKey` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -196,8 +177,6 @@ CREATE TABLE IF NOT EXISTS `jaga_FamilyChannel` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_Image
 CREATE TABLE IF NOT EXISTS `jaga_Image` (
   `imageID` int(12) NOT NULL AUTO_INCREMENT,
@@ -220,8 +199,6 @@ CREATE TABLE IF NOT EXISTS `jaga_Image` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_Language
 CREATE TABLE IF NOT EXISTS `jaga_Language` (
   `langKey` varchar(255) CHARACTER SET utf8 NOT NULL,
@@ -234,8 +211,6 @@ CREATE TABLE IF NOT EXISTS `jaga_Language` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_Mail
 CREATE TABLE IF NOT EXISTS `jaga_Mail` (
   `mailID` int(8) NOT NULL AUTO_INCREMENT,
@@ -250,8 +225,6 @@ CREATE TABLE IF NOT EXISTS `jaga_Mail` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_Message
 CREATE TABLE IF NOT EXISTS `jaga_Message` (
   `messageID` int(12) NOT NULL AUTO_INCREMENT,
@@ -265,8 +238,6 @@ CREATE TABLE IF NOT EXISTS `jaga_Message` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_Prediction
 CREATE TABLE IF NOT EXISTS `jaga_Prediction` (
   `predictionID` int(8) NOT NULL AUTO_INCREMENT,
@@ -283,12 +254,10 @@ CREATE TABLE IF NOT EXISTS `jaga_Prediction` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
-
-
--- Dumping structure for table jagaDB.jaga_session
-CREATE TABLE IF NOT EXISTS `jaga_session` (
+-- Dumping structure for table jagaDB.jaga_Session
+CREATE TABLE IF NOT EXISTS `jaga_Session` (
   `sessionID` varchar(32) CHARACTER SET utf8 NOT NULL,
-  `userID` int(8) NOT NULL,
+  `userID` int(12) NOT NULL,
   `sessionDateTimeSet` datetime NOT NULL,
   `sessionDateTimeExpire` datetime NOT NULL,
   `sessionIP` varchar(50) CHARACTER SET utf8 NOT NULL,
@@ -297,8 +266,6 @@ CREATE TABLE IF NOT EXISTS `jaga_session` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_Subscription
 CREATE TABLE IF NOT EXISTS `jaga_Subscription` (
   `userID` int(8) NOT NULL,
@@ -308,8 +275,6 @@ CREATE TABLE IF NOT EXISTS `jaga_Subscription` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_theme
 CREATE TABLE IF NOT EXISTS `jaga_theme` (
   `themeKey` varchar(50) CHARACTER SET utf8 NOT NULL,
@@ -329,8 +294,6 @@ CREATE TABLE IF NOT EXISTS `jaga_theme` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
-
-
 -- Dumping structure for table jagaDB.jaga_User
 CREATE TABLE IF NOT EXISTS `jaga_User` (
   `userID` int(11) NOT NULL AUTO_INCREMENT,

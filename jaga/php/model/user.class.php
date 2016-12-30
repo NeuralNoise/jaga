@@ -82,6 +82,29 @@ class User extends ORM {
 			
 	}
 	
+	public function hulkSmash() {
+	
+		// get all IPs from redflag user's sessions
+		// extract list of bad actors using those IPs
+			// this should be recursive
+			// some of those bad actors will have used IPs that the redflag user has not
+		
+		// for each bad actor
+			// disable account & blacklist
+			// delete sessions
+			// unpublish posts
+			// delete comments
+			
+		// for each IP
+			// add to IP blacklist
+		
+		// send report to admin (include users, posts, comments, IPs, sessions)
+
+	
+	}
+	
+	
+	
 	public static function getUserIDwithUserNameOrEmail($username) {
 	
 		$core = Core::getInstance();

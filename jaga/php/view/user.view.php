@@ -313,6 +313,26 @@
 		
 		}
 		
+		public function hulkSmash($userID) {
+
+			$user = new User($userID);
+		
+			$h = "<div class=\"container\">";
+				$h .= "<div class=\"col-xs-12\">";
+					$h .= "<div class=\"panel panel-default\">";
+						$h .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>HULK SMASH PUNY USER</h4></div>";
+						$h .= "<div class=\"panel-body\">";
+							$h .= "<pre>" . print_r($user,true) . "</pre>";
+						$h .= "</div>";
+					$h .= "</div>";
+				$h .= "</div>";
+			$h .= "</div>";
+			
+			$this->html = $h;
+
+		}
+		
+	
 	}
 
 ?>

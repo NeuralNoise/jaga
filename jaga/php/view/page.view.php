@@ -563,6 +563,12 @@ class PageView {
 				$userView->displayUserProfile($userID);
 				$html .= $userView->html;
 
+			} elseif ($urlArray[0] == 'hulk' && $urlArray[1] == 'smash' && ctype_digit($urlArray[2]) && Authentication::isAdmin()) {
+
+				$userView = new UserView();
+				$userView->hulkSmash($urlArray[2]);
+				$html .= $userView->html;
+
 			} elseif ($urlArray[0] == 'subscribe') {
 			
 				if ($_SESSION['userID'] == 0) {

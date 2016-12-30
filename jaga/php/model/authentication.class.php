@@ -36,11 +36,11 @@ class Authentication {
 		session_unset();
 		session_destroy();
 		
-		// kill jaga_session
+		// kill jaga_Session
 		$sessionID = $_COOKIE['jaga'];
 		$currentDateTime = date('Y-m-d H:i:s');
 		$core = Core::getInstance();
-		$query = "UPDATE jaga_session SET sessionDateTimeExpire = :currentDateTime WHERE sessionID = :sessionID LIMIT 1";
+		$query = "UPDATE jaga_Session SET sessionDateTimeExpire = :currentDateTime WHERE sessionID = :sessionID LIMIT 1";
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':currentDateTime' => $currentDateTime, ':sessionID' => $sessionID));
 		

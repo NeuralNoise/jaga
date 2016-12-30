@@ -1,6 +1,6 @@
 <?php
 
-class Session {
+class Session extends ORM {
 
 	static $sessionArray;
 		
@@ -11,7 +11,7 @@ class Session {
 	public $sessionIP;
 	public $sessionUserAgent;
 
-	public function __construct() {
+	public function __construct($sessionID = null) {
 
 		$this->sessionID = $_COOKIE['jaga'];
 		$this->userID = $_SESSION['userID'];
@@ -19,25 +19,19 @@ class Session {
 		$this->sessionDateTimeExpire = date("Y-m-d H:i:s", strtotime("+1 month"));
 		$this->sessionIP = $_SERVER['REMOTE_ADDR'];
 		$this->sessionUserAgent = $_SERVER['HTTP_USER_AGENT'];
+		
+		if ($sessionID) {
+			
+			$query = "SELECT * FROM jaga_Session WHERE sessionID = :sessionID LIMIT 1";
+			$core = Core::getInstance();
+			$statement = $core->database->prepare($query);
+			$statement->execute(array(':sessionID' => $sessionID));
+			if ($row = $statement->fetch()) {
+				foreach ($row AS $property => $value) { if (isset($this->$property)) { $this->$property = $value; } }
+			}
 
-	}
-	
-	public function createAuthSession() {
-		
-		$core = Core::getInstance();
-		$query = "INSERT INTO jaga_session (sessionID,userID,sessionDateTimeSet,sessionDateTimeExpire,sessionIP,sessionUserAgent
-		) VALUES (:sessionID, :userID, :sessionDateTimeSet, :sessionDateTimeExpire, :sessionIP, :sessionUserAgent)";
-		$statement = $core->database->prepare($query);
-		
-		$statement->bindParam(':sessionID', $this->sessionID);
-		$statement->bindParam(':userID', $this->userID);
-		$statement->bindParam(':sessionDateTimeSet', $this->sessionDateTimeSet);
-		$statement->bindParam(':sessionDateTimeExpire', $this->sessionDateTimeExpire);
-		$statement->bindParam(':sessionIP', $this->sessionIP);
-		$statement->bindParam(':sessionUserAgent', $this->sessionUserAgent);
-		
-		$statement->execute();
-		
+		}
+
 	}
 
 	public static function getSession($name) {
@@ -67,20 +61,20 @@ class Session {
 	public static function sessionDump () {
 		return self::$sessionArray;
 	}
-	
-	public static function getAuthSessionUserID($sessionID) {
-	
+
+	public static function getUserSessions($userID) {
+
+		$query = "SELECT sessionID FROM jaga_Session WHERE userID = :userID ORDER BY sessionDateTimeSet DESC";
 		$core = Core::getInstance();
-		$currentDateTime = date('Y-m-d H:i:s');
-		$query = "SELECT userID FROM jaga_session WHERE sessionID = :sessionID AND sessionDateTimeExpire > :currentDateTime LIMIT 1";
 		$statement = $core->database->prepare($query);
-		$statement->execute(array(':sessionID' => $sessionID, ':currentDateTime' => $currentDateTime));
-		$userID = 0;
-		if ($row = $statement->fetch()) { $userID = $row['userID']; }
-		return $userID;
+		$statement->execute(array(':userID' => $userID));
+		
+		$sessions = array();
+		while ($row = $statement->fetch()) { $sessions[] = $row['sessionID']; }
+		return $sessions;
 		
 	}
-
+	
 }
 
 ?>

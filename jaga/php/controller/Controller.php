@@ -13,8 +13,8 @@ class Controller {
 		
 		$userID = 0;
 		if (isset($_COOKIE['jaga'])) {
-			$sessionID = $_COOKIE['jaga'];
-			$userID = Session::getAuthSessionUserID($sessionID);
+			$session = new Session($_COOKIE['jaga']);
+			$userID = $session->userID;
 		}
 		
 		Session::setSession('userID', $userID);
@@ -79,7 +79,8 @@ class Controller {
 					
 					// save session to db
 					$authSession = new Session();
-					$authSession->createAuthSession();
+					// $authSession->createAuthSession();
+					Session::insert($authSession);
 					
 					// terminate script; forward header
 					if (isset($_SESSION['loginForwardURL'])) {
@@ -296,34 +297,42 @@ class Controller {
 
 		if ($urlArray[0] == 'k' && $urlArray[1] == 'comment' && is_numeric($urlArray[2])) {
 			
-			if ($_SESSION['userID'] == 0) { die('You must be logged in to comment.'); }
+			
 			$contentPath = Content::getContentURL($urlArray[2]);
 			if (!empty($_POST)) { $inputArray = $_POST; } else { header("Location: $contentPath"); }
 			
-			$comment = new Comment(0);
-			unset($comment->commentID);
-			foreach ($inputArray AS $property => $value) { if (isset($comment->$property)) { $comment->$property = $value; } }
-			$comment->commentObject = 'Content';
-			$comment->commentObjectID = $urlArray[2];
-			$commentID = Comment::insert($comment);
-
-			$content = new Content($urlArray[2]);
-			$channel = new Channel($content->channelID);
-			$commenter = new User($_SESSION['userID']);
+			$errors = array();
+			if ($_SESSION['userID'] == 0) { $errors['auth'][] = 'you must be logged in to comment'; }
+			if (empty($inputArray['commentContent']) || !isset($inputArray['commentContent']) || $inputArray['commentContent'] == '') { $errors['commentContent'][] = 'your comment is empty'; }
 			
-			$mailSender = 'JagaBot <noreply@jaga.io>';
-			$mailSubject = $commenter->getUserDisplayName() . ' has commented on [' . $content->getTitle() . ']';
-			$mailMessage = 'http://' . $channel->channelKey . '.jaga.io/k/' . $content->contentCategoryKey . '/' . $content->contentURL . '/';
+			if (empty($errors)) {
 				
-			$usersToNotify = $content->usersToNotifyOfComments();
+				$comment = new Comment(0);
+				unset($comment->commentID);
+				foreach ($inputArray AS $property => $value) { if (isset($comment->$property)) { $comment->$property = $value; } }
+				$comment->commentObject = 'Content';
+				$comment->commentObjectID = $urlArray[2];
+				$commentID = Comment::insert($comment);
+
+				$content = new Content($urlArray[2]);
+				$channel = new Channel($content->channelID);
+				$commenter = new User($_SESSION['userID']);
+				
+				$mailSender = 'JagaBot <noreply@jaga.io>';
+				$mailSubject = $commenter->getUserDisplayName() . ' has commented on [' . $content->getTitle() . ']';
+				$mailMessage = 'http://' . $channel->channelKey . '.jaga.io/k/' . $content->contentCategoryKey . '/' . $content->contentURL . '/';
+					
+				$usersToNotify = $content->usersToNotifyOfComments();
+				
+				foreach ($usersToNotify AS $userID) {
+					$recipient = new User($userID);
+					$mailRecipient = $recipient->getUserDisplayName() . ' <' . $recipient->userEmail . '>';
+					Mail::sendEmail($mailRecipient, $mailSender, $mailSubject, $mailMessage, $_SESSION['channelKey'], $_SESSION['userID']);
+				}
+				
+				Mail::sendEmail('JagaAdmin <' . Config::read('admin.email') . '>', $mailSender, $mailSubject, $mailMessage, $_SESSION['channelKey'], $_SESSION['userID']);
 			
-			foreach ($usersToNotify AS $userID) {
-				$recipient = new User($userID);
-				$mailRecipient = $recipient->getUserDisplayName() . ' <' . $recipient->userEmail . '>';
-				Mail::sendEmail($mailRecipient, $mailSender, $mailSubject, $mailMessage, $_SESSION['channelKey'], $_SESSION['userID']);
 			}
-			
-			Mail::sendEmail('JagaAdmin <' . Config::read('admin.email') . '>', $mailSender, $mailSubject, $mailMessage, $_SESSION['channelKey'], $_SESSION['userID']);
 			
 			header("Location: $contentPath");
 			
@@ -787,6 +796,19 @@ class Controller {
 			*/
 			
 		}
+		
+		/*
+		if ($urlArray[0] == 'hulk' && $urlArray[1] == 'smash' && ctype_digit($urlArray[2]) && Authentication::isAdmin()) {
+			
+			if (!empty($_POST)) { $inputArray = $_POST; }
+			if (isset($inputArray['hulkSmash')) {
+				$user = new User($urlArray[2]);
+				$user->hulkSmash();
+			}
+			header("Location: /hulk-smash/");
+			
+		}
+		*/
 		
 		if (!in_array($urlArray[0],$notHTML)) {
 			$page = new PageView($urlArray);
