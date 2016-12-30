@@ -14,7 +14,7 @@ class Session extends ORM {
 	public function __construct($sessionID = null) {
 
 		$this->sessionID = $_COOKIE['jaga'];
-		$this->userID = $_SESSION['userID'];
+		if (isset($_SESSION['userID'])) { $this->userID = $_SESSION['userID']; } else { $this->userID = 0; }
 		$this->sessionDateTimeSet = date('Y-m-d H:i:s');
 		$this->sessionDateTimeExpire = date("Y-m-d H:i:s", strtotime("+1 month"));
 		$this->sessionIP = $_SERVER['REMOTE_ADDR'];

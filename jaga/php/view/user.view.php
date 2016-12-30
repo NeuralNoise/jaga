@@ -316,13 +316,19 @@
 		public function hulkSmash($userID) {
 
 			$user = new User($userID);
+			$sessions = Session::getUserSessions($userID);
 		
 			$h = "<div class=\"container\">";
 				$h .= "<div class=\"col-xs-12\">";
 					$h .= "<div class=\"panel panel-default\">";
-						$h .= "<div class=\"panel-heading jagaContentPanelHeading\"><h4>HULK SMASH PUNY USER</h4></div>";
+						$h .= "<div class=\"panel-heading\"><h4>HULK SMASH</h4></div>";
 						$h .= "<div class=\"panel-body\">";
 							$h .= "<pre>" . print_r($user,true) . "</pre>";
+							
+							foreach ($sessions AS $sessionID) {
+								$h .= $sessionID . "<br />";
+							}
+							
 						$h .= "</div>";
 					$h .= "</div>";
 				$h .= "</div>";

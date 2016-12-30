@@ -797,7 +797,7 @@ class Controller {
 			
 		}
 		
-		/*
+		
 		if ($urlArray[0] == 'hulk' && $urlArray[1] == 'smash' && ctype_digit($urlArray[2]) && Authentication::isAdmin()) {
 			
 			if (!empty($_POST)) { $inputArray = $_POST; }
@@ -805,10 +805,10 @@ class Controller {
 				$user = new User($urlArray[2]);
 				$user->hulkSmash();
 			}
-			header("Location: /hulk-smash/");
+			header("Location: /");
 			
 		}
-		*/
+		
 		
 		if (!in_array($urlArray[0],$notHTML)) {
 			$page = new PageView($urlArray);
