@@ -84,10 +84,13 @@ class User extends ORM {
 	
 	public function hulkSmash() {
 	
-		// get all IPs from redflag user's sessions
-		// extract list of bad actors using those IPs
-			// this should be recursive
-			// some of those bad actors will have used IPs that the redflag user has not
+		
+		$puny = $this->hulkSmashPuny();
+		$badSessionIPs = $puny['sessionIPs'];
+		$badUserIDs = $puny['userIDs'];
+
+		// for each IP
+			// add to IP blacklist
 		
 		// for each bad actor
 			// disable account & blacklist
@@ -95,15 +98,26 @@ class User extends ORM {
 			// unpublish posts
 			// delete comments
 			
-		// for each IP
-			// add to IP blacklist
-		
-		// send report to admin (include users, posts, comments, IPs, sessions)
+		// send report to admin (users, posts, comments, IPs, sessions)
 
 	
 	}
 	
-	
+	public function hulkSmashPuny($sessionIPs = array()) {
+		
+		$puny = array();
+		
+		// get all IPs from redflag user's sessions
+		$puny['sessionIPs'] = Session::getUniqueSessionIPs($this->userID);
+		
+		// extract list of bad actors using those IPs
+		$puny['userIDs'] = Session::getUniqueUserIDs($sessionIPs);
+		
+		// this should be recursive
+		
+		return $puny;
+		
+	}
 	
 	public static function getUserIDwithUserNameOrEmail($username) {
 	

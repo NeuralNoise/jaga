@@ -154,9 +154,14 @@
 						if ($_SESSION['userID'] == $userID) {
 							$h .= "<div style=\"margin:10px 0px;\">";
 								$h .= "<a class=\"btn btn-primary btn-block\" href=\"/settings/profile/\">";
-									$h .= "<span class=\"glyphicon glyphicon-cog\"></span> ";
-									$h .= Lang::getLang('manageAccount');
-								$h .= "</a>";
+									$h .= "<span class=\"glyphicon glyphicon-cog\"></span> ". Lang::getLang('manageAccount') . "</a>";
+							$h .= "</div>";
+						}
+						
+						if (Authentication::isAdmin() && $_SESSION['userID'] != $userID) { // admin can't smash self
+							$h .= "<div style=\"margin:10px 0px;\">";
+								$h .= "<a class=\"btn btn-danger btn-block\" href=\"/hulk/smash/" . $userID . "/\">";
+									$h .= "<span class=\"glyphicon glyphicon-cog\"></span> " . Lang::getLang('hulkSmash') . "</a>";
 							$h .= "</div>";
 						}
 						
@@ -317,7 +322,9 @@
 
 			$user = new User($userID);
 			$sessions = Session::getUserSessions($userID);
-		
+			$sessionIPs = Session::getUniqueSessionIPs($userID);
+			$userIDs = Session::getUniqueUserIDs($sessionIPs);
+			
 			$h = "<div class=\"container\">";
 				$h .= "<div class=\"col-xs-12\">";
 					$h .= "<div class=\"panel panel-default\">";
@@ -325,9 +332,9 @@
 						$h .= "<div class=\"panel-body\">";
 							$h .= "<pre>" . print_r($user,true) . "</pre>";
 							
-							foreach ($sessions AS $sessionID) {
-								$h .= $sessionID . "<br />";
-							}
+							foreach ($sessions AS $sessionID) { $h .= $sessionID . "<br />"; }
+							foreach ($sessionIPs AS $sessionIP) { $h .= $sessionIP . "<br />"; }
+							foreach ($userIDs AS $userID) { $h .= $userID . "<br />"; }
 							
 						$h .= "</div>";
 					$h .= "</div>";

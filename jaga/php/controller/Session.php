@@ -75,6 +75,34 @@ class Session extends ORM {
 		
 	}
 	
+	public static function getUniqueSessionIPs($userID) {
+
+		$query = "SELECT DISTINCT(sessionIP) AS sessionIP FROM jaga_Session WHERE userID = :userID";
+		$core = Core::getInstance();
+		$statement = $core->database->prepare($query);
+		$statement->execute(array(':userID' => $userID));
+		
+		$sessionIPs = array();
+		while ($row = $statement->fetch()) { $sessionIPs[] = $row['sessionIP']; }
+		return $sessionIPs;
+		
+	}
+	
+	public static function getUniqueUserIDs($sessionIPs) {
+
+		$sessionIPsString = join(",",$sessionIPs);
+	
+		$query = "SELECT DISTINCT(userID) AS userID FROM jaga_Session WHERE sessionIP IN ($sessionIPsString)";
+		$core = Core::getInstance();
+		$statement = $core->database->prepare($query);
+		$statement->execute();
+		
+		$userIDs = array();
+		while ($row = $statement->fetch()) { $userIDs[] = $row['userID']; }
+		return $userIDs;
+		
+	}
+
 }
 
 ?>
