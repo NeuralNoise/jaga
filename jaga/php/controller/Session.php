@@ -90,7 +90,9 @@ class Session extends ORM {
 	
 	public static function getUniqueUserIDs($sessionIPs) {
 
-		$sessionIPsString = join(",",$sessionIPs);
+		$sessionIPsString = '"' . join('","',$sessionIPs) . '"';
+	
+		// print_r($sessionIPsString); die();
 	
 		$query = "SELECT DISTINCT(userID) AS userID FROM jaga_Session WHERE sessionIP IN ($sessionIPsString)";
 		$core = Core::getInstance();

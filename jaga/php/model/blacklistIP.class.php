@@ -11,24 +11,21 @@ class BlacklistIP extends ORM {
 	
 	public function __construct($ip = '') {
 	
+		$this->ip = $ip;
+		if (isset($_SESSION['channelID'])) { $this->channelID = $_SESSION['channelID']; } else { $this->channelID = 0; }
+		$this->blockedByUserID = $_SESSION['userID'];
+		$this->dateTimeBlocked = date('Y-m-d H:i:s');
+		$this->dateTimeOfBlockExpiration =  date('Y-m-d H:i:s', strtotime('+1 year'));
+		$this->attemptsSinceBlocked = 0;
+			
 		if ($ip) {
 		
 			$core = Core::getInstance();
 			$query = "SELECT * FROM jaga_BlacklistIP WHERE ip = :ip LIMIT 1";
 			$statement = $core->database->prepare($query);
 			$statement->execute(array(':ip' => $ip));
-			if (!$row = $statement->fetch()) { die('BlacklistIP entry does not exist.'); }
-			foreach ($row AS $key => $value) { if (!is_int($key)) { $this->$key = $value; } }
+			if ($row = $statement->fetch()) { foreach ($row AS $key => $value) { if (!is_int($key)) { $this->$key = $value; } } }
 			
-		} else {
-
-			$this->ip = '';
-			if (isset($_SESSION['channelID'])) { $this->channelID = $_SESSION['channelID']; } else { $this->channelID = 0; }
-			$this->blockedByUserID = $_SESSION['userID'];
-			$this->dateTimeBlocked = date('Y-m-d H:i:s');
-			$this->dateTimeOfBlockExpiration =  date('Y-m-d H:i:s', strtotime('+1 year'));
-			$this->attemptsSinceBlocked = 0;
-
 		}
 		
 	}

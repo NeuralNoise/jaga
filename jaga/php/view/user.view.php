@@ -321,21 +321,36 @@
 		public function hulkSmash($userID) {
 
 			$user = new User($userID);
-			$sessions = Session::getUserSessions($userID);
-			$sessionIPs = Session::getUniqueSessionIPs($userID);
-			$userIDs = Session::getUniqueUserIDs($sessionIPs);
+			
+			// TARGET
+			$sessionIDs = Session::getUserSessions($userID); // get target user's sessions
+			$sessionIPs = Session::getUniqueSessionIPs($userID); // get all of the IPs that the target logged in from
+			
+			// SECONDARY TARGETS
+			$userIDs = Session::getUniqueUserIDs($sessionIPs); // get other users that have used one of the same IPs
+			foreach ($userIDs AS $thisUserID) {
+				
+				$thisSessionIDs = Session::getUserSessions($thisUserID);
+				foreach ($thisSessionIDs AS $thisSessionID) { if (!in_array($thisSessionID, $sessionIDs)) { $sessionIDs[] = $thisSessionID; } }
+				
+				$thisSessionIPs = Session::getUniqueSessionIPs($thisUserID);
+				foreach ($thisSessionIPs AS $thisSessionIP) { if (!in_array($thisSessionIP, $sessionIPs)) { $sessionIPs[] = $thisSessionIP; } }
+				
+			}
+			
+			// CONSIDER MAKING THIS RECURSIVE
 			
 			$h = "<div class=\"container\">";
 				$h .= "<div class=\"col-xs-12\">";
 					$h .= "<div class=\"panel panel-default\">";
 						$h .= "<div class=\"panel-heading\"><h4>HULK SMASH</h4></div>";
 						$h .= "<div class=\"panel-body\">";
-							$h .= "<pre>" . print_r($user,true) . "</pre>";
-							
-							foreach ($sessions AS $sessionID) { $h .= $sessionID . "<br />"; }
-							foreach ($sessionIPs AS $sessionIP) { $h .= $sessionIP . "<br />"; }
-							foreach ($userIDs AS $userID) { $h .= $userID . "<br />"; }
-							
+						
+							$h .= "<pre>" . print_r($user,true) . "</pre><hr />";
+							$h .= "<pre>" . print_r($sessionIDs, true) . "</pre><hr />";
+							$h .= "<pre>" . print_r($sessionIPs, true) . "</pre><hr />";
+							$h .= "<pre>" . print_r($userIDs, true) . "</pre><hr />";
+							$h .= "<form action=\"/hulk/smash/$userID/\" method=\"post\"><input type=\"submit\" name=\"hulkSmash\" class=\"btn btn-primary btn-block\" value=\"SMASH PUNY SPAMMER\"></form>";
 						$h .= "</div>";
 					$h .= "</div>";
 				$h .= "</div>";

@@ -801,11 +801,11 @@ class Controller {
 		if ($urlArray[0] == 'hulk' && $urlArray[1] == 'smash' && ctype_digit($urlArray[2]) && Authentication::isAdmin()) {
 			
 			if (!empty($_POST)) { $inputArray = $_POST; }
-			if (isset($inputArray['hulkSmash')) {
+			if (isset($inputArray['hulkSmash'])) {
 				$user = new User($urlArray[2]);
 				$user->hulkSmash();
 			}
-			header("Location: /");
+			
 			
 		}
 		

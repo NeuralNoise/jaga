@@ -83,42 +83,56 @@ class User extends ORM {
 	}
 	
 	public function hulkSmash() {
-	
+
+		$sessionIDs = Session::getUserSessions($this->userID);
+		$sessionIPs = Session::getUniqueSessionIPs($this->userID);
+		$userIDs = Session::getUniqueUserIDs($sessionIPs);
 		
-		$puny = $this->hulkSmashPuny();
-		$badSessionIPs = $puny['sessionIPs'];
-		$badUserIDs = $puny['userIDs'];
+		foreach ($userIDs AS $thisUserID) {
+			$thisSessionIDs = Session::getUserSessions($thisUserID);
+			foreach ($thisSessionIDs AS $thisSessionID) { if (!in_array($thisSessionID, $sessionIDs)) { $sessionIDs[] = $thisSessionID; } }
+			$thisSessionIPs = Session::getUniqueSessionIPs($thisUserID);
+			foreach ($thisSessionIPs AS $thisSessionIP) { if (!in_array($thisSessionIP, $sessionIPs)) { $sessionIPs[] = $thisSessionIP; } }
+		}
+
+		// for each sessionID
+		foreach ($sessionIDs AS $sessionID) {
+			// delete session
+			$session = new Session($sessionID);
+			$conditions = array('sessionID' => $sessionID);
+			Content::delete($session, $conditions);
+		}
 
 		// for each IP
-			// add to IP blacklist
+		foreach ($sessionIPs AS $sessionIP) {
+			// add IP to blacklist
+			$blacklistIP = new BlacklistIP($sessionIP);
+			BlacklistIP::insert($blacklistIP);
+		}
 		
 		// for each bad actor
+		foreach ($userIDs AS $userID) {
+
 			// disable account & blacklist
-			// delete sessions
+			$user = new User($userID);
+			$user->userPassword = 'no';
+			$user->userEmailVerified = 0;
+			$user->userAcceptsEmail = 0;
+			$user->userBlacklist = 1;
+			$user->userChannelAllocation = 0;
+			$user->userShadowBan = 1;
+			$conditions = array('userID' => $userID);
+			User::update($user, $conditions);
+			
 			// unpublish posts
 			// delete comments
 			
+		}
+		
 		// send report to admin (users, posts, comments, IPs, sessions)
+	
+	}
 
-	
-	}
-	
-	public function hulkSmashPuny($sessionIPs = array()) {
-		
-		$puny = array();
-		
-		// get all IPs from redflag user's sessions
-		$puny['sessionIPs'] = Session::getUniqueSessionIPs($this->userID);
-		
-		// extract list of bad actors using those IPs
-		$puny['userIDs'] = Session::getUniqueUserIDs($sessionIPs);
-		
-		// this should be recursive
-		
-		return $puny;
-		
-	}
-	
 	public static function getUserIDwithUserNameOrEmail($username) {
 	
 		$core = Core::getInstance();
