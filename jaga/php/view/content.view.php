@@ -697,11 +697,14 @@ class ContentView {
 							$html .= "\t\t\t\t\t</div>\n";
 						$html .= "\t\t\t\t</div>\n";
 
-						$i++;
-						
 					}
 					
-					if ($i == 3) {
+					$i++;
+						
+					
+					
+					
+					if ($i == 3 || $i == 25 || $i == 70) {
 						$html .= "\t\t\t\t<aside class=\"item col-xs-12 col-sm-6 col-md-4 col-lg-3\">\n";
 							$html .= "\t\t\t\t\t<div class=\"panel panel-default\" style=\"padding:3px;\">\n";
 								$html .= "
@@ -719,6 +722,7 @@ class ContentView {
 							$html .= "\t\t\t\t\t</div>\n";
 						$html .= "\t\t\t\t</aside>\n";
 					}
+					
 					
 					if ($i == 10) {
 						
