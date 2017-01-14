@@ -28,7 +28,7 @@ class CommentView {
 							$html .= "</div>\n";
 							
 							$html .= "\t\t\t\t\t<div class=\"col-md-6\">";						
-								if ($userID == $_SESSION['userID']) {
+								if ($userID == $_SESSION['userID'] || Authentication::isAdmin()) {
 									$html .= "<a href=\"/k/comment/delete/" . $commentID . "/\" class=\"btn btn-default btn-xs pull-right\"><span class=\"glyphicon glyphicon-remove\" style=\"color:#f00;\"></span> DELETE</a>";
 								}
 							$html .= "</div>\n";

@@ -342,7 +342,7 @@ class Controller {
 
 			$commentID = $urlArray[3];
 			$comment = new Comment($commentID);
-			if ($comment->userID != $_SESSION['userID']) { die('You do not own this comment, you silly goose!'); }
+			if ($comment->userID != $_SESSION['userID'] && !Authentication::isAdmin()) { die('You do not own this comment, you silly goose!'); }
 			if ($comment->commentObject == 'Content') {
 				$contentPath = Content::getContentURL($comment->commentObjectID);
 			} else {
