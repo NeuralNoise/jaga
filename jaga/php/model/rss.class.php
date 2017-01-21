@@ -68,12 +68,17 @@ class RSS {
 			if ($urlArray[1] == 'k' && $urlArray[2] != '') { $atomLink .= 'k/' . $urlArray[2] . '/'; }
 			if ($urlArray[1] == 'u' && $urlArray[2] != '') { $atomLink .= 'u/' . $urlArray[2] . '/'; }
 
+			$releaseDateTime = date('Y-m-d H:i:s',strtotime($currentDate . " - 12 hours"));
+			// publish delay to allow content review before social distribution
+			// content must have been created BEFORE this datetime in order to be published to RSS
+			
 			// QUERY
 			$whereClause = array();
 			if (isset($contentCategoryKey)) { $whereClause[] = "contentCategoryKey = :contentCategoryKey"; }
 			if (isset($contentSubmittedByUserID)) { $whereClause[] = "contentSubmittedByUserID = :contentSubmittedByUserID"; }
 			$whereClause[] = "contentPublished = 1";
 			$whereClause[] = "contentPublishStartDate <= :currentDate";
+			$whereClause[] = "contentSubmissionDateTime <= :releaseDateTime";
 			$whereClause[] = "(contentPublishEndDate >= :currentDate OR contentPublishEndDate = '0000-00-00')";
 			if ($channelKey) { $whereClause[] = "channelID = :channelID"; }
 			$whereClauseString = join(" AND ", $whereClause);
@@ -84,6 +89,7 @@ class RSS {
 			$statement = $core->database->prepare($query);
 			if ($channelID != 2006) { $statement->bindParam(':channelID', $channelID); }
 			$statement->bindParam(':currentDate', $currentDate);
+			$statement->bindParam(':releaseDateTime', $releaseDateTime);
 			if (isset($contentCategoryKey)) { $statement->bindParam(':contentCategoryKey', $contentCategoryKey); }
 			if (isset($contentSubmittedByUserID)) { $statement->bindParam(':contentSubmittedByUserID', $contentSubmittedByUserID); }
 			$statement->execute();
