@@ -172,6 +172,11 @@ class Controller {
 
 				$inputArray = $_POST;
 
+				if (!empty($inputArray['post']) || !empty($inputArray['url'])) {
+					$puny = new User($_SESSION['userID']);
+					$puny->shadowBan(true,true);	
+				}
+				
 				// VALIDATION
 				if ($inputArray['contentTitleEnglish'] == '' && $inputArray['contentTitleJapanese'] == '') { $errorArray['contentTitle'][] = 'Every post needs a title.'; }
 				if ($inputArray['contentCategoryKey'] == '') { $errorArray['contentCategoryKey'][] = 'A category must be selected.'; }

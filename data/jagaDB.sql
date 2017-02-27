@@ -312,6 +312,7 @@ CREATE TABLE IF NOT EXISTS `jaga_User` (
   `userTimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userChannelAllocation` int(3) NOT NULL DEFAULT '7',
   `userShadowBan` int(1) NOT NULL,
+  `userAccessKey` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`userID`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `userEmail` (`userEmail`)

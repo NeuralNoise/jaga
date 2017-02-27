@@ -16,6 +16,7 @@ class User extends ORM {
 	public $userBlackList;
 	public $userSelectedLanguage;
 	public $userShadowBan;
+	public $userAccessKey;
 	
 	public function __construct($userID = 0) {
 
@@ -35,6 +36,7 @@ class User extends ORM {
 			$this->userBlackList = 0;
 			$this->userSelectedLanguage = 'en';
 			$this->userShadowBan = 0;
+			$this->userAccessKey = md5(uniqid(rand(),true));
 			
 		} else {
 			
@@ -133,6 +135,41 @@ class User extends ORM {
 	
 	}
 
+	public function shadowBan($andFriends = false, $withPrejudice = false) {
+		
+		// consider hulkSmash() over $withPrejudice if you also want to kill sessions and blacklist
+		
+		$sessionIPs = Session::getUniqueSessionIPs($this->userID);
+		
+		$userIDs = array($this->userID);
+		if ($andFriends) { $userIDs = Session::getUniqueUserIDs($sessionIPs); }
+
+		foreach ($userIDs AS $userID) {
+
+			$user = new User($userID);
+			$user->userShadowBan = 1;
+			
+			if ($withPrejudice) {
+				$user->userPassword = 'no';
+				$user->userEmailVerified = 0;
+				$user->userAcceptsEmail = 0;
+				$user->userBlacklist = 1;
+				$user->userChannelAllocation = 0;
+			}
+
+			$conditions = array('userID' => $userID);
+			User::update($user, $conditions);
+			
+			$adminEmail = Config::read('admin.email');
+			$systemEmail = Config::read('system.email');
+			$mailSubject = '[jaga.io user ' . $user->username . ' has been shadow banned' . ($withPrejudice?' with prejudice':'') . '.]';
+			$mailContent = 'http://' . Config::read('system.url') . '/u/' . urlencode($user->username) . '/';
+			Mail::sendEmail($adminEmail, $systemEmail, $mailSubject, $mailContent, $_SESSION['channelID'], $_SESSION['userID'], 'plaintext');
+
+		}
+
+	}
+	
 	public static function getUserIDwithUserNameOrEmail($username) {
 	
 		$core = Core::getInstance();

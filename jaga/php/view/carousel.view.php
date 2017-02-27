@@ -41,11 +41,12 @@ class CarouselView {
 						$html .= "
 						
 						<div class=\"carousel-inner\">
-							<!--
-							<div class=\"item active\"><a href=\"/first-snow-contest/\"><img src=\"/jaga/images/carousel-bistrot-le-cochon-first-snow-contest.jpg\" alt=\"Niseko First Snow Contest\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
-							-->
-							<div class=\"item active\"><a href=\"http://www.lecochon-niseko.com/\" target=\"_blank\"><img src=\"/jaga/images/carousel-roll-tide.jpg\" alt=\"Niseko Restaurant\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
-							<div class=\"item\"><a href=\"http://360niseko.com/the-flying-fish/\" target=\"_blank\"><img src=\"/jaga/images/carousel-flying-fish.jpg\" alt=\"Niseko Flying Fish\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+							<!--<div class=\"item active\"><a href=\"/first-snow-contest/\"><img src=\"/jaga/images/carousel-bistrot-le-cochon-first-snow-contest.jpg\" alt=\"Niseko First Snow Contest\" style=\"margin-left:auto;margin-right:auto;\"></a></div>-->
+							<div class=\"item active\"><img src=\"/jaga/images/carousel-lawnshapers.jpg\" alt=\"LawnShapers\" style=\"margin-left:auto;margin-right:auto;\"></div>
+							<div class=\"item\"><a href=\"/k/accommodation/\"><img src=\"/jaga/images/carousel-hirafu-real-estate.jpg\" alt=\"Niseko Accommodation\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+							<div class=\"item\"><a href=\"http://kagi.io/" . Lang::urlPrefix() . "plans-and-pricing/\"><img src=\"/jaga/images/carousel-kagidotio.jpg\" alt=\"Real Estate Websites\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+							<div class=\"item\"><a href=\"/k/property/\"><img src=\"/jaga/images/carousel-niseko-real-estate.jpg\" alt=\"Niseko Real Estate &amp; Property\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
+							<div class=\"item\"><a href=\"http://hakodate.jaga.io/\"><img src=\"/jaga/images/carousel-hakodate-goryokaku.jpg\" alt=\"Goryokaku Park in Hakodate\" style=\"margin-left:auto;margin-right:auto;\"></a></div>
 						</div>
 						
 						";

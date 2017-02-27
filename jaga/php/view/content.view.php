@@ -529,6 +529,8 @@ class ContentView {
 		
 							$html .= "<hr />\n\n";
 
+							$html .= '<div id="hachimitsu"><input type="text" name="post" autocomplete="off"><input type="url" name="url" autocomplete="off"></div>';
+							
 							$html .= "\t\t\t\t\t\t<div class=\"form-group\">\n";
 								$html .= "\t\t\t\t\t\t\t<div class=\"col-sm-12\">\n";
 									if ($type == 'update') {
