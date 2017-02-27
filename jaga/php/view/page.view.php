@@ -62,7 +62,7 @@ class PageView {
 				$html .= "\t\t<title>" . $this->pageTitle . "</title>\n\n";
 				
 				$html .= "\t\t<meta charset=\"utf-8\">\n";
-				$html .= "\t\t<meta name=\"robots\" content=\"INDEX, FOLLOW\">\n\n";
+				$html .= "\t\t<meta name=\"robots\" content=\"" . $this->robots($urlArray) . "\">\n\n";
 				
 				$html .= "\t\t<meta name=\"keywords\" content=\"" . $this->pageKeywords . "\">\n";
 				$html .= "\t\t<meta name=\"description\" content=\"" . $pageDescription . "\">\n\n";
@@ -718,6 +718,15 @@ class PageView {
 		
 	}
 
+	public function robots($urlArray) {
+		$doumoarigatou = 'INDEX, FOLLOW';
+		if ($urlArray[0] == 'u') {
+			// if user is blacklisted, shadowbanned, or inactive
+			// then $doumoarigatou = 'NOINDEX, NOFOLLOW';
+		}
+		return $doumoarigatou;
+	}
+	
 }
 
 ?>

@@ -131,7 +131,21 @@ class Controller {
 						Subscription::subscribeUser($userID, 14);
 					}
 					
-					$forwardURL = '/thank-you-for-registering/';
+					// send an email with verification code here
+					// $code = $user->userAccessKey;
+					// send email
+					
+					// $mailSender = 'JagaBot <noreply@jaga.io>';
+					// $mailSubject = 'Welcome to jaga.io, ' . $user->getUserDisplayName() . '! Please verify your email address,';
+					// $mailMessage = 'http://' . $channel->channelKey . '.jaga.io/k/' . $content->contentCategoryKey . '/' . $content->contentURL . '/';
+					// $mailRecipient = $user->getUserDisplayName() . ' <' . $user->userEmail . '>';
+					
+					// Mail::sendEmail($mailRecipient, $mailSender, $mailSubject, $mailMessage, $_SESSION['channelKey'], $_SESSION['userID']);
+					// Mail::sendEmail('JagaAdmin <' . Config::read('admin.email') . '>', $mailSender, $mailSubject, $mailMessage, $_SESSION['channelKey'], $_SESSION['userID']);
+
+					$forwardURL = '/thank-you-for-registering/'; // tell them about code here
+					// provide way to request that a new verfiication code be generated and sent
+					
 					header("Location: $forwardURL");
 					
 				}
@@ -174,7 +188,7 @@ class Controller {
 
 				if (!empty($inputArray['post']) || !empty($inputArray['url'])) {
 					$puny = new User($_SESSION['userID']);
-					$puny->shadowBan(true,true);	
+					$puny->shadowBan(true,false);	
 				}
 				
 				// VALIDATION
@@ -306,6 +320,11 @@ class Controller {
 			$contentPath = Content::getContentURL($urlArray[2]);
 			if (!empty($_POST)) { $inputArray = $_POST; } else { header("Location: $contentPath"); }
 			
+			if (!empty($inputArray['comment']) || !empty($inputArray['url'])) {
+				$puny = new User($_SESSION['userID']);
+				$puny->shadowBan(true,false);	
+			}
+			
 			$errors = array();
 			if ($_SESSION['userID'] == 0) { $errors['auth'][] = 'you must be logged in to comment'; }
 			if (empty($inputArray['commentContent']) || !isset($inputArray['commentContent']) || $inputArray['commentContent'] == '') { $errors['commentContent'][] = 'your comment is empty'; }
@@ -329,10 +348,12 @@ class Controller {
 					
 				$usersToNotify = $content->usersToNotifyOfComments();
 				
-				foreach ($usersToNotify AS $userID) {
-					$recipient = new User($userID);
-					$mailRecipient = $recipient->getUserDisplayName() . ' <' . $recipient->userEmail . '>';
-					Mail::sendEmail($mailRecipient, $mailSender, $mailSubject, $mailMessage, $_SESSION['channelKey'], $_SESSION['userID']);
+				if (empty($inputArray['comment']) && empty($inputArray['url'])) {
+					foreach ($usersToNotify AS $userID) {
+						$recipient = new User($userID);
+						$mailRecipient = $recipient->getUserDisplayName() . ' <' . $recipient->userEmail . '>';
+						Mail::sendEmail($mailRecipient, $mailSender, $mailSubject, $mailMessage, $_SESSION['channelKey'], $_SESSION['userID']);
+					}
 				}
 				
 				Mail::sendEmail('JagaAdmin <' . Config::read('admin.email') . '>', $mailSender, $mailSubject, $mailMessage, $_SESSION['channelKey'], $_SESSION['userID']);
@@ -802,6 +823,9 @@ class Controller {
 			
 		}
 		
+		if ($urlArray[0] == 'verify' && is_numeric($urlArray[1]) && Utilities::isValidMd5($urlArray[2])) {
+			
+		}
 		
 		if ($urlArray[0] == 'hulk' && $urlArray[1] == 'smash' && ctype_digit($urlArray[2]) && Authentication::isAdmin()) {
 			
