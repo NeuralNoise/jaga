@@ -119,7 +119,7 @@ class ContentView {
 		if ($contentPublished || $opID == $_SESSION['userID'] || Authentication::isAdmin()) {
 		
 			$html .= "\n\t<!-- START CONTENT -->\n";
-			$html .= "\t<div class=\"container\">\n\n";
+			$html .= "\t<article class=\"container\">\n\n";
 
 				$html .= "\t<div class=\"panel panel-default\">\n";
 				
@@ -167,7 +167,7 @@ class ContentView {
 
 				$html .= "\t</div>\n";
 
-			$html .= "\t</div>\n";
+			$html .= "\t</article>\n";
 			$html .= "\t<!-- END CONTENT -->\n\n";
 
 		}
