@@ -174,7 +174,7 @@ class Channel extends ORM {
 		
 		$domain = $_SERVER['HTTP_HOST'];
 		$tmp = explode('.', $domain);
-		
+
 		if ($tmp[0] == 'jaga' && $tmp[1] == 'io') { array_unshift($tmp, "www"); }
 		$channelKey = current($tmp);
 		$channelDomain = '';
@@ -185,16 +185,10 @@ class Channel extends ORM {
 			$channelDomain = $tmp[0] . '.' . $tmp[1];
 		}
 
-		$query = "
-			SELECT channelID FROM jaga_Channel 
-			WHERE channelKey = :channelKey OR (channelDomain != '' AND channelDomain = :channelDomain) 
-			LIMIT 1
-		";
-		
+		$query = "SELECT channelID FROM jaga_Channel WHERE channelKey = :channelKey OR (channelDomain != '' AND channelDomain = :channelDomain) LIMIT 1";
 		$core = Core::getInstance();
 		$statement = $core->database->prepare($query);
 		$statement->execute(array(':channelKey' => $channelKey, ':channelDomain' => $channelDomain));
-
 		if ($row = $statement->fetch()) { $channelID = $row['channelID']; }
 		
 		return $channelID;
@@ -243,7 +237,51 @@ class Channel extends ORM {
 	
 	public static function getReservedChannelNameArray() {
 		
-		$reservedChannelNames = array('about', 'admin', 'blog', 'connect', 'console', 'contact', 'data', 'db', 'dev', 'domains', 'dns', 'faq', 'ftp', 'git', 'groups', 'help', 'hosting', 'images', 'imap', 'inbox', 'int', 'jaga', 'k', 'mail', 'member', 'mysql', 'news', 'pop', 'pop3', 'prod', 'qa', 'repo', 'sandbox', 'secure', 'smtp', 'sql', 'sports', 'support', 'tasks', 'the', 'users', 'wiki', 'www');
+		$reservedChannelNames = array(
+			'about',
+			'admin',
+			'blog',
+			'connect',
+			'console',
+			'contact',
+			'data',
+			'db',
+			'dev',
+			'domains',
+			'dns',
+			'faq',
+			'ftp',
+			'git',
+			'groups',
+			'help',
+			'hosting',
+			'images',
+			'imap',
+			'inbox',
+			'int',
+			'jaga',
+			'k',
+			'mail',
+			'member',
+			'mysql',
+			'news',
+			'pop',
+			'pop3',
+			'prod',
+			'qa',
+			'repo',
+			'sandbox',
+			'secure',
+			'smtp',
+			'sql',
+			'sports',
+			'support',
+			'tasks',
+			'the',
+			'users',
+			'wiki',
+			'www'
+		);
 		
 		return $reservedChannelNames;
 		

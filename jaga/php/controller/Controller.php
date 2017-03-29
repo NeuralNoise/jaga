@@ -144,7 +144,7 @@ class Controller {
 					// Mail::sendEmail('JagaAdmin <' . Config::read('admin.email') . '>', $mailSender, $mailSubject, $mailMessage, $_SESSION['channelKey'], $_SESSION['userID']);
 
 					$forwardURL = '/thank-you-for-registering/'; // tell them about code here
-					// provide way to request that a new verfiication code be generated and sent
+					// provide way to request that a new verification code be generated and sent
 					
 					header("Location: $forwardURL");
 					
@@ -152,6 +152,10 @@ class Controller {
 				
 			}
 
+		}
+		
+		if ($urlArray[0] == 'thank-you-for-registering') {
+			
 		}
 		
 		if ($urlArray[0] == 'logout') {
