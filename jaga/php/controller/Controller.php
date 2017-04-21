@@ -392,13 +392,17 @@ class Controller {
 				$contentID = $urlArray[2];
 				$content = new Content($contentID);
 				$contentCategoryKey = $content->contentCategoryKey;
+				
 				$authorUserID = $content->contentSubmittedByUserID;
-				if ($authorUserID != $_SESSION['userID']) { die('"You cannot delete posts that do not belong to you." - Controller::getResource()'); }
+				if ($authorUserID != $_SESSION['userID'] && !Authentication::isAdmin()) { die('"You cannot delete posts that do not belong to you." - Controller::getResource()'); }
+				
+				$author = new User($authorUserID);
+				$authorProfile = "/u/" . urlencode($author->getUserDisplayName()) . "/";
+
 				$conditions = array('contentID' => $contentID);
 				ChannelCategory::delete($content, $conditions);
-				
-				$postSubmitURL = "/k/" . $contentCategoryKey . "/";
-				header("Location: $postSubmitURL");
+
+				header("Location: $authorProfile");
 			
 			}
 			

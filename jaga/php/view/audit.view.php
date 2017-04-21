@@ -58,6 +58,8 @@ class AuditView {
 											$user = new User($auditUserID);
 											$username = $user->getUserDisplayName();
 											$iUser = "<a href=\"/u/" . urlencode($username) . "/\">" . $username . "</a> (" . $auditUserID . ")";
+											if ($user->userBlackList) { $iUser = "<del>" . $iUser . "</del>"; }
+											if ($user->userShadowBan) { $iUser = $iUser . " <span class=\"glyphicon glyphicon-ban-circle\"></span>"; }
 										} else {
 											$iUser = 'System';
 										}

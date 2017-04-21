@@ -74,7 +74,7 @@ class ContentView {
 					$imageClasses = "col-xs-12 col-sm-12 col-md-6 col-lg-6";
 					break;
 				case ($imageCount >= 3):
-					$imageClasses = "col-xs-12 col-sm-12 col-md-6 col-lg-4";
+					$imageClasses = "col-xs-12 col-sm-12 col-md-6 col-lg-6";
 					break;
 			}
 			
@@ -127,7 +127,10 @@ class ContentView {
 						$html .= "<div>";
 							$html .= "<strong><a href=\"http://jaga.io/u/" . urlencode($opUserName) . "/\">" . $opUserDisplayName . "</a></strong> <i>" . $contentSubmissionDateTime . "</i>";
 							if ($opID == $_SESSION['userID'] || Authentication::isAdmin()) {
-								$html .= "<a href=\"/k/update/" . $contentID . "/\" class=\"btn btn-default btn-sm pull-right\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+								$html .= "<div class=\"pull-right\">";
+									$html .= "<a href=\"/k/update/" . $contentID . "/\" class=\"btn btn-default btn-sm\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+									if (Authentication::isAdmin()) { $html .= "<a href=\"/k/delete/" . $contentID . "/\" class=\"btn btn-danger btn-sm\" style=\"margin-left:5px;\"><span class=\"glyphicon glyphicon-trash\"></span></a>"; }
+								$html .= "</div>";
 							}
 						$html .= "</div>";
 					$html .= "</div>\n";
@@ -788,7 +791,7 @@ class ContentView {
 		$contentContent = $content->getContent();
 		$authorUserID = $content->contentSubmittedByUserID;
 		
-		if ($authorUserID != $_SESSION['userID']) { die('You cannot delete posts that do not belong to you.'); }
+		if ($authorUserID != $_SESSION['userID'] && !Authentication::isAdmin()) { die('You cannot delete posts that do not belong to you.'); }
 		
 		$html = "\n\n\t<!-- CONTENT DELTE CONFIRMATION FORM -->\n";
 		$html .= "\t<div class=\"container\">\n\n";

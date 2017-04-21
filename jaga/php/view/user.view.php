@@ -347,8 +347,21 @@
 						$h .= "<div class=\"panel-body\">";
 						
 							$h .= "<pre>" . print_r($user,true) . "</pre><hr />";
-							$h .= "<pre>" . print_r($sessionIDs, true) . "</pre><hr />";
-							$h .= "<pre>" . print_r($sessionIPs, true) . "</pre><hr />";
+							
+							foreach ($sessionIDs AS $sessionID) {
+								$session = new Session($sessionID);
+								$loc = simplexml_load_file("https://freegeoip.net/xml/".$session->sessionIP);
+								$h .= "<div class=\"row\">";
+								$h .= "<div class=\"col-md-9\"><pre>" . print_r($session, true) . "</pre></div>";
+									$h .= "<div class=\"col-md-3\">";
+										$h .= $loc->CountryName . "<br />";
+										$h .= "<a target=\"_blank\" class=\"btn btn-default btn-block\" href=\"http://maps.google.com/maps?z=18&t=m&q=loc:" . $loc->Latitude . "+" . $loc->Longitude . "\" style=\"margin-bottom:10px;\"><span class=\"glyphicon glyphicon-globe\" style=\"height:100px;font-size:48px;color:#f00;line-height:100px;\"></span></a>";
+									$h .= "</div>";
+								$h .= "</div>";
+							}
+							
+							$h .= "<hr />";
+
 							$h .= "<pre>" . print_r($userIDs, true) . "</pre><hr />";
 							$h .= "<form action=\"/hulk/smash/$userID/\" method=\"post\"><input type=\"submit\" name=\"hulkSmash\" class=\"btn btn-primary btn-block\" value=\"SMASH PUNY SPAMMER\"></form>";
 						$h .= "</div>";
