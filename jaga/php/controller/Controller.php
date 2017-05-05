@@ -103,7 +103,7 @@ class Controller {
 			
 		}
 		
-		if ($urlArray[0] == 'register') {
+		if ($urlArray[0] == 'register' && !Authentication::isLoggedIn()) {
 
 			if (!empty($_POST)) {
 			

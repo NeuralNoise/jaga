@@ -478,7 +478,7 @@ class PageView {
 				$mapView = new MapView($_SESSION['channelID'], $urlArray);
 				$html .= $mapView->html;
 				
-			} elseif ($urlArray[0] == 'register') {
+			} elseif ($urlArray[0] == 'register' && !Authentication::isLoggedIn()) {
 
 				$html .= AuthenticationView::getAuthForm('register', $inputArray, $errorArray);
 
