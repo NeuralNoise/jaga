@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         zenilistdb.co2dst0led4r.us-west-2.rds.amazonaws.com
--- Server version:               5.6.22-log - MySQL Community Server (GPL)
+-- Server version:               5.6.34-log - MySQL Community Server (GPL)
 -- Server OS:                    Linux
 -- HeidiSQL Version:             9.4.0.5125
 -- --------------------------------------------------------
@@ -69,6 +69,48 @@ CREATE TABLE IF NOT EXISTS `jaga_BlacklistIP` (
   `attemptsSinceBlocked` int(12) NOT NULL,
   PRIMARY KEY (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Data exporting was unselected.
+-- Dumping structure for table jagaDB.jaga_Carousel
+CREATE TABLE IF NOT EXISTS `jaga_Carousel` (
+  `carouselID` int(12) NOT NULL AUTO_INCREMENT,
+  `channelID` int(12) NOT NULL,
+  `creator` int(12) NOT NULL,
+  `created` datetime NOT NULL,
+  `carouselPath` varchar(255) NOT NULL,
+  `carouselTitleEnglish` varchar(255) NOT NULL,
+  `carouselSubtitleEnglish` varchar(255) NOT NULL,
+  `carouselTitleJapanese` varchar(255) NOT NULL,
+  `carouselSubtitleJapanese` varchar(255) NOT NULL,
+  `carouselPublished` int(1) NOT NULL,
+  `carouselDisplayWhileLoggedIn` int(1) NOT NULL,
+  `carouselDisplayWhileLoggedOut` int(1) NOT NULL,
+  PRIMARY KEY (`carouselID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Data exporting was unselected.
+-- Dumping structure for table jagaDB.jaga_CarouselPanel
+CREATE TABLE IF NOT EXISTS `jaga_CarouselPanel` (
+  `carouselPanelID` int(12) NOT NULL AUTO_INCREMENT,
+  `channelID` int(12) NOT NULL,
+  `carouselID` int(12) NOT NULL,
+  `creator` int(12) NOT NULL,
+  `created` datetime NOT NULL,
+  `imageID` int(12) NOT NULL,
+  `carouselPanelAltEnglish` varchar(255) NOT NULL,
+  `carouselPanelTitleEnglish` varchar(255) NOT NULL,
+  `carouselPanelSubtitleEnglish` varchar(255) NOT NULL,
+  `carouselPanelUrlEnglish` varchar(255) NOT NULL,
+  `carouselPanelAltJapanese` varchar(255) NOT NULL,
+  `carouselPanelTitleJapanese` varchar(255) NOT NULL,
+  `carouselPanelSubtitleJapanese` varchar(255) NOT NULL,
+  `carouselPanelUrlJapanese` varchar(255) NOT NULL,
+  `carouselPanelDisplayOrder` int(4) NOT NULL,
+  `carouselPanelPublished` int(1) NOT NULL,
+  `carouselPanelDisplayWhileLoggedIn` int(1) NOT NULL,
+  `carouselPanelDisplayWhileLoggedOut` int(1) NOT NULL,
+  PRIMARY KEY (`carouselPanelID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
 -- Dumping structure for table jagaDB.jaga_Category
