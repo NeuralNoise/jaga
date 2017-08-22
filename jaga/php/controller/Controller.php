@@ -51,7 +51,7 @@ class Controller {
 		if (!isset($_SESSION['lang'])) { Session::setSession('lang', $lang); }
 
 		$i = 0; while ($i <= 3) { if (!isset($urlArray[$i])) { $urlArray[$i] = ''; } $i++; } // minimum 3 array pointers
-		$notHTML = array('rss','sitemap.xml','channel.css','lang');
+		$notHTML = array('api','rss','sitemap.xml','channel.css','lang');
 		$inputArray = array();
 		$errorArray = array();
 
@@ -897,6 +897,24 @@ class Controller {
 
 		}
 		
+		if ($urlArray[0] == 'api') {
+		 
+			if ($urlArray[1] == 'content') {
+				
+				$request = array();
+				$request['first'] = $urlArray[2];
+				$request['number'] = $urlArray[3];
+				$request['channelID'] = $urlArray[4];
+				if (isset($urlArray[5])) { $request['contentCategoryKey'] = $urlArray[5]; } else { $request['contentCategoryKey'] = ''; }
+				
+				$response = Content::api($request);
+				header("Content-type: application/json");
+				return $response;
+				
+			}
+
+		}
+
 	}
 	
 }

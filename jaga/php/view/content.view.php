@@ -624,7 +624,14 @@ class ContentView {
 		}
 
 		$html = "\n\n";
-		$html .= "\t\t<div class=\"container\"> <!-- START CONTAINER -->\n";
+		
+
+		
+		$html .= "\t\t<div class=\"container\"> <!-- START CONTAINER -->\n\n";
+		
+			$html .= "\t\t<input type=\"hidden\" id=\"channelID\" value=\"" . $channelID . "\">\n";
+			$html .= "\t\t<input type=\"hidden\" id=\"contentCategoryKey\" value=\"" . $contentCategoryKey . "\">\n\n";
+			
 			$html .= "\t\t\t<div class=\"row\" id=\"list\"> <!-- START ROW -->\n";
 
 				
@@ -649,10 +656,7 @@ class ContentView {
 					$thisContentChannelKey = $channel->channelKey;
 					$channelTitle = $channel->getTitle();
 					
-					$contentContent = $content->getContent();
-					$contentContent = strip_tags($contentContent);
-					$contentContent = preg_replace('/\s+/', ' ', $contentContent);
-					$contentContent = Utilities::truncate($contentContent, 100, ' ', '...');
+					$contentContent = $content->getContent(true);
 					
 					$category = new Category($thisContentCategoryKey);
 					$categoryTitle = $category->getTitle();

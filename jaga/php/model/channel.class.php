@@ -60,7 +60,7 @@ class Channel extends ORM {
 		
 	}
 	
-	public function getTitle() {
+	public function getTitle($lang = null) {
 		if ($_SESSION['lang'] == 'ja') {
 			if ($this->channelTitleJapanese != '') { $channelTitle = $this->channelTitleJapanese; } else { $channelTitle = $this->channelTitleEnglish; }
 		} else {

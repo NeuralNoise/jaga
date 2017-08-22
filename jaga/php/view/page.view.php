@@ -159,8 +159,7 @@ class PageView {
 				// $html .= "\t\t<script type=\"text/javascript\" async defer src=\"https://maps.googleapis.com/maps/api/js?key=" . Config::read('googlemaps.embed-api-key') . "&libraries=places\"></script>\n";
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/lib/bootstrap/3.3.2/js/bootstrap.min.js\"></script>\n";
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/lib/masonry/masonry.pkgd.min.js\"></script>\n";
-				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/lib/locationpicker/locationpicker.jquery.js\"></script>\n";
-				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/tooltip.js\"></script>\n";				
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/lib/locationpicker/locationpicker.jquery.js\"></script>\n";			
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/jaga.js\"></script>\n\n";
 
 				$html .= "\t\t<script>\n";
@@ -228,13 +227,10 @@ class PageView {
 				$html = "\n\n\t\t<div id=\"footer\">\n";
 					$html .= "\t\t\t\t<div class=\"col-sm-8 hidden-xs\">\n";
 						$html .= "\t\t\t\t\t<ul class=\"list-inline\">\n";
-							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/about/\">" . Lang::getLang('about') . "</a></li>\n";
 							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/tos/\">" . Lang::getLang('tos') . "</a></li>\n";
 							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/privacy/\">" . Lang::getLang('privacyPolicy') . "</a></li>\n";
 							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/credits/\">" . Lang::getLang('credits') . "</a></li>\n";
 							$html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . $_SESSION['channelKey'] . "." . Config::read('site.url') . "/sitemap.xml\">" . Lang::getLang('sitemap') . "</a></li>\n";
-							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/advertise/\">Advertise</a></li>\n";
-							// $html .= "\t\t\t\t\t\t<li><a class=\"\" href=\"http://" . Config::read('site.url') . "/contact/\">Contact</a></li>\n";
 						$html .= "\t\t\t\t\t</ul>\n";
 					$html .= "\t\t\t\t</div>\n";
 					$html .= "\t\t\t\t<div class=\"col-sm-4\">\n";
@@ -245,9 +241,7 @@ class PageView {
 						$html .= "</div>\n";
 					$html .= "\t\t\t\t</div>\n";
 				$html .= "\t\t</div>\n\n";
-				
-				$html .= "\t\t<script type=\"text/javascript\" src=\"//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-584e15eba1c6e5ec\"></script>\n\n";
-				
+
 			$html .= "\t</body>\n\n";
 		$html .= "</html>";
 		
@@ -405,42 +399,6 @@ class PageView {
 				$html .= "\t<!-- END ERROR ARRAY -->\n\n";
 			}
 
-			
-			/*
-
-			switch($urlArray[0]) {
-				
-				case '':
-					if ($_SESSION['userID'] == 0) {
-						$carousel = new CarouselView();
-						$html .= $carousel->getCarousel($urlArray);
-					}
-					if ($_SESSION['channelKey'] == 'www') {
-						$html .= ContentView::displayRecentContentItems(0, '', 75);
-					} else {
-						$html .= $this->getBreadcrumbs($urlArray);
-						$html .= ContentView::displayRecentContentItems($_SESSION['channelID'], '', 50);
-					}
-					break;
-			
-				case ($urlArray[0] == 'channels' && $_SESSION['channelKey'] == 'www'):
-					$html .= ChannelView::displayChannelList();
-					break;
-			
-				case 'imo':
-					$html .= MessageView::imo();
-					break;
-
-				default
-					header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-					$html .= "\n\n\t<div class=\"container text-center\"><img src=\"/jaga/images/101098.png\" class=\"img-responsive\" style=\"margin:0px auto;\"></div>\n\n";
-					break;
-			}
-			
-			*/
-			
-			
-			
 			if ($urlArray[0] == '') {
 
 				// if ($_SESSION['userID'] == 0) {
@@ -667,47 +625,6 @@ class PageView {
 			
 			}
 
-			if (in_array($_SESSION['userID'], Config::read('admin.userIdArray'))) {
-			
-				$html .= "\t<div class=\"container\" style=\"margin-top:10px;\">\n";
-
-					if (!empty($_POST)) { 
-						$html .= "\t\t<div class=\"row\">\n";
-							$html .= "\t\t\t\t<div class=\"col-md-12 bg-warning\">";
-								$html .= '<h3>$_POST</h3>';
-								$html .= '<pre>' . print_r($_POST, true) . '</pre>';
-							$html .= "</div>\n";
-						$html .= "\t\t</div>\n";
-					}
-					
-					$html .= "\t\t<div class=\"row\">\n";
-					
-						$html .= "\t\t\t<div class=\"col-md-3 bg-warning\">";
-							$html .= '<h3>$urlArray</h3>';
-							$html .= '<pre>' . print_r($urlArray, true) . '</pre>';
-						$html .= "</div>\n";
-						
-						$html .= "\t\t\t<div class=\"col-md-3 bg-warning\">";
-							$html .= '<h3>Session::sessionArray</h3>';
-							$html .= '<pre>' . print_r(Session::sessionDump(), true) . '</pre>';
-						$html .= "</div>\n";
-						
-						$html .= "\t\t\t<div class=\"col-md-3 bg-warning\">";
-							$html .= '<h3>$_SESSION</h3>';
-							$html .= '<pre>' . print_r($_SESSION, true) . '</pre>';
-						$html .= "</div>\n";
-						
-						$html .= "\t\t\t<div class=\"col-md-3 bg-warning\">";
-							$html .= '<h3>$_COOKIE</h3>';
-							$html .= '<pre>' . print_r($_COOKIE, true) . '</pre>';
-						$html .= "</div>\n";
-
-					$html .= "\t\t</div>\n";
-
-				$html .= "\t</div>\n";
-			
-			}
-		
 		$html .= $this->getFooter();
 		
 		$previousPage = trim(implode('/', $urlArray), '/');
