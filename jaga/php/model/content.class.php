@@ -81,12 +81,21 @@ class Content extends ORM {
 		return $contentTitle;
 	}
 	
-	public function getContent() {
+	public function getContent($truncate = false) {
+		
 		if ($_SESSION['lang'] == 'ja') {
 			if ($this->contentJapanese != '') { $contentContent = $this->contentJapanese; } else { $contentContent = $this->contentEnglish; }
 		} else {
 			if ($this->contentEnglish != '') { $contentContent = $this->contentEnglish; } else { $contentContent = $this->contentJapanese; }
 		}
+		
+		if ($truncate) {
+			$contentContent = strip_tags($contentContent);
+			$contentContent = preg_replace('/\s+/', ' ', $contentContent);
+			$contentContent = Utilities::truncate($contentContent, 100, ' ', '...');
+		}
+		
+		
 		return $contentContent;
 	}
 	
@@ -101,7 +110,7 @@ class Content extends ORM {
 		
 	}
 	
-	public function getURL() {
+	public function getURL($lang = null) {
 		$contentURL = "/k/" . $this->contentCategoryKey . "/" . $this->contentURL . "/";
 		return $contentURL;
 	}
@@ -302,6 +311,51 @@ class Content extends ORM {
 		$contentURL = strtolower($contentURL);
 		return $contentURL;
 		
+	}
+	
+	public static function api($request) {
+
+		$query = "SELECT contentID FROM jaga_Content WHERE contentPublished = 1 ";
+		if ($request['channelID'] != 2006) { $query .= "AND channelID = :channelID "; }
+		if ($request['contentCategoryKey'] != '') { $query .= "AND contentCategoryKey = :contentCategoryKey "; }
+		$query .= "ORDER BY contentLastModified DESC ";
+		$query .= "LIMIT " . $request['first'] . ", " . $request['number'];
+
+		$core = Core::getInstance();
+		$statement = $core->database->prepare($query);
+		if ($request['channelID'] != 2006) { $statement->bindParam(':channelID', $request['channelID']); }
+		if ($request['contentCategoryKey'] != '') { $statement->bindParam(':contentCategoryKey', $request['contentCategoryKey']); }
+		$statement->execute();
+
+		$response = array();
+
+		while ($row = $statement->fetch()) {
+			
+			$content = new Content($row['contentID']);
+			$user = new User($content->contentSubmittedByUserID);
+			$channel = new Channel($content->channelID);
+			
+			if (!$user->userBlackList && !$user->userShadowBan) {
+				
+				$response[$row['contentID']]['content_id'] = $row['contentID'];
+				$response[$row['contentID']]['channel_title'] = $channel->getTitle();
+				$response[$row['contentID']]['channel_key'] = $channel->channelKey;
+				$response[$row['contentID']]['content_title'] = $content->getTitle($_SESSION['lang']);
+				$response[$row['contentID']]['content_url'] = $content->getURL($_SESSION['lang']);
+				$response[$row['contentID']]['content_lead_text'] = $content->getContent(true,$_SESSION['lang']);
+				$response[$row['contentID']]['user_name'] = urlencode($user->username);
+				$response[$row['contentID']]['user_display_name'] = $user->getUserDisplayName();
+
+				if (Image::objectHasImage('Content',$row['contentID'])) {
+					$response[$row['contentID']]['content_main_image'] = Image::getObjectMainImagePath('Content',$row['contentID'],600);
+				}
+			
+			}
+			
+		}
+		
+		return json_encode($response);
+
 	}
 	
 }
