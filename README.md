@@ -1,7 +1,7 @@
 JAGA
 ==============
 
-Jaga is a social sharing and networking platform built to facilitate community-building online. Jaga grew out of a hyperlocal classified advertising site that has served the [Niseko](http://niseko.jaga.io/) alpine resort area in Hokkaido since 2006. The Kutchannel remains the most popular Jaga channel but registered users can also create channels and create categories to them. User can post text, images, event info, and geolocation data to any channel, and comment on any post on any channel. Jaga is fully responsive and works beautifully on most any device. [TRY JAGA](http://jaga.io/register/)
+Jaga is a social sharing and networking platform built to facilitate community-building online. Jaga grew out of The Kutchannel, a hyperlocal classified advertising site that has served the [Niseko](http://niseko.jaga.io/) alpine resort area in Hokkaido since 2006. The Kutchannel remains the most popular Jaga channel but registered users can create channels and create categories for them. Users can post text, images, event info, and geolocation data to any channel, and comment on any post on any channel. Jaga is fully responsive and works beautifully on most any device. [TRY JAGA](http://jaga.io/register/)
 
 **FEATURES**
 - INDEX
@@ -21,11 +21,19 @@ Jaga is a social sharing and networking platform built to facilitate community-b
 	- have a global RSS feed showing all corresponding posts: `jaga.io/rss/k/<category>/`
 	- have channel-specific RSS feeds showing all corresponding posts: `<channel>.jaga.io/rss/k/<category>/`
 - POSTS
-    - users can **post** to any channel and any category on JAGA: `<channel>.jaga.io/k/<category>/<post/>`
+    - users can **post** to any channel and any category on JAGA: `<channel>.jaga.io/k/<category>/<post>/`
     - posts can include **images** and an **outbound link**.
     - posts can be marked as **events**; date & time can be set.
     - posts can have **geographic coordinates**; latitude and longitude can be set.
     - posts can be edited and deleted by OP.
+- CALENDAR
+	- posts mapped as being an event
+	- all events on `jaga.io/calendar/`
+	- each channel's own events on `<channel>.jaga.io/calendar/`
+- MAP
+	- posts mapped by geographic coordinates
+	- all geotagged posts at `jaga.io/map/`
+	- each channel's own geotagged content map at `<channel>.jaga.io/map/`
 - COMMENTS
     - users can **comment** on any post in any category on any channel.
     - plaintext only and observe line breaks.
@@ -45,5 +53,4 @@ Jaga is a social sharing and networking platform built to facilitate community-b
 - [Christopher Webb](http://github.com/chishiki/) is the The Jaga Project's creator and maintainer, provide deployment support, and gives timely consideration to any pull requests.
 
 **FUNDING**
-- Sponsors: [Zenidev LLC](http://kagi.io/) pays Team Jaga's AWS fees.
-- Advertisers: [kagi.io](http://kagi.io/) & [Bistrot le Cochon](http://www.lecochon-niseko.com/)
+- Primary Sponsor: [kagi.io](http://kagi.io/)
