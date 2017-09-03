@@ -151,7 +151,7 @@ class PageView {
 				
 
 				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/jaga/lib/bootstrap/3.3.2/css/bootstrap.min.css\">\n";
-				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/jaga/css/kutchannel.css\" />\n";
+				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/jaga/assets/css/kutchannel.css\" />\n";
 				$html .= "\t\t<link rel=\"stylesheet\" type=\"text/css\" href=\"/channel.css\" />\n\n";
 
 				$html .= "\t\t<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js\"></script>\n";
