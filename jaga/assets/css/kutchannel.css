@@ -178,6 +178,21 @@ div#map-canvas iframe {
 	display:none;
 }
 
+/* START CALENDAR */
+div.calMonth { background-color:#eee;padding:10px; }
+div.calMonthWeek { }
+div.calMonthDay { background-color:#fff; }
+div.calMonthDay a { text-decoration:none; }
+div.calMonth > div.calMonthWeek > div.calMonthDay { border-right:1px solid #333;border-bottom:1px solid #333; }
+div.calMonth > div.calMonthWeek > div.calMonthDay:nth-child(-n+1) { border-left:1px solid #333; }
+div.calMonthDaysOfWeek {  }
+div.calMonthDayOfWeek { border-top:1px solid #333;background-color:#ddd;text-align:center; }
+div.calMonthDay { float:left;width:14.2857142857%;}
+div.calMonthDayOutOfRangeDay { background-color:#eee;color:#bbb;text-align:center;}
+div.calMonthDay > a { display:block;text-align:center; }
+div.calMonthDay > a > span { display:none; }
+/* END CALENDAR */
+
 @media screen and (max-width:767px) {
 
 	ol.breacrumb {

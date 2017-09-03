@@ -300,28 +300,7 @@ class PageView {
 				}
 			$html .= "</ol>";
 		$html .= "</div>";
-		
-		/* $html .= "<div class=\"container visible-xs-block\">";
-		
-		
-			$html .= '<ul class="list-group">';
-			
-				foreach($breadcrumbs AS $rice) {
-					
-					if ($rice['url'] != '') { $isLink = true; } else { $isLink = false; }
-					
-					if ($isLink) {
-						$html .= '<a class="list-group-item" href="' . $rice['url'] . '">' . $rice['anchor'] . '</a>';
-					} else {
-						$html .= '<li class="list-group-item active">' . $rice['anchor'] . '</li>';
-					}
-					
-				}
-			
-			$html .= '</ul>';
-		$html .= "</div>";
-		*/
-		
+
 		return $html;
 		
 	}
@@ -401,10 +380,8 @@ class PageView {
 
 			if ($urlArray[0] == '') {
 
-				// if ($_SESSION['userID'] == 0) {
-					$carousel = new CarouselView();
-					$html .= $carousel->getCarousel($urlArray);
-				// }
+				$carousel = new CarouselView();
+				$html .= $carousel->getCarousel($urlArray);
 			
 				if ($_SESSION['channelKey'] == 'www') {
 
@@ -416,7 +393,13 @@ class PageView {
 					$html .= ContentView::displayRecentContentItems($_SESSION['channelID'], '', 50);
 					
 				}
-				
+
+			} elseif ($urlArray[0] == 'calendar') {
+
+				$yearMonth = date('Y-m');
+				if ($_SESSION['channelKey'] == 'www') { $channelID = $_SESSION['channelID']; } else { $channelID = null; }
+				$html .= CalendarView::displayCalendar($yearMonth,$channelID);
+
 			} elseif ($urlArray[0] == 'channels' && $_SESSION['channelKey'] == 'www') {
 				
 				$html .= ChannelView::displayChannelList();

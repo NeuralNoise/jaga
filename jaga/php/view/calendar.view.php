@@ -2,20 +2,18 @@
 
 class CalendarView {
 
-	public function displayCalendar() {
+	public function displayCalendar($yearMonth,$channelID) {
 
-		$events = Content::getEvents();
+		// $events = Content::getEvents();
 	
-		foreach ($events AS $eventID) {
+		// foreach ($events AS $eventID) {
 			
-			$event = new Content($eventID);
-			$contentIsEvent = $event->contentIsEvent;
-			$contentEventDate = $event->contentEventDate;
-			$contentEventStartTime = $event->contentEventStartTime;
+			// $event = new Content($eventID);
+			// $contentIsEvent = $event->contentIsEvent;
+			// $contentEventDate = $event->contentEventDate;
+			// $contentEventStartTime = $event->contentEventStartTime;
 			
-		}
-
-		$content = new Content($contentID);
+		// }
 
 		$html = '
 		
