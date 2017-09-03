@@ -1,7 +1,7 @@
 JAGA
 ==============
 
-Jaga is a social sharing and networking platform built to facilitate community-building online. Jaga grew out of The Kutchannel, a hyperlocal classified advertising site that has served the [Niseko](http://niseko.jaga.io/) alpine resort area in Hokkaido since 2006. The Kutchannel remains the most popular Jaga channel but registered users can create channels and create categories for them. Users can post text, images, event info, and geolocation data to any channel, and comment on any post on any channel. Jaga is fully responsive and works beautifully on most any device. [TRY JAGA](http://jaga.io/register/)
+Jaga is a social sharing and networking platform built to facilitate community-building online. Registered users can create channels and create categories for them. Users can post text, images, event info, and geolocation data to any channel, and comment on any post on any channel. Jaga is fully responsive and works pretty darn good on most any device. [TRY JAGA](http://jaga.io/register/)
 
 **FEATURES**
 - INDEX
@@ -48,9 +48,12 @@ Jaga is a social sharing and networking platform built to facilitate community-b
 	
 **LICENSE**
 - JAGA's codebase powers [jaga.io](http://jaga.io/) and is available for use on your domain(s) under the [MIT License](license.txt).
+
+**HISTORY**
+ Jaga was originally built to power The Kutchannel a hyperlocal social networking and information website that has served the [Niseko and Kutchan](http://niseko.jaga.io/) communities in Hokkaido since 2006.
  
 **TEAM**
-- [Christopher Webb](http://github.com/chishiki/) is the The Jaga Project's creator and maintainer, provide deployment support, and gives timely consideration to any pull requests.
+- Creator: [Christopher Webb](http://github.com/chishiki/)
 
 **FUNDING**
 - Primary Sponsor: [kagi.io](http://kagi.io/)
