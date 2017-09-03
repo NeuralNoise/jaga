@@ -358,6 +358,31 @@ class Content extends ORM {
 
 	}
 	
+	public static function getEvents($startDate, $endDate, $channelID = null, $contentCategoryKey = null) {
+
+		$query = "SELECT contentID FROM jaga_Content ";
+		$query .= "WHERE contentPublished = 1 ";
+		if ($channelID) { $query .= "AND channelID = :channelID "; }
+		if ($contentCategoryKey) { $query .= "AND contentCategoryKey = :contentCategoryKey "; }
+		$query .= "AND contentEventDate >= :startDate ";
+		$query .= "AND contentEventDate <= :endDate ";
+		$query .= "ORDER BY contentEventDate ASC ";
+
+
+		$core = Core::getInstance();
+		$statement = $core->database->prepare($query);
+		if ($channelID) { $statement->bindParam(':channelID', $channelID); }
+		if ($contentCategoryKey) { $statement->bindParam(':contentCategoryKey', $contentCategoryKey); }
+		$statement->bindParam(':startDate', $startDate);
+		$statement->bindParam(':endDate', $endDate);
+		$statement->execute();
+		
+		$content = array();
+		while ($row = $statement->fetch()) { $content[] = $row['contentID']; }
+		return $content;
+			
+	}
+	
 }
 
 ?>

@@ -267,7 +267,6 @@ class ContentView {
 			$contentIsEvent = $content->contentIsEvent;
 			$contentEventDate = $content->contentEventDate;
 			$contentEventStartTime = $content->contentEventStartTime;
-			$contentEventEndTime = $content->contentEventEndTime;
 			$contentHasLocation = $content->contentHasLocation;
 			$contentLatitude = $content->contentLatitude;
 			$contentLongitude = $content->contentLongitude;
@@ -292,7 +291,6 @@ class ContentView {
 			if (isset($inputArray['contentIsEvent'])) { $contentIsEvent = $inputArray['contentIsEvent']; } else { $contentIsEvent = 0; }
 			if (isset($inputArray['contentEventDate'])) { $contentEventDate = $inputArray['contentEventDate']; }
 			if (isset($inputArray['contentEventStartTime'])) { $contentEventStartTime = $inputArray['contentEventStartTime']; }
-			if (isset($inputArray['contentEventEndTime'])) { $contentEventEndTime = $inputArray['contentEventEndTime']; }
 			if (isset($inputArray['contentHasLocation'])) { $contentHasLocation = $inputArray['contentHasLocation']; } else { $contentHasLocation = 0; }
 			if (isset($inputArray['contentLatitude'])) { $contentLatitude = $inputArray['contentLatitude']; }
 			if (isset($inputArray['contentLongitude'])) { $contentLongitude = $inputArray['contentLongitude']; }
@@ -514,17 +512,6 @@ class ContentView {
 												$html .= "<div class=\"input-group\">";
 													$html .= "<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-time\"></i></span>";
 													$html .= "<input type=\"time\" name=\"contentEventStartTime\" class=\"form-control\" value=\"" . $contentEventStartTime . "\">";
-												$html .= "</div>";
-											$html .= "</div>";		
-											
-											$html .= "<div class=\"col-sm-1\">";
-												$html .= "<label for=\"contentEventEndTime\">" . Lang::getLang('endTime') . "</label>";
-											$html .= "</div>";
-											
-											$html .= "<div class=\"col-sm-2\">";
-												$html .= "<div class=\"input-group\">";
-													$html .= "<span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-time\"></i></span>";
-													$html .= "<input type=\"time\" name=\"contentEventEndTime\" class=\"form-control\" value=\"" . $contentEventEndTime . "\">";
 												$html .= "</div>";
 											$html .= "</div>";
 											

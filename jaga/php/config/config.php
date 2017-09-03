@@ -44,6 +44,7 @@
 	// VIEW
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/audit.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/authentication.view.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/calendar.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/carousel.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/category.view.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/view/channel.view.php');
@@ -60,27 +61,5 @@
 
 	// DB: apply gitignore to taterbase.php
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/config/taterbase.php');
-
-	/* taterbase.php attributes */
-
-	// Config::write('site.url', '');
-	// Config::write('admin.email', '');
-	// Config::write('admin.userIdArray', array());
-	// Config::write('system.email', '');
-	// Config::write('system.url', '');
-
-	// Config::write('db.host', '');
-	// Config::write('db.basename', '');
-	// Config::write('db.user', '');
-	// Config::write('db.password', '');
-	
-	// Config::write('analytics.trackingID', '');
-	// Config::write('adsense.data-ad-client', '');
-	// Config::write('adsense.data-ad-slot', '');
-	// Config::write('googlemaps.embed-api-key', '');
-	// Config::write('pingdom.rumID', '');
-	// Config::write('alexa.atrk_acct', '');
-	// Config::write('ms.validate', '');
-	// Config::write('pinterest.domain_verify', '');
 
 ?>
