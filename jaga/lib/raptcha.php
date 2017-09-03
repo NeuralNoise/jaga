@@ -19,7 +19,8 @@
 	$raptchaCode =  substr(md5(uniqid(rand())), 0, 6);
 	Session::setSession('raptcha', $raptchaCode);
 
-	imagettftext($image, 14, 0, 7, 17, $setTextColor, "../fonts/times.ttf", $raptchaCode);
+	$fontPath = $_SERVER['DOCUMENT_ROOT'] . '/jaga/assets/fonts/times.ttf';
+	imagettftext($image, 14, 0, 7, 17, $setTextColor, $fontPath, $raptchaCode);
 	header("content-type: image/png");
 	imagepng($image);
 	imagedestroy($image);

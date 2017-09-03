@@ -160,7 +160,7 @@ class PageView {
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/lib/bootstrap/3.3.2/js/bootstrap.min.js\"></script>\n";
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/lib/masonry/masonry.pkgd.min.js\"></script>\n";
 				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/lib/locationpicker/locationpicker.jquery.js\"></script>\n";			
-				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/js/jaga.js\"></script>\n\n";
+				$html .= "\t\t<script type=\"text/javascript\" src=\"/jaga/assets/js/jaga.js\"></script>\n\n";
 
 				$html .= "\t\t<script>\n";
 				$html .= "
