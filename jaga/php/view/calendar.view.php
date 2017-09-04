@@ -4,95 +4,79 @@ class CalendarView {
 
 	public function displayCalendar($yearMonth,$channelID) {
 
-		// $events = Content::getEvents();
-	
-		// foreach ($events AS $eventID) {
-			
-			// $event = new Content($eventID);
-			// $contentIsEvent = $event->contentIsEvent;
-			// $contentEventDate = $event->contentEventDate;
-			// $contentEventStartTime = $event->contentEventStartTime;
-			
-		// }
-
-		$html = '
+		// selected month
+		$d = new DateTime($yearMonth);
+		$cal_header = $d->format('F Y');
+		$first_weekday_of_month = $d->format('N');
+		$last_day_of_month = $d->format('t');
+		$date_counter = 1;
+		$days_left = $last_day_of_month;
 		
-		<div class="container">
+		// previous month
+		$d->modify('first day of previous month');
+		$last_day_of_previous_month = $d->format('t');
+		$end_of_previous_month_counter = $last_day_of_previous_month - $first_weekday_of_month;
 		
-            <div class="row">
-
-				<div class="col-xs-12 calMonth">
-                
-					<div class="calMonthHeader">July 2015</div>
+		$h = '<div class="container">';
+			$h .= '<div class="row">';
+				$h .= '<div class="col-xs-12 calMonth">';
 					
-					<div class="calMonthWeek calMonthDaysOfWeek">
-						<div class="calMonthDay calMonthDayOfWeek">SUN</div>
-						<div class="calMonthDay calMonthDayOfWeek">MON</div>
-						<div class="calMonthDay calMonthDayOfWeek">TUE</div>
-						<div class="calMonthDay calMonthDayOfWeek">WED</div>
-						<div class="calMonthDay calMonthDayOfWeek">THU</div>
-						<div class="calMonthDay calMonthDayOfWeek">FRI</div>
-						<div class="calMonthDay calMonthDayOfWeek">SAT</div>
-					</div>
+					$h .= '<div class="calMonthHeader">' . $cal_header . '</div>';
 					
-					<div class="calMonthWeek">
-						<div class="calMonthDay calMonthDayOutOfRangeDay">28</div>
-						<div class="calMonthDay calMonthDayOutOfRangeDay">29</div>
-						<div class="calMonthDay calMonthDayOutOfRangeDay">30</div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>1</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>2</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>3</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>4</a></div>
-					</div>
+					$h .= '<div class="calMonthWeek calMonthDaysOfWeek">';
+						for ($x = -1; $x < 6; $x++) {
+							$h .= '<div class="calMonthDay calMonthDayOfWeek">' . jddayofweek($x,2) . '</div>';
+						}
+					$h .= '</div>';
 					
-					<div class="calMonthWeek">
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>5</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>6</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>7</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>8</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>9</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>10</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>11</a></div>
-					</div>
+					if ($first_weekday_of_month != 7) { // first row: if first day of the week is not a sunday
+						
+						$h .= '<div class="calMonthWeek">';
+							for ($x = 0; $x < 7; $x++) {
+								if ($x < $first_weekday_of_month) {
+									$end_of_previous_month_counter++;
+									$h .= '<div class="calMonthDay calMonthDayOutOfRangeDay">' . $end_of_previous_month_counter . '</div>';
+								} else {
+									$h .= '<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>' . $date_counter . '</a></div>';
+									$date_counter++;
+									$days_left--;
+								}
+							}
+						$h .= '</div>';
+
+					}
+
+					while ($days_left >= 7) { // middle rows: loop until less than 7 days left
+						$h .= '<div class="calMonthWeek">';
+						for ($x = 0; $x < 7; $x++) {
+							$h .= '<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>' . $date_counter . '</a></div>';
+							$date_counter++;
+							$days_left--;
+						}
+						$h .= '</div>';
+					}
 					
-					<div class="calMonthWeek">
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>12</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>13</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>14</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>15</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>16</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>17</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>18</a></div>
-					</div>
+					if ($days_left >= 1) { // last row: if more than one day remains
+						$h .= '<div class="calMonthWeek">';
+							$z = 1;
+							for ($x = 0; $x < 7; $x++) {
+								if ($days_left > 0) {
+									$h .= '<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>' . $date_counter . '</a></div>';
+									$date_counter++;
+									$days_left--;
+								} else {
+									$h .= '<div class="calMonthDay calMonthDayOutOfRangeDay">' . $z . '</div>';
+									$z++;
+								}
+							}
+						$h .= '</div>';
+					}
+					
+				$h .= '</div>';
+			$h .= '</div>';
+        $h .= '</div>';
 
-					<div class="calMonthWeek">
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>19</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>20</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>21</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>22</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>23</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>24</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>25</a></div>
-					</div>
-
-					<div class="calMonthWeek">
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>26</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>27</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>28</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>29</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>30</a></div>
-						<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>31</a></div>
-						<div class="calMonthDay calMonthDayOutOfRangeDay">1</a></div>
-					</div>
-				
-				</div>
-				
-			</div> <!-- END ROW -->
-        </div> <!-- END CONTAINER -->
-		
-		';
-
-		return $html;
+		return $h;
 
 	}
 

@@ -397,8 +397,21 @@ class PageView {
 			} elseif ($urlArray[0] == 'calendar') {
 
 				$yearMonth = date('Y-m');
-				if ($_SESSION['channelKey'] == 'www') { $channelID = $_SESSION['channelID']; } else { $channelID = null; }
+				$channelID = null;
+				
+				if (preg_match('/(\d{4})-(\d{2})/',$urlArray[1])) { $yearMonth = $urlArray[1]; }
+				if ($_SESSION['channelKey'] == 'www') { $channelID = $_SESSION['channelID']; }
+				
 				$html .= CalendarView::displayCalendar($yearMonth,$channelID);
+				
+				// selected month's events
+				// $events = Content::getEvents();
+				// foreach ($events AS $eventID) {
+					// $event = new Content($eventID);
+					// $contentIsEvent = $event->contentIsEvent;
+					// $contentEventDate = $event->contentEventDate;
+					// $contentEventStartTime = $event->contentEventStartTime;
+				// }
 
 			} elseif ($urlArray[0] == 'channels' && $_SESSION['channelKey'] == 'www') {
 				
