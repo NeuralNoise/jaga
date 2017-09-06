@@ -2,39 +2,39 @@
 
 class CalendarView {
 
-	public function displayCalendar($yearMonth,$channelID) {
+	public function displayCalendar($date,$channelID) {
 
 		// selected month
-		$selected_month = new DateTime($yearMonth);
+		$selected_month = new DateTime($date);
 		$cal_header = $selected_month->format('F Y');
 		$first_weekday_of_month = $selected_month->format('N');
 		$last_day_of_month = $selected_month->format('t');
 
 		// previous year
-		$prev_year = new DateTime($yearMonth);
+		$prev_year = new DateTime($date);
 		$prev_year->modify('-1 year');
 		$previousYear = $prev_year->format('Y-m');
 
 		// previous month
-		$prev_month = new DateTime($yearMonth);
+		$prev_month = new DateTime($date);
 		$prev_month->modify('first day of previous month');
 		$last_day_of_previous_month = $prev_month->format('t');
 		$previousMonth = $prev_month->format('Y-m');
 		
 		// next month
-		$next_month = new DateTime($yearMonth);
+		$next_month = new DateTime($date);
 		$next_month->modify('first day of next month');
 		$nextMonth = $next_month->format('Y-m');
 		
 		// next year
-		$next_year = new DateTime($yearMonth);
+		$next_year = new DateTime($date);
 		$next_year->modify('+1 year');
 		$nextYear = $next_year->format('Y-m');
 		
 		// counter utilities
-		$date_counter = 1;
+		$this_date = new DateTime($date);
+		$this_date->modify('first day of this month');
 		$days_left = $last_day_of_month;
-		
 		$end_of_previous_month_counter = $last_day_of_previous_month - $first_weekday_of_month;
 		
 		$h = '<div class="container">';
@@ -69,6 +69,8 @@ class CalendarView {
 						}
 					$h .= '</div>';
 					
+					
+					
 					if ($first_weekday_of_month != 7) { // first row: if first day of the week is not a sunday
 						
 						$h .= '<div class="calMonthWeek">';
@@ -77,8 +79,8 @@ class CalendarView {
 									$end_of_previous_month_counter++;
 									$h .= '<div class="calMonthDay calMonthDayOutOfRangeDay">' . $end_of_previous_month_counter . '</div>';
 								} else {
-									$h .= '<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>' . $date_counter . '</a></div>';
-									$date_counter++;
+									$h .= '<div class="calMonthDay"><a href="/calendar/' . $this_date->format('Y-m-d') . '/"><span class="glyphicon glyphicon-plus"></span>' . $this_date->format('j') . '</a></div>';
+									$this_date->modify('+1 day');
 									$days_left--;
 								}
 							}
@@ -89,8 +91,8 @@ class CalendarView {
 					while ($days_left >= 7) { // middle rows: loop until less than 7 days left
 						$h .= '<div class="calMonthWeek">';
 						for ($x = 0; $x < 7; $x++) {
-							$h .= '<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>' . $date_counter . '</a></div>';
-							$date_counter++;
+							$h .= '<div class="calMonthDay"><a href="/calendar/' . $this_date->format('Y-m-d') . '/"><span class="glyphicon glyphicon-plus"></span>' . $this_date->format('j') . '</a></div>';
+							$this_date->modify('+1 day');
 							$days_left--;
 						}
 						$h .= '</div>';
@@ -101,8 +103,8 @@ class CalendarView {
 							$z = 1;
 							for ($x = 0; $x < 7; $x++) {
 								if ($days_left > 0) {
-									$h .= '<div class="calMonthDay"><a href="#"><span class="glyphicon glyphicon-plus"></span>' . $date_counter . '</a></div>';
-									$date_counter++;
+									$h .= '<div class="calMonthDay"><a href="/calendar/' . $this_date->format('Y-m-d') . '/"><span class="glyphicon glyphicon-plus"></span>' . $this_date->format('j') . '</a></div>';
+									$this_date->modify('+1 day');
 									$days_left--;
 								} else {
 									$h .= '<div class="calMonthDay calMonthDayOutOfRangeDay">' . $z . '</div>';
