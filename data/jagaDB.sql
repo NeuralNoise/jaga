@@ -85,6 +85,8 @@ CREATE TABLE IF NOT EXISTS `jaga_Carousel` (
   `carouselPublished` int(1) NOT NULL,
   `carouselDisplayWhileLoggedIn` int(1) NOT NULL,
   `carouselDisplayWhileLoggedOut` int(1) NOT NULL,
+  `fullWidth` int(1) DEFAULT NULL,
+  `fixedHeight` int(3) DEFAULT NULL,
   PRIMARY KEY (`carouselID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
