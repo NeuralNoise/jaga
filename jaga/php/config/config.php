@@ -17,6 +17,8 @@
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/blacklistDomain.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/blacklistIP.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/calendar.class.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/carousel.class.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/carouselPanel.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/category.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/channel.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/channelCategory.class.php');
