@@ -42,7 +42,7 @@ class AuthenticationView {
 									if (isset($errorArray['loginFailed'])) { $html .= " jagaFormValidationError"; }
 								$html .= "\" name=\"username\" value=\"";
 									if (isset($inputArray['username'])) { $html .= $inputArray['username']; }
-								$html .= "\" placeholder=\"username or email\">\n";
+								$html .= "\" placeholder=\"username or email\" autofocus>\n";
 							$html .= "\t\t\t\t\t\t</div>\n\n";
 							
 							$html .= "\t\t\t\t\t\t<div style=\"margin-bottom: 25px\" class=\"input-group\">\n";
