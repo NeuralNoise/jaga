@@ -43,10 +43,10 @@ class CalendarView {
 
 					$h .= "<div class=\"row\">";
 						$h .= "<div class=\"col-xs-4\">";
-							$h .= "<a class=\"btn btn-default accountNavButton\" href=\"/calendar/" . $previousYear . "/\">";
+							$h .= "<a class=\"btn btn-default calNavButton\" href=\"/calendar/" . $previousYear . "/\">";
 								$h .= "<span class=\"glyphicon glyphicon-fast-backward\"></span>";
 							$h .= "</a>";					
-							$h .= "<a class=\"btn btn-default accountNavButton\" href=\"/calendar/" . $previousMonth . "/\">";
+							$h .= "<a class=\"btn btn-default calNavButton\" href=\"/calendar/" . $previousMonth . "/\">";
 								$h .= "<span class=\"glyphicon glyphicon-step-backward\"></span>";
 							$h .= "</a>";
 						$h .= "</div>";
@@ -54,10 +54,10 @@ class CalendarView {
 						$h .= "<div class=\"col-xs-4 text-center\">" . $cal_header . "</div>";
 						
 						$h .= "<div class=\"col-xs-4 text-right\">";
-							$h .= "<a class=\"btn btn-default pull-right accountNavButton\" href=\"/calendar/" . $nextYear . "/\">";
+							$h .= "<a class=\"btn btn-default pull-right calNavButton\" href=\"/calendar/" . $nextYear . "/\">";
 								$h .= "<span class=\"glyphicon glyphicon-fast-forward\"></span>";
 							$h .= "</a>";
-							$h .= "<a class=\"btn btn-default pull-right accountNavButton\" href=\"/calendar/" . $nextMonth . "/\">";
+							$h .= "<a class=\"btn btn-default pull-right calNavButton\" href=\"/calendar/" . $nextMonth . "/\">";
 								$h .= "<span class=\"glyphicon glyphicon-step-forward\"></span>";
 							$h .= "</a>";
 						$h .= "</div>";

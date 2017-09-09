@@ -179,6 +179,7 @@ div#map-canvas iframe {
 }
 
 /* START CALENDAR */
+.calNavButton { border:none; }
 div.calMonth { background-color:#eee;padding:10px; }
 div.calMonthWeek { }
 div.calMonthDay { background-color:#fff; }
@@ -227,7 +228,6 @@ div.calMonthDay > a > span { display:none; }
 	}
 
 }
-
 
 /*
 					 \++================================|                    _=_
