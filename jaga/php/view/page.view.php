@@ -401,18 +401,9 @@ class PageView {
 				
 				if (preg_match('/(\d{4})-(\d{2})/',$urlArray[1])) { $date = $urlArray[1].'-01'; }
 				if (preg_match('/(\d{4})-(\d{2})-(\d{2})/',$urlArray[1])) { $date = $urlArray[1]; }
-				if ($_SESSION['channelKey'] == 'www') { $channelID = $_SESSION['channelID']; }
+				if ($_SESSION['channelKey'] != 'www') { $channelID = $_SESSION['channelID']; }
 				
 				$html .= CalendarView::displayCalendar($date,$channelID);
-				
-				// selected month's events
-				// $events = Content::getEvents();
-				// foreach ($events AS $eventID) {
-					// $event = new Content($eventID);
-					// $contentIsEvent = $event->contentIsEvent;
-					// $contentEventDate = $event->contentEventDate;
-					// $contentEventStartTime = $event->contentEventStartTime;
-				// }
 
 			} elseif ($urlArray[0] == 'channels' && $_SESSION['channelKey'] == 'www') {
 				

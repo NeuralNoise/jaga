@@ -360,14 +360,14 @@ class Content extends ORM {
 	
 	public static function getEvents($startDate, $endDate, $channelID = null, $contentCategoryKey = null) {
 
-		$query = "SELECT contentID FROM jaga_Content ";
+		$query = "SELECT contentEventDate, contentID FROM jaga_Content ";
 		$query .= "WHERE contentPublished = 1 ";
 		if ($channelID) { $query .= "AND channelID = :channelID "; }
 		if ($contentCategoryKey) { $query .= "AND contentCategoryKey = :contentCategoryKey "; }
 		$query .= "AND contentEventDate >= :startDate ";
 		$query .= "AND contentEventDate <= :endDate ";
+		$query .= "AND contentIsEvent >= 1 ";
 		$query .= "ORDER BY contentEventDate ASC ";
-
 
 		$core = Core::getInstance();
 		$statement = $core->database->prepare($query);
@@ -377,9 +377,9 @@ class Content extends ORM {
 		$statement->bindParam(':endDate', $endDate);
 		$statement->execute();
 		
-		$content = array();
-		while ($row = $statement->fetch()) { $content[] = $row['contentID']; }
-		return $content;
+		$events = array();
+		while ($row = $statement->fetch()) { $events[$row['contentEventDate']][] = $row['contentID']; }
+		return $events;
 			
 	}
 	

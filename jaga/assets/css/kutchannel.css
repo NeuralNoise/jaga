@@ -179,7 +179,11 @@ div#map-canvas iframe {
 }
 
 /* START CALENDAR */
-.calNavButton { border:none; }
+a.calNavButton { border:none; }
+th.calMonthDay { width:14.2857142857%; }
+td.calMonthDay { width:14.2857142857%; }
+
+/*
 div.calMonth { background-color:#eee;padding:10px; }
 div.calMonthWeek { }
 div.calMonthDay { background-color:#fff; }
@@ -192,6 +196,8 @@ div.calMonthDay { float:left;width:14.2857142857%;}
 div.calMonthDayOutOfRangeDay { background-color:#eee;color:#bbb;text-align:center;}
 div.calMonthDay > a { display:block;text-align:center; }
 div.calMonthDay > a > span { display:none; }
+*/
+
 /* END CALENDAR */
 
 @media screen and (max-width:767px) {
