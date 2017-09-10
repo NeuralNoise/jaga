@@ -33,6 +33,35 @@ class BlacklistDomain extends ORM {
 		
 	}
 	
+	public static function isBlacklisted($domain_name_string) {
+		
+		$isBlacklisted = false;
+		
+		$domain_name_potential_matches = explode('.',$domain_name_string);
+		$count = count($domain_name_potential_matches);
+
+		for ($i = 0; $i < $count; $i++) {
+
+			$domain_name_potential_match_string = implode('.',$domain_name_potential_matches);
+
+			$core = Core::getInstance();
+			$query = "SELECT domain FROM jaga_BlacklistDomain WHERE domain = :domain LIMIT 1";
+			$statement = $core->database->prepare($query);
+			$statement->bindParam(':domain', $domain_name_potential_match_string, PDO::PARAM_STR);
+			$statement->execute();
+			if ($row = $statement->fetch()) {
+				self::plusone($domain_name_potential_match_string);
+				$isBlacklisted = true;
+			}
+			
+			array_shift($domain_name_potential_matches);
+
+		}
+
+		return $isBlacklisted;
+		
+	}
+	
 	public static function getDomainBlacklist() {
 		
 		$core = Core::getInstance();
@@ -53,12 +82,13 @@ class BlacklistDomain extends ORM {
 		
 	}
 	
-	public static function plusone($domain) {
+	public static function plusone($domain_name_potential_match_string) {
 		
 		$core = Core::getInstance();
-		$query = "UPDATE jaga_BlacklistDomain SET attemptsSinceBlocked = attemptsSinceBlocked + 1 WHERE domain = :domain LIMIT 1";
+		$query = "UPDATE jaga_BlacklistDomain SET attemptsSinceBlocked = attemptsSinceBlocked + 1 WHERE domain = :domain_name_potential_match_string LIMIT 1";
 		$statement = $core->database->prepare($query);
-		$statement->execute(array(':domain' => $domain));
+		$statement->bindParam(':domain_name_potential_match_string', $domain_name_potential_match_string, PDO::PARAM_STR);
+		$statement->execute();
 
 	}
 	

@@ -55,18 +55,17 @@ class Authentication {
 	public static function register($username, $userEmail, $password, $confirmPassword, $raptcha, $obFussyCat) {
 	
 		$errorArray = array();
+		$user_email_domain_name_string = substr(strrchr($userEmail, "@"), 1);
 
 		if (BlacklistIP::isBlacklisted($_SERVER['REMOTE_ADDR'])) {
 			$errorArray['spam'][] = "We are experiencing technical difficulty. Please try again later.";
 			BlacklistIP::plusone($_SERVER['REMOTE_ADDR']);
 		}
-		
-		$domainBlacklist = BlacklistDomain::getDomainBlacklist();
-		if (preg_match('/('.implode('|', $domainBlacklist).')$/i', $userEmail)) {
+
+		if (BlacklistDomain::isBlacklisted($user_email_domain_name_string)) {
 			
 			$errorArray['spam'][] = "We are experiencing technical difficulty. Please try again later.";
-			// BlacklistDomain::plusone($domain);
-			
+
 		} else {
 
 			if ($username == '') {
