@@ -38,6 +38,17 @@ class PageView {
 			$this->pageKeywords = Lang::getLang('firstSnowContestKeywords');
 			$this->pageDescription = Lang::getLang('firstSnowContestDescription');
 			
+		} elseif ($urlArray[0] == 'calendar') {
+
+			$date = date('Y-m-01');
+			if (preg_match('/(\d{4})-(\d{2})/',$urlArray[1])) { $date = $urlArray[1].'-01'; }
+			if (preg_match('/(\d{4})-(\d{2})-(\d{2})/',$urlArray[1])) { $date = $urlArray[1]; }
+			
+			$calendar_month = new DateTime($date);
+			$this->pageTitle = $channelTitle . ' | ' . $calendar_month->format('F Y') . ' ' . Lang::getLang('eventCalendar');
+			$this->pageKeywords = $channel->getKeywords();
+			$this->pageDescription = $channel->getDescription();
+			
 		} else {
 
 			$this->pageTitle = $channelTitle;
