@@ -95,7 +95,10 @@ class CarouselPanel extends ORM {
 	public static function panels($carouselID) {
 		
 		$core = Core::getInstance();
-		$query = "SELECT carouselPanelID FROM jaga_CarouselPanel WHERE carouselID = :carouselID ORDER BY carouselPanelDisplayOrder ASC";
+		$query = "SELECT carouselPanelID FROM jaga_CarouselPanel ";
+		$query .= "WHERE carouselID = :carouselID AND carouselPanelPublished = 1 ";
+		$query .= "AND " . (Authentication::isLoggedIn()?"carouselPanelDisplayWhileLoggedIn":"carouselPanelDisplayWhileLoggedOut") . " = 1 ";
+		$query .= "ORDER BY carouselPanelDisplayOrder ASC";
 		$statement = $core->database->prepare($query);
 		$statement->bindParam(':carouselID',$carouselID);
 		$statement->execute();
