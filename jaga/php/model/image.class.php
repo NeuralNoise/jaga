@@ -102,8 +102,9 @@ class Image extends ORM {
 						imagejpeg($sandboxImage, $newImage);
 						$thumbnailSizeArray = array(50, 90, 150, 210, 330, 600, 768, 992, 1200);
 						foreach ($thumbnailSizeArray AS $width) {
-							$newImageThumbnail = $image->imagePath . $imageID . '-' . $width . 'px.' . $image->imageType;
-							self::createThumbnail($newImage,$image->imageType,$newImageThumbnail,$width);
+							$imagePath = $image->imagePath;
+							$imageName = $imageID . '-' . $width . 'px.' . $image->imageType;
+							self::createThumbnail($newImage,$image->imageType,$imagePath,$imageName,$imageObject,$imageObjectID,$width);
 						}
 						break;
 						
@@ -143,9 +144,11 @@ class Image extends ORM {
 
 	}
 
-	public function createThumbnail($source, $filetype, $destination, $desiredWidth) {
+	public function createThumbnail($source, $filetype, $imagePath, $imageName, $imageObject, $imageObjectID, $desiredWidth) {
 
 		// CURRENTLY SUPPORTS JPG ONLY
+		
+		$destination = $imagePath . $imageName;
 		
 		$filetype = strtolower($filetype);
 		$sourceImage = imagecreatefromjpeg($source);
@@ -155,6 +158,13 @@ class Image extends ORM {
 		$virtualImage = imagecreatetruecolor($desiredWidth, $desiredHeight);
 		imagecopyresampled($virtualImage, $sourceImage, 0, 0, 0, 0, $desiredWidth, $desiredHeight, $width, $height);
 		imagejpeg($virtualImage, $destination);
+		
+		$aws = new AWS();
+		$bucket = 'jaga-images';
+		$key = $imageName;
+		$sourceFile = $destination;
+		$contentType = "image/jpg";
+		$image->s3url = $aws->uploadImageToS3($bucket,$key,$sourceFile,$contentType,$imageObject,$imageObjectID);
 
 	}
 
