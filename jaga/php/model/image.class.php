@@ -72,28 +72,6 @@ class Image extends ORM {
 				unset($image->imageID);
 				$imageID = self::insert($image);
 			
-				// AWS S3
-				/*
-				$sharedConfig = [
-					'region'  => 'us-west-2',
-					'version' => 'latest',
-					'credentials' => [
-						'key'    => 'my-access-key-id',
-						'secret' => 'my-secret-access-key',
-					]
-				];
-				
-				$sdk = new Aws\Sdk($sharedConfig);
-				$s3Client = new S3Client([
-					'version'     => 'latest',
-					'region'      => 'us-west-2',
-					'credentials' => [
-						'key'    => 'my-access-key-id',
-						'secret' => 'my-secret-access-key',
-					],
-				]);
-				$client = $sdk->createS3();
-				*/
 			
 				// need new imageID
 				$newImage = $image->imagePath . $imageID . '.' . $image->imageType;
@@ -138,7 +116,19 @@ class Image extends ORM {
 						move_uploaded_file($imageTmpName, $newImage) or die ('move_uploaded_file() ERROR');
 					
 				}
+				
+				$aws = new AWS();
+				$bucket = 'jaga-images';
+				$key = $imageID . '.' . $image->imageType;
+				$sourceFile = $newImage;
+				$contentType = $imageUploadArray['type'];
+				$imageObject = $image->imageObject;
+				$imageObjectID = $image->imageObjectID;
+				$image->s3url = $aws->uploadImageToS3($bucket,$key,$sourceFile,$contentType,$imageObject,$imageObjectID); 
 
+				$conditions = array('imageID' => $imageID);
+				Image::update($image,$conditions);
+				
 				return $imageID;
 				
 			}
