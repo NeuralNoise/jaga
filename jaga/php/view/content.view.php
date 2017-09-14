@@ -13,7 +13,6 @@ class ContentView {
 		$contentIsEvent = $content->contentIsEvent;
 		$contentEventDate = $content->contentEventDate;
 		$contentEventStartTime = $content->contentEventStartTime;
-		$contentEventEndTime = $content->contentEventEndTime;
 		$contentHasLocation = $content->contentHasLocation;
 		$contentLatitude = $content->contentLatitude;
 		$contentLongitude = $content->contentLongitude;
@@ -106,7 +105,6 @@ class ContentView {
 					$eventHtml .= "\t\t<div class=\"panel-body\">";
 						$eventHtml .= 'Date: ' . $contentEventDate;
 						if ($contentEventStartTime && $contentEventStartTime != '00:00:00') { $eventHtml .= '<br />Start Time: ' . $contentEventStartTime; }
-						if ($contentEventEndTime && $contentEventEndTime != '00:00:00') { $eventHtml .= '<br />End Time: ' . $contentEventEndTime; }
 					$eventHtml .= "</div>";
 				$eventHtml .= "</div>";
 			$eventHtml .= "</div>";
