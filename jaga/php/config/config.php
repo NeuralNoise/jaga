@@ -12,6 +12,7 @@
 
 	// MODEL
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/audit.class.php');
+	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/aws.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/accountRecovery.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/authentication.class.php');
 	require($_SERVER['DOCUMENT_ROOT'] . '/jaga/php/model/blacklistDomain.class.php');

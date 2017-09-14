@@ -25,5 +25,7 @@ Config::write('pingdom.rumID', 'XXXXXXXXXX');
 Config::write('alexa.atrk_acct', 'XXXXXXXXXX');
 Config::write('ms.validate', 'XXXXXXXXXX');
 Config::write('pinterest.domain_verify', 'XXXXXXXXXX');
+Config::write('aws.key', 'XXXXXXXXXX');
+Config::write('aws.secret', 'XXXXXXXXXX');
 
 ?>
