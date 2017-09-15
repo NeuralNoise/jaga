@@ -786,7 +786,6 @@ class Controller {
 
 		if ($urlArray[0] == 'first-snow-contest' && $_SESSION['channelID'] == 14) {
 			
-			/*
 			if (isset($_POST['jagaPredictionSubmit'])) {
 				
 				$inputArray = $_POST;
@@ -827,7 +826,6 @@ class Controller {
 				}
 				
 			}
-			*/
 			
 		}
 		

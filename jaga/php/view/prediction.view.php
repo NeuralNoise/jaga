@@ -98,9 +98,9 @@ class PredictionView {
 		$html = "<div class=\"panel panel-default\">";
 			$html .= "<div class=\"panel-heading\"><div class=\"panel-title\">";
 			
-			// $html .= Lang::getLang('makeYourPrediction');
+			$html .= Lang::getLang('makeYourPrediction');
 			// $html .= Lang::getLang('Closed to New Entries');
-			$html .= Lang::getLang('Congratulations!');
+			// $html .= Lang::getLang('Congratulations!');
 			
 			$html .= "</div></div>";
 			$html .= "<div class=\"panel-body\">";
@@ -113,10 +113,10 @@ class PredictionView {
 				// $html .= "We will post results soon!";
 					
 				// WINNER IS ANNOUNCED
-				$html .= "<a href=\"/u/ThisIsMySeriousFace/\">ThisIsMySeriousFace</a> is the winner of this year's first snow contest! A dinner for 6 including drinks awaits you at <a href=\"https://www.facebook.com/lecochon.niseko\" target=\"_blank\">Bistrot le Cochon</a>.";
+				// $html .= "<a href=\"/u/ThisIsMySeriousFace/\">ThisIsMySeriousFace</a> is the winner of this year's first snow contest! A dinner for 6 including drinks awaits you at <a href=\"https://www.facebook.com/lecochon.niseko\" target=\"_blank\">Bistrot le Cochon</a>.";
 				
 				// CONTEST IS UNDERWAY
-				/*
+				
 				$html .= "<form class=\"form-horizontal\" id=\"jagaPredictionForm\" name=\"jagaPredictionForm\"" . (Authentication::isLoggedIn()?" method=\"post\" action=\"/first-snow-contest/\"":"") . ">";
 					$html .= "<div class=\"form-group" . (isset($errorArray['date'])?"  has-error":"") . "\">";
 						$html .= "<label for=\"date\" class=\"control-label col-xs-2\">" . Lang::getLang('predictionDate') . "</label>";
@@ -134,7 +134,7 @@ class PredictionView {
 						$html .= "<a class=\"btn btn-default btn-block jagaFormButton\" href=\"/login/\" name=\"jagaPredictionSubmit\" id=\"jagaPredictionSubmit\">" . Lang::getLang('loginToEnter') . "</a>";
 					}
 				$html .= "</form>";
-				*/
+				
 				// END CONTEST IS UNDERWAY
 				
 			$html .= "</div>";
@@ -160,6 +160,7 @@ class PredictionView {
 					// $html .= "Snow has been forecast for Niseko-Hirafu. We will post results soon! <a href=\"/first-snow-contest/\">View Entries</a>";
 					
 					// WINNER ANNOUNCEMENT
+					/*
 					$html .= "<b>Congratulations <a href=\"/u/ThisIsMySeriousFace/\">ThisIsMySeriousFace</a>!</b><hr />";
 					$html .= "You are the winner of The Kutchannel's 9th Annual <a href=\"/first-snow-contest/\">Niseko First Snow</a> Contest!<hr />";
 					$html .= "<p>You've won a dinner for 6 including drinks at <a href=\"https://www.facebook.com/lecochon.niseko\" target=\"_blank\">Bistrot le Cochon</a>.</p><hr />";
@@ -168,9 +169,9 @@ class PredictionView {
 					$html .= "a special mention of our snow-savvy friends at <a href=\"http://www.niseko-wow.com/\" target=\"_blank\">Niseko Wow</a> from whose ranks the winner emerged, ";
 					if ($_SESSION['userID']) { $html .= "and THANK <a href=\"/u/" . User::getUserName($_SESSION['userID']) . "/\">YOU</a> for using The Kutchannel!</small></p>"; }
 					else { $html .= "and THANK YOU for using The Kutchannel!</i></p>"; }
+					*/
 					
 					// CONTEST IS UNDERWAY
-					/*
 					$predictions = Prediction::getPredictions($_SESSION['channelID'], date('Y'), 'dateTimeSubmitted DESC', 5);
 					for ($i = 0; $i < count($predictions); $i++) {
 				
@@ -204,7 +205,7 @@ class PredictionView {
 
 					}
 					if (empty(Prediction::getUserPredictionArray($_SESSION['userID'],date('Y')))) { $html .= self::predictionForm(); }
-					*/
+					
 					// END CONTEST IS UNDERWAY
 					
 				$html .= "</div>";
