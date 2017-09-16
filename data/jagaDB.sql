@@ -161,6 +161,16 @@ CREATE TABLE IF NOT EXISTS `jaga_ChannelCategory` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
+-- Dumping structure for table jagaDB.jaga_ChannelCohorts
+CREATE TABLE IF NOT EXISTS `jaga_ChannelCohorts` (
+  `cohortID` int(8) NOT NULL AUTO_INCREMENT,
+  `channelID` int(12) NOT NULL,
+  `channelCohortAnchorEnglish` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `channelCohortAnchorJapanese` varchar(50) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`cohortID`,`channelID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Data exporting was unselected.
 -- Dumping structure for table jagaDB.jaga_Comment
 CREATE TABLE IF NOT EXISTS `jaga_Comment` (
   `commentID` int(12) NOT NULL AUTO_INCREMENT,
@@ -229,6 +239,7 @@ CREATE TABLE IF NOT EXISTS `jaga_Image` (
   `imageSubmittedByUserID` int(8) NOT NULL,
   `imageSubmissionDateTime` datetime NOT NULL,
   `imagePath` varchar(255) NOT NULL,
+  `s3url` varchar(100) NOT NULL,
   `imageObject` varchar(20) NOT NULL,
   `imageObjectID` int(8) NOT NULL,
   `imageDisplayClassification` varchar(20) NOT NULL,
